@@ -1,0 +1,39 @@
+import { ChangeEvent, useRef } from "react";
+import { useTranslate } from "../../hooks/common";
+
+interface Props {
+  multiple?: boolean;
+  refreshKey?: string;
+  setImage?: (image: File) => void;
+  setImages?: (images: File[]) => void;
+}
+
+// TODO: Research alternatives or libraries for image inputs
+const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
+  const imageInput = useRef<HTMLInputElement>(null);
+  const t = useTranslate();
+
+  const setImageState = (files: File[]) => {
+    if (multiple && setImages) {
+      setImages(files);
+    } else if (setImage) {
+      setImage(files[0]);
+    }
+  };
+
+  return (
+    <input
+      accept="image/*"
+      aria-label={t("products.labels.addImages")}
+      key={refreshKey}
+      multiple={multiple}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        e.target.files && setImageState(Array.from(e.target.files))
+      }
+      ref={imageInput}
+      type="file"
+    />
+  );
+};
+
+export default ImageInput;

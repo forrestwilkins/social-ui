@@ -40,15 +40,13 @@
     "users": "Users"
   },
 
-  "products": {
+  "posts": {
     "form": {
-      "name": "Name",
-      "description": "Description",
-      "price": "Price"
+      "body": "Body"
     },
     "labels": {
-      "products": "Products",
-      "addProduct": "Add product",
+      "posts": "Posts",
+      "addPost": "Add post",
       "addImages": "Add images"
     }
   },
@@ -67,7 +65,7 @@
     },
     "prompts": {
       "logOut": "Are you sure you want to log out?",
-      "signInToShop": "Sign in to start shopping...",
+      "signInToPost": "Sign in to start posting...",
       "becomeAMember": "Become a Social UI Member",
       "authenticated": "You are authenticated."
     },

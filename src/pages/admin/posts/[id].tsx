@@ -1,46 +1,43 @@
 import { Button } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import ProductForm from "../../../components/Products/Form";
+import PostForm from "../../../components/Posts/Form";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common";
 import { useTranslate } from "../../../hooks/common";
-import {
-  useDeleteProductMutation,
-  useProductQuery,
-} from "../../../hooks/product";
+import { useDeletePostMutation, usePostQuery } from "../../../hooks/post";
 import { redirectTo } from "../../../utils/common";
 
-const EditProductPage: NextPage = () => {
+const EditPostPage: NextPage = () => {
   const { query } = useRouter();
-  const editProductId = parseInt(String(query?.id));
-  const [product, isProductLoading] = useProductQuery(editProductId);
-  const deleteProduct = useDeleteProductMutation();
+  const editPostId = parseInt(String(query?.id));
+  const [post, isPostLoading] = usePostQuery(editPostId);
+  const deletePost = useDeletePostMutation();
 
   const t = useTranslate();
 
-  if (isProductLoading) {
+  if (isPostLoading) {
     return <ProgressBar />;
   }
 
-  if (!product) {
+  if (!post) {
     return null;
   }
 
   const handleDeleteButtonClick = async () => {
-    await deleteProduct(editProductId);
-    redirectTo(NavigationPaths.AdminProducts);
+    await deletePost(editPostId);
+    redirectTo(NavigationPaths.AdminPosts);
   };
 
   return (
     <>
-      <ProductForm editProduct={product} />
+      <PostForm editPost={post} />
 
       <Button
         color="error"
         fullWidth
         onClick={() =>
-          window.confirm(t("prompts.deleteItem", { item: "product" })) &&
+          window.confirm(t("prompts.deleteItem", { item: "post" })) &&
           handleDeleteButtonClick()
         }
         sx={{ marginTop: 1.5 }}
@@ -52,4 +49,4 @@ const EditProductPage: NextPage = () => {
   );
 };
 
-export default EditProductPage;
+export default EditPostPage;

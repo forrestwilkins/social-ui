@@ -25,9 +25,9 @@ const Admin: NextPage = () => {
       <Typography gutterBottom>{t("prompts.wip")}</Typography>
 
       <Typography>
-        Products can be managed{" "}
+        Posts can be managed{" "}
         <Link
-          href={NavigationPaths.AdminProducts}
+          href={NavigationPaths.AdminPosts}
           style={{ fontWeight: "bold", color: "black" }}
         >
           here

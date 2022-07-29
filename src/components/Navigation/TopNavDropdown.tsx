@@ -74,7 +74,7 @@ const TopNavDropdown = ({ ...props }: Omit<TooltipProps, "title">) => {
   const Menu = () => (
     <nav>
       <List>
-        <ListItem onClick={() => redirectTo(NavigationPaths.AdminProducts)}>
+        <ListItem onClick={() => redirectTo(NavigationPaths.AdminPosts)}>
           <ListItemIcon {...LIST_ITEM_ICON_PROPS}>
             <AdminPanelSettings {...ICON_PROPS} />
           </ListItemIcon>

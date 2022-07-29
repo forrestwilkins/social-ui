@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { WELCOME_QUERY } from "../client/app/queries";
 import { isLoggedInVar } from "../client/cache";
-import ProductsList from "../components/Products/List";
+import PostsList from "../components/Posts/List";
 import LevelOneHeading from "../components/Shared/LevelOneHeading";
 import ProgressBar from "../components/Shared/ProgressBar";
 import { useTranslate } from "../hooks/common";
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         )}
       </Box>
 
-      <ProductsList sx={{ marginTop: 7.5, marginBottom: 15 }} />
+      <PostsList sx={{ marginTop: 7.5, marginBottom: 15 }} />
     </>
   );
 };

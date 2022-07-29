@@ -24,7 +24,7 @@ const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
   return (
     <input
       accept="image/*"
-      aria-label={t("products.labels.addImages")}
+      aria-label={t("posts.labels.addImages")}
       key={refreshKey}
       multiple={multiple}
       onChange={(e: ChangeEvent<HTMLInputElement>) =>

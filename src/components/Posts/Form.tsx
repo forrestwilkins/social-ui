@@ -3,17 +3,14 @@ import { Box, BoxProps, Button, FormGroup } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
-import Flex from "../../components/Shared/Flex";
-import Spinner from "../../components/Shared/Spinner";
+import Flex from "../Shared/Flex";
+import Spinner from "../Shared/Spinner";
 import { FieldNames, NavigationPaths } from "../../constants/common";
-import { DEFAULT_PRODUCT_FORM_VALUES } from "../../constants/product";
+import { DEFAULT_POST_FORM_VALUES } from "../../constants/post";
 import { useTranslate } from "../../hooks/common";
 import { useDeleteImageMutation } from "../../hooks/image";
-import {
-  useCreateProductMutation,
-  useUpdateProductMutation,
-} from "../../hooks/product";
-import { Product, ProductsFormValues } from "../../types/product";
+import { useCreatePostMutation, useUpdatePostMutation } from "../../hooks/post";
+import { Post, PostsFormValues } from "../../types/post";
 import { generateRandom, redirectTo } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
 import ImageInput from "../Images/Input";
@@ -21,40 +18,38 @@ import SelectedImages from "../Images/Selected";
 import { Field } from "../Shared/Field";
 
 interface Props extends BoxProps {
-  editProduct?: Product;
+  editPost?: Post;
 }
 
-const ProductForm = ({ editProduct, ...boxProps }: Props) => {
+const PostForm = ({ editPost, ...boxProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const createProduct = useCreateProductMutation();
-  const updateProduct = useUpdateProductMutation();
+  const createPost = useCreatePostMutation();
+  const updatePost = useUpdatePostMutation();
   const deleteImage = useDeleteImageMutation();
 
   const t = useTranslate();
 
-  const initialValues = editProduct
+  const initialValues = editPost
     ? {
-        name: editProduct.name,
-        description: editProduct.description,
-        price: editProduct.price,
+        body: editPost.body,
       }
-    : DEFAULT_PRODUCT_FORM_VALUES;
+    : DEFAULT_POST_FORM_VALUES;
 
   const handleSubmit = async (
-    formValues: ProductsFormValues,
-    { resetForm, setSubmitting }: FormikHelpers<ProductsFormValues>
+    formValues: PostsFormValues,
+    { resetForm, setSubmitting }: FormikHelpers<PostsFormValues>
   ) => {
     const imageData = buildImageData(selectedImages);
 
-    if (editProduct) {
-      await updateProduct(editProduct.id, formValues, imageData);
-      redirectTo(NavigationPaths.AdminProducts);
+    if (editPost) {
+      await updatePost(editPost.id, formValues, imageData);
+      redirectTo(NavigationPaths.AdminPosts);
       return;
     }
-    await createProduct(formValues, imageData);
+    await createPost(formValues, imageData);
 
     setImagesInputKey(generateRandom());
     setSelctedImages([]);
@@ -63,7 +58,7 @@ const ProductForm = ({ editProduct, ...boxProps }: Props) => {
   };
 
   const deleteSavedImageHandler = async (id: number) => {
-    if (editProduct) {
+    if (editPost) {
       await deleteImage(id);
       setImagesInputKey(generateRandom());
     }
@@ -88,18 +83,8 @@ const ProductForm = ({ editProduct, ...boxProps }: Props) => {
             <FormGroup>
               <Field
                 autoComplete="off"
-                label={t("products.form.name")}
-                name={FieldNames.Name}
-              />
-              <Field
-                autoComplete="off"
-                label={t("products.form.description")}
-                name={FieldNames.Description}
-              />
-              <Field
-                label={t("products.form.price")}
-                name={FieldNames.Price}
-                type="number"
+                label={t("posts.form.body")}
+                name={FieldNames.Body}
               />
 
               <ImageInput
@@ -110,7 +95,7 @@ const ProductForm = ({ editProduct, ...boxProps }: Props) => {
               <SelectedImages
                 deleteSavedImage={deleteSavedImageHandler}
                 removeSelectedImage={removeSelectedImageHandler}
-                savedImages={editProduct?.images || []}
+                savedImages={editPost?.images || []}
                 selectedImages={selectedImages}
               />
             </FormGroup>
@@ -136,4 +121,4 @@ const ProductForm = ({ editProduct, ...boxProps }: Props) => {
   );
 };
 
-export default ProductForm;
+export default PostForm;

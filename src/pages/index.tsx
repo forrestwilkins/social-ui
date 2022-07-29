@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { WELCOME_QUERY } from "../client/app/queries";
 import { isLoggedInVar } from "../client/cache";
+import PostForm from "../components/Posts/Form";
 import PostsList from "../components/Posts/List";
 import LevelOneHeading from "../components/Shared/LevelOneHeading";
 import ProgressBar from "../components/Shared/ProgressBar";
@@ -35,6 +36,8 @@ const Home: NextPage = () => {
           <Typography>{t("users.prompts.authenticated")}</Typography>
         )}
       </Box>
+
+      <PostForm sx={{ marginTop: 7, marginBottom: 2 }} />
 
       <PostsList sx={{ marginTop: 7.5, marginBottom: 15 }} />
     </>

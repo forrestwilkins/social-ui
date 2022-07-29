@@ -1,12 +1,12 @@
 import { Button } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import PostForm from "../../../components/Posts/Form";
-import ProgressBar from "../../../components/Shared/ProgressBar";
-import { NavigationPaths } from "../../../constants/common";
-import { useTranslate } from "../../../hooks/common";
-import { useDeletePostMutation, usePostQuery } from "../../../hooks/post";
-import { redirectTo } from "../../../utils/common";
+import PostForm from "../../components/Posts/Form";
+import ProgressBar from "../../components/Shared/ProgressBar";
+import { NavigationPaths } from "../../constants/common";
+import { useTranslate } from "../../hooks/common";
+import { useDeletePostMutation, usePostQuery } from "../../hooks/post";
+import { redirectTo } from "../../utils/common";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
@@ -26,7 +26,7 @@ const EditPostPage: NextPage = () => {
 
   const handleDeleteButtonClick = async () => {
     await deletePost(editPostId);
-    redirectTo(NavigationPaths.AdminPosts);
+    redirectTo(NavigationPaths.Admin);
   };
 
   return (

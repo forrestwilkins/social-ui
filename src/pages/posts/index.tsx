@@ -1,8 +1,8 @@
 import { NextPage } from "next";
-import PostForm from "../../../components/Posts/Form";
-import PostsList from "../../../components/Posts/List";
-import LevelOneHeading from "../../../components/Shared/LevelOneHeading";
-import { useTranslate } from "../../../hooks/common";
+import PostForm from "../../components/Posts/Form";
+import PostsList from "../../components/Posts/List";
+import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import { useTranslate } from "../../hooks/common";
 
 const AdminPosts: NextPage = () => {
   const t = useTranslate();

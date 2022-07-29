@@ -65,7 +65,7 @@ const NavDrawer = () => {
         <main role="main">
           {isLoggedIn && (
             <List>
-              <ListItem onClick={() => redirectTo(NavigationPaths.AdminPosts)}>
+              <ListItem onClick={() => redirectTo(NavigationPaths.Admin)}>
                 <ListItemIcon>
                   <AdminPanelSettings sx={black} />
                 </ListItemIcon>

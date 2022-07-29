@@ -9,7 +9,7 @@ interface Props extends CardProps {
 }
 
 const PostCard = ({ post, ...cardProps }: Props) => {
-  const linkToEditPostPage = `${NavigationPaths.AdminPosts}/${post.id}`;
+  const linkToEditPostPage = `${NavigationPaths.Posts}/${post.id}`;
 
   return (
     <Link href={linkToEditPostPage}>

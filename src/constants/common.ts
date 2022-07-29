@@ -3,13 +3,14 @@ export const API_ROOT = "/api";
 export enum NavigationPaths {
   About = "/about",
   AccountSettings = "/users/account",
-  AdminPosts = "/admin/posts",
+  Admin = "/admin",
   Edit = "/edit",
   Home = "/",
   LogIn = "/auth/login",
   Profile = "/users/profile",
   SignUp = "/auth/signup",
   Users = "/users",
+  Posts = "/posts",
 }
 
 export enum ApiRoutes {

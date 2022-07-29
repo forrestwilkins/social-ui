@@ -74,13 +74,6 @@ const TopNavDropdown = ({ ...props }: Omit<TooltipProps, "title">) => {
   const Menu = () => (
     <nav>
       <List>
-        <ListItem onClick={() => redirectTo(NavigationPaths.AdminPosts)}>
-          <ListItemIcon {...LIST_ITEM_ICON_PROPS}>
-            <AdminPanelSettings {...ICON_PROPS} />
-          </ListItemIcon>
-          <ListItemText primary={t("navigation.admin")} />
-        </ListItem>
-
         <ListItem onClick={() => redirectTo(NavigationPaths.Users)}>
           <ListItemIcon {...LIST_ITEM_ICON_PROPS}>
             <UsersIcon {...ICON_PROPS} />
@@ -100,6 +93,13 @@ const TopNavDropdown = ({ ...props }: Omit<TooltipProps, "title">) => {
             <SettingsIcon {...ICON_PROPS} />
           </ListItemIcon>
           <ListItemText primary={t("navigation.accountSettings")} />
+        </ListItem>
+
+        <ListItem onClick={() => redirectTo(NavigationPaths.Admin)}>
+          <ListItemIcon {...LIST_ITEM_ICON_PROPS}>
+            <AdminPanelSettings {...ICON_PROPS} />
+          </ListItemIcon>
+          <ListItemText primary={t("navigation.admin")} />
         </ListItem>
 
         <ListItem

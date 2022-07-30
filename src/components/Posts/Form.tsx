@@ -3,8 +3,6 @@ import { Box, BoxProps, Button, FormGroup } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
-import Flex from "../Shared/Flex";
-import Spinner from "../Shared/Spinner";
 import { FieldNames, NavigationPaths } from "../../constants/common";
 import { DEFAULT_POST_FORM_VALUES } from "../../constants/post";
 import { useTranslate } from "../../hooks/common";
@@ -16,6 +14,8 @@ import { buildImageData } from "../../utils/image";
 import ImageInput from "../Images/Input";
 import SelectedImages from "../Images/Selected";
 import { Field } from "../Shared/Field";
+import Flex from "../Shared/Flex";
+import Spinner from "../Shared/Spinner";
 
 interface Props extends BoxProps {
   editPost?: Post;
@@ -108,7 +108,7 @@ const PostForm = ({ editPost, ...boxProps }: Props) => {
                   (!formik.dirty && !selectedImages.length)
                 }
               >
-                {t("actions.save")}
+                {t(editPost ? "actions.save" : "actions.post")}
                 {formik.isSubmitting && (
                   <Spinner size={10} sx={{ marginLeft: 1 }} />
                 )}

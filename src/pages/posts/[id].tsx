@@ -1,20 +1,13 @@
-import { Button } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import PostForm from "../../components/Posts/Form";
+import PostCard from "../../components/Posts/Card";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { NavigationPaths } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeletePostMutation, usePostQuery } from "../../hooks/post";
-import { redirectTo } from "../../utils/common";
+import { usePostQuery } from "../../hooks/post";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
-  const editPostId = parseInt(String(query?.id));
-  const [post, isPostLoading] = usePostQuery(editPostId);
-  const deletePost = useDeletePostMutation();
-
-  const t = useTranslate();
+  const postId = parseInt(String(query?.id));
+  const [post, isPostLoading] = usePostQuery(postId);
 
   if (isPostLoading) {
     return <ProgressBar />;
@@ -24,29 +17,7 @@ const EditPostPage: NextPage = () => {
     return null;
   }
 
-  const handleDeleteButtonClick = async () => {
-    await deletePost(editPostId);
-    redirectTo(NavigationPaths.Admin);
-  };
-
-  return (
-    <>
-      <PostForm editPost={post} />
-
-      <Button
-        color="error"
-        fullWidth
-        onClick={() =>
-          window.confirm(t("prompts.deleteItem", { item: "post" })) &&
-          handleDeleteButtonClick()
-        }
-        sx={{ marginTop: 1.5 }}
-        variant="outlined"
-      >
-        {t("actions.delete")}
-      </Button>
-    </>
-  );
+  return <PostCard post={post} />;
 };
 
 export default EditPostPage;

@@ -12,14 +12,14 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   const linkToEditPostPage = `${NavigationPaths.Posts}/${post.id}`;
 
   return (
-    <Link href={linkToEditPostPage}>
-      <Card sx={{ marginBottom: 1.5 }} {...cardProps} elevation={0}>
-        <CardContent>
+    <Card sx={{ marginBottom: 1.5 }} {...cardProps} elevation={0}>
+      <CardContent>
+        <Link href={linkToEditPostPage}>
           <ImagesList images={post.images} />
-          <Typography>{post.body}</Typography>
-        </CardContent>
-      </Card>
-    </Link>
+        </Link>
+        <Typography>{post.body}</Typography>
+      </CardContent>
+    </Card>
   );
 };
 

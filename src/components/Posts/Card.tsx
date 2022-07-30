@@ -9,7 +9,9 @@ import {
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
+import { useDeletePostMutation } from "../../hooks/post";
 import { Post } from "../../types/post";
+import { redirectTo } from "../../utils/common";
 import ImagesList from "../Images/List";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -21,8 +23,14 @@ interface Props extends CardProps {
 const PostCard = ({ post, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const deletePost = useDeletePostMutation();
 
   const linkToEditPostPage = `${NavigationPaths.Posts}/${post.id}`;
+
+  const handleDelete = (id: number) => {
+    deletePost(id);
+    redirectTo(NavigationPaths.Home);
+  };
 
   return (
     <Card sx={{ marginBottom: 2 }} {...cardProps}>
@@ -30,11 +38,13 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         <CardHeader
           action={
             <ItemMenu
+              anchorEl={menuAnchorEl}
+              deleteItem={handleDelete}
               itemId={post.id}
               itemType={"post"}
-              anchorEl={menuAnchorEl}
               setAnchorEl={setMenuAnchorEl}
-              canEdit={true}
+              canDelete
+              canEdit
             />
           }
         />

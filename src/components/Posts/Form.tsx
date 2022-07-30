@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { Box, BoxProps, Button, FormGroup } from "@mui/material";
+import { Button, Card, CardContent, CardProps, FormGroup } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
@@ -17,11 +17,11 @@ import { Field } from "../Shared/Field";
 import Flex from "../Shared/Flex";
 import Spinner from "../Shared/Spinner";
 
-interface Props extends BoxProps {
+interface Props extends CardProps {
   editPost?: Post;
 }
 
-const PostForm = ({ editPost, ...boxProps }: Props) => {
+const PostForm = ({ editPost, ...cardProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
@@ -72,52 +72,54 @@ const PostForm = ({ editPost, ...boxProps }: Props) => {
   };
 
   return (
-    <Box {...boxProps}>
-      <Formik
-        enableReinitialize
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-      >
-        {(formik) => (
-          <Form hidden={isNavDrawerOpen}>
-            <FormGroup>
-              <Field
-                autoComplete="off"
-                label={t("posts.form.body")}
-                name={FieldNames.Body}
-              />
+    <Card {...cardProps}>
+      <CardContent sx={{ paddingTop: 2.5 }}>
+        <Formik
+          enableReinitialize
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+        >
+          {(formik) => (
+            <Form hidden={isNavDrawerOpen}>
+              <FormGroup>
+                <Field
+                  autoComplete="off"
+                  label={t("posts.form.body")}
+                  name={FieldNames.Body}
+                />
 
-              <ImageInput
-                multiple
-                refreshKey={imagesInputKey}
-                setImages={setSelctedImages}
-              />
-              <SelectedImages
-                deleteSavedImage={deleteSavedImageHandler}
-                removeSelectedImage={removeSelectedImageHandler}
-                savedImages={editPost?.images || []}
-                selectedImages={selectedImages}
-              />
-            </FormGroup>
+                <ImageInput
+                  multiple
+                  refreshKey={imagesInputKey}
+                  setImages={setSelctedImages}
+                />
+                <SelectedImages
+                  deleteSavedImage={deleteSavedImageHandler}
+                  removeSelectedImage={removeSelectedImageHandler}
+                  savedImages={editPost?.images || []}
+                  selectedImages={selectedImages}
+                />
+              </FormGroup>
 
-            <Flex flexEnd>
-              <Button
-                type="submit"
-                disabled={
-                  formik.isSubmitting ||
-                  (!formik.dirty && !selectedImages.length)
-                }
-              >
-                {t(editPost ? "actions.save" : "actions.post")}
-                {formik.isSubmitting && (
-                  <Spinner size={10} sx={{ marginLeft: 1 }} />
-                )}
-              </Button>
-            </Flex>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+              <Flex flexEnd>
+                <Button
+                  type="submit"
+                  disabled={
+                    formik.isSubmitting ||
+                    (!formik.dirty && !selectedImages.length)
+                  }
+                >
+                  {t(editPost ? "actions.save" : "actions.post")}
+                  {formik.isSubmitting && (
+                    <Spinner size={10} sx={{ marginLeft: 1 }} />
+                  )}
+                </Button>
+              </Flex>
+            </Form>
+          )}
+        </Formik>
+      </CardContent>
+    </Card>
   );
 };
 

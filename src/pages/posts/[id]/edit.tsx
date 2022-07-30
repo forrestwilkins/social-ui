@@ -31,7 +31,7 @@ const EditPostPage: NextPage = () => {
 
   return (
     <>
-      <PostForm editPost={post} />
+      <PostForm editPost={post} sx={{ marginBottom: 2.5 }} />
 
       <Button
         color="error"

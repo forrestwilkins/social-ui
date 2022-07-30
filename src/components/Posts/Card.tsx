@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Card,
   CardContent,
@@ -6,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { isLoggedInVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { Post } from "../../types/post";
 import ImagesList from "../Images/List";
@@ -18,26 +20,30 @@ interface Props extends CardProps {
 
 const PostCard = ({ post, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const linkToEditPostPage = `${NavigationPaths.Posts}/${post.id}`;
 
   return (
     <Card sx={{ marginBottom: 2 }} {...cardProps}>
-      <CardHeader
-        action={
-          <ItemMenu
-            itemId={post.id}
-            itemType={"post"}
-            anchorEl={menuAnchorEl}
-            setAnchorEl={setMenuAnchorEl}
-            canEdit={true}
-          />
-        }
-      />
+      {isLoggedIn && (
+        <CardHeader
+          action={
+            <ItemMenu
+              itemId={post.id}
+              itemType={"post"}
+              anchorEl={menuAnchorEl}
+              setAnchorEl={setMenuAnchorEl}
+              canEdit={true}
+            />
+          }
+        />
+      )}
       <CardContent>
         <Link href={linkToEditPostPage}>
           <ImagesList images={post.images} />
         </Link>
-        <Typography gutterBottom>{post.body}</Typography>
+        <Typography>{post.body}</Typography>
       </CardContent>
     </Card>
   );

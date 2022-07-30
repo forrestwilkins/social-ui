@@ -38,7 +38,7 @@ const DesktopNav = () => {
             <Button
               aria-label={t("navigation.profile")}
               onClick={() => redirectTo(NavigationPaths.Profile)}
-              sx={{ fontSize: 17, textTransform: "none" }}
+              sx={{ fontSize: 17, textTransform: "none", color: "black" }}
             >
               <ProfileIcon
                 fontSize="small"

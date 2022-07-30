@@ -17,9 +17,7 @@ const theme: Theme = createTheme(initialTheme, {
   components: {
     MuiButton: {
       styleOverrides: {
-        text: {
-          color: BLACK,
-        },
+        root: {},
       },
     },
   },

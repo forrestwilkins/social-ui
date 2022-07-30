@@ -47,7 +47,7 @@ const ItemMenu = ({
   if (canEdit || canDelete || isRenderable(children)) {
     return (
       <>
-        <IconButton onClick={handleMenuButtonClick}>
+        <IconButton onClick={handleMenuButtonClick} aria-label="Menu Button">
           <MoreHoriz sx={{ color: BLACK }} />
         </IconButton>
 

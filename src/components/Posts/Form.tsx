@@ -46,7 +46,7 @@ const PostForm = ({ editPost, ...boxProps }: Props) => {
 
     if (editPost) {
       await updatePost(editPost.id, formValues, imageData);
-      redirectTo(NavigationPaths.Admin);
+      redirectTo(NavigationPaths.Home);
       return;
     }
     await createPost(formValues, imageData);

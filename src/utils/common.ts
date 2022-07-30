@@ -1,6 +1,7 @@
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import Router from "next/router";
+import { isValidElement, ReactNode } from "react";
 import { refreshToken } from "../client";
 import {
   API_ROOT,
@@ -32,4 +33,18 @@ export const multiPartRequest = async <T>(
     headers: MULTI_PART_FORM_HEADER,
   });
   return response.data;
+};
+
+// TODO: This was pulled from Praxis repo. Need to determine why this was necessary or useful.
+export const isRenderable = (node: ReactNode): boolean => {
+  switch (typeof node) {
+    case "string":
+    case "number":
+      return true;
+    default:
+      if (Array.isArray(node) && node.length) {
+        return Boolean(node.reduce((a, b) => a && isRenderable(b), true));
+      }
+      return isValidElement(node);
+  }
 };

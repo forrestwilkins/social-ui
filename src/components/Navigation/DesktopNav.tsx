@@ -1,5 +1,5 @@
 import { useQuery, useReactiveVar } from "@apollo/client";
-import { Person as ProfileIcon } from "@mui/icons-material";
+import { AccountCircle as ProfileIcon } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import {
   isAuthLoadingVar,

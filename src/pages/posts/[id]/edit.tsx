@@ -26,7 +26,7 @@ const EditPostPage: NextPage = () => {
 
   const handleDeleteButtonClick = async () => {
     await deletePost(editPostId);
-    redirectTo(NavigationPaths.Admin);
+    redirectTo(NavigationPaths.Home);
   };
 
   return (

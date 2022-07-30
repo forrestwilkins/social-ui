@@ -1,22 +1,22 @@
-import { useReactiveVar } from "@apollo/client";
-import {
-  FavoriteBorderOutlined as FavoritesIcon,
-  PersonOutline as ProfileIcon,
-  ShoppingBagOutlined as CartIcon,
-} from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
+import { useQuery, useReactiveVar } from "@apollo/client";
+import { Person as ProfileIcon } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
+import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
+import { MeQuery } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 import TopNavDropdown from "./TopNavDropdown";
 
 const DesktopNav = () => {
+  const { data, loading } = useQuery<MeQuery>(ME_QUERY);
+
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
@@ -26,35 +26,27 @@ const DesktopNav = () => {
 
   const t = useTranslate();
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <>
-      {isLoggedIn && (
+      {isLoggedIn && data && (
         <Flex>
           <TopNavDropdown>
-            <IconButton
+            <Button
               aria-label={t("navigation.profile")}
               onClick={() => redirectTo(NavigationPaths.Profile)}
-              sx={{ marginLeft: 1 }}
+              sx={{ fontSize: 17, textTransform: "none" }}
             >
-              <ProfileIcon sx={{ color: "black" }} />
-            </IconButton>
+              <ProfileIcon
+                fontSize="small"
+                sx={{ color: "black", marginRight: 1 }}
+              />
+              {data.me.name}
+            </Button>
           </TopNavDropdown>
-
-          <IconButton
-            aria-label={t("navigation.favorites")}
-            onClick={() => redirectTo(NavigationPaths.Home)}
-            sx={{ marginLeft: 1 }}
-          >
-            <FavoritesIcon sx={{ color: "black" }} />
-          </IconButton>
-
-          <IconButton
-            aria-label={t("navigation.cart")}
-            onClick={() => redirectTo(NavigationPaths.Home)}
-            sx={{ marginLeft: 1 }}
-          >
-            <CartIcon sx={{ color: "black" }} />
-          </IconButton>
         </Flex>
       )}
 

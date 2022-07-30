@@ -124,7 +124,7 @@ const TopNavDropdown = ({ ...props }: Omit<TooltipProps, "title">) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      placement="bottom-start"
+      placement="bottom-end"
       title={<Menu />}
       {...props}
     />

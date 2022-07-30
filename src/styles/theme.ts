@@ -10,17 +10,19 @@ const initialTheme = createTheme({
   },
 });
 
+export const BLACK = initialTheme.palette.grey[900];
+export const WHITE = initialTheme.palette.grey[100];
+
 const theme: Theme = createTheme(initialTheme, {
   components: {
-    MuiPaper: {
+    MuiButton: {
       styleOverrides: {
-        root: {},
+        text: {
+          color: BLACK,
+        },
       },
     },
   },
 });
-
-export const BLACK = theme.palette.grey[900];
-export const WHITE = theme.palette.grey[100];
 
 export default theme;

@@ -18,6 +18,10 @@ export interface SignUpFormValues {
   password: string;
 }
 
-export interface UsersQueryResult {
+export interface UsersQuery {
   users: User[];
+}
+
+export interface MeQuery {
+  me: User;
 }

@@ -1,70 +1,70 @@
 import { RemoveCircle } from "@mui/icons-material";
-import { Box, SxProps } from "@mui/material";
-import { CSSProperties, Fragment } from "react";
+import { Box, IconButton, SxProps } from "@mui/material";
+import { CSSProperties } from "react";
+import { BLACK } from "../../styles/theme";
 import { ImageEntity } from "../../types/image";
 import { getImagePath } from "../../utils/image";
 
-const SELECTED_IMAGE_STYLES: CSSProperties = {
+const IMAGE: CSSProperties = {
   width: 150,
   marginRight: -4,
   marginBottom: 20,
 };
 
-const REMOVE_ICON_STYLES: SxProps = {
-  cursor: "pointer",
+const IMAGE_CONTAINER: SxProps = {
   position: "relative",
-  bottom: 14,
-  right: 8,
+  marginRight: 3,
 };
 
-interface Props {
+const REMOVE_BUTTON: SxProps = {
+  position: "absolute",
+  top: -21,
+  right: -24,
+};
+
+interface SelectedImagesProps {
   selectedImages: File[];
   removeSelectedImage?: (imageName: string) => void;
   savedImages?: ImageEntity[];
   deleteSavedImage?: (id: number) => void;
 }
 
+interface RemoveButtonProps {
+  onClick(): void;
+}
+
+const RemoveButton = ({ onClick }: RemoveButtonProps) => (
+  <IconButton onClick={onClick} aria-label="Remove Image" sx={REMOVE_BUTTON}>
+    <RemoveCircle sx={{ color: BLACK }} />
+  </IconButton>
+);
+
 const SelectedImages = ({
   selectedImages,
   removeSelectedImage,
   savedImages,
   deleteSavedImage,
-}: Props) => (
+}: SelectedImagesProps) => (
   <Box sx={{ marginTop: 2, display: "flex", flexWrap: "wrap" }}>
     {savedImages &&
       savedImages.map(({ id, filename }) => (
-        <Fragment key={id}>
-          <img
-            alt={filename}
-            src={getImagePath(id)}
-            style={SELECTED_IMAGE_STYLES}
-          />
+        <Box sx={IMAGE_CONTAINER} key={id}>
+          <img alt={filename} src={getImagePath(id)} style={IMAGE} />
 
           {deleteSavedImage && (
-            <RemoveCircle
-              onClick={() => deleteSavedImage(id)}
-              sx={REMOVE_ICON_STYLES}
-            />
+            <RemoveButton onClick={() => deleteSavedImage(id)} />
           )}
-        </Fragment>
+        </Box>
       ))}
 
     {selectedImages.map((image) => (
-      <Fragment key={image.name}>
-        <img
-          alt={image.name}
-          src={URL.createObjectURL(image)}
-          style={SELECTED_IMAGE_STYLES}
-        />
+      <Box sx={IMAGE_CONTAINER} key={image.name}>
+        <img alt={image.name} src={URL.createObjectURL(image)} style={IMAGE} />
 
         {removeSelectedImage && (
-          // TODO: Wrap with an IconButton
-          <RemoveCircle
-            onClick={() => removeSelectedImage(image.name)}
-            sx={REMOVE_ICON_STYLES}
-          />
+          <RemoveButton onClick={() => removeSelectedImage(image.name)} />
         )}
-      </Fragment>
+      </Box>
     ))}
   </Box>
 );

@@ -50,9 +50,11 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         />
       )}
       <CardContent>
-        <Link href={linkToEditPostPage}>
-          <ImagesList images={post.images} />
-        </Link>
+        {!!post.images.length && (
+          <Link href={linkToEditPostPage}>
+            <ImagesList images={post.images} />
+          </Link>
+        )}
         <Typography>{post.body}</Typography>
       </CardContent>
     </Card>

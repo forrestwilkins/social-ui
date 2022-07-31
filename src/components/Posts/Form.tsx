@@ -1,5 +1,12 @@
 import { useReactiveVar } from "@apollo/client";
-import { Button, Card, CardContent, CardProps, FormGroup } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardProps,
+  Divider,
+  FormGroup,
+} from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
@@ -84,15 +91,10 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
               <FormGroup>
                 <Field
                   autoComplete="off"
-                  label={t("posts.form.body")}
+                  label={t("prompts.whatsHappening")}
                   name={FieldNames.Body}
                 />
 
-                <ImageInput
-                  multiple
-                  refreshKey={imagesInputKey}
-                  setImages={setSelctedImages}
-                />
                 <SelectedImages
                   deleteSavedImage={deleteSavedImageHandler}
                   removeSelectedImage={removeSelectedImageHandler}
@@ -101,7 +103,15 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
                 />
               </FormGroup>
 
-              <Flex flexEnd>
+              <Divider sx={{ marginBottom: 0.8 }} />
+
+              <Flex sx={{ justifyContent: "space-between" }}>
+                <ImageInput
+                  multiple
+                  refreshKey={imagesInputKey}
+                  setImages={setSelctedImages}
+                />
+
                 <Button
                   type="submit"
                   disabled={

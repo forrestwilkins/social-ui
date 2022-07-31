@@ -1,5 +1,5 @@
 {
-  "brand": "Social UI",
+  "brand": "social ui",
 
   "actions": {
     "cancel": "Cancel",
@@ -15,7 +15,8 @@
   "prompts": {
     "welcomeToUI": "Welcome to Social UI",
     "deleteItem": "Are you sure you want to delete this {{item}}?",
-    "wip": "This page is still in construction."
+    "wip": "This page is still in construction.",
+    "whatsHappening": "What's happening?"
   },
 
   "errors": {

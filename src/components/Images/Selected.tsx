@@ -42,7 +42,6 @@ const SelectedImages = ({
 
           {deleteSavedImage && (
             <RemoveCircle
-              color="primary"
               onClick={() => deleteSavedImage(id)}
               sx={REMOVE_ICON_STYLES}
             />
@@ -59,8 +58,8 @@ const SelectedImages = ({
         />
 
         {removeSelectedImage && (
+          // TODO: Wrap with an IconButton
           <RemoveCircle
-            color="primary"
             onClick={() => removeSelectedImage(image.name)}
             sx={REMOVE_ICON_STYLES}
           />

@@ -3,7 +3,7 @@ import PostsList from "../../components/Posts/List";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import { useTranslate } from "../../hooks/common";
 
-const AdminPosts: NextPage = () => {
+const PostsIndex: NextPage = () => {
   const t = useTranslate();
 
   return (
@@ -17,4 +17,4 @@ const AdminPosts: NextPage = () => {
   );
 };
 
-export default AdminPosts;
+export default PostsIndex;

@@ -43,7 +43,7 @@ const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
         disableRipple
         edge="start"
         onClick={() => imageInput.current?.click()}
-        aria-label="Attach Images"
+        aria-label={t("images.labels.attachImages")}
       >
         <Image fontSize="large" sx={{ color: BLACK }} />
       </IconButton>

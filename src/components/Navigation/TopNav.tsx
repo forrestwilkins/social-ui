@@ -70,7 +70,7 @@ const TopNav = ({ appBarProps }: Props) => {
           <DesktopNav />
         ) : (
           <IconButton
-            aria-label="menu"
+            aria-label={t("labels.menu")}
             edge="start"
             onClick={handleMenuButtonClick}
             size="large"

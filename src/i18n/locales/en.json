@@ -13,10 +13,15 @@
   },
 
   "prompts": {
-    "welcomeToUI": "Welcome to Social UI",
     "deleteItem": "Are you sure you want to delete this {{item}}?",
-    "wip": "This page is still in construction.",
-    "whatsHappening": "What's happening?"
+    "welcomeToUI": "Welcome to Social UI",
+    "whatsHappening": "What's happening?",
+    "wip": "This page is still in construction."
+  },
+
+  "labels": {
+    "menu": "Menu",
+    "menuButton": "Menu button"
   },
 
   "errors": {
@@ -88,6 +93,13 @@
     "alreadyLoggedIn": "You're already signed in.",
     "alreadyRegistered": "You have already created an account.",
     "permissionDenied": "Permission denied."
+  },
+
+  "images": {
+    "labels": {
+      "attachImages": "Attach images",
+      "removeImage": "Remove image"
+    }
   },
 
   "admin": {

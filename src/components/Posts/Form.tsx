@@ -19,7 +19,7 @@ import { Post, PostsFormValues } from "../../types/post";
 import { generateRandom, redirectTo } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
 import ImageInput from "../Images/Input";
-import SelectedImages from "../Images/Selected";
+import AttachedImages from "../Images/Attached";
 import { Field } from "../Shared/Field";
 import Flex from "../Shared/Flex";
 import Spinner from "../Shared/Spinner";
@@ -95,7 +95,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
                   name={FieldNames.Body}
                 />
 
-                <SelectedImages
+                <AttachedImages
                   deleteSavedImage={deleteSavedImageHandler}
                   removeSelectedImage={removeSelectedImageHandler}
                   savedImages={editPost?.images || []}

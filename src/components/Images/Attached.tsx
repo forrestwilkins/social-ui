@@ -47,7 +47,7 @@ const RemoveButton = ({ onClick }: RemoveButtonProps) => {
   );
 };
 
-const SelectedImages = ({
+const AttachedImages = ({
   deleteSavedImage,
   removeSelectedImage,
   savedImages,
@@ -77,4 +77,4 @@ const SelectedImages = ({
   </Box>
 );
 
-export default SelectedImages;
+export default AttachedImages;

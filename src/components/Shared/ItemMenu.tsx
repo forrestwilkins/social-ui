@@ -84,7 +84,7 @@ const ItemMenu = ({
           {canDelete && deleteItem && (
             <MenuItem
               onClick={() =>
-                window.confirm(t("prompts.deleteItem", { item: "post" })) &&
+                window.confirm(t("prompts.deleteItem", { itemType })) &&
                 deleteItem(itemId)
               }
             >

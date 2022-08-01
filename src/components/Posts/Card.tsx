@@ -20,12 +20,12 @@ interface Props extends CardProps {
   post: Post;
 }
 
-const PostCard = ({ post, ...cardProps }: Props) => {
+const PostCard = ({ post: { id, body, images }, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deletePost = useDeletePostMutation();
 
-  const linkToEditPostPage = `${NavigationPaths.Posts}/${post.id}`;
+  const linkToEditPostPage = `${NavigationPaths.Posts}/${id}`;
 
   const handleDelete = (id: number) => {
     deletePost(id);
@@ -40,7 +40,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
             <ItemMenu
               anchorEl={menuAnchorEl}
               deleteItem={handleDelete}
-              itemId={post.id}
+              itemId={id}
               itemType={"post"}
               setAnchorEl={setMenuAnchorEl}
               canDelete
@@ -50,12 +50,12 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         />
       )}
       <CardContent>
-        {!!post.images.length && (
+        {!!images.length && (
           <Link href={linkToEditPostPage}>
-            <ImagesList images={post.images} />
+            <ImagesList images={images} />
           </Link>
         )}
-        <Typography>{post.body}</Typography>
+        {body && <Typography>{body}</Typography>}
       </CardContent>
     </Card>
   );

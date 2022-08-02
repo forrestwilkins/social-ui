@@ -11,15 +11,14 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
 import { FieldNames, NavigationPaths } from "../../constants/common";
-import { DEFAULT_POST_FORM_VALUES } from "../../constants/post";
 import { useTranslate } from "../../hooks/common";
 import { useDeleteImageMutation } from "../../hooks/image";
 import { useCreatePostMutation, useUpdatePostMutation } from "../../hooks/post";
 import { Post, PostsFormValues } from "../../types/post";
 import { generateRandom, redirectTo } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
-import ImageInput from "../Images/Input";
 import AttachedImages from "../Images/Attached";
+import ImageInput from "../Images/Input";
 import { Field } from "../Shared/Field";
 import Flex from "../Shared/Flex";
 import Spinner from "../Shared/Spinner";
@@ -39,11 +38,9 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
 
   const t = useTranslate();
 
-  const initialValues = editPost
-    ? {
-        body: editPost.body,
-      }
-    : DEFAULT_POST_FORM_VALUES;
+  const initialValues = {
+    body: editPost ? editPost.body : "",
+  };
 
   const handleSubmit = async (
     formValues: PostsFormValues,

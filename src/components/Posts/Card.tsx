@@ -39,12 +39,12 @@ const PostCard = ({ post: { id, body, images }, ...cardProps }: Props) => {
           action={
             <ItemMenu
               anchorEl={menuAnchorEl}
+              canDelete
+              canEdit
               deleteItem={handleDelete}
               itemId={id}
               itemType={"post"}
               setAnchorEl={setMenuAnchorEl}
-              canDelete
-              canEdit
             />
           }
         />

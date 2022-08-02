@@ -23,7 +23,7 @@ const REMOVE_BUTTON: SxProps = {
   top: -21,
 };
 
-interface SelectedImagesProps {
+interface AttachedImagesProps {
   deleteSavedImage?: (id: number) => void;
   removeSelectedImage?: (imageName: string) => void;
   savedImages?: ImageEntity[];
@@ -52,7 +52,7 @@ const AttachedImages = ({
   removeSelectedImage,
   savedImages,
   selectedImages,
-}: SelectedImagesProps) => (
+}: AttachedImagesProps) => (
   <Box sx={{ marginTop: 2, display: "flex", flexWrap: "wrap" }}>
     {savedImages &&
       savedImages.map(({ id, filename }) => (

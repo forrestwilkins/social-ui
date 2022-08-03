@@ -37,6 +37,8 @@
   "navigation": {
     "accountSettings": "Account Settings",
     "admin": "Admin",
+    "events": "Events",
+    "groups": "Groups",
     "home": "Home",
     "menu": "Menu",
     "preferences": "Preferences",

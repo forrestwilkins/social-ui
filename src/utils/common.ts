@@ -35,7 +35,10 @@ export const multiPartRequest = async <T>(
   return response.data;
 };
 
-// TODO: This was pulled from Praxis repo. Need to determine why this was necessary or useful.
+/**
+ * Returns whether or not a given node can be successfully rendered.
+ * Useful for checking whether a component has been passed any children.
+ */
 export const isRenderable = (node: ReactNode): boolean => {
   switch (typeof node) {
     case "string":

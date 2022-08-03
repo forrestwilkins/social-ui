@@ -122,7 +122,7 @@ const NavDrawer = () => {
                 <ListItemIcon>
                   <SignUpIcon sx={black} />
                 </ListItemIcon>
-                <ListItemText primary={t("users.actions.joinUs")} />
+                <ListItemText primary={t("users.actions.signUp")} />
               </ListItem>
             </List>
           )}

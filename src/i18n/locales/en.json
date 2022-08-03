@@ -58,10 +58,10 @@
 
   "users": {
     "actions": {
-      "logIn": "Sign In",
+      "logIn": "Log In",
       "logOut": "Log Out",
       "passwordConfirm": "Confirm password",
-      "joinUs": "Join Us"
+      "signUp": "Sign Up"
     },
     "form": {
       "email": "Email",

@@ -62,7 +62,7 @@ const DesktopNav = () => {
             sx={{ color: "black" }}
             onClick={() => redirectTo(NavigationPaths.SignUp)}
           >
-            {t("users.actions.joinUs")}
+            {t("users.actions.signUp")}
           </Button>
         </Flex>
       )}

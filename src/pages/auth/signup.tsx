@@ -80,7 +80,7 @@ const SignUp: NextPage = () => {
                   type="submit"
                   disabled={formik.isSubmitting || !formik.dirty}
                 >
-                  {t("users.actions.joinUs")}
+                  {t("users.actions.signUp")}
                   {formik.isSubmitting && (
                     <Spinner size={10} sx={{ marginLeft: 1 }} />
                   )}

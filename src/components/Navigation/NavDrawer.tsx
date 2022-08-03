@@ -65,9 +65,7 @@ const NavDrawer = () => {
         <main role="main">
           {isLoggedIn && (
             <List>
-              <ListItem
-                onClick={() => redirectTo(NavigationPaths.AdminProducts)}
-              >
+              <ListItem onClick={() => redirectTo(NavigationPaths.Admin)}>
                 <ListItemIcon>
                   <AdminPanelSettings sx={black} />
                 </ListItemIcon>
@@ -124,7 +122,7 @@ const NavDrawer = () => {
                 <ListItemIcon>
                   <SignUpIcon sx={black} />
                 </ListItemIcon>
-                <ListItemText primary={t("users.actions.joinUs")} />
+                <ListItemText primary={t("users.actions.signUp")} />
               </ListItem>
             </List>
           )}

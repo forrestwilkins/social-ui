@@ -55,7 +55,7 @@ const Login: NextPage = () => {
     <Card elevation={0}>
       <CardContent>
         <LevelOneHeading style={{ marginBottom: 12 }}>
-          {t("users.prompts.signInToShop")}
+          {t("users.prompts.signInToPost")}
         </LevelOneHeading>
 
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>

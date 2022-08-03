@@ -1,20 +1,27 @@
 {
-  "brand": "Social UI",
+  "brand": "social ui",
 
   "actions": {
     "cancel": "Cancel",
     "create": "Create",
     "delete": "Delete",
     "edit": "Edit",
+    "post": "Post",
     "save": "Save",
     "submit": "Submit",
     "upload": "Upload"
   },
 
   "prompts": {
+    "deleteItem": "Are you sure you want to delete this {{itemType}}?",
     "welcomeToUI": "Welcome to Social UI",
-    "deleteItem": "Are you sure you want to delete this {{item}}?",
+    "whatsHappening": "What's happening?",
     "wip": "This page is still in construction."
+  },
+
+  "labels": {
+    "menu": "Menu",
+    "menuButton": "Menu button"
   },
 
   "errors": {
@@ -30,8 +37,6 @@
   "navigation": {
     "accountSettings": "Account Settings",
     "admin": "Admin",
-    "cart": "Cart",
-    "favorites": "Favorites",
     "home": "Home",
     "menu": "Menu",
     "preferences": "Preferences",
@@ -40,25 +45,23 @@
     "users": "Users"
   },
 
-  "products": {
+  "posts": {
     "form": {
-      "name": "Name",
-      "description": "Description",
-      "price": "Price"
+      "body": "Body"
     },
     "labels": {
-      "products": "Products",
-      "addProduct": "Add product",
+      "posts": "Posts",
+      "addPost": "Add post",
       "addImages": "Add images"
     }
   },
 
   "users": {
     "actions": {
-      "logIn": "Sign In",
+      "logIn": "Log In",
       "logOut": "Log Out",
       "passwordConfirm": "Confirm password",
-      "joinUs": "Join Us"
+      "signUp": "Sign Up"
     },
     "form": {
       "email": "Email",
@@ -67,7 +70,7 @@
     },
     "prompts": {
       "logOut": "Are you sure you want to log out?",
-      "signInToShop": "Sign in to start shopping...",
+      "signInToPost": "Sign in to start posting...",
       "becomeAMember": "Become a Social UI Member",
       "authenticated": "You are authenticated."
     },
@@ -88,6 +91,13 @@
     "alreadyLoggedIn": "You're already signed in.",
     "alreadyRegistered": "You have already created an account.",
     "permissionDenied": "Permission denied."
+  },
+
+  "images": {
+    "labels": {
+      "attachImages": "Attach images",
+      "removeImage": "Remove image"
+    }
   },
 
   "admin": {

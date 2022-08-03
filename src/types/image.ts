@@ -1,7 +1,7 @@
 export interface ImageEntity {
   id: number;
   filename: string;
-  productId?: number;
+  postId?: number;
   createdAt?: string;
   updatedAt?: string;
 }

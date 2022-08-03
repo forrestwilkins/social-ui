@@ -3,18 +3,19 @@ export const API_ROOT = "/api";
 export enum NavigationPaths {
   About = "/about",
   AccountSettings = "/users/account",
-  AdminProducts = "/admin/products",
+  Admin = "/admin",
   Edit = "/edit",
   Home = "/",
   LogIn = "/auth/login",
   Profile = "/users/profile",
   SignUp = "/auth/signup",
   Users = "/users",
+  Posts = "/posts",
 }
 
 export enum ApiRoutes {
   Health = "/",
-  Products = "/products",
+  Posts = "/posts",
   Images = "/images",
 }
 
@@ -24,7 +25,6 @@ export enum FieldNames {
   Email = "email",
   Name = "name",
   Password = "password",
-  Price = "price",
   Query = "query",
 }
 

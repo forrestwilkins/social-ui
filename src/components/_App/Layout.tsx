@@ -4,14 +4,17 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
 import { useAuthCheckQuery } from "../../hooks/auth";
-import { useTranslate } from "../../hooks/common";
+import { useIsDesktop, useTranslate } from "../../hooks/common";
 import theme from "../../styles/theme";
+import BottomNav from "../Navigation/BottomNav";
 import NavDrawer from "../Navigation/NavDrawer";
 import TopNav from "../Navigation/TopNav";
 import HeadContent from "./HeadContent";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
+
+  const isDesktop = useIsDesktop();
   const t = useTranslate();
 
   useAuthCheckQuery();
@@ -27,7 +30,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <CssBaseline />
 
         {!isNavDrawerOpen && <TopNav />}
-
+        {!isDesktop && <BottomNav />}
         <NavDrawer />
 
         <Container maxWidth="sm" sx={{ marginTop: 12 }}>

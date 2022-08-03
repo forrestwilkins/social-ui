@@ -15,9 +15,13 @@ export const WHITE = initialTheme.palette.grey[100];
 
 const theme: Theme = createTheme(initialTheme, {
   components: {
-    MuiButton: {
+    MuiBottomNavigationAction: {
       styleOverrides: {
-        root: {},
+        root: {
+          "&.Mui-selected": {
+            color: BLACK,
+          },
+        },
       },
     },
   },

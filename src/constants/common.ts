@@ -1,16 +1,27 @@
 export const API_ROOT = "/api";
+export const SCROLL_DURATION = 350;
 
 export enum NavigationPaths {
   About = "/about",
   AccountSettings = "/users/account",
   Admin = "/admin",
   Edit = "/edit",
+  Events = "/events",
+  Groups = "/groups",
   Home = "/",
   LogIn = "/auth/login",
+  Posts = "/posts",
   Profile = "/users/profile",
   SignUp = "/auth/signup",
   Users = "/users",
-  Posts = "/posts",
+}
+
+export enum ResourceNames {
+  Event = "event",
+  Group = "group",
+  Image = "image",
+  Post = "post",
+  User = "user",
 }
 
 export enum ApiRoutes {

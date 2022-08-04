@@ -1,4 +1,3 @@
-import { useReactiveVar } from "@apollo/client";
 import {
   Button,
   Card,
@@ -9,7 +8,6 @@ import {
 } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
 import { FieldNames, NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useDeleteImageMutation } from "../../hooks/image";
@@ -30,7 +28,6 @@ interface Props extends CardProps {
 const PostForm = ({ editPost, ...cardProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
-  const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
   const createPost = useCreatePostMutation();
   const updatePost = useUpdatePostMutation();
@@ -84,7 +81,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
           onSubmit={handleSubmit}
         >
           {(formik) => (
-            <Form hidden={isNavDrawerOpen}>
+            <Form>
               <FormGroup>
                 <Field
                   autoComplete="off"

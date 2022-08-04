@@ -1,8 +1,6 @@
-import { useReactiveVar } from "@apollo/client";
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { ReactNode } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
 import { useAuthCheckQuery } from "../../hooks/auth";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
 import theme from "../../styles/theme";
@@ -12,8 +10,6 @@ import TopNav from "../Navigation/TopNav";
 import HeadContent from "./HeadContent";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
-
   const isDesktop = useIsDesktop();
   const t = useTranslate();
 
@@ -29,11 +25,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
-        {!isNavDrawerOpen && <TopNav />}
-        {!isDesktop && <BottomNav />}
+        <TopNav />
         <NavDrawer />
+        {!isDesktop && <BottomNav />}
 
-        <Container maxWidth="sm" sx={{ marginTop: 12 }}>
+        <Container maxWidth="sm" sx={{ paddingTop: 10.5, paddingBottom: 24 }}>
           <main role="main">{children}</main>
         </Container>
       </ThemeProvider>

@@ -25,8 +25,8 @@ import { useTranslate } from "../../hooks/common";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 
 const ICON_PROPS: SvgIconProps = {
-  sx: { color: "black" },
   fontSize: "small",
+  sx: { color: "black" },
 };
 
 const LIST_ITEM_ICON_PROPS: ListItemIconProps = {

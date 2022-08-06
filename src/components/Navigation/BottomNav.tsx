@@ -7,18 +7,6 @@ import { isNavDrawerOpenVar } from "../../client/cache";
 import { NavigationPaths, ResourceNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { scrollTop } from "../../utils/common";
-import Link from "../Shared/Link";
-
-interface NavLinkProps {
-  href: string;
-  icon?: React.ReactChild;
-}
-
-const NavLink = ({ href, icon }: NavLinkProps) => (
-  <Link href={href} style={{ color: "inherit" }}>
-    {icon}
-  </Link>
-);
 
 const BottomNav = () => {
   const [value, setValue] = useState(0);
@@ -69,30 +57,26 @@ const BottomNav = () => {
         onChange={(_: SyntheticEvent<Element, Event>, newValue: number) =>
           setValue(newValue)
         }
+        role="navigation"
         showLabels
         value={value}
       >
         <BottomNavigationAction
-          icon={<NavLink href={NavigationPaths.Home} icon={<Home />} />}
+          icon={<Home />}
           label={t("navigation.home")}
           onClick={() => handleHomeButtonClick()}
         />
 
         <BottomNavigationAction
           disabled
-          icon={
-            <NavLink
-              href={NavigationPaths.Events}
-              icon={<EventNote style={{ marginBottom: -1 }} />}
-            />
-          }
+          icon={<EventNote />}
           label={t("navigation.events")}
           onClick={() => Router.push(NavigationPaths.Events)}
         />
 
         <BottomNavigationAction
           disabled
-          icon={<NavLink href={NavigationPaths.Groups} icon={<Group />} />}
+          icon={<Group />}
           label={t("navigation.groups")}
           onClick={() => Router.push(NavigationPaths.Groups)}
         />

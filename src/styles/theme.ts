@@ -31,6 +31,14 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#f6c944",
+        },
+      },
+    },
+
     MuiBottomNavigation: {
       styleOverrides: {
         root: {

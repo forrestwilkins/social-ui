@@ -14,6 +14,7 @@
 
   "prompts": {
     "deleteItem": "Are you sure you want to delete this {{itemType}}?",
+    "featureInDevelopment": "This feature has not been implemented yet.",
     "welcomeToUI": "Welcome to Social UI",
     "whatsHappening": "What's happening?",
     "wip": "This page is still in construction."

@@ -7,6 +7,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import { CSSProperties } from "react";
+import { toastVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
 import LevelOneHeading from "../Shared/LevelOneHeading";
@@ -46,6 +47,12 @@ const TopNav = ({ appBarProps }: Props) => {
     ...(isDesktop ? DESKTOP_TOOLBAR_STYLES : {}),
   };
 
+  const handleSearchButtonClick = () =>
+    toastVar({
+      status: "info",
+      title: t("prompts.featureInDevelopment"),
+    });
+
   return (
     <AppBar role="banner" position="fixed" sx={APP_BAR_STYLES} {...appBarProps}>
       <Toolbar sx={toolbarStyles}>
@@ -56,7 +63,12 @@ const TopNav = ({ appBarProps }: Props) => {
         {isDesktop ? (
           <DesktopNav />
         ) : (
-          <IconButton aria-label={t("labels.menu")} edge="end" size="large">
+          <IconButton
+            aria-label={t("labels.menu")}
+            edge="end"
+            onClick={handleSearchButtonClick}
+            size="large"
+          >
             <SearchIcon sx={{ color: "black" }} />
           </IconButton>
         )}

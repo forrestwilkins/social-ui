@@ -7,6 +7,7 @@ import theme from "../../styles/theme";
 import BottomNav from "../Navigation/BottomNav";
 import NavDrawer from "../Navigation/NavDrawer";
 import TopNav from "../Navigation/TopNav";
+import Toast from "../Shared/Toast";
 import HeadContent from "./HeadContent";
 
 interface Props {
@@ -35,6 +36,7 @@ const Layout = ({ children }: Props) => {
 
         <Container maxWidth="sm">
           <main role="main">{children}</main>
+          <Toast />
         </Container>
       </ThemeProvider>
     </>

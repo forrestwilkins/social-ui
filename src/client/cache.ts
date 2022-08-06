@@ -1,12 +1,14 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
+import { ToastNotification } from "../types/common";
+
+// App state
+export const isNavDrawerOpenVar = makeVar(false);
+export const toastVar = makeVar<ToastNotification | null>(null);
 
 // Authentication state
 export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);
 export const isRefreshingTokenVar = makeVar(false);
-
-// Navigation state
-export const isNavDrawerOpenVar = makeVar(false);
 
 const cache = new InMemoryCache({
   typePolicies: {

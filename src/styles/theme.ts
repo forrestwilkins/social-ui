@@ -52,6 +52,23 @@ const theme: Theme = createTheme(initialTheme, {
         },
       },
     },
+
+    MuiAlert: {
+      styleOverrides: {
+        filledInfo: {
+          backgroundColor: "#525df6",
+        },
+        filledSuccess: {
+          backgroundColor: "#4da660",
+        },
+        filledError: {
+          backgroundColor: "#b14e4e",
+        },
+        filledWarning: {
+          backgroundColor: "#e05a32",
+        },
+      },
+    },
   },
 });
 

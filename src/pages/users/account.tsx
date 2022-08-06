@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { ME_QUERY } from "../../client/users/queries";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
@@ -23,15 +23,13 @@ const AccountSettings: NextPage = () => {
   }
 
   return (
-    <Card elevation={0}>
-      <CardContent sx={{ paddingTop: 0 }}>
-        <LevelOneHeading style={{ fontSize: 20, marginBottom: 18 }}>
-          {t("navigation.accountSettings")}
-        </LevelOneHeading>
+    <>
+      <LevelOneHeading style={{ fontSize: 18, marginBottom: 20 }}>
+        {t("navigation.accountSettings")}
+      </LevelOneHeading>
 
-        <Typography>{data.me.email}</Typography>
-      </CardContent>
-    </Card>
+      <Typography>{data.me.email}</Typography>
+    </>
   );
 };
 

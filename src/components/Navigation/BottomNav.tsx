@@ -81,14 +81,12 @@ const BottomNav = () => {
         />
 
         <BottomNavigationAction
-          disabled
           icon={<EventNote />}
           label={t("navigation.events")}
           onClick={() => Router.push(NavigationPaths.Events)}
         />
 
         <BottomNavigationAction
-          disabled
           icon={<Group />}
           label={t("navigation.groups")}
           onClick={() => Router.push(NavigationPaths.Groups)}

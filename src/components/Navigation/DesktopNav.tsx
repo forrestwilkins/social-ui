@@ -41,8 +41,9 @@ const DesktopNav = () => {
               sx={{ fontSize: 17, textTransform: "none", color: "black" }}
             >
               <ProfileIcon
+                color="primary"
                 fontSize="small"
-                sx={{ color: "black", marginRight: 1 }}
+                sx={{ marginRight: 1 }}
               />
               {data.me.name}
             </Button>

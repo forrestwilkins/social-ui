@@ -2,7 +2,6 @@ import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
 import { CSSProperties } from "react";
 import { useTranslate } from "../../hooks/common";
-import { BLACK } from "../../styles/theme";
 import { ImageEntity } from "../../types/image";
 import { getImagePath } from "../../utils/image";
 
@@ -42,7 +41,7 @@ const RemoveButton = ({ onClick }: RemoveButtonProps) => {
       onClick={onClick}
       sx={REMOVE_BUTTON}
     >
-      <RemoveCircle sx={{ color: BLACK }} />
+      <RemoveCircle color="primary" />
     </IconButton>
   );
 };

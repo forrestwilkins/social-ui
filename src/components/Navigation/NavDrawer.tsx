@@ -65,7 +65,7 @@ const NavDrawer = () => {
       <main role="main">
         <Flex flexEnd sx={{ marginY: 0.5 }}>
           <IconButton>
-            <Close sx={{ color: BLACK }} />
+            <Close color="primary" />
           </IconButton>
         </Flex>
 

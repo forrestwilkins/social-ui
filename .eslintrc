@@ -13,16 +13,16 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
-    "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:react/recommended"
   ],
   "rules": {
-    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
     "@typescript-eslint/no-unused-vars": [
       "error",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
@@ -34,15 +34,16 @@
         "allowSingleExtends": true
       }
     ],
-    "react-hooks/exhaustive-deps": "error",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
     "arrow-body-style": ["error", "as-needed"],
     "curly": ["error", "all"],
     "func-style": ["error", "expression"],
     "no-unreachable": "error",
     "object-shorthand": ["error", "properties"],
     "prefer-arrow-callback": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
     "prefer-const": [
       "error",
       {

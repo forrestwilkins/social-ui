@@ -6,6 +6,7 @@ import { useIsDesktop, useTranslate } from "../../hooks/common";
 import theme from "../../styles/theme";
 import BottomNav from "../Navigation/BottomNav";
 import NavDrawer from "../Navigation/NavDrawer";
+import ScrollToTop from "../Navigation/ScrollToTop";
 import TopNav from "../Navigation/TopNav";
 import Toast from "../Shared/Toast";
 import HeadContent from "./HeadContent";
@@ -35,8 +36,12 @@ const Layout = ({ children }: Props) => {
         {!isDesktop && <BottomNav />}
 
         <Container maxWidth="sm">
-          <main role="main">{children}</main>
-          <Toast />
+          <main role="main">
+            {children}
+
+            <Toast />
+            {isDesktop && <ScrollToTop />}
+          </main>
         </Container>
       </ThemeProvider>
     </>

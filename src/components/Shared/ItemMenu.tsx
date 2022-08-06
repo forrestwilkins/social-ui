@@ -3,7 +3,6 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import { ReactNode } from "react";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { BLACK } from "../../styles/theme";
 import { isRenderable } from "../../utils/common";
 import Link from "./Link";
 
@@ -49,7 +48,7 @@ const ItemMenu = ({
         aria-label={t("labels.menuButton")}
         onClick={handleMenuButtonClick}
       >
-        <MoreHoriz sx={{ color: BLACK }} />
+        <MoreHoriz color="primary" />
       </IconButton>
 
       <Menu

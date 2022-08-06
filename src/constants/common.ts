@@ -1,5 +1,5 @@
 export const API_ROOT = "/api";
-export const SCROLL_DURATION = 350;
+export const SCROLL_DURATION = 250;
 
 export enum NavigationPaths {
   About = "/about",
@@ -49,6 +49,12 @@ export enum HttpMethod {
   Get = "GET",
   Patch = "PATCH",
   Post = "POST",
+}
+
+export enum Events {
+  Keydown = "keydown",
+  Resize = "resize",
+  Scroll = "scroll",
 }
 
 export const MULTI_PART_FORM_HEADER = {

@@ -61,6 +61,14 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
+    MuiSvgIcon: {
+      styleOverrides: {
+        colorPrimary: {
+          color: BLACK,
+        },
+      },
+    },
+
     MuiAlert: {
       styleOverrides: {
         filledInfo: {

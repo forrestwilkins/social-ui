@@ -22,7 +22,8 @@
 
   "labels": {
     "menu": "Menu",
-    "menuButton": "Menu button"
+    "menuButton": "Menu button",
+    "scrollToTop": "Scroll to top"
   },
 
   "errors": {

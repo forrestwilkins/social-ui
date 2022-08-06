@@ -34,7 +34,7 @@ const theme: Theme = createTheme(initialTheme, {
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: "#f6c944",
+          backgroundColor: initialTheme.palette.background.default,
         },
       },
     },

@@ -9,7 +9,11 @@ import NavDrawer from "../Navigation/NavDrawer";
 import TopNav from "../Navigation/TopNav";
 import HeadContent from "./HeadContent";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+interface Props {
+  children: ReactNode;
+}
+
+const Layout = ({ children }: Props) => {
   const isDesktop = useIsDesktop();
   const t = useTranslate();
 
@@ -29,7 +33,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <NavDrawer />
         {!isDesktop && <BottomNav />}
 
-        <Container maxWidth="sm" sx={{ paddingTop: 10.5, paddingBottom: 24 }}>
+        <Container maxWidth="sm">
           <main role="main">{children}</main>
         </Container>
       </ThemeProvider>

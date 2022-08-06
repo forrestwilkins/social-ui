@@ -17,6 +17,19 @@ export const WHITE = initialTheme.palette.grey[100];
 
 const theme: Theme = createTheme(initialTheme, {
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          paddingBottom: 24,
+          paddingTop: 85,
+
+          [initialTheme.breakpoints.up("md")]: {
+            paddingTop: 120,
+          },
+        },
+      },
+    },
+
     MuiBottomNavigation: {
       styleOverrides: {
         root: {

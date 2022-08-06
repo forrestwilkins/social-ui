@@ -1,12 +1,25 @@
 import { useReactiveVar } from "@apollo/client";
 import { EventNote, Group, Home, Menu } from "@mui/icons-material";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
+  SxProps,
+} from "@mui/material";
 import Router, { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { isNavDrawerOpenVar } from "../../client/cache";
 import { NavigationPaths, ResourceNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { scrollTop } from "../../utils/common";
+
+const PAPER_STYLES: SxProps = {
+  position: "fixed",
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1,
+};
 
 const BottomNav = () => {
   const [value, setValue] = useState(0);
@@ -52,7 +65,7 @@ const BottomNav = () => {
   };
 
   return (
-    <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 1 }}>
+    <Paper sx={PAPER_STYLES}>
       <BottomNavigation
         onChange={(_: SyntheticEvent<Element, Event>, newValue: number) =>
           setValue(newValue)

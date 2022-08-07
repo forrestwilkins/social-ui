@@ -28,8 +28,6 @@ import { BLACK } from "../../styles/theme";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 
-const black = { color: "black" };
-
 const ListItem = (props: ListItemProps) => (
   <MUIListItem button component="li" role="listitem" {...props} />
 );
@@ -44,7 +42,7 @@ const NavDrawer = () => {
 
   const handleLogOutClick = async () => await logOut();
 
-  const redirectTo = (path: string) => {
+  const redirectTo = (path: string) => () => {
     handleClose();
     commonRedirectTo(path);
   };
@@ -73,32 +71,30 @@ const NavDrawer = () => {
 
         {isLoggedIn && (
           <List>
-            <ListItem onClick={() => redirectTo(NavigationPaths.Admin)}>
+            <ListItem onClick={redirectTo(NavigationPaths.Admin)}>
               <ListItemIcon>
-                <AdminPanelSettings sx={black} />
+                <AdminPanelSettings color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("navigation.admin")} />
             </ListItem>
 
-            <ListItem onClick={() => redirectTo(NavigationPaths.Profile)}>
+            <ListItem onClick={redirectTo(NavigationPaths.Profile)}>
               <ListItemIcon>
-                <ProfileIcon sx={black} />
+                <ProfileIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("navigation.profile")} />
             </ListItem>
 
-            <ListItem
-              onClick={() => redirectTo(NavigationPaths.AccountSettings)}
-            >
+            <ListItem onClick={redirectTo(NavigationPaths.AccountSettings)}>
               <ListItemIcon>
-                <SettingsIcon sx={black} />
+                <SettingsIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("navigation.accountSettings")} />
             </ListItem>
 
-            <ListItem onClick={() => redirectTo(NavigationPaths.Users)}>
+            <ListItem onClick={redirectTo(NavigationPaths.Users)}>
               <ListItemIcon>
-                <UsersIcon sx={black} />
+                <UsersIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("navigation.users")} />
             </ListItem>
@@ -109,7 +105,7 @@ const NavDrawer = () => {
               }
             >
               <ListItemIcon>
-                <SessionIcon sx={black} />
+                <SessionIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.logOut")} />
             </ListItem>
@@ -120,14 +116,14 @@ const NavDrawer = () => {
           <List>
             <ListItem onClick={() => redirectTo(NavigationPaths.LogIn)}>
               <ListItemIcon>
-                <SessionIcon sx={black} />
+                <SessionIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.logIn")} />
             </ListItem>
 
             <ListItem onClick={() => redirectTo(NavigationPaths.SignUp)}>
               <ListItemIcon>
-                <SignUpIcon sx={black} />
+                <SignUpIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.signUp")} />
             </ListItem>

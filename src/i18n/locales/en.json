@@ -62,6 +62,7 @@
 
   "users": {
     "actions": {
+      "editProfile": "Edit Profile",
       "logIn": "Log In",
       "logOut": "Log Out",
       "passwordConfirm": "Confirm password",

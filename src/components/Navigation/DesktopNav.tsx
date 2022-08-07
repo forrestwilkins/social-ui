@@ -17,6 +17,7 @@ import { BLACK } from "../../styles/theme";
 import { MeQuery } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
+import Link from "../Shared/Link";
 import TopNavDropdown from "./TopNavDropdown";
 
 const PROFILE_BUTTON_STYLES: SxProps = {
@@ -41,8 +42,6 @@ const DesktopNav = () => {
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
 
-  const handleProfileButtonClick = () => redirectTo(NavigationPaths.Profile);
-
   const handleClose = () => setMenuAnchorEl(null);
 
   if (loading) {
@@ -53,19 +52,19 @@ const DesktopNav = () => {
     <>
       {isLoggedIn && data && (
         <Flex>
-          {/* TODO: Convert button to an A tag with href */}
-          <Button
-            aria-label={t("navigation.profile")}
-            onClick={handleProfileButtonClick}
-            sx={PROFILE_BUTTON_STYLES}
-          >
-            <ProfileIcon
-              color="primary"
-              fontSize="small"
-              sx={{ marginRight: 1 }}
-            />
-            {data.me.name}
-          </Button>
+          <Link href={NavigationPaths.Profile}>
+            <Button
+              aria-label={t("navigation.profile")}
+              sx={PROFILE_BUTTON_STYLES}
+            >
+              <ProfileIcon
+                color="primary"
+                fontSize="small"
+                sx={{ marginRight: 1 }}
+              />
+              {data.me.name}
+            </Button>
+          </Link>
 
           <IconButton
             aria-label={t("labels.menuButton")}

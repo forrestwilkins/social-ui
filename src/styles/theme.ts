@@ -66,6 +66,9 @@ const theme: Theme = createTheme(initialTheme, {
         colorPrimary: {
           color: BLACK,
         },
+        colorSecondary: {
+          color: WHITE,
+        },
       },
     },
 

@@ -5,19 +5,16 @@ import {
   IconButton,
   SxProps,
   Toolbar,
+  useTheme,
 } from "@mui/material";
 import { CSSProperties } from "react";
 import { toastVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
+import { WHITE } from "../../styles/theme";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
 import DesktopNav from "./DesktopNav";
-
-const DESKTOP_TOOLBAR_STYLES: SxProps = {
-  alignSelf: "center",
-  width: "80%",
-};
 
 const APP_BAR_STYLES: SxProps = {
   backgroundColor: "#4da660",
@@ -32,19 +29,28 @@ interface Props {
 const TopNav = ({ appBarProps }: Props) => {
   const isDesktop = useIsDesktop();
   const t = useTranslate();
+  const theme = useTheme();
 
   const brandStyles: CSSProperties = {
-    color: "black",
+    color: WHITE,
     fontFamily: "Inter Extra Bold",
-    fontSize: isDesktop ? 22 : 18,
+    fontSize: isDesktop ? 24 : 18,
     letterSpacing: 0.25,
     textTransform: "none",
+  };
+
+  const desktopToolbarStyles: SxProps = {
+    alignSelf: "center",
+    width: "85%",
+    [theme.breakpoints.up("sm")]: {
+      minHeight: 60,
+    },
   };
 
   const toolbarStyles: SxProps = {
     display: "flex",
     justifyContent: "space-between",
-    ...(isDesktop ? DESKTOP_TOOLBAR_STYLES : {}),
+    ...(isDesktop ? desktopToolbarStyles : {}),
   };
 
   const handleSearchButtonClick = () =>
@@ -69,7 +75,7 @@ const TopNav = ({ appBarProps }: Props) => {
             onClick={handleSearchButtonClick}
             size="large"
           >
-            <SearchIcon color="primary" />
+            <SearchIcon color="secondary" />
           </IconButton>
         )}
       </Toolbar>

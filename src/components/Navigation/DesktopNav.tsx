@@ -13,16 +13,18 @@ import {
 import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { BLACK } from "../../styles/theme";
+import { BLACK, WHITE } from "../../styles/theme";
 import { MeQuery } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
+import SearchBar from "../Shared/SearchBar";
 import TopNavDropdown from "./TopNavDropdown";
 
 const PROFILE_BUTTON_STYLES: SxProps = {
-  color: "black",
+  color: WHITE,
   fontSize: 17,
+  fontWeight: "bold",
   textTransform: "none",
 };
 
@@ -49,7 +51,9 @@ const DesktopNav = () => {
   }
 
   return (
-    <>
+    <Flex sx={{ justifyContent: "space-between", flexGrow: 1, marginLeft: 3 }}>
+      <SearchBar />
+
       {isLoggedIn && data && (
         <Flex>
           <Link href={NavigationPaths.Profile}>
@@ -58,7 +62,7 @@ const DesktopNav = () => {
               sx={PROFILE_BUTTON_STYLES}
             >
               <ProfileIcon
-                color="primary"
+                color="secondary"
                 fontSize="small"
                 sx={{ marginRight: 1 }}
               />
@@ -71,7 +75,7 @@ const DesktopNav = () => {
             edge="end"
             onClick={handleMenuButtonClick}
           >
-            <ArrowDropDown color="primary" />
+            <ArrowDropDown color="secondary" />
           </IconButton>
 
           <TopNavDropdown anchorEl={menuAnchorEl} handleClose={handleClose} />
@@ -94,7 +98,7 @@ const DesktopNav = () => {
           </Button>
         </Flex>
       )}
-    </>
+    </Flex>
   );
 };
 

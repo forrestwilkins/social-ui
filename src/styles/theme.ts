@@ -33,8 +33,16 @@ const theme: Theme = createTheme(initialTheme, {
 
           [initialTheme.breakpoints.up("md")]: {
             paddingBottom: 130,
-            paddingTop: 120,
+            paddingTop: 135,
           },
+        },
+      },
+    },
+
+    MuiPaper: {
+      styleOverrides: {
+        rounded: {
+          borderRadius: 8,
         },
       },
     },

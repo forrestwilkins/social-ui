@@ -22,9 +22,9 @@ const SearchInput = (props: InputBaseProps) => {
     color: "inherit",
     "& .MuiInputBase-input": {
       color: theme.palette.grey[100],
-      padding: theme.spacing(1, 1, 0, 1),
+      padding: theme.spacing(0.5, 1, 0, 1),
       transition: theme.transitions.create("width"),
-      width: 225,
+      width: 230,
       [theme.breakpoints.down("lg")]: {
         width: 215,
       },
@@ -55,8 +55,8 @@ const SearchBar = () => {
       sx={{
         backgroundColor: "rgba(255, 255, 255, 0.15)",
         borderRadius: "8px",
-        marginTop: 0.3,
-        maxHeight: 38,
+        marginTop: 0.5,
+        maxHeight: 35,
       }}
     >
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>

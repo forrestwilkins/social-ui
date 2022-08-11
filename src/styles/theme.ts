@@ -1,3 +1,4 @@
+import { grey } from "@mui/material/colors";
 import { createTheme, Theme } from "@mui/material/styles";
 
 const initialTheme = createTheme({
@@ -6,13 +7,20 @@ const initialTheme = createTheme({
   },
 
   palette: {
+    primary: {
+      main: grey[100],
+    },
+    text: {
+      primary: "#bdbdbd",
+    },
     background: {
-      default: "#f6c944",
+      default: "#323232",
+      paper: "#424242",
     },
   },
 });
 
-export const BLACK = initialTheme.palette.grey[900];
+export const BLACK = "#1e1e1e";
 export const WHITE = initialTheme.palette.grey[100];
 
 const theme: Theme = createTheme(initialTheme, {
@@ -31,18 +39,10 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: initialTheme.palette.background.default,
-        },
-      },
-    },
-
     MuiBottomNavigation: {
       styleOverrides: {
         root: {
-          backgroundColor: "#ef8b7c",
+          backgroundColor: BLACK,
           height: 70,
         },
       },
@@ -52,11 +52,26 @@ const theme: Theme = createTheme(initialTheme, {
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            color: BLACK,
-            backgroundColor: "#c4b8fa",
+            color: WHITE,
           },
-          color: BLACK,
+          color: grey[500],
           transition: "background-color 0.2s",
+        },
+      },
+    },
+
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          backgroundColor: initialTheme.palette.grey[600],
+        },
+      },
+    },
+
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          color: initialTheme.palette.primary.main,
         },
       },
     },
@@ -64,27 +79,7 @@ const theme: Theme = createTheme(initialTheme, {
     MuiSvgIcon: {
       styleOverrides: {
         colorPrimary: {
-          color: BLACK,
-        },
-        colorSecondary: {
-          color: WHITE,
-        },
-      },
-    },
-
-    MuiAlert: {
-      styleOverrides: {
-        filledInfo: {
-          backgroundColor: "#525df6",
-        },
-        filledSuccess: {
-          backgroundColor: "#4da660",
-        },
-        filledError: {
-          backgroundColor: "#b14e4e",
-        },
-        filledWarning: {
-          backgroundColor: "#e05a32",
+          color: initialTheme.palette.primary.main,
         },
       },
     },

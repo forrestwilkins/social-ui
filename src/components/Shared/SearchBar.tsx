@@ -8,6 +8,7 @@ import {
   SxProps,
   useTheme,
 } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
@@ -20,6 +21,7 @@ const SearchInput = (props: InputBaseProps) => {
   const inputStyles: SxProps = {
     color: "inherit",
     "& .MuiInputBase-input": {
+      color: theme.palette.grey[100],
       padding: theme.spacing(1, 1, 0, 1),
       transition: theme.transitions.create("width"),
       width: 225,
@@ -53,8 +55,8 @@ const SearchBar = () => {
       sx={{
         backgroundColor: "rgba(255, 255, 255, 0.15)",
         borderRadius: "8px",
-        maxHeight: 38,
         marginTop: 0.3,
+        maxHeight: 38,
       }}
     >
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -62,11 +64,11 @@ const SearchBar = () => {
           <Form>
             <Box
               sx={{
-                color: focused ? "white" : "rgba(255, 255, 255, 0.40)",
+                color: focused ? grey[100] : "rgba(255, 255, 255, 0.40)",
                 display: "inline-block",
                 height: "100%",
-                pointerEvents: "none",
                 paddingLeft: 2,
+                pointerEvents: "none",
               }}
             >
               <SearchIcon
@@ -79,7 +81,7 @@ const SearchBar = () => {
               name={FieldNames.Query}
               onBlur={() => setFocused(false)}
               onFocus={() => setFocused(true)}
-              placeholder={"Search Social UI"}
+              placeholder={t("search.placeholder")}
             />
           </Form>
         )}

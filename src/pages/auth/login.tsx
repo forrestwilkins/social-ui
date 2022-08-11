@@ -6,7 +6,7 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { LOGIN_MUTATION } from "../../client/auth/mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { Field } from "../../components/Shared/Field";
+import { TextField } from "../../components/Shared/Field";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -62,12 +62,12 @@ const Login: NextPage = () => {
           {(formik) => (
             <Form hidden={isNavDrawerOpen}>
               <FormGroup>
-                <Field
+                <TextField
                   label={t("users.form.email")}
                   name={UserFieldNames.Email}
                 />
 
-                <Field
+                <TextField
                   label={t("users.form.password")}
                   name={UserFieldNames.Password}
                   type="password"

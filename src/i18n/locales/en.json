@@ -101,6 +101,7 @@
   "images": {
     "labels": {
       "attachImages": "Attach images",
+      "profilePicture": "Profile picture",
       "removeImage": "Remove image"
     }
   },
@@ -109,5 +110,9 @@
     "labels": {
       "admin": "Admin"
     }
+  },
+
+  "search": {
+    "placeholder": "Search Social UI"
   }
 }

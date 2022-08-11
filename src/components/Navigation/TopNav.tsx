@@ -11,13 +11,13 @@ import { CSSProperties } from "react";
 import { toastVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { WHITE } from "../../styles/theme";
+import { BLACK, WHITE } from "../../styles/theme";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
 import DesktopNav from "./DesktopNav";
 
 const APP_BAR_STYLES: SxProps = {
-  backgroundColor: "#4da660",
+  backgroundColor: BLACK,
   boxShadow: "none",
   transition: "none",
 };
@@ -75,7 +75,7 @@ const TopNav = ({ appBarProps }: Props) => {
             onClick={handleSearchButtonClick}
             size="large"
           >
-            <SearchIcon color="secondary" />
+            <SearchIcon color="primary" />
           </IconButton>
         )}
       </Toolbar>

@@ -24,7 +24,6 @@ import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
-import { BLACK } from "../../styles/theme";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 
@@ -67,7 +66,7 @@ const NavDrawer = () => {
           </IconButton>
         </Flex>
 
-        <Divider sx={{ backgroundColor: BLACK }} />
+        <Divider />
 
         {isLoggedIn && (
           <List>

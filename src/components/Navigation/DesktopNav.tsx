@@ -62,7 +62,7 @@ const DesktopNav = () => {
               sx={PROFILE_BUTTON_STYLES}
             >
               <ProfileIcon
-                color="secondary"
+                color="primary"
                 fontSize="small"
                 sx={{ marginRight: 1 }}
               />
@@ -75,7 +75,7 @@ const DesktopNav = () => {
             edge="end"
             onClick={handleMenuButtonClick}
           >
-            <ArrowDropDown color="secondary" />
+            <ArrowDropDown color="primary" />
           </IconButton>
 
           <TopNavDropdown anchorEl={menuAnchorEl} handleClose={handleClose} />

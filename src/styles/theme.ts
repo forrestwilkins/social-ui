@@ -30,10 +30,18 @@ const theme: Theme = createTheme(initialTheme, {
         root: {
           paddingBottom: 150,
           paddingTop: 85,
-
           [initialTheme.breakpoints.up("md")]: {
             paddingBottom: 130,
             paddingTop: 135,
+          },
+          [initialTheme.breakpoints.down("sm")]: {
+            paddingLeft: 10,
+            paddingRight: 10,
+          },
+        },
+        maxWidthSm: {
+          [initialTheme.breakpoints.up("md")]: {
+            maxWidth: 680,
           },
         },
       },

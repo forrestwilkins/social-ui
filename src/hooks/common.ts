@@ -1,13 +1,14 @@
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Breakpoint, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Events } from "../constants/common";
 
-export const useIsDesktop = () => {
+export const useAboveBreakpoint = (breakpoint: Breakpoint) => {
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-  return isDesktop;
+  return useMediaQuery(theme.breakpoints.up(breakpoint));
 };
+
+export const useIsDesktop = () => useAboveBreakpoint("md");
 
 export const useScrollPosition = (): number => {
   const [scrollPosition, setScrollPosition] = useState(0);

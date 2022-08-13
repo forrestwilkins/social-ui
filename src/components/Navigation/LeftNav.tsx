@@ -35,7 +35,7 @@ const LeftNav = () => {
       role="navigation"
       sx={{ position: "fixed", top: 110, left: 108, width: 160 }}
     >
-      <List>
+      <List component={"div"}>
         <Link href={NavigationPaths.Home}>
           <ListItemButton>
             <ListItemIcon>

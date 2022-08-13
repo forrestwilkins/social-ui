@@ -2,7 +2,11 @@ import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { ReactNode } from "react";
 import { useAuthCheckQuery } from "../../hooks/auth";
-import { useIsDesktop, useTranslate } from "../../hooks/common";
+import {
+  useAboveBreakpoint,
+  useIsDesktop,
+  useTranslate,
+} from "../../hooks/common";
 import theme from "../../styles/theme";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
@@ -18,6 +22,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const isDesktop = useIsDesktop();
+  const isLarge = useAboveBreakpoint("lg");
   const t = useTranslate();
 
   useAuthCheckQuery();
@@ -35,7 +40,7 @@ const Layout = ({ children }: Props) => {
         <TopNav />
         <NavDrawer />
         {!isDesktop && <BottomNav />}
-        {isDesktop && <LeftNav />}
+        {isLarge && <LeftNav />}
 
         <Container maxWidth="sm">
           <main role="main">

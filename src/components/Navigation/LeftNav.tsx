@@ -37,7 +37,7 @@ const LeftNav = () => {
     >
       <List>
         <Link href={NavigationPaths.Home}>
-          <ListItemButton sx={{ color: "white" }}>
+          <ListItemButton>
             <ListItemIcon>
               <HomeIcon color="primary" />
             </ListItemIcon>

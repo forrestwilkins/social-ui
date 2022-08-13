@@ -28,7 +28,7 @@ const PROFILE_BUTTON_STYLES: SxProps = {
   textTransform: "none",
 };
 
-const DesktopNav = () => {
+const TopNavDesktop = () => {
   const { data, loading } = useQuery<MeQuery>(ME_QUERY);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -102,4 +102,4 @@ const DesktopNav = () => {
   );
 };
 
-export default DesktopNav;
+export default TopNavDesktop;

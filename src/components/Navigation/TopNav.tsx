@@ -14,7 +14,7 @@ import { useIsDesktop, useTranslate } from "../../hooks/common";
 import { BLACK, WHITE } from "../../styles/theme";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
-import DesktopNav from "./DesktopNav";
+import TopNavDesktop from "./TopNavDesktop";
 
 const APP_BAR_STYLES: SxProps = {
   background: BLACK,
@@ -67,7 +67,7 @@ const TopNav = ({ appBarProps }: Props) => {
         </Link>
 
         {isDesktop ? (
-          <DesktopNav />
+          <TopNavDesktop />
         ) : (
           <IconButton
             aria-label={t("labels.menu")}

@@ -7,6 +7,7 @@ const initialTheme = createTheme({
   },
 
   palette: {
+    mode: "dark",
     primary: {
       main: grey[100],
     },
@@ -49,6 +50,9 @@ const theme: Theme = createTheme(initialTheme, {
 
     MuiPaper: {
       styleOverrides: {
+        root: {
+          backgroundImage: "none",
+        },
         rounded: {
           borderRadius: 8,
         },
@@ -87,14 +91,6 @@ const theme: Theme = createTheme(initialTheme, {
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          color: initialTheme.palette.primary.main,
-        },
-      },
-    },
-
-    MuiSvgIcon: {
-      styleOverrides: {
-        colorPrimary: {
           color: initialTheme.palette.primary.main,
         },
       },

@@ -17,7 +17,7 @@ import Link from "../Shared/Link";
 import DesktopNav from "./DesktopNav";
 
 const APP_BAR_STYLES: SxProps = {
-  backgroundColor: BLACK,
+  background: BLACK,
   boxShadow: "none",
   transition: "none",
 };

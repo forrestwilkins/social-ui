@@ -5,6 +5,7 @@ import { useAuthCheckQuery } from "../../hooks/auth";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
 import theme from "../../styles/theme";
 import BottomNav from "../Navigation/BottomNav";
+import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
 import ScrollToTop from "../Navigation/ScrollToTop";
 import TopNav from "../Navigation/TopNav";
@@ -34,6 +35,7 @@ const Layout = ({ children }: Props) => {
         <TopNav />
         <NavDrawer />
         {!isDesktop && <BottomNav />}
+        {isDesktop && <LeftNav />}
 
         <Container maxWidth="sm">
           <main role="main">

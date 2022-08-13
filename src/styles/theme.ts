@@ -12,7 +12,7 @@ const initialTheme = createTheme({
       main: grey[100],
     },
     text: {
-      primary: "#bdbdbd",
+      secondary: "#bdbdbd",
     },
     background: {
       default: "#323232",
@@ -52,6 +52,7 @@ const theme: Theme = createTheme(initialTheme, {
       styleOverrides: {
         root: {
           backgroundImage: "none",
+          color: initialTheme.palette.text.secondary,
         },
         rounded: {
           borderRadius: 8,

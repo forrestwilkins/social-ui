@@ -41,7 +41,7 @@ const TopNav = ({ appBarProps }: Props) => {
 
   const desktopToolbarStyles: SxProps = {
     alignSelf: "center",
-    width: "86%",
+    width: "calc(100% - 200px)",
     [theme.breakpoints.up("sm")]: {
       minHeight: 60,
     },

@@ -28,6 +28,14 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
       onClick={handleClose}
       onClose={handleClose}
       open={Boolean(anchorEl)}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
       keepMounted
     >
       <MenuItem onClick={handleWIPMenuItemClick}>

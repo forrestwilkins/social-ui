@@ -13,11 +13,11 @@ import {
   Drawer,
   IconButton,
   List,
-  ListItem as MUIListItem,
+  ListItem,
   ListItemIcon,
-  ListItemProps,
-  ListItemText,
+  ListItemText as MuiListItemText,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
@@ -27,9 +27,9 @@ import { useTranslate } from "../../hooks/common";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 
-const ListItem = (props: ListItemProps) => (
-  <MUIListItem button component="li" role="listitem" {...props} />
-);
+const ListItemText = styled(MuiListItemText)(({ theme }) => ({
+  color: theme.palette.text.primary,
+}));
 
 const NavDrawer = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -62,7 +62,7 @@ const NavDrawer = () => {
       <main role="main">
         <Flex flexEnd sx={{ marginY: 0.5 }}>
           <IconButton>
-            <Close color="primary" />
+            <Close />
           </IconButton>
         </Flex>
 
@@ -72,28 +72,28 @@ const NavDrawer = () => {
           <List>
             <ListItem onClick={redirectTo(NavigationPaths.Admin)}>
               <ListItemIcon>
-                <AdminPanelSettings color="primary" />
+                <AdminPanelSettings />
               </ListItemIcon>
               <ListItemText primary={t("navigation.admin")} />
             </ListItem>
 
             <ListItem onClick={redirectTo(NavigationPaths.Profile)}>
               <ListItemIcon>
-                <ProfileIcon color="primary" />
+                <ProfileIcon />
               </ListItemIcon>
               <ListItemText primary={t("navigation.profile")} />
             </ListItem>
 
             <ListItem onClick={redirectTo(NavigationPaths.AccountSettings)}>
               <ListItemIcon>
-                <SettingsIcon color="primary" />
+                <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary={t("navigation.accountSettings")} />
             </ListItem>
 
             <ListItem onClick={redirectTo(NavigationPaths.Users)}>
               <ListItemIcon>
-                <UsersIcon color="primary" />
+                <UsersIcon />
               </ListItemIcon>
               <ListItemText primary={t("navigation.users")} />
             </ListItem>
@@ -104,7 +104,7 @@ const NavDrawer = () => {
               }
             >
               <ListItemIcon>
-                <SessionIcon color="primary" />
+                <SessionIcon />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.logOut")} />
             </ListItem>
@@ -115,14 +115,14 @@ const NavDrawer = () => {
           <List>
             <ListItem onClick={() => redirectTo(NavigationPaths.LogIn)}>
               <ListItemIcon>
-                <SessionIcon color="primary" />
+                <SessionIcon />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.logIn")} />
             </ListItem>
 
             <ListItem onClick={() => redirectTo(NavigationPaths.SignUp)}>
               <ListItemIcon>
-                <SignUpIcon color="primary" />
+                <SignUpIcon />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.signUp")} />
             </ListItem>

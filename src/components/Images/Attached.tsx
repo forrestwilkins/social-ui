@@ -41,7 +41,7 @@ const RemoveButton = ({ onClick }: RemoveButtonProps) => {
       onClick={onClick}
       sx={REMOVE_BUTTON}
     >
-      <RemoveCircle color="primary" />
+      <RemoveCircle />
     </IconButton>
   );
 };

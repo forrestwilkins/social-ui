@@ -75,7 +75,7 @@ const LeftNav = () => {
       <Link href={NavigationPaths.Home}>
         <ListItemButton>
           <ListItemIcon>
-            <HomeIcon color="primary" sx={getIconStyle(NavigationPaths.Home)} />
+            <HomeIcon sx={getIconStyle(NavigationPaths.Home)} />
           </ListItemIcon>
           <ListItemText
             isActive={isActive(NavigationPaths.Home)}
@@ -87,10 +87,7 @@ const LeftNav = () => {
       <Link href={NavigationPaths.Groups}>
         <ListItemButton>
           <ListItemIcon>
-            <GroupsIcon
-              color="primary"
-              sx={getIconStyle(NavigationPaths.Groups)}
-            />
+            <GroupsIcon sx={getIconStyle(NavigationPaths.Groups)} />
           </ListItemIcon>
           <ListItemText
             isActive={isActive(NavigationPaths.Groups)}
@@ -102,10 +99,7 @@ const LeftNav = () => {
       <Link href={NavigationPaths.Events}>
         <ListItemButton>
           <ListItemIcon>
-            <EventsIcon
-              color="primary"
-              sx={getIconStyle(NavigationPaths.Events)}
-            />
+            <EventsIcon sx={getIconStyle(NavigationPaths.Events)} />
           </ListItemIcon>
           <ListItemText
             isActive={isActive(NavigationPaths.Events)}
@@ -118,10 +112,7 @@ const LeftNav = () => {
         <Link href={NavigationPaths.Users}>
           <ListItemButton>
             <ListItemIcon>
-              <UsersIcon
-                color="primary"
-                sx={getIconStyle(NavigationPaths.Users)}
-              />
+              <UsersIcon sx={getIconStyle(NavigationPaths.Users)} />
             </ListItemIcon>
             <ListItemText
               isActive={isActive(NavigationPaths.Users)}

@@ -61,11 +61,7 @@ const TopNavDesktop = () => {
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <ProfileIcon
-                color="primary"
-                fontSize="small"
-                sx={{ marginRight: 1 }}
-              />
+              <ProfileIcon fontSize="small" sx={{ marginRight: 1 }} />
               {data.me.name}
             </Button>
           </Link>
@@ -75,7 +71,7 @@ const TopNavDesktop = () => {
             edge="end"
             onClick={handleMenuButtonClick}
           >
-            <ArrowDropDown color="primary" />
+            <ArrowDropDown />
           </IconButton>
 
           <TopNavDropdown anchorEl={menuAnchorEl} handleClose={handleClose} />

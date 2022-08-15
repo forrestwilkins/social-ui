@@ -44,7 +44,7 @@ const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
         onClick={() => imageInput.current?.click()}
         aria-label={t("images.labels.attachImages")}
       >
-        <Image fontSize="large" color="primary" />
+        <Image fontSize="large" />
       </IconButton>
     </Box>
   );

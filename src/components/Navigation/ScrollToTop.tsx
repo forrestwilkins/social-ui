@@ -29,7 +29,7 @@ const ScrollToTop = () => {
       onClick={() => scrollTop()}
       sx={ICON_BUTTON_STYLES}
     >
-      <Publish color="primary" />
+      <Publish />
     </IconButton>
   );
 };

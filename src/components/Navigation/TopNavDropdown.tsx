@@ -1,5 +1,5 @@
 import { ExitToApp, Person, Settings } from "@mui/icons-material";
-import { Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem, SvgIconProps } from "@mui/material";
 import { toastVar } from "../../client/cache";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
@@ -12,6 +12,13 @@ interface Props {
 const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
   const logOut = useLogOutMutation();
   const t = useTranslate();
+
+  const iconProps: SvgIconProps = {
+    fontSize: "small",
+    sx: {
+      marginRight: 1,
+    },
+  };
 
   const handleLogOutButtonClick = () =>
     window.confirm(t("users.prompts.logOut")) && logOut();
@@ -39,17 +46,17 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
       keepMounted
     >
       <MenuItem onClick={handleWIPMenuItemClick}>
-        <Person color="primary" sx={{ marginRight: 1 }} fontSize="small" />
+        <Person {...iconProps} />
         {t("users.actions.editProfile")}
       </MenuItem>
 
       <MenuItem onClick={handleWIPMenuItemClick}>
-        <Settings color="primary" sx={{ marginRight: 1 }} fontSize="small" />
+        <Settings {...iconProps} />
         {t("navigation.preferences")}
       </MenuItem>
 
       <MenuItem onClick={handleLogOutButtonClick}>
-        <ExitToApp color="primary" sx={{ marginRight: 1 }} fontSize="small" />
+        <ExitToApp {...iconProps} />
         {t("users.actions.logOut")}
       </MenuItem>
     </Menu>

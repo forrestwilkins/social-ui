@@ -48,7 +48,7 @@ const ItemMenu = ({
         aria-label={t("labels.menuButton")}
         onClick={handleMenuButtonClick}
       >
-        <MoreHoriz color="primary" />
+        <MoreHoriz />
       </IconButton>
 
       <Menu
@@ -81,7 +81,6 @@ const ItemMenu = ({
                   marginRight: 1,
                   transform: "rotateY(180deg) translateY(2px)",
                 }}
-                color="primary"
               />
               {t("actions.edit")}
             </Link>
@@ -95,7 +94,7 @@ const ItemMenu = ({
               deleteItem(itemId)
             }
           >
-            <Delete fontSize="small" color="primary" sx={{ marginRight: 1 }} />
+            <Delete fontSize="small" sx={{ marginRight: 1 }} />
 
             {t("actions.delete")}
           </MenuItem>

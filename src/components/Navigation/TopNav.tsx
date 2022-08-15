@@ -75,7 +75,7 @@ const TopNav = ({ appBarProps }: Props) => {
             onClick={handleSearchButtonClick}
             size="large"
           >
-            <SearchIcon color="primary" />
+            <SearchIcon />
           </IconButton>
         )}
       </Toolbar>

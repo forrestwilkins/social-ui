@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   EventNote as EventsIcon,
   Group as GroupsIcon,
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
+import { isLoggedInVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import Link from "../Shared/Link";
@@ -44,6 +46,8 @@ const ListItemIcon = styled(MuiListItemIcon)(() => ({
 }));
 
 const LeftNav = () => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const { asPath } = useRouter();
   const t = useTranslate();
 
@@ -64,6 +68,8 @@ const LeftNav = () => {
 
   const isActive = (path: NavigationPaths) => path === asPath;
 
+  // TODO: Determine whether or not to refactor to use Stack instead of List
+  // https://mui.com/material-ui/react-stack
   return (
     <List component={"div"} role="navigation" sx={listStyles}>
       <Link href={NavigationPaths.Home}>
@@ -108,20 +114,22 @@ const LeftNav = () => {
         </ListItemButton>
       </Link>
 
-      <Link href={NavigationPaths.Users}>
-        <ListItemButton>
-          <ListItemIcon>
-            <UsersIcon
-              color="primary"
-              sx={getIconStyle(NavigationPaths.Users)}
+      {isLoggedIn && (
+        <Link href={NavigationPaths.Users}>
+          <ListItemButton>
+            <ListItemIcon>
+              <UsersIcon
+                color="primary"
+                sx={getIconStyle(NavigationPaths.Users)}
+              />
+            </ListItemIcon>
+            <ListItemText
+              isActive={isActive(NavigationPaths.Users)}
+              primary={t("navigation.users")}
             />
-          </ListItemIcon>
-          <ListItemText
-            isActive={isActive(NavigationPaths.Users)}
-            primary={t("navigation.users")}
-          />
-        </ListItemButton>
-      </Link>
+          </ListItemButton>
+        </Link>
+      )}
     </List>
   );
 };

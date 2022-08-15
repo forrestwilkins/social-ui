@@ -49,7 +49,7 @@ const SignUp: NextPage = () => {
   }
 
   return (
-    <Card elevation={0}>
+    <Card>
       <CardContent>
         <LevelOneHeading style={{ marginBottom: 12 }}>
           {t("users.prompts.becomeAMember")}

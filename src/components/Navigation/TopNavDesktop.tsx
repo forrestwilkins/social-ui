@@ -13,7 +13,7 @@ import {
 import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { BLACK, WHITE } from "../../styles/theme";
+import { WHITE } from "../../styles/theme";
 import { MeQuery } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
@@ -84,16 +84,10 @@ const TopNavDesktop = () => {
 
       {showLoginAndSignUp && (
         <Flex>
-          <Button
-            onClick={() => redirectTo(NavigationPaths.LogIn)}
-            sx={{ color: BLACK }}
-          >
+          <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
           </Button>
-          <Button
-            onClick={() => redirectTo(NavigationPaths.SignUp)}
-            sx={{ color: BLACK }}
-          >
+          <Button onClick={() => redirectTo(NavigationPaths.SignUp)}>
             {t("users.actions.signUp")}
           </Button>
         </Flex>

@@ -13,7 +13,7 @@ import {
   Drawer,
   IconButton,
   List,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText as MuiListItemText,
 } from "@mui/material";
@@ -70,35 +70,37 @@ const NavDrawer = () => {
 
         {isLoggedIn && (
           <List>
-            <ListItem onClick={redirectTo(NavigationPaths.Admin)}>
+            <ListItemButton onClick={redirectTo(NavigationPaths.Admin)}>
               <ListItemIcon>
                 <AdminPanelSettings />
               </ListItemIcon>
               <ListItemText primary={t("navigation.admin")} />
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem onClick={redirectTo(NavigationPaths.Profile)}>
+            <ListItemButton onClick={redirectTo(NavigationPaths.Profile)}>
               <ListItemIcon>
                 <ProfileIcon />
               </ListItemIcon>
               <ListItemText primary={t("navigation.profile")} />
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem onClick={redirectTo(NavigationPaths.AccountSettings)}>
+            <ListItemButton
+              onClick={redirectTo(NavigationPaths.AccountSettings)}
+            >
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary={t("navigation.accountSettings")} />
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem onClick={redirectTo(NavigationPaths.Users)}>
+            <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
               <ListItemIcon>
                 <UsersIcon />
               </ListItemIcon>
               <ListItemText primary={t("navigation.users")} />
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem
+            <ListItemButton
               onClick={() =>
                 window.confirm(t("users.prompts.logOut")) && handleLogOutClick()
               }
@@ -107,25 +109,25 @@ const NavDrawer = () => {
                 <SessionIcon />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.logOut")} />
-            </ListItem>
+            </ListItemButton>
           </List>
         )}
 
         {!isLoggedIn && (
           <List>
-            <ListItem onClick={() => redirectTo(NavigationPaths.LogIn)}>
+            <ListItemButton onClick={() => redirectTo(NavigationPaths.LogIn)}>
               <ListItemIcon>
                 <SessionIcon />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.logIn")} />
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem onClick={() => redirectTo(NavigationPaths.SignUp)}>
+            <ListItemButton onClick={() => redirectTo(NavigationPaths.SignUp)}>
               <ListItemIcon>
                 <SignUpIcon />
               </ListItemIcon>
               <ListItemText primary={t("users.actions.signUp")} />
-            </ListItem>
+            </ListItemButton>
           </List>
         )}
       </main>

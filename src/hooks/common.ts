@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Events } from "../constants/common";
 
-export const useAboveBreakpoint = (breakpoint: Breakpoint) => {
-  const theme = useTheme();
-  return useMediaQuery(theme.breakpoints.up(breakpoint));
-};
+export const useAboveBreakpoint = (breakpoint: Breakpoint) =>
+  useMediaQuery(useTheme().breakpoints.up(breakpoint));
 
 export const useIsDesktop = () => useAboveBreakpoint("md");
 
-export const useScrollPosition = (): number => {
+export const useTranslate = () => {
+  const { t } = useTranslation();
+  return t;
+};
+
+export const useScrollPosition = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const handleScroll = () => {
@@ -26,9 +29,4 @@ export const useScrollPosition = (): number => {
   }, []);
 
   return scrollPosition;
-};
-
-export const useTranslate = () => {
-  const { t } = useTranslation();
-  return t;
 };

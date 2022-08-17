@@ -3,7 +3,7 @@ import { createTheme, Theme } from "@mui/material/styles";
 
 declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
-    navigation?: string;
+    navigation: string;
   }
 }
 

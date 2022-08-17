@@ -5,7 +5,6 @@ import {
   ExitToApp as SessionIcon,
   Person as ProfileIcon,
   PersonAdd as SignUpIcon,
-  Settings as SettingsIcon,
   SupervisedUserCircle as UsersIcon,
 } from "@mui/icons-material";
 import {
@@ -68,68 +67,62 @@ const NavDrawer = () => {
 
         <Divider />
 
-        {isLoggedIn && (
-          <List>
-            <ListItemButton onClick={redirectTo(NavigationPaths.Admin)}>
-              <ListItemIcon>
-                <AdminPanelSettings />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.admin")} />
-            </ListItemButton>
+        <List sx={{ minWidth: "50vw" }}>
+          {isLoggedIn && (
+            <>
+              <ListItemButton onClick={redirectTo(NavigationPaths.Profile)}>
+                <ListItemIcon>
+                  <ProfileIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("navigation.profile")} />
+              </ListItemButton>
 
-            <ListItemButton onClick={redirectTo(NavigationPaths.Profile)}>
-              <ListItemIcon>
-                <ProfileIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.profile")} />
-            </ListItemButton>
+              <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
+                <ListItemIcon>
+                  <UsersIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("navigation.users")} />
+              </ListItemButton>
 
-            <ListItemButton
-              onClick={redirectTo(NavigationPaths.AccountSettings)}
-            >
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.accountSettings")} />
-            </ListItemButton>
+              <ListItemButton onClick={redirectTo(NavigationPaths.Admin)}>
+                <ListItemIcon>
+                  <AdminPanelSettings />
+                </ListItemIcon>
+                <ListItemText primary={t("navigation.admin")} />
+              </ListItemButton>
 
-            <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
-              <ListItemIcon>
-                <UsersIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.users")} />
-            </ListItemButton>
+              <ListItemButton
+                onClick={() =>
+                  window.confirm(t("users.prompts.logOut")) &&
+                  handleLogOutClick()
+                }
+              >
+                <ListItemIcon>
+                  <SessionIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("users.actions.logOut")} />
+              </ListItemButton>
+            </>
+          )}
 
-            <ListItemButton
-              onClick={() =>
-                window.confirm(t("users.prompts.logOut")) && handleLogOutClick()
-              }
-            >
-              <ListItemIcon>
-                <SessionIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("users.actions.logOut")} />
-            </ListItemButton>
-          </List>
-        )}
+          {!isLoggedIn && (
+            <>
+              <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
+                <ListItemIcon>
+                  <SessionIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("users.actions.logIn")} />
+              </ListItemButton>
 
-        {!isLoggedIn && (
-          <List>
-            <ListItemButton onClick={() => redirectTo(NavigationPaths.LogIn)}>
-              <ListItemIcon>
-                <SessionIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("users.actions.logIn")} />
-            </ListItemButton>
-
-            <ListItemButton onClick={() => redirectTo(NavigationPaths.SignUp)}>
-              <ListItemIcon>
-                <SignUpIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("users.actions.signUp")} />
-            </ListItemButton>
-          </List>
-        )}
+              <ListItemButton onClick={redirectTo(NavigationPaths.SignUp)}>
+                <ListItemIcon>
+                  <SignUpIcon />
+                </ListItemIcon>
+                <ListItemText primary={t("users.actions.signUp")} />
+              </ListItemButton>
+            </>
+          )}
+        </List>
       </main>
     </Drawer>
   );

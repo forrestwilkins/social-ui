@@ -25,7 +25,7 @@ const PostCard = ({ post: { id, body, images }, ...cardProps }: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deletePost = useDeletePostMutation();
 
-  const linkToEditPostPage = `${NavigationPaths.Posts}/${id}`;
+  const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
 
   const handleDelete = (id: number) => {
     deletePost(id);
@@ -51,7 +51,7 @@ const PostCard = ({ post: { id, body, images }, ...cardProps }: Props) => {
       )}
       <CardContent>
         {!!images.length && (
-          <Link href={linkToEditPostPage}>
+          <Link href={linkToPostPage}>
             <ImagesList images={images} />
           </Link>
         )}

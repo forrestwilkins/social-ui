@@ -13,7 +13,6 @@ import {
 import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { WHITE } from "../../styles/theme";
 import { MeQuery } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
@@ -22,7 +21,6 @@ import SearchBar from "../Shared/SearchBar";
 import TopNavDropdown from "./TopNavDropdown";
 
 const PROFILE_BUTTON_STYLES: SxProps = {
-  color: WHITE,
   fontSize: 17,
   fontWeight: "bold",
   textTransform: "none",

@@ -1,6 +1,12 @@
 import { grey } from "@mui/material/colors";
 import { createTheme, Theme } from "@mui/material/styles";
 
+declare module "@mui/material/styles/createPalette" {
+  interface TypeBackground {
+    navigation?: string;
+  }
+}
+
 const initialTheme = createTheme({
   typography: {
     fontFamily: "Inter",
@@ -17,13 +23,11 @@ const initialTheme = createTheme({
     background: {
       default: "#323232",
       paper: "#424242",
+      navigation: "#1e1e1e",
     },
     divider: "rgba(255, 255, 255, 0.15)",
   },
 });
-
-export const BLACK = "#1e1e1e";
-export const WHITE = initialTheme.palette.grey[100];
 
 const theme: Theme = createTheme(initialTheme, {
   components: {
@@ -64,7 +68,7 @@ const theme: Theme = createTheme(initialTheme, {
     MuiBottomNavigation: {
       styleOverrides: {
         root: {
-          backgroundColor: BLACK,
+          backgroundColor: initialTheme.palette.background.navigation,
           height: 70,
         },
       },

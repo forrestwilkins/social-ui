@@ -11,16 +11,9 @@ import { CSSProperties } from "react";
 import { toastVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { BLACK, WHITE } from "../../styles/theme";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
 import TopNavDesktop from "./TopNavDesktop";
-
-const APP_BAR_STYLES: SxProps = {
-  background: BLACK,
-  boxShadow: "none",
-  transition: "none",
-};
 
 interface Props {
   appBarProps?: AppBarProps;
@@ -31,8 +24,14 @@ const TopNav = ({ appBarProps }: Props) => {
   const t = useTranslate();
   const theme = useTheme();
 
+  const appBarStyles: SxProps = {
+    background: theme.palette.background.navigation,
+    boxShadow: "none",
+    transition: "none",
+  };
+
   const brandStyles: CSSProperties = {
-    color: WHITE,
+    color: theme.palette.common.white,
     fontFamily: "Inter Extra Bold",
     fontSize: isDesktop ? 24 : 18,
     letterSpacing: 0.25,
@@ -60,7 +59,7 @@ const TopNav = ({ appBarProps }: Props) => {
     });
 
   return (
-    <AppBar role="banner" position="fixed" sx={APP_BAR_STYLES} {...appBarProps}>
+    <AppBar role="banner" position="fixed" sx={appBarStyles} {...appBarProps}>
       <Toolbar sx={toolbarStyles}>
         <Link href={NavigationPaths.Home}>
           <LevelOneHeading style={brandStyles}>{t("brand")}</LevelOneHeading>

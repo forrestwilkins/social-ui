@@ -109,6 +109,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
 
                 <Button
                   type="submit"
+                  sx={{ height: 40, marginTop: 0.75 }}
                   disabled={
                     formik.isSubmitting ||
                     (!formik.dirty && !selectedImages.length)

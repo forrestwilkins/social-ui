@@ -1,13 +1,7 @@
 // TODO: Add basic functionality for search
 
 import { Search as SearchIcon } from "@mui/icons-material";
-import {
-  Box,
-  InputBase,
-  InputBaseProps,
-  SxProps,
-  useTheme,
-} from "@mui/material";
+import { Box, InputBase, styled, SxProps } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Field, Form, Formik } from "formik";
 import { useState } from "react";
@@ -15,25 +9,21 @@ import { toastVar } from "../../client/cache";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 
-const SearchInput = (props: InputBaseProps) => {
-  const theme = useTheme();
-  const inputStyles: SxProps = {
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      color: theme.palette.grey[100],
-      padding: theme.spacing(0.5, 1, 0, 1),
-      transition: theme.transitions.create("width"),
-      width: 230,
-      [theme.breakpoints.down("lg")]: {
-        width: 215,
-      },
-      [theme.breakpoints.down("sm")]: {
-        width: 120,
-      },
+const SearchInput = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    color: theme.palette.grey[100],
+    padding: theme.spacing(0.5, 1, 0, 1),
+    transition: theme.transitions.create("width"),
+    width: 230,
+    [theme.breakpoints.down("lg")]: {
+      width: 215,
     },
-  };
-  return <InputBase sx={inputStyles} {...props} />;
-};
+    [theme.breakpoints.down("sm")]: {
+      width: 120,
+    },
+  },
+}));
 
 const SEARCH_BAR_STYLES: SxProps = {
   backgroundColor: "rgba(255, 255, 255, 0.15)",
@@ -43,9 +33,9 @@ const SEARCH_BAR_STYLES: SxProps = {
 };
 
 const SEARCH_ICON_STYLES: SxProps = {
-  transition: "0.2s",
   position: "relative",
   top: 7,
+  transition: "0.2s",
 };
 
 const SearchBar = () => {

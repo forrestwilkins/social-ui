@@ -5,7 +5,7 @@ import { NextPage } from "next";
 import { useEffect } from "react";
 import { SIGN_UP_MUTATION } from "../../client/auth/mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { TextField } from "../../components/Shared/Field";
+import { TextField } from "../../components/Shared/TextField";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";

@@ -64,12 +64,15 @@ const BottomNav = () => {
     }
   };
 
+  const handleNavChange = (
+    _: SyntheticEvent<Element, Event>,
+    newValue: number
+  ) => setValue(newValue);
+
   return (
     <Paper sx={PAPER_STYLES}>
       <BottomNavigation
-        onChange={(_: SyntheticEvent<Element, Event>, newValue: number) =>
-          setValue(newValue)
-        }
+        onChange={handleNavChange}
         role="navigation"
         showLabels
         value={value}
@@ -77,7 +80,7 @@ const BottomNav = () => {
         <BottomNavigationAction
           icon={<Home />}
           label={t("navigation.home")}
-          onClick={() => handleHomeButtonClick()}
+          onClick={handleHomeButtonClick}
         />
 
         <BottomNavigationAction

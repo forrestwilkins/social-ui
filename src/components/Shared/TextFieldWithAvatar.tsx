@@ -21,6 +21,7 @@ const TextFieldWithAvatar = (props: InputBaseProps) => {
   const t = useTranslate();
   return (
     <Flex sx={{ marginBottom: 1 }}>
+      {/* TODO: Update to use users profile picture once available */}
       <Avatar src="/defaults/9.jpeg" alt={t("images.labels.profilePicture")} />
       <StyledTextField {...props} type="text" />
     </Flex>

@@ -28,6 +28,12 @@ const PROFILE_BUTTON_STYLES: SxProps = {
   textTransform: "none",
 };
 
+const TOP_NAV_STYLES: SxProps = {
+  justifyContent: "space-between",
+  flexGrow: 1,
+  marginLeft: 3,
+};
+
 const TopNavDesktop = () => {
   const { data, loading } = useQuery<MeQuery>(ME_QUERY);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -51,7 +57,7 @@ const TopNavDesktop = () => {
   }
 
   return (
-    <Flex sx={{ justifyContent: "space-between", flexGrow: 1, marginLeft: 3 }}>
+    <Flex sx={TOP_NAV_STYLES}>
       <SearchBar />
 
       {isLoggedIn && data && (

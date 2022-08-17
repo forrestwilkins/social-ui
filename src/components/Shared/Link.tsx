@@ -4,6 +4,7 @@ import { CSSProperties, ReactNode } from "react";
 
 interface Props extends LinkProps {
   children: ReactNode;
+  href: string;
   style?: CSSProperties;
 }
 
@@ -13,7 +14,7 @@ const Link = ({ href, children, style, ...linkProps }: Props) => {
   return (
     <NextLink href={href} {...linkProps} passHref>
       <a
-        href={href as string}
+        href={href}
         style={{
           color: theme.palette.primary.main,
           textDecoration: "none",

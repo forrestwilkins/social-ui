@@ -2,11 +2,13 @@ import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import Router from "next/router";
 import { isValidElement, ReactNode } from "react";
+import { animateScroll } from "react-scroll";
 import { refreshToken } from "../client";
 import {
   API_ROOT,
   HttpMethod,
   MULTI_PART_FORM_HEADER,
+  SCROLL_DURATION,
 } from "../constants/common";
 
 export const redirectTo = (path: string) => Router.push(path);
@@ -50,4 +52,9 @@ export const isRenderable = (node: ReactNode): boolean => {
       }
       return isValidElement(node);
   }
+};
+
+export const scrollTop = () => {
+  const options = { smooth: true, duration: SCROLL_DURATION };
+  animateScroll.scrollToTop(options);
 };

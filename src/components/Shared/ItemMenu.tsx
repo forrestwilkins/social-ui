@@ -3,7 +3,6 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import { ReactNode } from "react";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { BLACK } from "../../styles/theme";
 import { isRenderable } from "../../utils/common";
 import Link from "./Link";
 
@@ -49,7 +48,7 @@ const ItemMenu = ({
         aria-label={t("labels.menuButton")}
         onClick={handleMenuButtonClick}
       >
-        <MoreHoriz sx={{ color: BLACK }} />
+        <MoreHoriz />
       </IconButton>
 
       <Menu
@@ -57,12 +56,21 @@ const ItemMenu = ({
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
         {prependChildren && children}
 
         {canEdit && (
           <MenuItem>
             <Link
+              style={{ color: "inherit" }}
               href={`/${itemType}s/${name ? name : itemId}${
                 NavigationPaths.Edit
               }`}
@@ -87,6 +95,7 @@ const ItemMenu = ({
             }
           >
             <Delete fontSize="small" sx={{ marginRight: 1 }} />
+
             {t("actions.delete")}
           </MenuItem>
         )}

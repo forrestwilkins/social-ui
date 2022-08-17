@@ -1,4 +1,3 @@
-import { useReactiveVar } from "@apollo/client";
 import {
   Button,
   Card,
@@ -7,9 +6,8 @@ import {
   Divider,
   FormGroup,
 } from "@mui/material";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
 import { FieldNames, NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useDeleteImageMutation } from "../../hooks/image";
@@ -19,9 +17,9 @@ import { generateRandom, redirectTo } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
 import AttachedImages from "../Images/Attached";
 import ImageInput from "../Images/Input";
-import { Field } from "../Shared/Field";
 import Flex from "../Shared/Flex";
 import Spinner from "../Shared/Spinner";
+import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends CardProps {
   editPost?: Post;
@@ -30,7 +28,6 @@ interface Props extends CardProps {
 const PostForm = ({ editPost, ...cardProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
-  const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
   const createPost = useCreatePostMutation();
   const updatePost = useUpdatePostMutation();
@@ -84,12 +81,13 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
           onSubmit={handleSubmit}
         >
           {(formik) => (
-            <Form hidden={isNavDrawerOpen}>
+            <Form>
               <FormGroup>
                 <Field
-                  autoComplete="off"
-                  label={t("prompts.whatsHappening")}
                   name={FieldNames.Body}
+                  component={TextFieldWithAvatar}
+                  placeholder={t("prompts.whatsHappening")}
+                  autoComplete="off"
                 />
 
                 <AttachedImages
@@ -111,6 +109,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
 
                 <Button
                   type="submit"
+                  sx={{ height: 40, marginTop: 0.75 }}
                   disabled={
                     formik.isSubmitting ||
                     (!formik.dirty && !selectedImages.length)

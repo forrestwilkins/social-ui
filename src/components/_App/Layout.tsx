@@ -1,17 +1,28 @@
-import { useReactiveVar } from "@apollo/client";
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { ReactNode } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
 import { useAuthCheckQuery } from "../../hooks/auth";
-import { useTranslate } from "../../hooks/common";
+import {
+  useAboveBreakpoint,
+  useIsDesktop,
+  useTranslate,
+} from "../../hooks/common";
 import theme from "../../styles/theme";
+import BottomNav from "../Navigation/BottomNav";
+import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
+import ScrollToTop from "../Navigation/ScrollToTop";
 import TopNav from "../Navigation/TopNav";
+import Toast from "../Shared/Toast";
 import HeadContent from "./HeadContent";
 
-const Layout = ({ children }: { children: ReactNode }) => {
-  const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
+interface Props {
+  children: ReactNode;
+}
+
+const Layout = ({ children }: Props) => {
+  const isDesktop = useIsDesktop();
+  const isLarge = useAboveBreakpoint("lg");
   const t = useTranslate();
 
   useAuthCheckQuery();
@@ -26,12 +37,18 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
-        {!isNavDrawerOpen && <TopNav />}
-
+        <TopNav />
         <NavDrawer />
+        {!isDesktop && <BottomNav />}
+        {isLarge && <LeftNav />}
 
-        <Container maxWidth="sm" sx={{ marginTop: 12 }}>
-          <main role="main">{children}</main>
+        <Container maxWidth="sm">
+          <main role="main">
+            {children}
+
+            <Toast />
+            {isDesktop && <ScrollToTop />}
+          </main>
         </Container>
       </ThemeProvider>
     </>

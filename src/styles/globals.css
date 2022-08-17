@@ -17,3 +17,13 @@
   font-family: "Inter Light";
   src: url("/fonts/Inter-Light.woff2") format("woff");
 }
+
+::selection {
+  background: black;
+  color: white;
+}
+
+::-moz-selection {
+  background: black;
+  color: white;
+}

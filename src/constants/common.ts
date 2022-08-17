@@ -1,16 +1,27 @@
 export const API_ROOT = "/api";
+export const SCROLL_DURATION = 250;
 
 export enum NavigationPaths {
   About = "/about",
   AccountSettings = "/users/account",
   Admin = "/admin",
   Edit = "/edit",
+  Events = "/events",
+  Groups = "/groups",
   Home = "/",
   LogIn = "/auth/login",
+  Posts = "/posts",
   Profile = "/users/profile",
   SignUp = "/auth/signup",
   Users = "/users",
-  Posts = "/posts",
+}
+
+export enum ResourceNames {
+  Event = "event",
+  Group = "group",
+  Image = "image",
+  Post = "post",
+  User = "user",
 }
 
 export enum ApiRoutes {
@@ -38,6 +49,12 @@ export enum HttpMethod {
   Get = "GET",
   Patch = "PATCH",
   Post = "POST",
+}
+
+export enum Events {
+  Keydown = "keydown",
+  Resize = "resize",
+  Scroll = "scroll",
 }
 
 export const MULTI_PART_FORM_HEADER = {

@@ -1,81 +1,80 @@
-import { useReactiveVar } from "@apollo/client";
-import { Close as ExitIcon, Menu as MenuIcon } from "@mui/icons-material";
+import { Search as SearchIcon } from "@mui/icons-material";
 import {
   AppBar,
   AppBarProps,
   IconButton,
-  SvgIconProps,
   SxProps,
   Toolbar,
+  useTheme,
 } from "@mui/material";
-import { isNavDrawerOpenVar } from "../../client/cache";
+import { CSSProperties } from "react";
+import { toastVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
-import DesktopNav from "./DesktopNav";
+import TopNavDesktop from "./TopNavDesktop";
 
 interface Props {
   appBarProps?: AppBarProps;
 }
 
 const TopNav = ({ appBarProps }: Props) => {
-  const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
   const isDesktop = useIsDesktop();
   const t = useTranslate();
+  const theme = useTheme();
+
+  const appBarStyles: SxProps = {
+    background: theme.palette.background.navigation,
+    boxShadow: "none",
+    transition: "none",
+  };
+
+  const brandStyles: CSSProperties = {
+    color: theme.palette.common.white,
+    fontFamily: "Inter Extra Bold",
+    fontSize: isDesktop ? 24 : 18,
+    letterSpacing: 0.25,
+    textTransform: "none",
+  };
 
   const desktopToolbarStyles: SxProps = {
     alignSelf: "center",
-    width: "80%",
+    width: "calc(100% - 200px)",
+    [theme.breakpoints.up("sm")]: {
+      minHeight: 60,
+    },
   };
 
-  const handleMenuButtonClick = () => isNavDrawerOpenVar(!isNavDrawerOpen);
-
-  const ButtonIcon = (props: SvgIconProps) => {
-    if (isNavDrawerOpen) {
-      return <ExitIcon {...props} />;
-    }
-    return <MenuIcon {...props} />;
+  const toolbarStyles: SxProps = {
+    display: "flex",
+    justifyContent: "space-between",
+    ...(isDesktop ? desktopToolbarStyles : {}),
   };
+
+  const handleSearchButtonClick = () =>
+    toastVar({
+      status: "info",
+      title: t("prompts.featureInDevelopment"),
+    });
 
   return (
-    <AppBar
-      role="banner"
-      position="fixed"
-      sx={{ backgroundColor: "white", boxShadow: "none" }}
-      {...appBarProps}
-    >
-      <Toolbar
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          ...(isDesktop ? desktopToolbarStyles : {}),
-        }}
-      >
+    <AppBar role="banner" position="fixed" sx={appBarStyles} {...appBarProps}>
+      <Toolbar sx={toolbarStyles}>
         <Link href={NavigationPaths.Home}>
-          <LevelOneHeading
-            style={{
-              color: "black",
-              fontFamily: "Inter Extra Bold",
-              fontSize: isDesktop ? 22 : 18,
-              letterSpacing: 0.25,
-              textTransform: "none",
-            }}
-          >
-            {t("brand")}
-          </LevelOneHeading>
+          <LevelOneHeading style={brandStyles}>{t("brand")}</LevelOneHeading>
         </Link>
 
         {isDesktop ? (
-          <DesktopNav />
+          <TopNavDesktop />
         ) : (
           <IconButton
             aria-label={t("labels.menu")}
-            edge="start"
-            onClick={handleMenuButtonClick}
+            edge="end"
+            onClick={handleSearchButtonClick}
             size="large"
           >
-            <ButtonIcon sx={{ color: "black" }} />
+            <SearchIcon />
           </IconButton>
         )}
       </Toolbar>

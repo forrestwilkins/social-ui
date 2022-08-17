@@ -1,21 +1,22 @@
 import { useReactiveVar } from "@apollo/client";
 import {
   AdminPanelSettings,
+  Close,
   ExitToApp as SessionIcon,
   Person as ProfileIcon,
   PersonAdd as SignUpIcon,
-  Settings as SettingsIcon,
   SupervisedUserCircle as UsersIcon,
 } from "@mui/icons-material";
 import {
-  Box,
+  Divider,
   Drawer,
+  IconButton,
   List,
-  ListItem as MUIListItem,
+  ListItemButton,
   ListItemIcon,
-  ListItemProps,
-  ListItemText,
+  ListItemText as MuiListItemText,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
@@ -23,13 +24,11 @@ import { NavigationPaths } from "../../constants/common";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
-import TopNav from "./TopNav";
+import Flex from "../Shared/Flex";
 
-const black = { color: "black" };
-
-const ListItem = (props: ListItemProps) => (
-  <MUIListItem button component="li" role="listitem" {...props} />
-);
+const ListItemText = styled(MuiListItemText)(({ theme }) => ({
+  color: theme.palette.text.primary,
+}));
 
 const NavDrawer = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -41,7 +40,7 @@ const NavDrawer = () => {
 
   const handleLogOutClick = async () => await logOut();
 
-  const redirectTo = (path: string) => {
+  const redirectTo = (path: string) => () => {
     handleClose();
     commonRedirectTo(path);
   };
@@ -59,75 +58,72 @@ const NavDrawer = () => {
       onClose={handleClose}
       open={open}
     >
-      <Box sx={{ width: "100vw" }}>
-        <TopNav appBarProps={{ position: "static" }} />
+      <main role="main">
+        <Flex flexEnd sx={{ marginY: 0.5 }}>
+          <IconButton>
+            <Close />
+          </IconButton>
+        </Flex>
 
-        <main role="main">
+        <Divider />
+
+        <List sx={{ minWidth: "50vw" }}>
           {isLoggedIn && (
-            <List>
-              <ListItem onClick={() => redirectTo(NavigationPaths.Admin)}>
+            <>
+              <ListItemButton onClick={redirectTo(NavigationPaths.Profile)}>
                 <ListItemIcon>
-                  <AdminPanelSettings sx={black} />
-                </ListItemIcon>
-                <ListItemText primary={t("navigation.admin")} />
-              </ListItem>
-
-              <ListItem onClick={() => redirectTo(NavigationPaths.Profile)}>
-                <ListItemIcon>
-                  <ProfileIcon sx={black} />
+                  <ProfileIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("navigation.profile")} />
-              </ListItem>
+              </ListItemButton>
 
-              <ListItem
-                onClick={() => redirectTo(NavigationPaths.AccountSettings)}
-              >
+              <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
                 <ListItemIcon>
-                  <SettingsIcon sx={black} />
-                </ListItemIcon>
-                <ListItemText primary={t("navigation.accountSettings")} />
-              </ListItem>
-
-              <ListItem onClick={() => redirectTo(NavigationPaths.Users)}>
-                <ListItemIcon>
-                  <UsersIcon sx={black} />
+                  <UsersIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("navigation.users")} />
-              </ListItem>
+              </ListItemButton>
 
-              <ListItem
+              <ListItemButton onClick={redirectTo(NavigationPaths.Admin)}>
+                <ListItemIcon>
+                  <AdminPanelSettings />
+                </ListItemIcon>
+                <ListItemText primary={t("navigation.admin")} />
+              </ListItemButton>
+
+              <ListItemButton
                 onClick={() =>
                   window.confirm(t("users.prompts.logOut")) &&
                   handleLogOutClick()
                 }
               >
                 <ListItemIcon>
-                  <SessionIcon sx={black} />
+                  <SessionIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("users.actions.logOut")} />
-              </ListItem>
-            </List>
+              </ListItemButton>
+            </>
           )}
 
           {!isLoggedIn && (
-            <List>
-              <ListItem onClick={() => redirectTo(NavigationPaths.LogIn)}>
+            <>
+              <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
                 <ListItemIcon>
-                  <SessionIcon sx={black} />
+                  <SessionIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("users.actions.logIn")} />
-              </ListItem>
+              </ListItemButton>
 
-              <ListItem onClick={() => redirectTo(NavigationPaths.SignUp)}>
+              <ListItemButton onClick={redirectTo(NavigationPaths.SignUp)}>
                 <ListItemIcon>
-                  <SignUpIcon sx={black} />
+                  <SignUpIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("users.actions.signUp")} />
-              </ListItem>
-            </List>
+              </ListItemButton>
+            </>
           )}
-        </main>
-      </Box>
+        </List>
+      </main>
     </Drawer>
   );
 };

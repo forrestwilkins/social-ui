@@ -18,6 +18,7 @@ const initialTheme = createTheme({
       default: "#323232",
       paper: "#424242",
     },
+    divider: "rgba(255, 255, 255, 0.15)",
   },
 });
 
@@ -73,18 +74,10 @@ const theme: Theme = createTheme(initialTheme, {
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            color: WHITE,
+            color: initialTheme.palette.action.active,
           },
           color: grey[500],
           transition: "background-color 0.2s",
-        },
-      },
-    },
-
-    MuiDivider: {
-      styleOverrides: {
-        root: {
-          backgroundColor: initialTheme.palette.grey[600],
         },
       },
     },

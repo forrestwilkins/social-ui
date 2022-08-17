@@ -17,7 +17,6 @@ import { useTranslate } from "../../hooks/common";
 
 const SearchInput = (props: InputBaseProps) => {
   const theme = useTheme();
-
   const inputStyles: SxProps = {
     color: "inherit",
     "& .MuiInputBase-input": {
@@ -33,8 +32,20 @@ const SearchInput = (props: InputBaseProps) => {
       },
     },
   };
-
   return <InputBase sx={inputStyles} {...props} />;
+};
+
+const SEARCH_BAR_STYLES: SxProps = {
+  backgroundColor: "rgba(255, 255, 255, 0.15)",
+  borderRadius: "8px",
+  marginTop: 0.5,
+  maxHeight: 35,
+};
+
+const SEARCH_ICON_STYLES: SxProps = {
+  transition: "0.2s",
+  position: "relative",
+  top: 7,
 };
 
 const SearchBar = () => {
@@ -42,6 +53,14 @@ const SearchBar = () => {
   const t = useTranslate();
 
   const initialValues = { query: "" };
+
+  const searchIconBoxStyles: SxProps = {
+    color: focused ? grey[100] : "rgba(255, 255, 255, 0.40)",
+    display: "inline-block",
+    height: "100%",
+    paddingLeft: 2,
+    pointerEvents: "none",
+  };
 
   const handleSubmit = () => {
     toastVar({
@@ -51,29 +70,12 @@ const SearchBar = () => {
   };
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "rgba(255, 255, 255, 0.15)",
-        borderRadius: "8px",
-        marginTop: 0.5,
-        maxHeight: 35,
-      }}
-    >
+    <Box sx={SEARCH_BAR_STYLES}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {() => (
           <Form>
-            <Box
-              sx={{
-                color: focused ? grey[100] : "rgba(255, 255, 255, 0.40)",
-                display: "inline-block",
-                height: "100%",
-                paddingLeft: 2,
-                pointerEvents: "none",
-              }}
-            >
-              <SearchIcon
-                sx={{ transition: "0.2s", position: "relative", top: 7 }}
-              />
+            <Box sx={searchIconBoxStyles}>
+              <SearchIcon sx={SEARCH_ICON_STYLES} />
             </Box>
 
             <Field

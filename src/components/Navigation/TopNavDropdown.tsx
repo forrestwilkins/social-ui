@@ -4,6 +4,13 @@ import { toastVar } from "../../client/cache";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
 
+const ICON_PROPS: SvgIconProps = {
+  fontSize: "small",
+  sx: {
+    marginRight: 1,
+  },
+};
+
 interface Props {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
@@ -13,20 +20,13 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
   const logOut = useLogOutMutation();
   const t = useTranslate();
 
-  const iconProps: SvgIconProps = {
-    fontSize: "small",
-    sx: {
-      marginRight: 1,
-    },
-  };
-
   const handleLogOutButtonClick = () =>
     window.confirm(t("users.prompts.logOut")) && logOut();
 
   const handleWIPMenuItemClick = () =>
     toastVar({
-      title: t("prompts.featureInDevelopment"),
       status: "info",
+      title: t("prompts.featureInDevelopment"),
     });
 
   return (
@@ -36,27 +36,27 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
       onClose={handleClose}
       open={Boolean(anchorEl)}
       anchorOrigin={{
-        vertical: "bottom",
         horizontal: "right",
+        vertical: "bottom",
       }}
       transformOrigin={{
-        vertical: "top",
         horizontal: "right",
+        vertical: "top",
       }}
       keepMounted
     >
       <MenuItem onClick={handleWIPMenuItemClick}>
-        <Person {...iconProps} />
+        <Person {...ICON_PROPS} />
         {t("users.actions.editProfile")}
       </MenuItem>
 
       <MenuItem onClick={handleWIPMenuItemClick}>
-        <Settings {...iconProps} />
+        <Settings {...ICON_PROPS} />
         {t("navigation.preferences")}
       </MenuItem>
 
       <MenuItem onClick={handleLogOutButtonClick}>
-        <ExitToApp {...iconProps} />
+        <ExitToApp {...ICON_PROPS} />
         {t("users.actions.logOut")}
       </MenuItem>
     </Menu>

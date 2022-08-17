@@ -5,7 +5,7 @@ import { TextField as FormikMUITextField } from "formik-material-ui";
 export const TextField = (props: FieldAttributes<TextFieldProps>) => (
   <FormikField
     component={FormikMUITextField}
-    sx={{ marginBottom: 1.5, color: "red" }}
+    sx={{ marginBottom: 1.5 }}
     {...props}
   />
 );

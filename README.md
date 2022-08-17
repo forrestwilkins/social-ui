@@ -1,6 +1,6 @@
 ## Social UI
 
-Social networking UI
+Social networking platform UI built with Next.js, Apollo Client, and Material UI
 
 ## WIP
 

@@ -25,20 +25,20 @@ const BottomNav = () => {
   const [value, setValue] = useState(0);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const { asPath: currentPath } = useRouter();
+  const { asPath } = useRouter();
   const t = useTranslate();
 
   useEffect(() => {
     if (!isNavDrawerOpen) {
       const getMatching = (path: string): string => {
-        const match = currentPath.match(path);
+        const match = asPath.match(path);
         if (match) {
-          return currentPath;
+          return asPath;
         }
         return "";
       };
 
-      switch (currentPath) {
+      switch (asPath) {
         case NavigationPaths.Home:
           setValue(0);
           break;
@@ -54,10 +54,10 @@ const BottomNav = () => {
           setValue(3);
       }
     }
-  }, [currentPath, isNavDrawerOpen]);
+  }, [asPath, isNavDrawerOpen]);
 
   const handleHomeButtonClick = () => {
-    if (currentPath === NavigationPaths.Home) {
+    if (asPath === NavigationPaths.Home) {
       scrollTop();
     } else {
       Router.push(NavigationPaths.Home);

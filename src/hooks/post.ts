@@ -6,24 +6,42 @@ import {
   DELETE_POST_MUTATION,
   UPDATE_POST_MUTATION,
 } from "../client/posts/mutations";
-import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
+import {
+  POSTS_BY_USER_NAME_QUERY,
+  POSTS_QUERY,
+  POST_QUERY,
+} from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
 import {
   CreatePostMutation,
   Post,
   PostQuery,
+  PostsByUserNameQuery,
   PostsFormValues,
   PostsQuery,
 } from "../types/post";
 
 export const usePostQuery = (
-  id: number
+  id?: number
 ): [Post | undefined, boolean, unknown] => {
   const { data, loading, error } = useQuery<PostQuery>(POST_QUERY, {
     variables: { id },
     skip: !id,
   });
   return [data?.post, loading, error];
+};
+
+export const usePostsByUserNameQuery = (
+  name?: string
+): [Post[] | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<PostsByUserNameQuery>(
+    POSTS_BY_USER_NAME_QUERY,
+    {
+      variables: { name },
+      skip: !name,
+    }
+  );
+  return [data?.postsByUserName, loading, error];
 };
 
 export const useCreatePostMutation = () => {

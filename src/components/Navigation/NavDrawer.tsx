@@ -1,4 +1,4 @@
-import { useReactiveVar } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import {
   AdminPanelSettings,
   Close,
@@ -20,9 +20,11 @@ import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { NavigationPaths } from "../../constants/common";
+import { ME_QUERY } from "../../client/users/queries";
+import { NavigationPaths, ResourceNames } from "../../constants/common";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
+import { MeQuery } from "../../types/user";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 
@@ -33,10 +35,14 @@ const ListItemText = styled(MuiListItemText)(({ theme }) => ({
 const NavDrawer = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const open = useReactiveVar(isNavDrawerOpenVar);
+
+  const { data } = useQuery<MeQuery>(ME_QUERY);
   const logOut = useLogOutMutation();
 
   const router = useRouter();
   const t = useTranslate();
+
+  const userProfilePath = `/${ResourceNames.User}/${data?.me.name}/profile`;
 
   const handleLogOutClick = async () => await logOut();
 
@@ -70,7 +76,7 @@ const NavDrawer = () => {
         <List sx={{ minWidth: "50vw" }}>
           {isLoggedIn && (
             <>
-              <ListItemButton onClick={redirectTo(NavigationPaths.Profile)}>
+              <ListItemButton onClick={redirectTo(userProfilePath)}>
                 <ListItemIcon>
                   <ProfileIcon />
                 </ListItemIcon>

@@ -11,7 +11,7 @@ import {
   isRefreshingTokenVar,
 } from "../../client/cache";
 import { ME_QUERY } from "../../client/users/queries";
-import { NavigationPaths } from "../../constants/common";
+import { NavigationPaths, ResourceNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { MeQuery } from "../../types/user";
 import { redirectTo } from "../../utils/common";
@@ -33,6 +33,7 @@ const TOP_NAV_STYLES: SxProps = {
 };
 
 const TopNavDesktop = () => {
+  // TODO: Determine whether or not to add useMeQuery hook
   const { data, loading } = useQuery<MeQuery>(ME_QUERY);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -42,6 +43,7 @@ const TopNavDesktop = () => {
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
+  const userProfilePath = `/${ResourceNames.User}/${data?.me.name}/profile`;
 
   const t = useTranslate();
 
@@ -60,7 +62,7 @@ const TopNavDesktop = () => {
 
       {isLoggedIn && data && (
         <Flex>
-          <Link href={NavigationPaths.Profile}>
+          <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}

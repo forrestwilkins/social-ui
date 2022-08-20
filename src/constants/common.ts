@@ -11,17 +11,16 @@ export enum NavigationPaths {
   Home = "/",
   LogIn = "/auth/login",
   Posts = "/posts",
-  Profile = "/users/profile",
   SignUp = "/auth/signup",
   Users = "/users",
 }
 
 export enum ResourceNames {
-  Event = "event",
-  Group = "group",
-  Image = "image",
-  Post = "post",
-  User = "user",
+  Event = "events",
+  Group = "groups",
+  Image = "images",
+  Post = "posts",
+  User = "users",
 }
 
 export enum ApiRoutes {

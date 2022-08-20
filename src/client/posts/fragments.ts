@@ -8,6 +8,7 @@ export const POST_SUMMARY = gql`
       id
       filename
     }
+    userId
     createdAt
     updatedAt
   }

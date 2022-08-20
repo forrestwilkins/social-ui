@@ -6,7 +6,7 @@ import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common";
 
-const AccountSettings: NextPage = () => {
+const UserProfile: NextPage = () => {
   const { data, error, loading } = useQuery(ME_QUERY);
   const t = useTranslate();
 
@@ -35,4 +35,4 @@ const AccountSettings: NextPage = () => {
   );
 };
 
-export default AccountSettings;
+export default UserProfile;

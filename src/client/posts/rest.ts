@@ -3,6 +3,7 @@ import { ImageEntity } from "../../types/image";
 import { multiPartRequest } from "../../utils/common";
 
 export const uploadPostImages = async (postId: number, data: FormData) => {
+  // TODO: Remove upload prefix from endpoint
   const path = `${ApiRoutes.Posts}/${postId}/upload-images`;
   const images = await multiPartRequest<ImageEntity[]>(
     HttpMethod.Post,

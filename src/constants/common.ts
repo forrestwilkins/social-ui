@@ -26,6 +26,7 @@ export enum ResourceNames {
 export enum ApiRoutes {
   Health = "/",
   Posts = "/posts",
+  Users = "/users",
   Images = "/images",
 }
 

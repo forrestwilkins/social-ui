@@ -9,6 +9,7 @@ import { toastVar } from "../../client/cache";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 
+// TODO: Resolve issue with search bar padding on logged out state
 const SearchInput = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {

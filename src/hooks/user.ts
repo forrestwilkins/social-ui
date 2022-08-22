@@ -1,4 +1,4 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { QueryFunctionOptions, useQuery, useReactiveVar } from "@apollo/client";
 import { useEffect } from "react";
 import { isLoggedInVar } from "../client/cache";
 import { ME_QUERY, MY_PROFILE_PICTURE_QUERY } from "../client/users/queries";
@@ -18,13 +18,12 @@ export const useMeQuery = (): [User | undefined, boolean, unknown] => {
   return [data?.me, loading, error];
 };
 
-export const useMyProfilePictureQuery = (): [
-  ImageEntity | undefined,
-  boolean,
-  unknown
-] => {
+export const useMyProfilePictureQuery = (
+  options?: QueryFunctionOptions
+): [ImageEntity | undefined, boolean, unknown] => {
   const { data, loading, error, refetch } = useQuery<MyProfilePictureQuery>(
-    MY_PROFILE_PICTURE_QUERY
+    MY_PROFILE_PICTURE_QUERY,
+    options
   );
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 

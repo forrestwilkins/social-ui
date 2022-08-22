@@ -1,4 +1,4 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import {
   AccountCircle as ProfileIcon,
   ArrowDropDown,
@@ -10,10 +10,9 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths, ResourceNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { MeQuery } from "../../types/user";
+import { useMeQuery } from "../../hooks/user";
 import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -33,9 +32,8 @@ const TOP_NAV_STYLES: SxProps = {
 };
 
 const TopNavDesktop = () => {
-  // TODO: Determine whether or not to add useMeQuery hook
-  const { data, loading } = useQuery<MeQuery>(ME_QUERY);
-  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [me, loading] = useMeQuery();
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
@@ -43,7 +41,7 @@ const TopNavDesktop = () => {
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-  const userProfilePath = `/${ResourceNames.User}/${data?.me.name}/profile`;
+  const userProfilePath = `/${ResourceNames.User}/${me?.name}/profile`;
 
   const t = useTranslate();
 
@@ -60,7 +58,7 @@ const TopNavDesktop = () => {
     <Flex sx={TOP_NAV_STYLES}>
       <SearchBar />
 
-      {isLoggedIn && data && (
+      {isLoggedIn && (
         <Flex>
           <Link href={userProfilePath}>
             <Button
@@ -68,7 +66,7 @@ const TopNavDesktop = () => {
               sx={PROFILE_BUTTON_STYLES}
             >
               <ProfileIcon fontSize="small" sx={{ marginRight: 1 }} />
-              {data.me.name}
+              {me?.name}
             </Button>
           </Link>
 

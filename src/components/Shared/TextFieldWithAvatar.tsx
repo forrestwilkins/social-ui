@@ -1,10 +1,8 @@
-import { useQuery } from "@apollo/client";
 import { Avatar } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { InputBase, InputBaseProps } from "formik-material-ui";
-import { MY_PROFILE_PICTURE_QUERY } from "../../client/users/queries";
 import { useTranslate } from "../../hooks/common";
-import { MyProfilePictureQuery } from "../../types/image";
+import { useMyProfilePictureQuery } from "../../hooks/user";
 import { getImagePath } from "../../utils/image";
 import Flex from "./Flex";
 
@@ -22,14 +20,11 @@ const StyledTextField = styled(InputBase)<InputBaseProps>(({ theme }) => ({
 }));
 
 const TextFieldWithAvatar = (props: InputBaseProps) => {
-  const { data } = useQuery<MyProfilePictureQuery>(MY_PROFILE_PICTURE_QUERY, {
-    fetchPolicy: "cache-and-network",
-  });
+  const [profilePicture] = useMyProfilePictureQuery();
   const t = useTranslate();
 
-  const profilePictureId = data?.myProfilePicture?.id;
-  const imagePath = profilePictureId
-    ? getImagePath(profilePictureId)
+  const imagePath = profilePicture?.id
+    ? getImagePath(profilePicture.id)
     : undefined;
 
   return (

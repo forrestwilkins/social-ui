@@ -3,7 +3,6 @@ export const SCROLL_DURATION = 250;
 
 export enum NavigationPaths {
   About = "/about",
-  AccountSettings = "/users/account",
   Admin = "/admin",
   Edit = "/edit",
   Events = "/events",

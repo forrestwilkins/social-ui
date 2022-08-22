@@ -5,3 +5,7 @@ export interface ImageEntity {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface MyProfilePictureQuery {
+  myProfilePicture: ImageEntity;
+}

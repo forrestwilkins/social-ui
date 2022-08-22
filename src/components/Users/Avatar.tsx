@@ -27,6 +27,7 @@ const UserAvatar = ({
     : undefined;
   const userProfilePath = `/${ResourceNames.User}/${me?.name}/profile`;
 
+  // TODO: Show spinner for loading state
   const renderAvatar = () => (
     <Avatar
       src={imagePath}

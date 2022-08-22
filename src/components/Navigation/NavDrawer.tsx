@@ -3,7 +3,6 @@ import {
   AdminPanelSettings,
   Close,
   ExitToApp as SessionIcon,
-  Person as ProfileIcon,
   PersonAdd as SignUpIcon,
   SupervisedUserCircle as UsersIcon,
 } from "@mui/icons-material";
@@ -16,7 +15,7 @@ import {
   ListItemIcon,
   ListItemText as MuiListItemText,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
@@ -26,6 +25,18 @@ import { useTranslate } from "../../hooks/common";
 import { useMeQuery } from "../../hooks/user";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
+import UserAvatar from "../Users/Avatar";
+
+const USER_AVATAR_STYLES: SxProps = {
+  width: 21,
+  height: 21,
+  marginLeft: 0.25,
+};
+
+const CLOSE_BUTTON_FLEX_STYLES: SxProps = {
+  marginY: 0.5,
+  marginRight: 0.5,
+};
 
 const ListItemText = styled(MuiListItemText)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -64,7 +75,7 @@ const NavDrawer = () => {
       open={open}
     >
       <main role="main">
-        <Flex flexEnd sx={{ marginY: 0.5 }}>
+        <Flex flexEnd sx={CLOSE_BUTTON_FLEX_STYLES}>
           <IconButton>
             <Close />
           </IconButton>
@@ -77,7 +88,7 @@ const NavDrawer = () => {
             <>
               <ListItemButton onClick={redirectTo(userProfilePath)}>
                 <ListItemIcon>
-                  <ProfileIcon />
+                  <UserAvatar sx={USER_AVATAR_STYLES} />
                 </ListItemIcon>
                 <ListItemText primary={me?.name} />
               </ListItemButton>

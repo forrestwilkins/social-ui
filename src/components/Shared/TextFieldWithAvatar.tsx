@@ -22,7 +22,9 @@ const StyledTextField = styled(InputBase)<InputBaseProps>(({ theme }) => ({
 }));
 
 const TextFieldWithAvatar = (props: InputBaseProps) => {
-  const { data } = useQuery<MyProfilePictureQuery>(MY_PROFILE_PICTURE_QUERY);
+  const { data } = useQuery<MyProfilePictureQuery>(MY_PROFILE_PICTURE_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
   const t = useTranslate();
 
   const profilePictureId = data?.myProfilePicture?.id;

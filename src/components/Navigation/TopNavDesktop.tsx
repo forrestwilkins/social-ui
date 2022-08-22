@@ -1,8 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import {
-  AccountCircle as ProfileIcon,
-  ArrowDropDown,
-} from "@mui/icons-material";
+import { ArrowDropDown } from "@mui/icons-material";
 import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import {
@@ -17,6 +14,7 @@ import { redirectTo } from "../../utils/common";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";
+import UserAvatar from "../Users/Avatar";
 import TopNavDropdown from "./TopNavDropdown";
 
 const PROFILE_BUTTON_STYLES: SxProps = {
@@ -30,6 +28,8 @@ const TOP_NAV_STYLES: SxProps = {
   flexGrow: 1,
   marginLeft: 3,
 };
+
+const USER_AVATAR_STYLES: SxProps = { width: 24, height: 24, marginRight: 1.3 };
 
 const TopNavDesktop = () => {
   const [me, loading] = useMeQuery();
@@ -65,7 +65,7 @@ const TopNavDesktop = () => {
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <ProfileIcon fontSize="small" sx={{ marginRight: 1 }} />
+              <UserAvatar sx={USER_AVATAR_STYLES} />
               {me?.name}
             </Button>
           </Link>

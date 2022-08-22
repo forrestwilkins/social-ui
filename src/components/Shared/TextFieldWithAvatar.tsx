@@ -18,7 +18,7 @@ const StyledTextField = styled(InputBase)<InputBaseProps>(({ theme }) => ({
 
 const TextFieldWithAvatar = (props: InputBaseProps) => (
   <Flex sx={{ marginBottom: 1 }}>
-    <UserAvatar />
+    <UserAvatar withLink />
     <StyledTextField {...props} type="text" />
   </Flex>
 );

@@ -18,6 +18,10 @@ export interface SignUpFormValues {
   password: string;
 }
 
+export interface UserQuery {
+  user: User;
+}
+
 export interface UsersQuery {
   users: User[];
 }

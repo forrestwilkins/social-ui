@@ -3,6 +3,7 @@ import { ImageEntity } from "./image";
 export interface Post {
   id: number;
   body: string;
+  userId: number;
   createdAt: string;
   updatedAt: string;
   images: ImageEntity[];

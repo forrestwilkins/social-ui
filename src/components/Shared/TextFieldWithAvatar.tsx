@@ -1,12 +1,11 @@
 import { styled } from "@mui/material/styles";
-import { InputBase, InputBaseProps } from "formik-material-ui";
+import { InputBase as MuiInputBase, InputBaseProps } from "formik-material-ui";
 import UserAvatar from "../Users/Avatar";
 import Flex from "./Flex";
 
-const StyledTextField = styled(InputBase)<InputBaseProps>(({ theme }) => ({
+const InputBase = styled(MuiInputBase)<InputBaseProps>(({ theme }) => ({
   width: "100%",
   marginLeft: 12,
-
   "& .MuiInputBase-input": {
     fontSize: 21,
     color: "#cacaca",
@@ -19,7 +18,7 @@ const StyledTextField = styled(InputBase)<InputBaseProps>(({ theme }) => ({
 const TextFieldWithAvatar = (props: InputBaseProps) => (
   <Flex sx={{ marginBottom: 1 }}>
     <UserAvatar withLink />
-    <StyledTextField {...props} type="text" />
+    <InputBase {...props} type="text" />
   </Flex>
 );
 

@@ -8,6 +8,10 @@ export interface ImageEntity {
   updatedAt?: string;
 }
 
+export interface ProfilePictureQuery {
+  profilePicture: ImageEntity;
+}
+
 export interface MyProfilePictureQuery {
   myProfilePicture: ImageEntity;
 }

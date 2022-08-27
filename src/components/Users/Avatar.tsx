@@ -2,12 +2,17 @@ import { Avatar, AvatarProps } from "@mui/material";
 import { CSSProperties } from "react";
 import { ResourceNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { useMeQuery, useMyProfilePictureQuery } from "../../hooks/user";
+import {
+  useMeQuery,
+  useMyProfilePictureQuery,
+  useProfilePictureQuery,
+  useUserQuery,
+} from "../../hooks/user";
 import { getImagePath } from "../../utils/image";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
-  userId?: string;
+  userId?: number;
   withLink?: boolean;
   linkStyles?: CSSProperties;
 }
@@ -18,20 +23,30 @@ const UserAvatar = ({
   linkStyles,
   ...avatarProps
 }: Props) => {
-  const [profilePicture] = useMyProfilePictureQuery({ skip: !!userId });
-  const [me] = useMeQuery();
+  const [me] = useMeQuery({ skip: !!userId });
+  const [myProfilePicture] = useMyProfilePictureQuery({ skip: !!userId });
+  const [profilePicture] = useProfilePictureQuery(userId);
+  const [user] = useUserQuery(userId);
+
   const t = useTranslate();
 
-  const imagePath = profilePicture?.id
-    ? getImagePath(profilePicture.id)
-    : undefined;
-  const userProfilePath = `/${ResourceNames.User}/${me?.name}/profile`;
+  const userName = user?.name || me?.name;
+  const userProfilePath = `/${ResourceNames.User}/${userName}/profile`;
+
+  const _getImagePath = () => {
+    if (profilePicture) {
+      return getImagePath(profilePicture.id);
+    }
+    if (myProfilePicture) {
+      return getImagePath(myProfilePicture.id);
+    }
+  };
 
   // TODO: Show spinner for loading state
   const renderAvatar = () => (
     <Avatar
-      src={imagePath}
       alt={t("images.labels.profilePicture")}
+      src={_getImagePath()}
       {...avatarProps}
     />
   );

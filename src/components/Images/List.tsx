@@ -6,11 +6,12 @@ interface Props extends Omit<ImageListProps, "children"> {
   images: ImageEntity[];
 }
 
-const ImagesList = ({ images, ...otherProps }: Props) => {
+const ImagesList = ({ images, ...imageListProps }: Props) => {
   if (!images?.length) {
     return null;
   }
 
+  // TODO: Add support for larger image sets
   const getColumnSize = () => {
     if (images.length <= 3) {
       return images.length;
@@ -19,7 +20,13 @@ const ImagesList = ({ images, ...otherProps }: Props) => {
   };
 
   return (
-    <ImageList cols={getColumnSize()} rowHeight="auto" {...otherProps}>
+    <ImageList
+      cols={getColumnSize()}
+      gap={2}
+      rowHeight="auto"
+      sx={{ marginX: -2 }}
+      {...imageListProps}
+    >
       {images.map((image) => (
         <ImageListItem key={image.id}>
           <img alt={image.filename} src={getImagePath(image.id)} />

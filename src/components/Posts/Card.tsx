@@ -6,6 +6,7 @@ import {
   CardHeaderProps,
   CardProps,
   styled,
+  SxProps,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -21,6 +22,7 @@ import Link from "../Shared/Link";
 import UserAvatar from "../Users/Avatar";
 
 const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
+  paddingBottom: 0,
   "& .MuiCardHeader-avatar": {
     marginRight: 11,
   },
@@ -44,6 +46,9 @@ const PostCard = ({
 
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = `/${ResourceNames.User}/${user?.name}/profile`;
+  const cardContentStyles: SxProps = {
+    paddingTop: images.length && !body ? 1.25 : 3,
+  };
 
   const handleDelete = (id: number) => {
     deletePost(id);
@@ -69,13 +74,13 @@ const PostCard = ({
           title={<Link href={userProfilePath}>{user?.name}</Link>}
         />
       )}
-      <CardContent>
+      <CardContent sx={cardContentStyles}>
+        {body && <Typography>{body}</Typography>}
         {!!images.length && (
           <Link href={linkToPostPage}>
             <ImagesList images={images} />
           </Link>
         )}
-        {body && <Typography>{body}</Typography>}
       </CardContent>
     </Card>
   );

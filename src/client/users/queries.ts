@@ -29,6 +29,15 @@ export const USER_QUERY = gql`
   ${USER_SUMMARY}
 `;
 
+export const USER_BY_NAME_QUERY = gql`
+  query UserByNameQuery($name: String!) {
+    userByName(name: $name) {
+      ...UserSummary
+    }
+  }
+  ${USER_SUMMARY}
+`;
+
 export const PROFILE_PICTURE_QUERY = gql`
   query ProfilePictureQuery($id: ID!) {
     profilePicture(id: $id) {

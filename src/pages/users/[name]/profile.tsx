@@ -1,21 +1,25 @@
+import { useQuery } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { USER_BY_NAME_QUERY } from "../../../client/users/queries";
 import PostsList from "../../../components/Posts/List";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import ProfileCard from "../../../components/Users/ProfileCard";
 import { useTranslate } from "../../../hooks/common";
 import { usePostsByUserNameQuery } from "../../../hooks/post";
-import { useMeQuery } from "../../../hooks/user";
+import { UserByNameQuery } from "../../../types/user";
 
 const UserProfile: NextPage = () => {
-  const [me, loading, error] = useMeQuery();
-
   const { query } = useRouter();
-  const t = useTranslate();
+  const name = String(query?.name);
+  const [posts, postsLoading] = usePostsByUserNameQuery(name);
+  const { data, loading, error } = useQuery<UserByNameQuery>(
+    USER_BY_NAME_QUERY,
+    { variables: { name } }
+  );
 
-  const userName = String(query?.name);
-  const [posts, postsLoading] = usePostsByUserNameQuery(userName);
+  const t = useTranslate();
 
   if (error) {
     return <Typography>{t("errors.somethingWrong")}</Typography>;
@@ -25,13 +29,13 @@ const UserProfile: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!me) {
+  if (!data) {
     return null;
   }
 
   return (
     <>
-      <ProfileCard user={me} />
+      <ProfileCard user={data.userByName} />
 
       {posts && <PostsList posts={posts} sx={{ marginTop: 8 }} />}
     </>

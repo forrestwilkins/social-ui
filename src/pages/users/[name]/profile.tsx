@@ -12,11 +12,11 @@ import { UserByNameQuery } from "../../../types/user";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
-  const name = String(query?.name);
+  const name = String(query?.name || "");
   const [posts, postsLoading] = usePostsByUserNameQuery(name);
   const { data, loading, error } = useQuery<UserByNameQuery>(
     USER_BY_NAME_QUERY,
-    { variables: { name } }
+    { variables: { name }, skip: !name }
   );
 
   const t = useTranslate();

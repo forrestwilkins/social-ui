@@ -3,13 +3,16 @@ import {
   CardContent,
   CardHeader,
   CardProps,
+  SxProps,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { useProfilePictureQuery } from "../../hooks/user";
 import { User } from "../../types/user";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
+import UserAvatar from "./Avatar";
 
 interface Props extends CardProps {
   user: User;
@@ -19,6 +22,15 @@ interface Props extends CardProps {
 const ProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [profilePicture] = useProfilePictureQuery(user.id);
+  const theme = useTheme();
+
+  const userAvatarStyles: SxProps = {
+    width: 140,
+    height: 140,
+    marginTop: -13,
+    marginBottom: 2,
+    border: `4px solid ${theme.palette.background.paper}`,
+  };
 
   return (
     <Card {...cardProps}>
@@ -33,13 +45,13 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
             setAnchorEl={setMenuAnchorEl}
           />
         }
-        style={{ paddingBottom: 0 }}
+        sx={{ paddingBottom: 0 }}
       />
 
-      <CardContent>
-        <Typography>
-          {user.name} - {user.createdAt}
-        </Typography>
+      <CardContent sx={{ paddingTop: 0 }}>
+        <UserAvatar image={profilePicture} sx={userAvatarStyles} />
+
+        <Typography>{user.name}</Typography>
       </CardContent>
     </Card>
   );

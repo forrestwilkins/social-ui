@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
 import { NavigationPaths, ResourceNames } from "../../constants/common";
+import { useTranslate } from "../../hooks/common";
 import { useDeletePostMutation } from "../../hooks/post";
 import { useUserQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
@@ -44,6 +45,8 @@ const PostCard = ({
   const deletePost = useDeletePostMutation();
   const [user] = useUserQuery(userId);
 
+  const t = useTranslate();
+
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = `/${ResourceNames.User}/${user?.name}/profile`;
   const cardContentStyles: SxProps = {
@@ -60,9 +63,9 @@ const PostCard = ({
       {isLoggedIn && (
         <CardHeader
           action={
+            // TODO: Add permission logic for edit and delete
             <ItemMenu
               anchorEl={menuAnchorEl}
-              // TODO: Add permission logic for edit and delete
               canDelete
               canEdit
               deleteItem={handleDelete}
@@ -77,8 +80,12 @@ const PostCard = ({
       )}
       <CardContent sx={cardContentStyles}>
         {body && <Typography>{body}</Typography>}
+
         {!!images.length && (
-          <Link href={linkToPostPage}>
+          <Link
+            aria-label={t("images.labels.attachedImages")}
+            href={linkToPostPage}
+          >
             <ImagesList images={images} />
           </Link>
         )}

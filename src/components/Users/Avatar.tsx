@@ -8,25 +8,30 @@ import {
   useProfilePictureQuery,
   useUserQuery,
 } from "../../hooks/user";
+import { ImageEntity } from "../../types/image";
 import { getImagePath } from "../../utils/image";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
+  image?: ImageEntity;
+  linkStyles?: CSSProperties;
   userId?: number;
   withLink?: boolean;
-  linkStyles?: CSSProperties;
 }
 
 const UserAvatar = ({
+  image,
+  linkStyles,
   userId,
   withLink,
-  linkStyles,
   ...avatarProps
 }: Props) => {
-  const [me] = useMeQuery({ skip: !!userId });
-  const [myProfilePicture] = useMyProfilePictureQuery({ skip: !!userId });
-  const [profilePicture] = useProfilePictureQuery(userId);
   const [user] = useUserQuery(userId);
+  const [me] = useMeQuery({ skip: !!userId });
+  const [profilePicture] = useProfilePictureQuery(image ? undefined : userId);
+  const [myProfilePicture] = useMyProfilePictureQuery({
+    skip: !!(userId || image),
+  });
 
   const t = useTranslate();
 
@@ -34,6 +39,9 @@ const UserAvatar = ({
   const userProfilePath = `/${ResourceNames.User}/${userName}/profile`;
 
   const _getImagePath = () => {
+    if (image) {
+      return getImagePath(image.id);
+    }
     if (profilePicture) {
       return getImagePath(profilePicture.id);
     }

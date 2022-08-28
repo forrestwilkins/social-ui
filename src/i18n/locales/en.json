@@ -100,10 +100,11 @@
 
   "images": {
     "labels": {
+      "attachedImages": "Attached images",
       "attachImages": "Attach images",
+      "coverPhoto": "Cover photo",
       "profilePicture": "Profile picture",
-      "removeImage": "Remove image",
-      "coverPhoto": "Cover photo"
+      "removeImage": "Remove image"
     }
   },
 

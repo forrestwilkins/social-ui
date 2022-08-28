@@ -35,10 +35,10 @@ const CoverPhoto = ({ image, imageId, rounded, topRounded }: Props) => {
   };
 
   const imgStyles: CSSProperties = {
-    width: "100%",
+    backgroundColor: grey[900],
     height: 210,
     objectFit: "cover",
-    backgroundColor: grey[900],
+    width: "100%",
     ...getBorderRadius(),
   };
 

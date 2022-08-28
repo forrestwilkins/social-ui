@@ -1,3 +1,6 @@
+import { Box } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import { CSSProperties } from "react";
 import { useTranslate } from "../../hooks/common";
 import { getImagePath } from "../../utils/image";
 
@@ -11,6 +14,7 @@ interface Props {
 // TODO: Add lazy load functionality
 const CoverPhoto = ({ image, imageId, rounded, topRounded }: Props) => {
   const t = useTranslate();
+
   const getImageSrc = () => {
     if (image) {
       return URL.createObjectURL(image);
@@ -30,16 +34,23 @@ const CoverPhoto = ({ image, imageId, rounded, topRounded }: Props) => {
     }
   };
 
+  const imgStyles: CSSProperties = {
+    width: "100%",
+    height: 210,
+    objectFit: "cover",
+    backgroundColor: grey[900],
+    ...getBorderRadius(),
+  };
+
+  if (!getImageSrc()) {
+    return <Box sx={imgStyles}></Box>;
+  }
+
   return (
     <img
       alt={t("images.labels.coverPhoto")}
       src={getImageSrc()}
-      style={{
-        width: "100%",
-        height: 215,
-        objectFit: "cover",
-        ...getBorderRadius(),
-      }}
+      style={imgStyles}
     />
   );
 };

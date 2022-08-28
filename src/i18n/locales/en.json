@@ -102,7 +102,8 @@
     "labels": {
       "attachImages": "Attach images",
       "profilePicture": "Profile picture",
-      "removeImage": "Remove image"
+      "removeImage": "Remove image",
+      "coverPhoto": "Cover photo"
     }
   },
 

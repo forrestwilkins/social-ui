@@ -2,8 +2,8 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import PostsList from "../../../components/Posts/List";
-import LevelOneHeading from "../../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../../components/Shared/ProgressBar";
+import ProfileCard from "../../../components/Users/ProfileCard";
 import { useTranslate } from "../../../hooks/common";
 import { usePostsByUserNameQuery } from "../../../hooks/post";
 import { useMeQuery } from "../../../hooks/user";
@@ -31,13 +31,7 @@ const UserProfile: NextPage = () => {
 
   return (
     <>
-      <LevelOneHeading style={{ fontSize: 20, marginBottom: 18 }}>
-        {t("navigation.profile")}
-      </LevelOneHeading>
-
-      <Typography>
-        {me.name} - {me.createdAt}
-      </Typography>
+      <ProfileCard user={me} />
 
       {posts && <PostsList posts={posts} sx={{ marginTop: 8 }} />}
     </>

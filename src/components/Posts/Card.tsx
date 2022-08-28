@@ -62,6 +62,7 @@ const PostCard = ({
           action={
             <ItemMenu
               anchorEl={menuAnchorEl}
+              // TODO: Add permission logic for edit and delete
               canDelete
               canEdit
               deleteItem={handleDelete}

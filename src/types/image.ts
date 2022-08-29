@@ -15,3 +15,7 @@ export interface ProfilePictureQuery {
 export interface MyProfilePictureQuery {
   myProfilePicture: ImageEntity;
 }
+
+export interface CoverPhotoQuery {
+  coverPhoto: ImageEntity | null;
+}

@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/client";
 import {
   Card,
   CardContent,
@@ -8,7 +9,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { COVER_PHOTO_QUERY } from "../../client/users/queries";
 import { useProfilePictureQuery } from "../../hooks/user";
+import { CoverPhotoQuery } from "../../types/image";
 import { User } from "../../types/user";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
@@ -19,28 +22,32 @@ interface Props extends CardProps {
 }
 
 // TODO: Implement remaining functionality - below is a WIP
-const ProfileCard = ({ user, ...cardProps }: Props) => {
+const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const [profilePicture] = useProfilePictureQuery(user.id);
+  const [profilePicture] = useProfilePictureQuery(id);
+  const { data } = useQuery<CoverPhotoQuery>(COVER_PHOTO_QUERY, {
+    variables: { id },
+  });
+
   const theme = useTheme();
 
   const userAvatarStyles: SxProps = {
-    width: 140,
-    height: 140,
-    marginTop: -13,
-    marginBottom: 2,
     border: `4px solid ${theme.palette.background.paper}`,
+    height: 140,
+    marginBottom: 2,
+    marginTop: -13,
+    width: 140,
   };
 
   return (
     <Card {...cardProps}>
-      <CoverPhoto imageId={profilePicture?.id} topRounded />
+      <CoverPhoto imageId={data?.coverPhoto?.id} topRounded />
 
       <CardHeader
         action={
           <ItemMenu
             anchorEl={menuAnchorEl}
-            itemId={user.id}
+            itemId={id}
             itemType={"user"}
             setAnchorEl={setMenuAnchorEl}
           />
@@ -50,8 +57,7 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
 
       <CardContent sx={{ paddingTop: 0 }}>
         <UserAvatar image={profilePicture} sx={userAvatarStyles} />
-
-        <Typography>{user.name}</Typography>
+        <Typography>{name}</Typography>
       </CardContent>
     </Card>
   );

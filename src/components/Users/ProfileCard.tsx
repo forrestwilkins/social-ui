@@ -34,7 +34,8 @@ const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
   const userAvatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
     height: 140,
-    marginBottom: 2,
+    marginBottom: 1,
+    marginLeft: -0.25,
     marginTop: -13,
     width: 140,
   };
@@ -57,7 +58,9 @@ const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
 
       <CardContent sx={{ paddingTop: 0 }}>
         <UserAvatar image={profilePicture} sx={userAvatarStyles} />
-        <Typography>{name}</Typography>
+        <Typography color="primary" sx={{ fontSize: 25 }}>
+          {name}
+        </Typography>
       </CardContent>
     </Card>
   );

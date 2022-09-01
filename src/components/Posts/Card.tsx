@@ -60,10 +60,10 @@ const PostCard = ({
 
   return (
     <Card sx={{ marginBottom: 2 }} {...cardProps}>
-      {isLoggedIn && (
-        <CardHeader
-          action={
-            // TODO: Add permission logic for edit and delete
+      <CardHeader
+        action={
+          // TODO: Add permission logic for edit and delete
+          isLoggedIn && (
             <ItemMenu
               anchorEl={menuAnchorEl}
               canDelete
@@ -73,11 +73,12 @@ const PostCard = ({
               itemType={"post"}
               setAnchorEl={setMenuAnchorEl}
             />
-          }
-          avatar={<UserAvatar userId={userId} withLink />}
-          title={<Link href={userProfilePath}>{user?.name}</Link>}
-        />
-      )}
+          )
+        }
+        avatar={<UserAvatar userId={userId} withLink />}
+        title={<Link href={userProfilePath}>{user?.name}</Link>}
+      />
+
       <CardContent sx={cardContentStyles}>
         {body && <Typography>{body}</Typography>}
 

@@ -17,9 +17,3 @@ export const LOG_OUT_MUTATION = gql`
     logOut
   }
 `;
-
-export const REFRESH_TOKEN_MUTATION = gql`
-  mutation RefreshTokenMutation {
-    refreshToken
-  }
-`;

@@ -8,7 +8,6 @@ export const toastVar = makeVar<ToastNotification | null>(null);
 // Authentication state
 export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);
-export const isRefreshingTokenVar = makeVar(false);
 
 const cache = new InMemoryCache({
   typePolicies: {

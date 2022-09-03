@@ -5,11 +5,7 @@ import {
 } from "@mui/icons-material";
 import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
-import {
-  isAuthLoadingVar,
-  isLoggedInVar,
-  isRefreshingTokenVar,
-} from "../../client/cache";
+import { isAuthLoadingVar, isLoggedInVar } from "../../client/cache";
 import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
@@ -34,16 +30,12 @@ const TOP_NAV_STYLES: SxProps = {
 
 const TopNavDesktop = () => {
   const { data, loading } = useQuery<MeQuery>(ME_QUERY);
-  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
-  const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
-
-  const showLoginAndSignUp =
-    !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const t = useTranslate();
+
+  const showLoginAndSignUp = !isLoggedIn && !isAuthLoading;
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);

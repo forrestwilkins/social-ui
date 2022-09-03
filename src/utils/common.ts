@@ -1,9 +1,7 @@
 import axios from "axios";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
 import Router from "next/router";
 import { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../client";
 import {
   API_ROOT,
   HttpMethod,
@@ -26,7 +24,6 @@ export const multiPartRequest = async <T>(
   path: string,
   data: Record<string, any>
 ) => {
-  createAuthRefreshInterceptor(axios, refreshToken);
   const url = `${API_ROOT}${path}`;
   const response = await axios.request<T>({
     url,

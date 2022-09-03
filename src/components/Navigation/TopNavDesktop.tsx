@@ -32,19 +32,17 @@ const TOP_NAV_STYLES: SxProps = {
 const USER_AVATAR_STYLES: SxProps = { width: 24, height: 24, marginRight: 1.3 };
 
 const TopNavDesktop = () => {
-  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
-
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const [me, loading] = useMeQuery({ skip: !isLoggedIn });
-
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
+  const [me, loading] = useMeQuery({ skip: !isLoggedIn });
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+
+  const t = useTranslate();
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
   const userProfilePath = `/${ResourceNames.User}/${me?.name}/profile`;
-
-  const t = useTranslate();
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);

@@ -32,10 +32,11 @@ const TOP_NAV_STYLES: SxProps = {
 const USER_AVATAR_STYLES: SxProps = { width: 24, height: 24, marginRight: 1.3 };
 
 const TopNavDesktop = () => {
-  const [me, loading] = useMeQuery();
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [me, loading] = useMeQuery({ skip: !isLoggedIn });
+
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
 

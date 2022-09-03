@@ -88,6 +88,12 @@ const client = new ApolloClient({
   cache,
 });
 
+/**
+ * FIXME: Support for refresh tokens is currently broken. When attempting to make multiple
+ * requests at once, with an expired access token, the users access token will successfully
+ * be refreshed. However, at least one of the requests will fail to go through completely,
+ * which is then causing the user to be signed out.
+ */
 export const refreshToken = async () => {
   try {
     isRefreshingTokenVar(true);

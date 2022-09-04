@@ -51,13 +51,14 @@ const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
             itemId={id}
             itemType={"user"}
             setAnchorEl={setMenuAnchorEl}
+            canEdit
           />
         }
+        avatar={<UserAvatar image={profilePicture} sx={userAvatarStyles} />}
         sx={{ paddingBottom: 0 }}
       />
 
       <CardContent sx={{ paddingTop: 0 }}>
-        <UserAvatar image={profilePicture} sx={userAvatarStyles} />
         <Typography color="primary" sx={{ fontSize: 25 }}>
           {name}
         </Typography>

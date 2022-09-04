@@ -6,7 +6,6 @@ import {
   Observable,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
-import { RetryLink } from "@apollo/client/link/retry";
 import { GraphQLError } from "graphql";
 import { API_ROOT } from "../constants/common";
 import { AuthResult } from "../types/auth";
@@ -28,11 +27,8 @@ const errorLink = onError(
 
         switch (extensions.code) {
           case "UNAUTHENTICATED": {
-            // Ignores 401 errors for refresh requests, or skips if already refreshing
-            if (
-              operation.operationName === "RefreshTokenMutation" ||
-              isRefreshingTokenVar()
-            ) {
+            // Ignores 401 errors for refresh requests
+            if (operation.operationName === "RefreshTokenMutation") {
               return;
             }
 
@@ -40,10 +36,12 @@ const errorLink = onError(
               (observer) => {
                 (async () => {
                   try {
-                    const refreshed = await refreshToken();
-
-                    if (!refreshed) {
-                      throw new GraphQLError("Failed to refresh token");
+                    // Skips refresh logic if already refreshing
+                    if (!isRefreshingTokenVar()) {
+                      const refreshed = await refreshToken();
+                      if (!refreshed) {
+                        throw new GraphQLError("Failed to refresh token");
+                      }
                     }
 
                     // Retry the failed request
@@ -71,20 +69,8 @@ const errorLink = onError(
   }
 );
 
-const retryLink = new RetryLink({
-  delay: {
-    initial: 300,
-    max: Infinity,
-    jitter: true,
-  },
-  attempts: {
-    max: 3,
-    retryIf: (error, _operation) => !!error,
-  },
-});
-
 const client = new ApolloClient({
-  link: from([errorLink, retryLink, httpLink]),
+  link: from([errorLink, httpLink]),
   cache,
 });
 

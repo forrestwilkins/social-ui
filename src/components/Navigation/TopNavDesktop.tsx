@@ -29,7 +29,11 @@ const TOP_NAV_STYLES: SxProps = {
   marginLeft: 3,
 };
 
-const USER_AVATAR_STYLES: SxProps = { width: 24, height: 24, marginRight: 1.3 };
+const USER_AVATAR_STYLES: SxProps = {
+  marginRight: 1.3,
+  height: 24,
+  width: 24,
+};
 
 const TopNavDesktop = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -82,7 +86,7 @@ const TopNavDesktop = () => {
       )}
 
       {showLoginAndSignUp && (
-        <Flex>
+        <Flex sx={{ height: 41.75 }}>
           <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
           </Button>

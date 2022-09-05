@@ -1,8 +1,10 @@
 import { Box } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { CSSProperties } from "react";
+import Image from "next/image";
 import { useTranslate } from "../../hooks/common";
 import { getImagePath } from "../../utils/image";
+
+const COVER_PHOTO_HEIGHT = 210;
 
 interface Props {
   image?: File;
@@ -11,7 +13,6 @@ interface Props {
   topRounded?: boolean;
 }
 
-// TODO: Add lazy load functionality
 const CoverPhoto = ({ image, imageId, rounded, topRounded }: Props) => {
   const t = useTranslate();
 
@@ -34,24 +35,30 @@ const CoverPhoto = ({ image, imageId, rounded, topRounded }: Props) => {
     }
   };
 
-  const imgStyles: CSSProperties = {
-    backgroundColor: grey[900],
-    height: 210,
-    objectFit: "cover",
-    width: "100%",
-    ...getBorderRadius(),
-  };
-
   if (!getImageSrc()) {
-    return <Box sx={imgStyles}></Box>;
+    return (
+      <Box
+        sx={{
+          backgroundColor: grey[900],
+          height: COVER_PHOTO_HEIGHT,
+          ...getBorderRadius(),
+        }}
+      ></Box>
+    );
   }
 
   return (
-    <img
-      alt={t("images.labels.coverPhoto")}
-      src={getImageSrc()}
-      style={imgStyles}
-    />
+    <Box sx={{ height: COVER_PHOTO_HEIGHT, overflowY: "hidden" }}>
+      <Image
+        alt={t("images.labels.coverPhoto")}
+        layout="responsive"
+        src={getImageSrc()}
+        style={getBorderRadius()}
+        width={300}
+        height={300}
+        priority
+      />
+    </Box>
   );
 };
 

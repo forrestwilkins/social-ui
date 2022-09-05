@@ -1,4 +1,5 @@
-import { ImageList, ImageListItem, ImageListProps } from "@mui/material";
+import { Box, ImageList, ImageListItem, ImageListProps } from "@mui/material";
+import Image from "next/image";
 import { ImageEntity } from "../../types/image";
 import { getImagePath } from "../../utils/image";
 
@@ -29,7 +30,16 @@ const ImagesList = ({ images, ...imageListProps }: Props) => {
     >
       {images.map((image) => (
         <ImageListItem key={image.id}>
-          <img alt={image.filename} src={getImagePath(image.id)} />
+          <Box>
+            <Image
+              src={getImagePath(image.id)}
+              alt={image.filename}
+              layout="responsive"
+              width={300}
+              height={300}
+              priority
+            />
+          </Box>
         </ImageListItem>
       ))}
     </ImageList>

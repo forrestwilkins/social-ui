@@ -2,20 +2,17 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  bio: string;
   createdAt: string;
   updatedAt: string;
   __typename: "User";
 }
 
-export interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
-export interface SignUpFormValues {
-  email: string;
-  name: string;
-  password: string;
+export interface UserFormValues {
+  password?: string;
+  name?: string;
+  email?: string;
+  bio?: string;
 }
 
 export interface UserQuery {
@@ -32,4 +29,8 @@ export interface UsersQuery {
 
 export interface MeQuery {
   me: User;
+}
+
+export interface UpdateUserMutation {
+  updateUser: User;
 }

@@ -14,7 +14,7 @@ const UsersIndex: NextPage = () => {
   const t = useTranslate();
 
   if (error) {
-    return <Typography>{t("errors.somethingWrong")}</Typography>;
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
   if (loading) {

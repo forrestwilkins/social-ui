@@ -1,8 +1,11 @@
 import { ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
 import { toastVar } from "../../client/cache";
+import { ResourceNames } from "../../constants/common";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
+import { useMeQuery } from "../../hooks/user";
+import { redirectTo } from "../../utils/common";
 
 const ICON_PROPS: SvgIconProps = {
   fontSize: "small",
@@ -17,11 +20,20 @@ interface Props {
 }
 
 const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
+  const [me] = useMeQuery();
   const logOut = useLogOutMutation();
   const t = useTranslate();
 
   const handleLogOutButtonClick = () =>
     window.confirm(t("users.prompts.logOut")) && logOut();
+
+  const handleEditProfileButtonClick = () => {
+    if (!me) {
+      throw Error(t("errors.somethingWentWrong"));
+    }
+    const path = `/${ResourceNames.User}/${me.name}/edit`;
+    redirectTo(path);
+  };
 
   const handleWIPMenuItemClick = () =>
     toastVar({
@@ -45,7 +57,7 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
       }}
       keepMounted
     >
-      <MenuItem onClick={handleWIPMenuItemClick}>
+      <MenuItem onClick={handleEditProfileButtonClick}>
         <Person {...ICON_PROPS} />
         {t("users.actions.editProfile")}
       </MenuItem>

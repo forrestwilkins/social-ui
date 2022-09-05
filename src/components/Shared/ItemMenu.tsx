@@ -71,7 +71,7 @@ const ItemMenu = ({
           <MenuItem>
             <Link
               style={{ color: "inherit" }}
-              href={`/${itemType}s/${name ? name : itemId}${
+              href={`/${itemType}/${name ? name : itemId}${
                 NavigationPaths.Edit
               }`}
             >

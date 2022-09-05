@@ -28,7 +28,7 @@
 
   "errors": {
     "imageUploadError": "Unable to upload images.",
-    "somethingWrong": "Something went wrong."
+    "somethingWentWrong": "Something went wrong."
   },
 
   "states": {
@@ -69,6 +69,7 @@
       "signUp": "Sign Up"
     },
     "form": {
+      "bio": "Bio",
       "email": "Email",
       "name": "Name",
       "password": "Password"

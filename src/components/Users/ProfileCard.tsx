@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { COVER_PHOTO_QUERY } from "../../client/users/queries";
+import { ResourceNames } from "../../constants/common";
 import { useProfilePictureQuery } from "../../hooks/user";
 import { CoverPhotoQuery } from "../../types/image";
 import { User } from "../../types/user";
@@ -49,7 +50,8 @@ const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
           <ItemMenu
             anchorEl={menuAnchorEl}
             itemId={id}
-            itemType={"user"}
+            itemType={ResourceNames.User}
+            name={name}
             setAnchorEl={setMenuAnchorEl}
             canEdit
           />

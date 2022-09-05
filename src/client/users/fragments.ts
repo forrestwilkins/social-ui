@@ -3,6 +3,7 @@ export const USER_SUMMARY = `
     id
     name
     email
+    bio
     createdAt
     updatedAt
   }
@@ -13,5 +14,6 @@ export const USER_MUTATION_SUMMARY = `
     id
     name
     email
+    bio
   }
 `;

@@ -70,7 +70,7 @@ const PostCard = ({
               canEdit
               deleteItem={handleDelete}
               itemId={id}
-              itemType={"post"}
+              itemType={ResourceNames.Post}
               setAnchorEl={setMenuAnchorEl}
             />
           )

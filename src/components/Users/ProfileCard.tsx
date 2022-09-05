@@ -23,7 +23,7 @@ interface Props extends CardProps {
 }
 
 // TODO: Implement remaining functionality - below is a WIP
-const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
+const ProfileCard = ({ user: { id, name, bio }, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [profilePicture] = useProfilePictureQuery(id);
   const { data } = useQuery<CoverPhotoQuery>(COVER_PHOTO_QUERY, {
@@ -61,9 +61,11 @@ const ProfileCard = ({ user: { id, name }, ...cardProps }: Props) => {
       />
 
       <CardContent sx={{ paddingTop: 0 }}>
-        <Typography color="primary" sx={{ fontSize: 25 }}>
+        <Typography color="primary" sx={{ fontSize: 25, marginBottom: 0.5 }}>
           {name}
         </Typography>
+
+        <Typography>{bio}</Typography>
       </CardContent>
     </Card>
   );

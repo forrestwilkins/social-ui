@@ -15,7 +15,7 @@
     "prettier": "npm run prettier:base -- --write"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.8",
+    "@apollo/client": "^3.6.9",
     "@emotion/react": "^11.7.1",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.3.2",
+    "@types/apollo-upload-client": "^17.0.1",
     "@types/lodash": "^4.14.178",
     "@types/node": "17.0.5",
     "@types/react": "17.0.38",

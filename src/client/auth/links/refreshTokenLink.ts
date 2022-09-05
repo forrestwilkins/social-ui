@@ -79,7 +79,7 @@ const refreshTokenLink = onError(
     })
 );
 
-const refreshToken = async () => {
+export const refreshToken = async () => {
   try {
     isRefreshingTokenVar(true);
     const { data } = await client.mutate<AuthResult>({

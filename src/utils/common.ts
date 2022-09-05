@@ -3,7 +3,7 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 import Router from "next/router";
 import { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../client";
+import { refreshToken } from "../client/auth/links/refreshTokenLink";
 import {
   API_ROOT,
   HttpMethod,

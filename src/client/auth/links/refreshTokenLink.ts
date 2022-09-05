@@ -22,54 +22,58 @@ const refreshTokenLink = onError(
   ({ graphQLErrors, networkError, operation, response, forward }) =>
     new Observable((observer) => {
       if (graphQLErrors) {
-        for (const { message, locations, path } of graphQLErrors) {
-          console.error(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-          );
-        }
-
-        graphQLErrors.map(async ({ extensions }, index) => {
-          switch (extensions.code) {
-            case "UNAUTHENTICATED": {
-              const retryRequest = () => {
-                const subscriber = {
-                  complete: observer.complete.bind(observer),
-                  error: observer.error.bind(observer),
-                  next: observer.next.bind(observer),
-                };
-                return forward(operation).subscribe(subscriber);
-              };
-
-              if (!isRefreshingTokenVar()) {
-                try {
-                  const refreshed = await refreshToken();
-
-                  if (!refreshed) {
-                    throw new GraphQLError("Failed to refresh token");
-                  }
-
-                  onTokenRefreshed(null);
-                  tokenSubscribers = [];
-
-                  return retryRequest();
-                } catch (e) {
-                  return observer.error(graphQLErrors[index]);
-                }
-              }
-
-              const tokenSubscriber = new Promise((resolve) => {
-                subscribeTokenRefresh((errRefreshing: unknown) => {
-                  if (!errRefreshing) {
-                    return resolve(retryRequest());
-                  }
-                });
-              });
-
-              return tokenSubscriber;
+        graphQLErrors.map(
+          async ({ extensions, message, locations, path }, index) => {
+            console.error(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            );
+            if (!response) {
+              throw new GraphQLError("No response found");
             }
+
+            switch (extensions.code) {
+              case "UNAUTHENTICATED": {
+                // Ignores 401 errors for refresh requests
+                if (operation.operationName === "RefreshTokenMutation") {
+                  return observer.next(response);
+                }
+
+                const retryRequest = () => {
+                  const subscriber = {
+                    complete: observer.complete.bind(observer),
+                    error: observer.error.bind(observer),
+                    next: observer.next.bind(observer),
+                  };
+                  return forward(operation).subscribe(subscriber);
+                };
+
+                if (!isRefreshingTokenVar()) {
+                  try {
+                    await refreshToken();
+
+                    onTokenRefreshed(null);
+                    tokenSubscribers = [];
+
+                    return retryRequest();
+                  } catch (e) {
+                    return observer.error(graphQLErrors[index]);
+                  }
+                }
+
+                const tokenSubscriber = new Promise((resolve) => {
+                  subscribeTokenRefresh((errRefreshing: unknown) => {
+                    if (!errRefreshing) {
+                      return resolve(retryRequest());
+                    }
+                  });
+                });
+
+                return tokenSubscriber;
+              }
+            }
+            return observer.next(response);
           }
-          return observer.next(response!);
-        });
+        );
       }
 
       if (networkError) {
@@ -82,10 +86,7 @@ const refreshTokenLink = onError(
 export const refreshToken = async () => {
   try {
     isRefreshingTokenVar(true);
-    const { data } = await client.mutate<AuthResult>({
-      mutation: REFRESH_TOKEN_MUTATION,
-    });
-    return data?.refreshToken;
+    await client.mutate<AuthResult>({ mutation: REFRESH_TOKEN_MUTATION });
   } catch (err) {
     await logOutUser();
     throw err;

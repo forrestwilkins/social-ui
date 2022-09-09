@@ -14,13 +14,3 @@ export const POST_SUMMARY = gql`
   }
   ${IMAGE_SUMMARY}
 `;
-
-export const POST_MUTATION_SUMMARY = gql`
-  fragment PostMutationSummary on Post {
-    id
-    body
-    userId
-    createdAt
-    updatedAt
-  }
-`;

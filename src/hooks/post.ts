@@ -49,17 +49,16 @@ export const useCreatePostMutation = () => {
 
   const _createPost = async (
     postData: PostsFormValues,
-    imageData: FormData
+    imagesData?: File[]
   ) => {
     const { data } = await createPost({
-      variables: { postData },
+      variables: { postData: { ...postData, images: imagesData } },
     });
-    const images = await uploadPostImages(data!.createPost.id, imageData);
     const postsData = client.readQuery<PostsQuery>({
       query: POSTS_QUERY,
     });
     const posts = produce(postsData!.posts, (draft) => {
-      draft.unshift({ ...data!.createPost, images });
+      draft.unshift({ ...data!.createPost });
     });
     client.writeQuery({
       query: POSTS_QUERY,

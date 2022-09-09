@@ -50,7 +50,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
       redirectTo(NavigationPaths.Home);
       return;
     }
-    await createPost(formValues, imageData);
+    await createPost(formValues, selectedImages);
 
     setImagesInputKey(generateRandom());
     setSelctedImages([]);

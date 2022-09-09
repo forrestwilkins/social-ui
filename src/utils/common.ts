@@ -26,7 +26,11 @@ export const multiPartRequest = async <T>(
   path: string,
   data: Record<string, any>
 ) => {
+  // FIXME: Axios might need to refresh while Apollo is already refreshing,
+  // which could then result in refresh tokens being revoked. We need to
+  // ensure that the two are unable to interfere with one another.
   createAuthRefreshInterceptor(axios, refreshToken);
+
   const url = `${API_ROOT}${path}`;
   const response = await axios.request<T>({
     url,

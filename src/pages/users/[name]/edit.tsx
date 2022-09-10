@@ -61,7 +61,7 @@ const EditUser: NextPage = () => {
     <Card>
       <CardContent>
         <UserForm
-          handleSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           initialValues={initialValues}
           submitButtonText={t("actions.save")}
           isEditing

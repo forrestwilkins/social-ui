@@ -8,22 +8,23 @@ import { useTranslate } from "../../hooks/common";
 import { UserFormValues } from "../../types/user";
 
 interface Props {
-  handleSubmit: (formValues: UserFormValues) => Promise<void>;
   initialValues: UserFormValues;
   isEditing?: boolean;
+  onSubmit: (formValues: UserFormValues) => Promise<void>;
   submitButtonText: string;
 }
 
+// TODO: Use for both sign up and login if possible
 const UserForm = ({
-  handleSubmit,
   initialValues,
   isEditing,
+  onSubmit,
   submitButtonText,
 }: Props) => {
   const t = useTranslate();
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {(formik) => (
         <Form>
           <FormGroup>

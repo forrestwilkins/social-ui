@@ -6,6 +6,7 @@ export const TextField = (props: FieldAttributes<TextFieldProps>) => (
   <FormikField
     component={FormikMUITextField}
     sx={{ marginBottom: 1.5 }}
+    variant="standard"
     {...props}
   />
 );

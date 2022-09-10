@@ -1,6 +1,12 @@
-import { QueryFunctionOptions, useQuery, useReactiveVar } from "@apollo/client";
+import {
+  QueryFunctionOptions,
+  useMutation,
+  useQuery,
+  useReactiveVar,
+} from "@apollo/client";
 import { useEffect } from "react";
 import { isLoggedInVar } from "../client/cache";
+import { UPDATE_USER_MUTATION } from "../client/users/mutations";
 import {
   ME_QUERY,
   MY_PROFILE_PICTURE_QUERY,
@@ -8,12 +14,38 @@ import {
   USER_BY_NAME_QUERY,
   USER_QUERY,
 } from "../client/users/queries";
+import { uploadProfilePicture } from "../client/users/rest";
 import {
   ImageEntity,
   MyProfilePictureQuery,
   ProfilePictureQuery,
 } from "../types/image";
-import { MeQuery, User, UserByNameQuery, UserQuery } from "../types/user";
+import {
+  MeQuery,
+  UpdateUserMutation,
+  User,
+  UserByNameQuery,
+  UserFormValues,
+  UserQuery,
+} from "../types/user";
+
+export const useUpdateUserMutation = () => {
+  const [updatePost] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
+
+  const _updatePost = async (
+    id: number,
+    formValues: UserFormValues,
+    imageData: FormData
+  ) => {
+    const { data } = await updatePost({
+      variables: { userData: { id, ...formValues } },
+    });
+    await uploadProfilePicture(id, imageData);
+    return data?.updateUser;
+  };
+
+  return _updatePost;
+};
 
 export const useUserQuery = (
   id?: number

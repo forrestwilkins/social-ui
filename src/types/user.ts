@@ -5,7 +5,7 @@ export interface User {
   bio: string;
   createdAt: string;
   updatedAt: string;
-  __typename: "User";
+  __typename: string;
 }
 
 export interface UserFormValues {

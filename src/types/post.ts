@@ -7,7 +7,7 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   images: ImageEntity[];
-  __typename: "Post";
+  __typename: string;
 }
 
 export type EditPost = Pick<Post, "id" | "body" | "images">;

@@ -6,7 +6,7 @@ export interface ImageEntity {
   userId?: number;
   createdAt?: string;
   updatedAt?: string;
-  __typename: "Image";
+  __typename: string;
 }
 
 export interface ProfilePictureQuery {

@@ -1,14 +1,18 @@
 import { gql } from "@apollo/client";
 import { IMAGE_SUMMARY } from "../images/fragments";
-import { USER_PROFILE_SUMMARY, USER_SUMMARY } from "./fragments";
+import {
+  USER_PROFILE_LITE_SUMMARY,
+  USER_PROFILE_SUMMARY,
+  USER_SUMMARY,
+} from "./fragments";
 
 export const ME_QUERY = gql`
   query MeQuery {
     me {
-      ...UserSummary
+      ...UserProfileLiteSummary
     }
   }
-  ${USER_SUMMARY}
+  ${USER_PROFILE_LITE_SUMMARY}
 `;
 
 export const USERS_QUERY = gql`
@@ -23,10 +27,10 @@ export const USERS_QUERY = gql`
 export const USER_QUERY = gql`
   query UserQuery($id: ID!) {
     user(id: $id) {
-      ...UserSummary
+      ...UserProfileSummary
     }
   }
-  ${USER_SUMMARY}
+  ${USER_PROFILE_SUMMARY}
 `;
 
 export const USER_BY_NAME_QUERY = gql`

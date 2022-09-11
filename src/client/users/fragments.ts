@@ -1,3 +1,5 @@
+// TODO: Convert all _SUMMARY suffixes to _FRAGMENT
+
 import { gql } from "@apollo/client";
 import { IMAGE_SUMMARY } from "../images/fragments";
 import { POST_SUMMARY } from "../posts/fragments";
@@ -28,6 +30,17 @@ export const USER_PROFILE_SUMMARY = gql`
   }
   ${IMAGE_SUMMARY}
   ${POST_SUMMARY}
+  ${USER_SUMMARY}
+`;
+
+export const USER_PROFILE_LITE_SUMMARY = gql`
+  fragment UserProfileLiteSummary on User {
+    ...UserSummary
+    profilePicture {
+      ...ImageSummary
+    }
+  }
+  ${IMAGE_SUMMARY}
   ${USER_SUMMARY}
 `;
 

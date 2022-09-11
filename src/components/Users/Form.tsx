@@ -1,17 +1,17 @@
 // TODO: Use UserForm for both sign up and login if possible
 
-import { useMutation } from "@apollo/client";
 import { Button, Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
-import { UPDATE_USER_MUTATION } from "../../client/users/mutations";
 import Flex from "../../components/Shared/Flex";
 import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
 import { UserFieldNames } from "../../constants/user";
 import { useTranslate } from "../../hooks/common";
-import { UpdateUserMutation, User, UserFormValues } from "../../types/user";
+import { useUpdateUserMutation } from "../../hooks/user";
+import { User, UserFormValues } from "../../types/user";
 import { redirectTo } from "../../utils/common";
+import { buildImageData } from "../../utils/image";
 import { getUserProfilePath } from "../../utils/user";
 import ImageInput from "../Images/Input";
 import Center from "../Shared/Center";
@@ -25,8 +25,8 @@ interface Props {
 }
 
 const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
-  const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
   const [profilePicture, setProfilePicture] = useState<File>();
+  const updateUser = useUpdateUserMutation();
   const t = useTranslate();
 
   const initialValues: UserFormValues = {
@@ -38,18 +38,16 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
   const handleSubmit = async (formValues: UserFormValues) => {
     try {
       if (editUser) {
-        const { data } = await updateUser({
-          variables: {
-            userData: {
-              id: editUser?.id,
-              ...formValues,
-            },
-          },
-        });
-        if (!data) {
+        const imageData = buildImageData(profilePicture);
+        const updatedUser = await updateUser(
+          editUser.id,
+          formValues,
+          imageData
+        );
+        if (!updatedUser) {
           throw Error(t("errors.somethingWentWrong"));
         }
-        const path = getUserProfilePath(data.updateUser.name);
+        const path = getUserProfilePath(updatedUser.name);
         redirectTo(path);
       }
     } catch (err) {
@@ -117,7 +115,9 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
           <Flex flexEnd>
             <Button
               type="submit"
-              disabled={formik.isSubmitting || !formik.dirty}
+              disabled={
+                formik.isSubmitting || (!formik.dirty && !profilePicture)
+              }
             >
               {submitButtonText}
               {formik.isSubmitting && (

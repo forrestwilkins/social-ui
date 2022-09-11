@@ -1,8 +1,9 @@
 // TODO: Use UserForm for both sign up and login if possible
 
 import { useMutation } from "@apollo/client";
-import { Button, FormGroup } from "@mui/material";
+import { Button, Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useState } from "react";
 import { UPDATE_USER_MUTATION } from "../../client/users/mutations";
 import Flex from "../../components/Shared/Flex";
 import Spinner from "../../components/Shared/Spinner";
@@ -12,6 +13,10 @@ import { useTranslate } from "../../hooks/common";
 import { UpdateUserMutation, User, UserFormValues } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import { getUserProfilePath } from "../../utils/user";
+import ImageInput from "../Images/Input";
+import Center from "../Shared/Center";
+import CompactButton from "../Shared/CompactButton";
+import UserAvatar from "./Avatar";
 
 interface Props {
   isEditing?: boolean;
@@ -21,6 +26,7 @@ interface Props {
 
 const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
   const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
+  const [profilePicture, setProfilePicture] = useState<File>();
   const t = useTranslate();
 
   const initialValues: UserFormValues = {
@@ -55,6 +61,32 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik) => (
         <Form>
+          {isEditing && (
+            <>
+              <Flex sx={{ justifyContent: "space-between", marginBottom: 2 }}>
+                <Typography color="primary">
+                  {t("users.form.profilePicture")}
+                </Typography>
+
+                <ImageInput setImage={setProfilePicture}>
+                  <CompactButton sx={{ marginTop: -0.5 }}>
+                    {t("actions.edit")}
+                  </CompactButton>
+                </ImageInput>
+              </Flex>
+
+              <Center sx={{ marginBottom: 3 }}>
+                <UserAvatar
+                  userId={editUser?.id}
+                  imageFile={profilePicture}
+                  sx={{ width: 140, height: 140 }}
+                />
+              </Center>
+
+              <Divider sx={{ marginBottom: 3 }} />
+            </>
+          )}
+
           <FormGroup>
             {!isEditing && (
               <TextField

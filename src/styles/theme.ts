@@ -98,10 +98,10 @@ const theme: Theme = createTheme(initialTheme, {
       styleOverrides: {
         underline: {
           "&:before": {
-            borderBottomColor: `${grey[700]} !important`,
+            borderBottomColor: `${initialTheme.palette.divider} !important`,
           },
           "&:after": {
-            borderBottomColor: grey[700],
+            borderBottomColor: initialTheme.palette.divider,
           },
         },
       },

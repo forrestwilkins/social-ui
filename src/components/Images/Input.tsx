@@ -1,6 +1,6 @@
 import { Image } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, ReactNode, useRef } from "react";
 import { useTranslate } from "../../hooks/common";
 
 interface Props {
@@ -8,10 +8,17 @@ interface Props {
   refreshKey?: string;
   setImage?: (image: File) => void;
   setImages?: (images: File[]) => void;
+  children?: ReactNode;
 }
 
 // TODO: Research alternatives or libraries for image inputs
-const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
+const ImageInput = ({
+  setImage,
+  setImages,
+  multiple,
+  refreshKey,
+  children,
+}: Props) => {
   const imageInput = useRef<HTMLInputElement>(null);
   const t = useTranslate();
 
@@ -23,6 +30,24 @@ const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
     }
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    e.target.files && setImageState(Array.from(e.target.files));
+
+  const renderClickableContent = () => {
+    if (children) {
+      return children;
+    }
+    return (
+      <IconButton
+        aria-label={t("images.labels.attachImages")}
+        disableRipple
+        edge="start"
+      >
+        <Image fontSize="large" />
+      </IconButton>
+    );
+  };
+
   return (
     <Box>
       <input
@@ -30,22 +55,14 @@ const ImageInput = ({ setImage, setImages, multiple, refreshKey }: Props) => {
         aria-label={t("posts.labels.addImages")}
         key={refreshKey}
         multiple={multiple}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          e.target.files && setImageState(Array.from(e.target.files))
-        }
+        onChange={handleChange}
         ref={imageInput}
         style={{ display: "none" }}
         type="file"
       />
-
-      <IconButton
-        disableRipple
-        edge="start"
-        onClick={() => imageInput.current?.click()}
-        aria-label={t("images.labels.attachImages")}
-      >
-        <Image fontSize="large" />
-      </IconButton>
+      <Box onClick={() => imageInput.current?.click()}>
+        {renderClickableContent()}
+      </Box>
     </Box>
   );
 };

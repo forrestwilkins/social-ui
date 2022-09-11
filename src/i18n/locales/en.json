@@ -70,9 +70,11 @@
     },
     "form": {
       "bio": "Bio",
+      "coverPhoto": "Cover Photo",
       "email": "Email",
       "name": "Name",
-      "password": "Password"
+      "password": "Password",
+      "profilePicture": "Profile Picture"
     },
     "prompts": {
       "logOut": "Are you sure you want to log out?",

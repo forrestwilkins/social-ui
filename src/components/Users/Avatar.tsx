@@ -14,6 +14,7 @@ import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
   image?: ImageEntity;
+  imageFile?: File;
   linkStyles?: CSSProperties;
   userId?: number;
   withLink?: boolean;
@@ -21,6 +22,7 @@ interface Props extends AvatarProps {
 
 const UserAvatar = ({
   image,
+  imageFile,
   linkStyles,
   userId,
   withLink,
@@ -50,11 +52,18 @@ const UserAvatar = ({
     }
   };
 
+  const getAvatarSrc = () => {
+    if (imageFile) {
+      return URL.createObjectURL(imageFile);
+    }
+    return _getImagePath();
+  };
+
   // TODO: Show spinner for loading state
   const renderAvatar = () => (
     <Avatar
       alt={t("images.labels.profilePicture")}
-      src={_getImagePath()}
+      src={getAvatarSrc()}
       {...avatarProps}
     />
   );

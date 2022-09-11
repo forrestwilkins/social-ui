@@ -1,8 +1,14 @@
+import { ImageEntity } from "./image";
+import { Post } from "./post";
+
 export interface User {
   id: number;
   name: string;
   email: string;
   bio: string;
+  profilePicture: ImageEntity;
+  coverPhoto: ImageEntity;
+  posts: Post[];
   createdAt: string;
   updatedAt: string;
   __typename: string;

@@ -5,23 +5,20 @@ import PostsList from "../../../components/Posts/List";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import ProfileCard from "../../../components/Users/ProfileCard";
 import { useTranslate } from "../../../hooks/common";
-import { usePostsByUserNameQuery } from "../../../hooks/post";
 import { useUserByNameQuery } from "../../../hooks/user";
 
-// TODO: User and posts should be fetched with just one query
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const userName = String(query?.name || "");
-  const [posts, postsLoading, postsError] = usePostsByUserNameQuery(userName);
   const [user, userLoading, userError] = useUserByNameQuery(userName);
 
   const t = useTranslate();
 
-  if (userError || postsError) {
+  if (userError) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
-  if (userLoading || postsLoading) {
+  if (userLoading) {
     return <ProgressBar />;
   }
 
@@ -33,7 +30,7 @@ const UserProfile: NextPage = () => {
     <>
       <ProfileCard user={user} />
 
-      {posts && <PostsList posts={posts} sx={{ marginTop: 8 }} />}
+      {user.posts && <PostsList posts={user.posts} sx={{ marginTop: 8 }} />}
     </>
   );
 };

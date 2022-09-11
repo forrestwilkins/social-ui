@@ -11,7 +11,6 @@ import {
 import { useState } from "react";
 import { COVER_PHOTO_QUERY } from "../../client/users/queries";
 import { ResourceNames } from "../../constants/common";
-import { useProfilePictureQuery } from "../../hooks/user";
 import { CoverPhotoQuery } from "../../types/image";
 import { User } from "../../types/user";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -23,9 +22,11 @@ interface Props extends CardProps {
 }
 
 // TODO: Implement remaining functionality - below is a WIP
-const ProfileCard = ({ user: { id, name, bio }, ...cardProps }: Props) => {
+const ProfileCard = ({
+  user: { id, name, bio, profilePicture },
+  ...cardProps
+}: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const [profilePicture] = useProfilePictureQuery(id);
   const { data } = useQuery<CoverPhotoQuery>(COVER_PHOTO_QUERY, {
     variables: { id },
   });

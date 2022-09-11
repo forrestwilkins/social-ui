@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { IMAGE_SUMMARY } from "../images/fragments";
-import { USER_SUMMARY } from "./fragments";
+import { USER_PROFILE_SUMMARY, USER_SUMMARY } from "./fragments";
 
 export const ME_QUERY = gql`
   query MeQuery {
@@ -32,10 +32,10 @@ export const USER_QUERY = gql`
 export const USER_BY_NAME_QUERY = gql`
   query UserByNameQuery($name: String!) {
     userByName(name: $name) {
-      ...UserSummary
+      ...UserProfileSummary
     }
   }
-  ${USER_SUMMARY}
+  ${USER_PROFILE_SUMMARY}
 `;
 
 export const COVER_PHOTO_QUERY = gql`

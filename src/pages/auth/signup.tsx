@@ -5,6 +5,7 @@ import { NextPage } from "next";
 import { useEffect } from "react";
 import { SIGN_UP_MUTATION } from "../../client/auth/mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
+import { ME_QUERY } from "../../client/users/queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -21,7 +22,9 @@ const SignUp: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const [signUp] = useMutation<AuthResult>(SIGN_UP_MUTATION);
+  const [signUp] = useMutation<AuthResult>(SIGN_UP_MUTATION, {
+    refetchQueries: [{ query: ME_QUERY }],
+  });
 
   const t = useTranslate();
 

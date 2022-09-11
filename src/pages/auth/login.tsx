@@ -6,6 +6,7 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { LOGIN_MUTATION } from "../../client/auth/mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
+import { ME_QUERY } from "../../client/users/queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -21,7 +22,9 @@ const Login: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const [login] = useMutation<AuthResult>(LOGIN_MUTATION);
+  const [login] = useMutation<AuthResult>(LOGIN_MUTATION, {
+    refetchQueries: [{ query: ME_QUERY }],
+  });
 
   const t = useTranslate();
 

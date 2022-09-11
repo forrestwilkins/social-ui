@@ -73,18 +73,7 @@ export const useUserByNameQuery = (
 export const useMeQuery = (
   options?: QueryFunctionOptions
 ): [User | undefined, boolean, unknown] => {
-  const { data, loading, error, refetch } = useQuery<MeQuery>(
-    ME_QUERY,
-    options
-  );
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      refetch();
-    }
-  }, [isLoggedIn, refetch]);
-
+  const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
   return [data?.me, loading, error];
 };
 

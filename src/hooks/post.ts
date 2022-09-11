@@ -49,11 +49,17 @@ export const useCreatePostMutation = () => {
 
   const _createPost = async (
     postData: PostsFormValues,
-    imageData: FormData
+    imageData?: FormData
   ) => {
     const { data } = await createPost({
       variables: { postData },
     });
+
+    // TODO: Determine whether early return should happen here
+    if (!imageData) {
+      return;
+    }
+
     const images = await uploadPostImages(data!.createPost.id, imageData);
     const postsData = client.readQuery<PostsQuery>({
       query: POSTS_QUERY,
@@ -76,11 +82,17 @@ export const useUpdatePostMutation = () => {
   const _updatePost = async (
     id: number,
     formValues: PostsFormValues,
-    imageData: FormData
+    imageData?: FormData
   ) => {
     await updatePost({
       variables: { postData: { id, ...formValues } },
     });
+
+    // TODO: Determine whether early return should happen here
+    if (!imageData) {
+      return;
+    }
+
     const images = await uploadPostImages(id, imageData);
     const postsData = client.readQuery<PostsQuery>({
       query: POSTS_QUERY,

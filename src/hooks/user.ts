@@ -16,7 +16,7 @@ import {
   USER_BY_NAME_QUERY,
   USER_QUERY,
 } from "../client/users/queries";
-import { uploadProfilePicture } from "../client/users/rest";
+import { uploadCoverPhoto, uploadProfilePicture } from "../client/users/rest";
 import {
   ImageEntity,
   MyProfilePictureQuery,
@@ -37,26 +37,42 @@ export const useUpdateUserMutation = () => {
   const _updateUser = async (
     id: number,
     formValues: UserFormValues,
-    imageData: FormData
+    profilePictureData?: FormData,
+    coverPhotoData?: FormData
   ) => {
     const { data } = await updateUser({
       variables: { userData: { id, ...formValues } },
       async update(cache) {
         try {
-          const profilePicture = await uploadProfilePicture(id, imageData);
+          if (!coverPhotoData && !profilePictureData) {
+            return;
+          }
+          let coverPhoto: ImageEntity | undefined;
+          let profilePicture: ImageEntity | undefined;
+          if (profilePictureData) {
+            profilePicture = await uploadProfilePicture(id, profilePictureData);
+          }
+          if (coverPhotoData) {
+            coverPhoto = await uploadCoverPhoto(id, coverPhotoData);
+          }
           const userData = cache.readQuery<UserByNameQuery>({
             query: USER_BY_NAME_QUERY,
             variables: { name: data?.updateUser.name },
           });
           const userByName = produce(userData!.userByName, (draft) => {
-            draft.profilePicture = profilePicture;
+            if (profilePicture) {
+              draft.profilePicture = profilePicture;
+            }
+            if (coverPhoto) {
+              draft.coverPhoto = coverPhoto;
+            }
           });
           cache.writeQuery<UserByNameQuery>({
             query: USER_BY_NAME_QUERY,
             data: { userByName },
           });
         } catch (err: any) {
-          const unsupportedFormat = err?.response.status === 415;
+          const unsupportedFormat = err?.response?.status === 415;
           toastVar({
             status: "error",
             title: unsupportedFormat

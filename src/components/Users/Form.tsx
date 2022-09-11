@@ -14,20 +14,22 @@ import { User, UserFormValues } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
 import { getUserProfilePath } from "../../utils/user";
+import CoverPhoto from "../Images/CoverPhoto";
 import ImageInput from "../Images/Input";
 import Center from "../Shared/Center";
 import CompactButton from "../Shared/CompactButton";
 import UserAvatar from "./Avatar";
 
 interface Props {
+  editUser?: User;
   isEditing?: boolean;
   submitButtonText: string;
-  editUser?: User;
 }
 
 const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
-  const [profilePicture, setProfilePicture] = useState<File>();
   const updateUser = useUpdateUserMutation();
+  const [profilePicture, setProfilePicture] = useState<File>();
+  const [coverPhoto, setCoverPhoto] = useState<File>();
   const t = useTranslate();
 
   const initialValues: UserFormValues = {
@@ -39,11 +41,13 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
   const handleSubmit = async (formValues: UserFormValues) => {
     try {
       if (editUser) {
-        const imageData = buildImageData(profilePicture);
+        const profilePictureData = buildImageData(profilePicture);
+        const coverPhotoData = buildImageData(coverPhoto);
         const updatedUser = await updateUser(
           editUser.id,
           formValues,
-          imageData
+          profilePictureData,
+          coverPhotoData
         );
         if (!updatedUser) {
           toastVar({ status: "error", title: t("errors.somethingWentWrong") });
@@ -67,7 +71,6 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
                 <Typography color="primary">
                   {t("users.form.profilePicture")}
                 </Typography>
-
                 <ImageInput setImage={setProfilePicture}>
                   <CompactButton sx={{ marginTop: -0.5 }}>
                     {t("actions.edit")}
@@ -82,6 +85,28 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
                   sx={{ width: 140, height: 140 }}
                 />
               </Center>
+
+              <Divider sx={{ marginBottom: 1.5 }} />
+
+              <Flex
+                sx={{ justifyContent: "space-between", marginBottom: 1.25 }}
+              >
+                <Typography color="primary">
+                  {t("users.form.coverPhoto")}
+                </Typography>
+                <ImageInput setImage={setCoverPhoto}>
+                  <CompactButton sx={{ marginTop: -0.5 }}>
+                    {t("actions.edit")}
+                  </CompactButton>
+                </ImageInput>
+              </Flex>
+
+              <CoverPhoto
+                imageFile={coverPhoto}
+                imageId={editUser?.coverPhoto?.id}
+                rounded
+                sx={{ marginBottom: 3 }}
+              />
 
               <Divider sx={{ marginBottom: 3 }} />
             </>
@@ -118,7 +143,8 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
             <Button
               type="submit"
               disabled={
-                formik.isSubmitting || (!formik.dirty && !profilePicture)
+                formik.isSubmitting ||
+                (!formik.dirty && !profilePicture && !coverPhoto)
               }
             >
               {submitButtonText}

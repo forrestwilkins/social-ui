@@ -6,7 +6,7 @@ export const getImagePath = (imageId: number) =>
 export const buildImageData = (selected?: File | File[]) => {
   const imageData = new FormData();
   if (!selected) {
-    return imageData;
+    return undefined;
   }
   if (selected instanceof File) {
     imageData.append("image", selected);

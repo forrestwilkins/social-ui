@@ -8,6 +8,7 @@ export const useAboveBreakpoint = (breakpoint: Breakpoint) =>
 
 export const useIsDesktop = () => useAboveBreakpoint("md");
 
+// TODO: Remove and replace all instances with useTranslation
 export const useTranslate = () => {
   const { t } = useTranslation();
   return t;

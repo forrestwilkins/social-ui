@@ -108,6 +108,9 @@
       "coverPhoto": "Cover photo",
       "profilePicture": "Profile picture",
       "removeImage": "Remove image"
+    },
+    "errors": {
+      "unsupportedFormat": "Unsupported image format"
     }
   },
 

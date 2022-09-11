@@ -3,6 +3,7 @@
 import { Button, Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
+import { toastVar } from "../../client/cache";
 import Flex from "../../components/Shared/Flex";
 import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
@@ -45,7 +46,8 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
           imageData
         );
         if (!updatedUser) {
-          throw Error(t("errors.somethingWentWrong"));
+          toastVar({ status: "error", title: t("errors.somethingWentWrong") });
+          return;
         }
         const path = getUserProfilePath(updatedUser.name);
         redirectTo(path);

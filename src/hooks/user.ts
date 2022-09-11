@@ -4,9 +4,10 @@ import {
   useQuery,
   useReactiveVar,
 } from "@apollo/client";
+import { t } from "i18next";
 import produce from "immer";
 import { useEffect } from "react";
-import { isLoggedInVar } from "../client/cache";
+import { isLoggedInVar, toastVar } from "../client/cache";
 import { UPDATE_USER_MUTATION } from "../client/users/mutations";
 import {
   ME_QUERY,
@@ -31,35 +32,45 @@ import {
 } from "../types/user";
 
 export const useUpdateUserMutation = () => {
-  const [updatePost] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
+  const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
 
-  const _updatePost = async (
+  const _updateUser = async (
     id: number,
     formValues: UserFormValues,
     imageData: FormData
   ) => {
-    const { data } = await updatePost({
+    const { data } = await updateUser({
       variables: { userData: { id, ...formValues } },
       async update(cache) {
-        const profilePicture = await uploadProfilePicture(id, imageData);
-        const userData = cache.readQuery<UserByNameQuery>({
-          query: USER_BY_NAME_QUERY,
-          variables: { name: data?.updateUser.name },
-        });
-        const userByName = produce(userData!.userByName, (draft) => {
-          draft.profilePicture = profilePicture;
-        });
-        cache.writeQuery<UserByNameQuery>({
-          query: USER_BY_NAME_QUERY,
-          data: { userByName },
-        });
+        try {
+          const profilePicture = await uploadProfilePicture(id, imageData);
+          const userData = cache.readQuery<UserByNameQuery>({
+            query: USER_BY_NAME_QUERY,
+            variables: { name: data?.updateUser.name },
+          });
+          const userByName = produce(userData!.userByName, (draft) => {
+            draft.profilePicture = profilePicture;
+          });
+          cache.writeQuery<UserByNameQuery>({
+            query: USER_BY_NAME_QUERY,
+            data: { userByName },
+          });
+        } catch (err: any) {
+          const unsupportedFormat = err?.response.status === 415;
+          toastVar({
+            status: "error",
+            title: unsupportedFormat
+              ? t("images.errors.unsupportedFormat")
+              : String(err),
+          });
+        }
       },
     });
 
     return data?.updateUser;
   };
 
-  return _updatePost;
+  return _updateUser;
 };
 
 export const useUserQuery = (

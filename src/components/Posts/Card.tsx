@@ -75,7 +75,7 @@ const PostCard = ({
             />
           )
         }
-        avatar={<UserAvatar userId={userId} withLink />}
+        avatar={<UserAvatar user={user} withLink />}
         title={<Link href={userProfilePath}>{user?.name}</Link>}
       />
 

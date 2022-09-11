@@ -1,4 +1,5 @@
-import { useQuery } from "@apollo/client";
+// TODO: Implement remaining functionality - below is a WIP
+
 import {
   Card,
   CardContent,
@@ -9,9 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { COVER_PHOTO_QUERY } from "../../client/users/queries";
 import { ResourceNames } from "../../constants/common";
-import { CoverPhotoQuery } from "../../types/image";
 import { User } from "../../types/user";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
@@ -21,16 +20,8 @@ interface Props extends CardProps {
   user: User;
 }
 
-// TODO: Implement remaining functionality - below is a WIP
-const ProfileCard = ({
-  user: { id, name, bio, profilePicture },
-  ...cardProps
-}: Props) => {
+const ProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const { data } = useQuery<CoverPhotoQuery>(COVER_PHOTO_QUERY, {
-    variables: { id },
-  });
-
   const theme = useTheme();
 
   const userAvatarStyles: SxProps = {
@@ -44,29 +35,29 @@ const ProfileCard = ({
 
   return (
     <Card {...cardProps}>
-      <CoverPhoto imageId={data?.coverPhoto?.id} topRounded />
+      <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
 
       <CardHeader
         action={
           <ItemMenu
             anchorEl={menuAnchorEl}
-            itemId={id}
+            itemId={user.id}
             itemType={ResourceNames.User}
-            name={name}
+            name={user.name}
             setAnchorEl={setMenuAnchorEl}
             canEdit
           />
         }
-        avatar={<UserAvatar image={profilePicture} sx={userAvatarStyles} />}
+        avatar={<UserAvatar user={user} sx={userAvatarStyles} />}
         sx={{ paddingBottom: 0 }}
       />
 
       <CardContent sx={{ paddingTop: 0 }}>
         <Typography color="primary" sx={{ fontSize: 25, marginBottom: 0.5 }}>
-          {name}
+          {user.name}
         </Typography>
 
-        <Typography>{bio}</Typography>
+        <Typography>{user.bio}</Typography>
       </CardContent>
     </Card>
   );

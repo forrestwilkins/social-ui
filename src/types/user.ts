@@ -7,7 +7,7 @@ export interface User {
   email: string;
   bio: string;
   profilePicture: ImageEntity;
-  coverPhoto: ImageEntity;
+  coverPhoto: ImageEntity | null;
   posts: Post[];
   createdAt: string;
   updatedAt: string;

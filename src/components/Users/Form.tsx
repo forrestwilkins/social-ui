@@ -75,7 +75,7 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
 
               <Center sx={{ marginBottom: 3 }}>
                 <UserAvatar
-                  userId={editUser?.id}
+                  user={editUser}
                   imageFile={profilePicture}
                   sx={{ width: 140, height: 140 }}
                 />

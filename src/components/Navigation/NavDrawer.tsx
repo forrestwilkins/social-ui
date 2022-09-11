@@ -88,7 +88,7 @@ const NavDrawer = () => {
             <>
               <ListItemButton onClick={redirectTo(userProfilePath)}>
                 <ListItemIcon>
-                  <UserAvatar sx={USER_AVATAR_STYLES} />
+                  <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
                 </ListItemIcon>
                 <ListItemText primary={me?.name} />
               </ListItemButton>

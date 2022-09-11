@@ -68,7 +68,7 @@ const TopNavDesktop = () => {
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <UserAvatar sx={USER_AVATAR_STYLES} />
+              <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
               {me?.name}
             </Button>
           </Link>

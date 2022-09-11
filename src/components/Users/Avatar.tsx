@@ -10,15 +10,15 @@ import Link from "../Shared/Link";
 interface Props extends AvatarProps {
   imageFile?: File;
   linkStyles?: CSSProperties;
-  withLink?: boolean;
   user?: User;
+  withLink?: boolean;
 }
 
 const UserAvatar = ({
   imageFile,
   linkStyles,
-  withLink,
   user,
+  withLink,
   ...avatarProps
 }: Props) => {
   const [me] = useMeQuery({ skip: !!user });

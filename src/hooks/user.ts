@@ -4,6 +4,7 @@ import {
   useQuery,
   useReactiveVar,
 } from "@apollo/client";
+import produce from "immer";
 import { useEffect } from "react";
 import { isLoggedInVar } from "../client/cache";
 import { UPDATE_USER_MUTATION } from "../client/users/mutations";
@@ -39,8 +40,22 @@ export const useUpdateUserMutation = () => {
   ) => {
     const { data } = await updatePost({
       variables: { userData: { id, ...formValues } },
+      async update(cache) {
+        const profilePicture = await uploadProfilePicture(id, imageData);
+        const userData = cache.readQuery<UserByNameQuery>({
+          query: USER_BY_NAME_QUERY,
+          variables: { name: data?.updateUser.name },
+        });
+        const userByName = produce(userData!.userByName, (draft) => {
+          draft.profilePicture = profilePicture;
+        });
+        cache.writeQuery<UserByNameQuery>({
+          query: USER_BY_NAME_QUERY,
+          data: { userByName },
+        });
+      },
     });
-    await uploadProfilePicture(id, imageData);
+
     return data?.updateUser;
   };
 
@@ -77,6 +92,7 @@ export const useMeQuery = (
   return [data?.me, loading, error];
 };
 
+// TODO: Determine whether this is still needed
 export const useProfilePictureQuery = (
   id?: number
 ): [ImageEntity | undefined, boolean, unknown] => {
@@ -87,6 +103,7 @@ export const useProfilePictureQuery = (
   return [data?.profilePicture, loading, error];
 };
 
+// TODO: Determine whether this is still needed
 export const useMyProfilePictureQuery = (
   options?: QueryFunctionOptions
 ): [ImageEntity | undefined, boolean, unknown] => {

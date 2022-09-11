@@ -8,6 +8,7 @@ import { useTranslate } from "../../../hooks/common";
 import { usePostsByUserNameQuery } from "../../../hooks/post";
 import { useUserByNameQuery } from "../../../hooks/user";
 
+// TODO: User and posts should be fetched with just one query
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const userName = String(query?.name || "");

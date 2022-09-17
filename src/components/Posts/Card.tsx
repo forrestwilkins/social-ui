@@ -38,6 +38,7 @@ interface Props extends CardProps {
 
 const PostCard = ({
   post: { id, body, images, userId },
+  sx,
   ...cardProps
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -59,7 +60,7 @@ const PostCard = ({
   };
 
   return (
-    <Card sx={{ marginBottom: 2 }} {...cardProps}>
+    <Card sx={{ marginBottom: 2, ...sx }} {...cardProps}>
       <CardHeader
         action={
           // TODO: Add permission logic for edit and delete

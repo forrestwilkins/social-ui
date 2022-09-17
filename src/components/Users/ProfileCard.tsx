@@ -23,7 +23,7 @@ interface Props extends CardProps {
   user: User;
 }
 
-const ProfileCard = ({ user, ...cardProps }: Props) => {
+const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const t = useTranslate();
@@ -40,7 +40,7 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
   };
 
   return (
-    <Card {...cardProps}>
+    <Card sx={{ marginBottom: 2, ...sx }} {...cardProps}>
       <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
 
       <CardHeader

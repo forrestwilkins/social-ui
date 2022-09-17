@@ -30,7 +30,7 @@ const UserProfile: NextPage = () => {
     <>
       <ProfileCard user={user} />
 
-      {user.posts && <PostsList posts={user.posts} sx={{ marginTop: 8 }} />}
+      {user.posts && <PostsList posts={user.posts} />}
     </>
   );
 };

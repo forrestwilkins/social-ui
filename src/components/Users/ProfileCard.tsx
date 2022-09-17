@@ -30,7 +30,14 @@ const CardContent = styled(MUICardContent)(() => ({
   },
 }));
 
-const USER_NAME_STYLES: SxProps = { fontSize: 25, marginBottom: 0.6 };
+const USER_NAME_STYLES: SxProps = {
+  fontSize: 25,
+  marginBottom: 0.6,
+};
+const JOIN_DATE_STYLES: SxProps = {
+  marginBottom: 1.4,
+  marginLeft: -0.2,
+};
 const JOIN_DATE_ICON_STYLES: SxProps = {
   marginRight: "0.3ch",
   marginBottom: -0.5,
@@ -84,7 +91,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
           <Typography sx={{ marginBottom: 1.4 }}>{user.bio}</Typography>
         )}
 
-        <Typography sx={{ marginBottom: 1.4, marginLeft: -0.2 }}>
+        <Typography sx={JOIN_DATE_STYLES}>
           <JoinDateIcon fontSize="small" sx={JOIN_DATE_ICON_STYLES} />
           {t("users.profile.joinDate", { joinDate })}
         </Typography>

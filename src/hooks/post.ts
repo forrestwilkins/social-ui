@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
-import client from "../client";
 import {
   CREATE_POST_MUTATION,
   DELETE_POST_MUTATION,
@@ -51,25 +50,27 @@ export const useCreatePostMutation = () => {
     postData: PostsFormValues,
     imageData?: FormData
   ) => {
-    const { data } = await createPost({
+    await createPost({
       variables: { postData },
-    });
-
-    // TODO: Determine whether early return should happen here
-    if (!imageData) {
-      return;
-    }
-
-    const images = await uploadPostImages(data!.createPost.id, imageData);
-    const postsData = client.readQuery<PostsQuery>({
-      query: POSTS_QUERY,
-    });
-    const posts = produce(postsData!.posts, (draft) => {
-      draft.unshift({ ...data!.createPost, images });
-    });
-    client.writeQuery({
-      query: POSTS_QUERY,
-      data: { posts },
+      async update(cache, { data }) {
+        if (!data) {
+          throw new Error("Failed to create post");
+        }
+        if (!imageData) {
+          return;
+        }
+        const images = await uploadPostImages(data.createPost.id, imageData);
+        const postsData = cache.readQuery<PostsQuery>({
+          query: POSTS_QUERY,
+        });
+        const posts = produce(postsData!.posts, (draft) => {
+          draft.unshift({ ...data.createPost, images });
+        });
+        cache.writeQuery({
+          query: POSTS_QUERY,
+          data: { posts },
+        });
+      },
     });
   };
 
@@ -86,23 +87,22 @@ export const useUpdatePostMutation = () => {
   ) => {
     await updatePost({
       variables: { postData: { id, ...formValues } },
-    });
-
-    // TODO: Determine whether early return should happen here
-    if (!imageData) {
-      return;
-    }
-
-    const images = await uploadPostImages(id, imageData);
-    const postsData = client.readQuery<PostsQuery>({
-      query: POSTS_QUERY,
-    });
-    const posts = produce(postsData!.posts, (draft) => {
-      draft.find((p) => p.id === id)?.images.push(...images);
-    });
-    client.writeQuery<PostsQuery>({
-      query: POSTS_QUERY,
-      data: { posts },
+      async update(cache) {
+        if (!imageData) {
+          return;
+        }
+        const images = await uploadPostImages(id, imageData);
+        const postsData = cache.readQuery<PostsQuery>({
+          query: POSTS_QUERY,
+        });
+        const posts = produce(postsData!.posts, (draft) => {
+          draft.find((p) => p.id === id)?.images.push(...images);
+        });
+        cache.writeQuery<PostsQuery>({
+          query: POSTS_QUERY,
+          data: { posts },
+        });
+      },
     });
   };
 

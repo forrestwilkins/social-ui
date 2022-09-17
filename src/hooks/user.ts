@@ -42,9 +42,9 @@ export const useUpdateUserMutation = () => {
   ) => {
     const { data } = await updateUser({
       variables: { userData: { id, ...formValues } },
-      async update(cache) {
+      async update(cache, { data }) {
         try {
-          if (!coverPhotoData && !profilePictureData) {
+          if (!data || (!coverPhotoData && !profilePictureData)) {
             return;
           }
           let coverPhoto: ImageEntity | undefined;
@@ -57,7 +57,7 @@ export const useUpdateUserMutation = () => {
           }
           const userData = cache.readQuery<UserByNameQuery>({
             query: USER_BY_NAME_QUERY,
-            variables: { name: data?.updateUser.name },
+            variables: { name: data.updateUser.name },
           });
           const userByName = produce(userData!.userByName, (draft) => {
             if (profilePicture) {

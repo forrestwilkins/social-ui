@@ -1,6 +1,6 @@
 // TODO: Implement remaining functionality - below is a WIP
 
-import { DateRange } from "@mui/icons-material";
+import { DateRange as JoinDateIcon } from "@mui/icons-material";
 import {
   Card,
   CardContent,
@@ -19,13 +19,18 @@ import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import UserAvatar from "./Avatar";
 
+const USER_NAME_STYLES: SxProps = { fontSize: 25, marginBottom: 0.5 };
+const JOIN_DATE_ICON_STYLES: SxProps = {
+  marginRight: "0.3ch",
+  marginBottom: -0.5,
+};
+
 interface Props extends CardProps {
   user: User;
 }
 
 const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-
   const t = useTranslate();
   const theme = useTheme();
 
@@ -59,7 +64,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
       />
 
       <CardContent sx={{ paddingTop: 0 }}>
-        <Typography color="primary" sx={{ fontSize: 25, marginBottom: 0.5 }}>
+        <Typography color="primary" sx={USER_NAME_STYLES}>
           {user.name}
         </Typography>
 
@@ -68,10 +73,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
         )}
 
         <Typography>
-          <DateRange
-            fontSize="small"
-            sx={{ marginRight: "0.3ch", marginBottom: -0.5 }}
-          />
+          <JoinDateIcon fontSize="small" sx={JOIN_DATE_ICON_STYLES} />
           {t("users.profile.joinDate", { joinDate })}
         </Typography>
       </CardContent>

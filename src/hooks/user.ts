@@ -1,27 +1,15 @@
-import {
-  QueryFunctionOptions,
-  useMutation,
-  useQuery,
-  useReactiveVar,
-} from "@apollo/client";
+import { QueryFunctionOptions, useMutation, useQuery } from "@apollo/client";
 import { t } from "i18next";
 import produce from "immer";
-import { useEffect } from "react";
-import { isLoggedInVar, toastVar } from "../client/cache";
+import { toastVar } from "../client/cache";
 import { UPDATE_USER_MUTATION } from "../client/users/mutations";
 import {
   ME_QUERY,
-  MY_PROFILE_PICTURE_QUERY,
-  PROFILE_PICTURE_QUERY,
   USER_BY_NAME_QUERY,
   USER_QUERY,
 } from "../client/users/queries";
 import { uploadCoverPhoto, uploadProfilePicture } from "../client/users/rest";
-import {
-  ImageEntity,
-  MyProfilePictureQuery,
-  ProfilePictureQuery,
-} from "../types/image";
+import { ImageEntity } from "../types/image";
 import {
   MeQuery,
   UpdateUserMutation,
@@ -117,34 +105,4 @@ export const useMeQuery = (
 ): [User | undefined, boolean, unknown] => {
   const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
   return [data?.me, loading, error];
-};
-
-// TODO: Determine whether this is still needed
-export const useProfilePictureQuery = (
-  id?: number
-): [ImageEntity | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<ProfilePictureQuery>(
-    PROFILE_PICTURE_QUERY,
-    { variables: { id }, skip: !id }
-  );
-  return [data?.profilePicture, loading, error];
-};
-
-// TODO: Determine whether this is still needed
-export const useMyProfilePictureQuery = (
-  options?: QueryFunctionOptions
-): [ImageEntity | undefined, boolean, unknown] => {
-  const { data, loading, error, refetch } = useQuery<MyProfilePictureQuery>(
-    MY_PROFILE_PICTURE_QUERY,
-    options
-  );
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      refetch();
-    }
-  }, [isLoggedIn, refetch]);
-
-  return [data?.myProfilePicture, loading, error];
 };

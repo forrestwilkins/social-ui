@@ -68,6 +68,10 @@
       "passwordConfirm": "Confirm password",
       "signUp": "Sign Up"
     },
+    "errors": {
+      "signUp": "There was an error creating your account.",
+      "update": "There was an error updating your account."
+    },
     "form": {
       "bio": "Bio",
       "coverPhoto": "Cover Photo",
@@ -76,15 +80,17 @@
       "password": "Password",
       "profilePicture": "Profile Picture"
     },
-    "prompts": {
-      "logOut": "Are you sure you want to log out?",
-      "signInToPost": "Sign in to start posting...",
-      "becomeAMember": "Become a Social UI Member",
-      "authenticated": "You are authenticated."
+    "profile": {
+      "joinDate": "Joined {{joinDate}}"
     },
-    "errors": {
-      "signUp": "There was an error creating your account.",
-      "update": "There was an error updating your account."
+    "prompts": {
+      "alreadyLoggedIn": "You're already signed in.",
+      "alreadyRegistered": "You have already created an account.",
+      "authenticated": "You are authenticated.",
+      "becomeAMember": "Become a Social UI Member",
+      "logOut": "Are you sure you want to log out?",
+      "permissionDenied": "Permission denied.",
+      "signInToPost": "Sign in to start posting..."
     },
     "validation": {
       "emailExists": "Email already exists.",
@@ -95,10 +101,7 @@
       "passwordConfirmMatch": "Password and Confirm Password must match.",
       "passwordRequired": "Password is required.",
       "wrongPassword": "Wrong password. Please try again."
-    },
-    "alreadyLoggedIn": "You're already signed in.",
-    "alreadyRegistered": "You have already created an account.",
-    "permissionDenied": "Permission denied."
+    }
   },
 
   "images": {

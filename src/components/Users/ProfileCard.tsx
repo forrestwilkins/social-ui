@@ -1,5 +1,6 @@
 // TODO: Implement remaining functionality - below is a WIP
 
+import { DateRange } from "@mui/icons-material";
 import {
   Card,
   CardContent,
@@ -11,7 +12,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { ResourceNames } from "../../constants/common";
+import { useTranslate } from "../../hooks/common";
 import { User } from "../../types/user";
+import { formatDate } from "../../utils/common";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import UserAvatar from "./Avatar";
@@ -22,8 +25,11 @@ interface Props extends CardProps {
 
 const ProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+
+  const t = useTranslate();
   const theme = useTheme();
 
+  const joinDate = formatDate(user.createdAt);
   const userAvatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
     height: 140,
@@ -57,7 +63,17 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
           {user.name}
         </Typography>
 
-        <Typography>{user.bio}</Typography>
+        {user.bio && (
+          <Typography sx={{ marginBottom: 1 }}>{user.bio}</Typography>
+        )}
+
+        <Typography>
+          <DateRange
+            fontSize="small"
+            sx={{ marginRight: "0.3ch", marginBottom: -0.5 }}
+          />
+          {t("users.profile.joinDate", { joinDate })}
+        </Typography>
       </CardContent>
     </Card>
   );

@@ -81,7 +81,9 @@
       "profilePicture": "Profile Picture"
     },
     "profile": {
-      "joinDate": "Joined {{joinDate}}"
+      "joinDate": "Joined {{joinDate}}",
+      "followersX": "{{count}} Followers",
+      "followingX": "{{count}} Following"
     },
     "prompts": {
       "alreadyLoggedIn": "You're already signed in.",

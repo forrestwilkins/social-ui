@@ -5,9 +5,9 @@ import { Box, InputBase, styled, SxProps } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Field, Form, Formik } from "formik";
 import { useState } from "react";
-import { toastVar } from "../../client/cache";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
+import { inDevToast } from "../../utils/common";
 
 const SearchInput = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -52,16 +52,9 @@ const SearchBar = () => {
     pointerEvents: "none",
   };
 
-  const handleSubmit = () => {
-    toastVar({
-      status: "info",
-      title: t("prompts.featureInDevelopment"),
-    });
-  };
-
   return (
     <Box sx={SEARCH_BAR_STYLES}>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik initialValues={initialValues} onSubmit={inDevToast}>
         {() => (
           <Form>
             <Box sx={searchIconBoxStyles}>

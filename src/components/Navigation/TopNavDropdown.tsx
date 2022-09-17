@@ -1,11 +1,10 @@
 import { ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
-import { toastVar } from "../../client/cache";
 import { ResourceNames } from "../../constants/common";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
 import { useMeQuery } from "../../hooks/user";
-import { redirectTo } from "../../utils/common";
+import { inDevToast, redirectTo } from "../../utils/common";
 
 const ICON_PROPS: SvgIconProps = {
   fontSize: "small",
@@ -35,12 +34,6 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
     redirectTo(path);
   };
 
-  const handleWIPMenuItemClick = () =>
-    toastVar({
-      status: "info",
-      title: t("prompts.featureInDevelopment"),
-    });
-
   return (
     <Menu
       anchorEl={anchorEl}
@@ -62,7 +55,7 @@ const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
         {t("users.actions.editProfile")}
       </MenuItem>
 
-      <MenuItem onClick={handleWIPMenuItemClick}>
+      <MenuItem onClick={inDevToast}>
         <Settings {...ICON_PROPS} />
         {t("navigation.preferences")}
       </MenuItem>

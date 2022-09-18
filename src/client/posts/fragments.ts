@@ -1,22 +1,22 @@
 import { gql } from "@apollo/client";
-import { IMAGE_SUMMARY } from "../images/fragments";
+import { IMAGE_FRAGMENT } from "../images/fragments";
 
-export const POST_SUMMARY = gql`
-  fragment PostSummary on Post {
+export const POST_FRAGMENT = gql`
+  fragment PostFragment on Post {
     id
     body
     images {
-      ...ImageSummary
+      ...ImageFragment
     }
     userId
     createdAt
     updatedAt
   }
-  ${IMAGE_SUMMARY}
+  ${IMAGE_FRAGMENT}
 `;
 
-export const POST_MUTATION_SUMMARY = gql`
-  fragment PostMutationSummary on Post {
+export const POST_MUTATION_FRAGMENT = gql`
+  fragment PostMutationFragment on Post {
     id
     body
     userId

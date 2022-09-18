@@ -1,29 +1,29 @@
 import { gql } from "@apollo/client";
-import { POST_SUMMARY } from "./fragments";
+import { POST_FRAGMENT } from "./fragments";
 
 export const POSTS_QUERY = gql`
   query PostsQuery {
     posts {
-      ...PostSummary
+      ...PostFragment
     }
   }
-  ${POST_SUMMARY}
+  ${POST_FRAGMENT}
 `;
 
 export const POSTS_BY_USER_NAME_QUERY = gql`
   query PostsByUserNameQuery($name: String!) {
     postsByUserName(name: $name) {
-      ...PostSummary
+      ...PostFragment
     }
   }
-  ${POST_SUMMARY}
+  ${POST_FRAGMENT}
 `;
 
 export const POST_QUERY = gql`
   query PostQuery($id: ID!) {
     post(id: $id) {
-      ...PostSummary
+      ...PostFragment
     }
   }
-  ${POST_SUMMARY}
+  ${POST_FRAGMENT}
 `;

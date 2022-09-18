@@ -1,22 +1,22 @@
 import { gql } from "@apollo/client";
-import { POST_MUTATION_SUMMARY } from "./fragments";
+import { POST_MUTATION_FRAGMENT } from "./fragments";
 
 export const CREATE_POST_MUTATION = gql`
   mutation CreatePostMutation($postData: PostInput!) {
     createPost(postData: $postData) {
-      ...PostMutationSummary
+      ...PostMutationFragment
     }
   }
-  ${POST_MUTATION_SUMMARY}
+  ${POST_MUTATION_FRAGMENT}
 `;
 
 export const UPDATE_POST_MUTATION = gql`
   mutation UpdatePostMutation($postData: PostInput!) {
     updatePost(postData: $postData) {
-      ...PostMutationSummary
+      ...PostMutationFragment
     }
   }
-  ${POST_MUTATION_SUMMARY}
+  ${POST_MUTATION_FRAGMENT}
 `;
 
 export const DELETE_POST_MUTATION = gql`

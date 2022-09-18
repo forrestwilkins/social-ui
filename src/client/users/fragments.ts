@@ -1,11 +1,9 @@
-// TODO: Convert all _SUMMARY suffixes to _FRAGMENT
-
 import { gql } from "@apollo/client";
-import { IMAGE_SUMMARY } from "../images/fragments";
-import { POST_SUMMARY } from "../posts/fragments";
+import { IMAGE_FRAGMENT } from "../images/fragments";
+import { POST_FRAGMENT } from "../posts/fragments";
 
-export const USER_SUMMARY = gql`
-  fragment UserSummary on User {
+export const USER_FRAGMENT = gql`
+  fragment UserFragment on User {
     id
     bio
     email
@@ -15,37 +13,37 @@ export const USER_SUMMARY = gql`
   }
 `;
 
-export const USER_PROFILE_SUMMARY = gql`
-  fragment UserProfileSummary on User {
-    ...UserSummary
+export const USER_PROFILE_FRAGMENT = gql`
+  fragment UserProfileFragment on User {
+    ...UserFragment
     profilePicture {
-      ...ImageSummary
+      ...ImageFragment
     }
     coverPhoto {
-      ...ImageSummary
+      ...ImageFragment
     }
     posts {
-      ...PostSummary
+      ...PostFragment
     }
   }
-  ${IMAGE_SUMMARY}
-  ${POST_SUMMARY}
-  ${USER_SUMMARY}
+  ${IMAGE_FRAGMENT}
+  ${POST_FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
-export const USER_PROFILE_LITE_SUMMARY = gql`
-  fragment UserProfileLiteSummary on User {
-    ...UserSummary
+export const USER_PROFILE_LITE_FRAGMENT = gql`
+  fragment UserProfileLiteFragment on User {
+    ...UserFragment
     profilePicture {
-      ...ImageSummary
+      ...ImageFragment
     }
   }
-  ${IMAGE_SUMMARY}
-  ${USER_SUMMARY}
+  ${IMAGE_FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
-export const USER_MUTATION_SUMMARY = gql`
-  fragment UserMutationSummary on User {
+export const USER_MUTATION_FRAGMENT = gql`
+  fragment UserMutationFragment on User {
     id
     name
     email

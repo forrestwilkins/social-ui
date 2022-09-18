@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const IMAGE_SUMMARY = gql`
-  fragment ImageSummary on Image {
+export const IMAGE_FRAGMENT = gql`
+  fragment ImageFragment on Image {
     filename
     id
   }

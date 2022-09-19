@@ -23,6 +23,12 @@ export enum ResourceNames {
   User = "users",
 }
 
+export enum TypeNames {
+  Image = "Image",
+  Post = "Post",
+  User = "User",
+}
+
 export enum ApiRoutes {
   Health = "/",
   Posts = "/posts",

@@ -2,6 +2,7 @@ import { QueryFunctionOptions, useMutation, useQuery } from "@apollo/client";
 import { t } from "i18next";
 import produce from "immer";
 import { toastVar } from "../client/cache";
+import { USER_PROFILE_FRAGMENT } from "../client/users/fragments";
 import { UPDATE_USER_MUTATION } from "../client/users/mutations";
 import {
   ME_QUERY,
@@ -9,6 +10,7 @@ import {
   USER_QUERY,
 } from "../client/users/queries";
 import { uploadCoverPhoto, uploadProfilePicture } from "../client/users/rest";
+import { TypeNames } from "../constants/common";
 import { ImageEntity } from "../types/image";
 import {
   MeQuery,
@@ -43,22 +45,25 @@ export const useUpdateUserMutation = () => {
           if (coverPhotoData) {
             coverPhoto = await uploadCoverPhoto(id, coverPhotoData);
           }
-          const userData = cache.readQuery<UserByNameQuery>({
-            query: USER_BY_NAME_QUERY,
-            variables: { name: data.updateUser.name },
-          });
-          const userByName = produce(userData!.userByName, (draft) => {
-            if (profilePicture) {
-              draft.profilePicture = profilePicture;
-            }
-            if (coverPhoto) {
-              draft.coverPhoto = coverPhoto;
-            }
-          });
-          cache.writeQuery<UserByNameQuery>({
-            query: USER_BY_NAME_QUERY,
-            data: { userByName },
-          });
+          cache.updateFragment<User>(
+            {
+              id: `${TypeNames.User}:${id}`,
+              fragment: USER_PROFILE_FRAGMENT,
+              fragmentName: "UserProfileFragment",
+            },
+            (data) =>
+              produce(data, (draft) => {
+                if (!draft) {
+                  throw new Error("Failed to update cache");
+                }
+                if (profilePicture) {
+                  draft.profilePicture = profilePicture;
+                }
+                if (coverPhoto) {
+                  draft.coverPhoto = coverPhoto;
+                }
+              })
+          );
         } catch (err: any) {
           const unsupportedFormat = err?.response?.status === 415;
           toastVar({

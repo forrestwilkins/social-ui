@@ -2,28 +2,12 @@ import { ApiRoutes, HttpMethod } from "../../constants/common";
 import { ImageEntity } from "../../types/image";
 import { multiPartRequest } from "../../utils/common";
 
-export const uploadProfilePicture = async (
-  userId: number,
-  data: FormData
-): Promise<ImageEntity> => {
+export const uploadProfilePicture = (userId: number, data: FormData) => {
   const path = `${ApiRoutes.Users}/${userId}/profile-picture`;
-  const profilePicture = await multiPartRequest<ImageEntity>(
-    HttpMethod.Post,
-    path,
-    data
-  );
-  return { ...profilePicture, __typename: "Image" };
+  return multiPartRequest<ImageEntity>(HttpMethod.Post, path, data);
 };
 
-export const uploadCoverPhoto = async (
-  userId: number,
-  data: FormData
-): Promise<ImageEntity> => {
+export const uploadCoverPhoto = (userId: number, data: FormData) => {
   const path = `${ApiRoutes.Users}/${userId}/cover-photo`;
-  const coverPhoto = await multiPartRequest<ImageEntity>(
-    HttpMethod.Post,
-    path,
-    data
-  );
-  return { ...coverPhoto, __typename: "Image" };
+  return multiPartRequest<ImageEntity>(HttpMethod.Post, path, data);
 };

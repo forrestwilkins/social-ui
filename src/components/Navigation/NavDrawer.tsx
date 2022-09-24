@@ -19,11 +19,12 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { NavigationPaths, ResourceNames } from "../../constants/common";
+import { NavigationPaths } from "../../constants/common";
 import { useLogOutMutation } from "../../hooks/auth";
 import { useTranslate } from "../../hooks/common";
 import { useMeQuery } from "../../hooks/user";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
+import { getUserProfilePath } from "../../utils/user";
 import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/Avatar";
 
@@ -52,7 +53,7 @@ const NavDrawer = () => {
   const router = useRouter();
   const t = useTranslate();
 
-  const userProfilePath = `/${ResourceNames.User}/${me?.name}/profile`;
+  const userProfilePath = getUserProfilePath(me?.name);
 
   const handleLogOutClick = async () => await logOut();
 

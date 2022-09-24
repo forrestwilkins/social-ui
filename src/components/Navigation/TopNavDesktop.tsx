@@ -7,10 +7,11 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
-import { NavigationPaths, ResourceNames } from "../../constants/common";
+import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useMeQuery } from "../../hooks/user";
 import { redirectTo } from "../../utils/common";
+import { getUserProfilePath } from "../../utils/user";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";
@@ -46,7 +47,7 @@ const TopNavDesktop = () => {
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-  const userProfilePath = `/${ResourceNames.User}/${me?.name}/profile`;
+  const userProfilePath = getUserProfilePath(me?.name);
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);

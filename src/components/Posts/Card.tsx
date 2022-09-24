@@ -17,6 +17,7 @@ import { useDeletePostMutation } from "../../hooks/post";
 import { useUserQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
+import { getUserProfilePath } from "../../utils/user";
 import ImagesList from "../Images/List";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -49,7 +50,7 @@ const PostCard = ({
   const t = useTranslate();
 
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
-  const userProfilePath = `/${ResourceNames.User}/${user?.name}/profile`;
+  const userProfilePath = getUserProfilePath(user?.name);
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 1.25 : 3,
   };

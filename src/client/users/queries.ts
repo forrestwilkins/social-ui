@@ -32,9 +32,9 @@ export const USER_QUERY = gql`
   ${USER_PROFILE_FRAGMENT}
 `;
 
-export const USER_BY_NAME_QUERY = gql`
-  query UserByNameQuery($name: String!) {
-    userByName(name: $name) {
+export const USER_PROFILE_QUERY = gql`
+  query UserProfileQuery($name: String!) {
+    userProfile(name: $name) {
       ...UserProfileFragment
     }
   }

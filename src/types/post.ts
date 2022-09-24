@@ -22,10 +22,6 @@ export interface PostsQuery {
   posts: Post[];
 }
 
-export interface PostsByUserNameQuery {
-  postsByUserName: Post[];
-}
-
 export interface CreatePostMutation {
   createPost: Post;
 }

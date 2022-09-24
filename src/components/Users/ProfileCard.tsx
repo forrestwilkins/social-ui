@@ -32,16 +32,16 @@ const CardContent = styled(MUICardContent)(() => ({
 
 const USER_NAME_STYLES: SxProps = {
   fontSize: 25,
-  marginBottom: 1.25,
   lineHeight: 1,
+  marginBottom: 1.25,
 };
 const JOIN_DATE_STYLES: SxProps = {
   marginBottom: 1.4,
   marginLeft: -0.2,
 };
 const JOIN_DATE_ICON_STYLES: SxProps = {
-  marginRight: "0.3ch",
   marginBottom: -0.5,
+  marginRight: "0.3ch",
 };
 
 interface Props extends CardProps {
@@ -82,9 +82,9 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
         }
         avatar={
           <UserAvatar
-            user={user}
             size={isDesktop ? 150 : 90}
             sx={avatarStyles}
+            user={user}
           />
         }
         sx={{ paddingBottom: 0 }}

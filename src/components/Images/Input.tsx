@@ -33,7 +33,7 @@ const ImageInput = ({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     e.target.files && setImageState(Array.from(e.target.files));
 
-  const renderClickableContent = () => {
+  const renderContent = () => {
     if (children) {
       return children;
     }
@@ -60,9 +60,7 @@ const ImageInput = ({
         style={{ display: "none" }}
         type="file"
       />
-      <Box onClick={() => imageInput.current?.click()}>
-        {renderClickableContent()}
-      </Box>
+      <Box onClick={() => imageInput.current?.click()}>{renderContent()}</Box>
     </Box>
   );
 };

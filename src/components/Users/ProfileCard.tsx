@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
+import { useIsDesktop, useTranslate } from "../../hooks/common";
 import { User } from "../../types/user";
 import { formatDate, inDevToast } from "../../utils/common";
 import { getUserProfilePath } from "../../utils/user";
@@ -32,7 +32,8 @@ const CardContent = styled(MUICardContent)(() => ({
 
 const USER_NAME_STYLES: SxProps = {
   fontSize: 25,
-  marginBottom: 0.6,
+  marginBottom: 1.25,
+  lineHeight: 1,
 };
 const JOIN_DATE_STYLES: SxProps = {
   marginBottom: 1.4,
@@ -49,23 +50,29 @@ interface Props extends CardProps {
 
 const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+
+  const isDesktop = useIsDesktop();
   const t = useTranslate();
   const theme = useTheme();
 
   const joinDate = formatDate(user.createdAt);
   const userProfilePath = getUserProfilePath(user.name);
-  const userAvatarStyles: SxProps = {
+
+  const coverPhotoStyles = isDesktop ? {} : { height: 130 };
+  const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
-    height: 140,
     marginBottom: 1,
     marginLeft: -0.25,
-    marginTop: -13,
-    width: 140,
+    marginTop: isDesktop ? -10.5 : -7,
   };
 
   return (
     <Card sx={{ marginBottom: 2, ...sx }} {...cardProps}>
-      <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
+      <CoverPhoto
+        imageId={user.coverPhoto?.id}
+        sx={coverPhotoStyles}
+        topRounded
+      />
 
       <CardHeader
         action={
@@ -78,7 +85,13 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
             canEdit
           />
         }
-        avatar={<UserAvatar user={user} sx={userAvatarStyles} />}
+        avatar={
+          <UserAvatar
+            user={user}
+            size={isDesktop ? 150 : 90}
+            sx={avatarStyles}
+          />
+        }
         sx={{ paddingBottom: 0 }}
       />
 

@@ -19,7 +19,7 @@ const CoverPhoto = ({ imageFile, imageId, rounded, topRounded, sx }: Props) => {
   const isDesktop = useIsDesktop();
 
   const imageStyle = {
-    transform: `translateY(-${isDesktop ? 210 : 50}px)`,
+    transform: `translateY(-${isDesktop ? 210 : 115}px)`,
   };
 
   const getImageSrc = () => {

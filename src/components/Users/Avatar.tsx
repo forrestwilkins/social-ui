@@ -10,6 +10,7 @@ import Link from "../Shared/Link";
 interface Props extends AvatarProps {
   imageFile?: File;
   linkStyles?: CSSProperties;
+  size?: number;
   user?: User;
   withLink?: boolean;
 }
@@ -17,8 +18,10 @@ interface Props extends AvatarProps {
 const UserAvatar = ({
   imageFile,
   linkStyles,
+  size,
   user,
   withLink,
+  sx,
   ...avatarProps
 }: Props) => {
   const [me] = useMeQuery({ skip: !!user });
@@ -26,6 +29,11 @@ const UserAvatar = ({
 
   const userName = user?.name || me?.name;
   const userProfilePath = getUserProfilePath(userName);
+
+  const avatarStyles = {
+    ...sx,
+    ...(size ? { width: size, height: size } : {}),
+  };
 
   const _getImagePath = () => {
     if (user?.profilePicture) {
@@ -48,6 +56,7 @@ const UserAvatar = ({
     <Avatar
       alt={t("images.labels.profilePicture")}
       src={getAvatarSrc()}
+      sx={avatarStyles}
       {...avatarProps}
     />
   );

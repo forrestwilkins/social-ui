@@ -58,7 +58,6 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const joinDate = formatDate(user.createdAt);
   const userProfilePath = getUserProfilePath(user.name);
 
-  const coverPhotoStyles = isDesktop ? {} : { height: 130 };
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
     marginBottom: 1,
@@ -68,11 +67,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
 
   return (
     <Card sx={{ marginBottom: 2, ...sx }} {...cardProps}>
-      <CoverPhoto
-        imageId={user.coverPhoto?.id}
-        sx={coverPhotoStyles}
-        topRounded
-      />
+      <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
 
       <CardHeader
         action={

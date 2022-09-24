@@ -4,8 +4,6 @@ import Image from "next/image";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
 import { getImagePath } from "../../utils/image";
 
-const COVER_PHOTO_HEIGHT = 210;
-
 interface Props {
   imageFile?: File;
   imageId?: number;
@@ -18,7 +16,7 @@ const CoverPhoto = ({ imageFile, imageId, rounded, topRounded, sx }: Props) => {
   const t = useTranslate();
   const isDesktop = useIsDesktop();
 
-  const imageStyle = {
+  const imageStyles = {
     transform: `translateY(-${isDesktop ? 210 : 115}px)`,
   };
 
@@ -41,14 +39,18 @@ const CoverPhoto = ({ imageFile, imageId, rounded, topRounded, sx }: Props) => {
     }
   };
 
+  const sharedBoxStyles = {
+    height: isDesktop ? 210 : 130,
+    ...getBorderRadius(),
+    ...sx,
+  };
+
   if (!getImageSrc()) {
     return (
       <Box
         sx={{
           backgroundColor: grey[900],
-          height: COVER_PHOTO_HEIGHT,
-          ...getBorderRadius(),
-          ...sx,
+          ...sharedBoxStyles,
         }}
       ></Box>
     );
@@ -57,17 +59,15 @@ const CoverPhoto = ({ imageFile, imageId, rounded, topRounded, sx }: Props) => {
   return (
     <Box
       sx={{
-        height: COVER_PHOTO_HEIGHT,
         overflowY: "hidden",
-        ...getBorderRadius(),
-        ...sx,
+        ...sharedBoxStyles,
       }}
     >
       <Image
         alt={t("images.labels.coverPhoto")}
         layout="responsive"
         src={getImageSrc()}
-        style={imageStyle}
+        style={imageStyles}
         height={300}
         width={300}
         priority

@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { toastVar } from "../../../client/cache";
 import PostForm from "../../../components/Posts/Form";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common";
@@ -25,8 +26,12 @@ const EditPostPage: NextPage = () => {
   }
 
   const handleDeleteButtonClick = async () => {
-    await deletePost(editPostId);
-    redirectTo(NavigationPaths.Home);
+    try {
+      await deletePost(editPostId);
+      redirectTo(NavigationPaths.Home);
+    } catch {
+      toastVar({ status: "error", title: t("errors.somethingWentWrong") });
+    }
   };
 
   return (

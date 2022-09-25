@@ -6,12 +6,12 @@ import { useTranslate } from "../../hooks/common";
 import { inDevToast } from "../../utils/common";
 import CardFooterButton from "../Shared/CardFooterButton";
 
-const SHARED_ICON_STYLES: SxProps = {
+const ICON_STYLES: SxProps = {
   marginRight: "0.4ch",
 };
 
 const ROTATED_ICON_STYLES = {
-  ...SHARED_ICON_STYLES,
+  ...ICON_STYLES,
   transform: "rotateY(180deg)",
 };
 
@@ -21,7 +21,7 @@ const PostCardFooter = () => {
   return (
     <CardActions sx={{ justifyContent: "space-around" }} onClick={inDevToast}>
       <CardFooterButton>
-        <Favorite sx={SHARED_ICON_STYLES} />
+        <Favorite sx={ICON_STYLES} />
         {t("posts.actions.like")}
       </CardFooterButton>
       <CardFooterButton>

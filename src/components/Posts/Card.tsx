@@ -12,12 +12,17 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
-import { NavigationPaths, ResourceNames } from "../../constants/common";
+import {
+  MIDDOT_WITH_SPACES,
+  NavigationPaths,
+  ResourceNames,
+} from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useDeletePostMutation } from "../../hooks/post";
 import { useUserQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
+import { timeAgo } from "../../utils/time";
 import { getUserProfilePath } from "../../utils/user";
 import ImagesList from "../Images/List";
 import ItemMenu from "../Shared/ItemMenu";
@@ -47,7 +52,7 @@ interface Props extends CardProps {
 }
 
 const PostCard = ({
-  post: { id, body, images, userId },
+  post: { id, body, images, userId, createdAt },
   sx,
   ...cardProps
 }: Props) => {
@@ -60,6 +65,7 @@ const PostCard = ({
 
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
+  const formattedDate = timeAgo(createdAt);
 
   const bodyStyles: SxProps = {
     marginBottom: images.length ? 2.5 : 3.5,
@@ -94,7 +100,15 @@ const PostCard = ({
           )
         }
         avatar={<UserAvatar user={user} withLink />}
-        title={<Link href={userProfilePath}>{user?.name}</Link>}
+        title={
+          <span style={{ fontSize: 14 }}>
+            <Link href={userProfilePath}>{user?.name}</Link>
+            {MIDDOT_WITH_SPACES}
+            <Link href={linkToPostPage} style={{ color: "inherit" }}>
+              {formattedDate}
+            </Link>
+          </span>
+        }
       />
 
       <CardContent sx={cardContentStyles}>

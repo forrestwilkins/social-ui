@@ -41,17 +41,14 @@ export const useCreatePostMutation = () => {
     await createPost({
       variables: { postData },
       async update(cache, { data }) {
-        if (!data) {
-          throw new Error("Failed to create post");
-        }
-        if (!imageData) {
+        if (!data || !imageData) {
           return;
         }
         const images = await uploadPostImages(data.createPost.id, imageData);
         const postWithImages = { ...data.createPost, images };
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
           if (!postsData) {
-            throw new Error("Failed to update cache");
+            return;
           }
           return {
             posts: produce(postsData.posts, (draft) => {
@@ -63,7 +60,7 @@ export const useCreatePostMutation = () => {
           { query: USER_PROFILE_QUERY, variables: { name: me?.name } },
           (profileData) => {
             if (!profileData) {
-              throw new Error("Failed to update cache");
+              return;
             }
             return {
               userProfile: produce(profileData.userProfile, (draft) => {
@@ -121,7 +118,7 @@ export const useDeletePostMutation = () => {
       update(cache) {
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
           if (!postsData) {
-            throw new Error("Failed to update cache");
+            return;
           }
           return {
             posts: produce(postsData.posts, (draft) => {

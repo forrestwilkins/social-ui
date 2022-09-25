@@ -1,10 +1,13 @@
 import { useReactiveVar } from "@apollo/client";
+import { Comment, Favorite, Reply } from "@mui/icons-material";
 import {
   Card,
+  CardActions,
   CardContent,
   CardHeader as MuiCardHeader,
   CardHeaderProps,
   CardProps,
+  Divider,
   styled,
   SxProps,
   Typography,
@@ -16,12 +19,22 @@ import { useTranslate } from "../../hooks/common";
 import { useDeletePostMutation } from "../../hooks/post";
 import { useUserQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
-import { redirectTo } from "../../utils/common";
+import { inDevToast, redirectTo } from "../../utils/common";
 import { getUserProfilePath } from "../../utils/user";
 import ImagesList from "../Images/List";
+import CardFooterButton from "../Shared/CardFooterButton";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/Avatar";
+
+const SHARED_ICON_STYLES: SxProps = {
+  marginRight: "0.4ch",
+};
+
+const ROTATED_ICON_STYLES = {
+  ...SHARED_ICON_STYLES,
+  transform: "rotateY(180deg)",
+};
 
 const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
   paddingBottom: 0,
@@ -51,8 +64,11 @@ const PostCard = ({
 
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
+
+  const bodyStyles: SxProps = { marginBottom: images.length ? 2.5 : 3.5 };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 1.25 : 3,
+    paddingBottom: 0,
   };
 
   const handleDelete = (id: number) => {
@@ -82,7 +98,7 @@ const PostCard = ({
       />
 
       <CardContent sx={cardContentStyles}>
-        {body && <Typography>{body}</Typography>}
+        {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
         {!!images.length && (
           <Link
@@ -92,7 +108,29 @@ const PostCard = ({
             <ImagesList images={images} />
           </Link>
         )}
+
+        <Divider />
       </CardContent>
+
+      {isLoggedIn && (
+        <CardActions
+          sx={{ justifyContent: "space-around" }}
+          onClick={inDevToast}
+        >
+          <CardFooterButton>
+            <Favorite sx={SHARED_ICON_STYLES} />
+            {t("posts.actions.like")}
+          </CardFooterButton>
+          <CardFooterButton>
+            <Comment sx={ROTATED_ICON_STYLES} />
+            {t("posts.actions.comment")}
+          </CardFooterButton>
+          <CardFooterButton>
+            <Reply sx={ROTATED_ICON_STYLES} />
+            {t("posts.actions.share")}
+          </CardFooterButton>
+        </CardActions>
+      )}
     </Card>
   );
 };

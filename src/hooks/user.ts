@@ -54,7 +54,7 @@ export const useUpdateUserMutation = () => {
             (data) =>
               produce(data, (draft) => {
                 if (!draft) {
-                  throw new Error("Failed to update cache");
+                  return;
                 }
                 if (profilePicture) {
                   draft.profilePicture = profilePicture;

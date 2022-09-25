@@ -1,8 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
-import { Comment, Favorite, Reply } from "@mui/icons-material";
 import {
   Card,
-  CardActions,
   CardContent,
   CardHeader as MuiCardHeader,
   CardHeaderProps,
@@ -19,22 +17,13 @@ import { useTranslate } from "../../hooks/common";
 import { useDeletePostMutation } from "../../hooks/post";
 import { useUserQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
-import { inDevToast, redirectTo } from "../../utils/common";
+import { redirectTo } from "../../utils/common";
 import { getUserProfilePath } from "../../utils/user";
 import ImagesList from "../Images/List";
-import CardFooterButton from "../Shared/CardFooterButton";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/Avatar";
-
-const SHARED_ICON_STYLES: SxProps = {
-  marginRight: "0.4ch",
-};
-
-const ROTATED_ICON_STYLES = {
-  ...SHARED_ICON_STYLES,
-  transform: "rotateY(180deg)",
-};
+import PostCardFooter from "./CardFooter";
 
 const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
   paddingBottom: 0,
@@ -112,25 +101,7 @@ const PostCard = ({
         <Divider />
       </CardContent>
 
-      {isLoggedIn && (
-        <CardActions
-          sx={{ justifyContent: "space-around" }}
-          onClick={inDevToast}
-        >
-          <CardFooterButton>
-            <Favorite sx={SHARED_ICON_STYLES} />
-            {t("posts.actions.like")}
-          </CardFooterButton>
-          <CardFooterButton>
-            <Comment sx={ROTATED_ICON_STYLES} />
-            {t("posts.actions.comment")}
-          </CardFooterButton>
-          <CardFooterButton>
-            <Reply sx={ROTATED_ICON_STYLES} />
-            {t("posts.actions.share")}
-          </CardFooterButton>
-        </CardActions>
-      )}
+      {isLoggedIn && <PostCardFooter />}
     </Card>
   );
 };

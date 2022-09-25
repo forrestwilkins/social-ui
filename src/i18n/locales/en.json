@@ -57,6 +57,11 @@
       "posts": "Posts",
       "addPost": "Add post",
       "addImages": "Add images"
+    },
+    "actions": {
+      "comment": "Comment",
+      "like": "Like",
+      "share": "Share"
     }
   },
 
@@ -123,6 +128,16 @@
     "labels": {
       "admin": "Admin"
     }
+  },
+
+  "time": {
+    "days": "{{days}}d",
+    "hours": "{{hours}}h",
+    "hr": "hr",
+    "infinity": "∞",
+    "min": "min",
+    "minutes": "{{minutes}}m",
+    "now": "now"
   },
 
   "search": {

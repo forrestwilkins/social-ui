@@ -1,6 +1,5 @@
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
-import dayjs from "dayjs";
 import { t } from "i18next";
 import Router from "next/router";
 import { isValidElement, ReactNode } from "react";
@@ -65,9 +64,6 @@ export const scrollTop = () => {
   const options = { smooth: true, duration: SCROLL_DURATION };
   animateScroll.scrollToTop(options);
 };
-
-export const formatDate = (timeStamp: string) =>
-  dayjs(timeStamp).format("MMMM D, YYYY");
 
 export const inDevToast = () => {
   toastVar({

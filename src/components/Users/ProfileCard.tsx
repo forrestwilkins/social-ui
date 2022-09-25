@@ -1,10 +1,11 @@
 // TODO: Implement remaining functionality - below is a WIP
 
+import { useReactiveVar } from "@apollo/client";
 import { DateRange as JoinDateIcon } from "@mui/icons-material";
 import {
   Box,
   Card,
-  CardContent as MUICardContent,
+  CardContent as MuiCardContent,
   CardHeader,
   CardProps,
   styled,
@@ -13,17 +14,19 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { isLoggedInVar } from "../../client/cache";
 import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
 import { User } from "../../types/user";
-import { formatDate, inDevToast } from "../../utils/common";
+import { inDevToast } from "../../utils/common";
+import { formatDate } from "../../utils/time";
 import { getUserProfilePath } from "../../utils/user";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "./Avatar";
 
-const CardContent = styled(MUICardContent)(() => ({
+const CardContent = styled(MuiCardContent)(() => ({
   paddingTop: 0,
   "&:last-child": {
     paddingBottom: 15,
@@ -50,6 +53,7 @@ interface Props extends CardProps {
 
 const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
@@ -72,14 +76,16 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
 
       <CardHeader
         action={
-          <ItemMenu
-            anchorEl={menuAnchorEl}
-            itemId={user.id}
-            itemType={ResourceNames.User}
-            name={user.name}
-            setAnchorEl={setMenuAnchorEl}
-            canEdit
-          />
+          isLoggedIn && (
+            <ItemMenu
+              anchorEl={menuAnchorEl}
+              itemId={user.id}
+              itemType={ResourceNames.User}
+              name={user.name}
+              setAnchorEl={setMenuAnchorEl}
+              canEdit
+            />
+          )
         }
         avatar={
           <UserAvatar

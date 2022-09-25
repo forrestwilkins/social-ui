@@ -63,6 +63,14 @@ export enum Events {
   Scroll = "scroll",
 }
 
+export enum Time {
+  Minute = 60,
+  Hour = 3600,
+  Day = 86400,
+  Week = 604800,
+  Month = 2628000,
+}
+
 export const MULTI_PART_FORM_HEADER = {
   "Content-Type": "multipart/form-data",
 };

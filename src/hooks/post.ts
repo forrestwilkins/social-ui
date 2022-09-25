@@ -131,6 +131,7 @@ export const useDeletePostMutation = () => {
           };
         });
       },
+      refetchQueries: [USER_PROFILE_QUERY],
     });
   };
 

@@ -25,8 +25,8 @@ export interface UserQuery {
   user: User;
 }
 
-export interface UserProfileQuery {
-  userProfile: User;
+export interface UserByNameQuery {
+  userByName: User;
 }
 
 export interface UsersQuery {

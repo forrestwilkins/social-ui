@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import UserForm from "../../../components/Users/Form";
 import { useTranslate } from "../../../hooks/common";
-import { useUserProfileQuery } from "../../../hooks/user";
+import { useUserByNameQuery } from "../../../hooks/user";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();
   const userName = String(query?.name || "");
-  const [user, userLoading, error] = useUserProfileQuery(userName);
+  const [user, userLoading, error] = useUserByNameQuery(userName);
 
   const t = useTranslate();
 

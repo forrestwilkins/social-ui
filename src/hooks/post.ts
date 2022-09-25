@@ -8,7 +8,7 @@ import {
 } from "../client/posts/mutations";
 import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
-import { USER_PROFILE_QUERY } from "../client/users/queries";
+import { USER_BY_NAME_QUERY } from "../client/users/queries";
 import { TypeNames } from "../constants/common";
 import {
   CreatePostMutation,
@@ -17,7 +17,7 @@ import {
   PostsFormValues,
   PostsQuery,
 } from "../types/post";
-import { UserProfileQuery } from "../types/user";
+import { UserByNameQuery } from "../types/user";
 import { useMeQuery } from "./user";
 
 export const usePostQuery = (
@@ -56,14 +56,14 @@ export const useCreatePostMutation = () => {
             }),
           };
         });
-        cache.updateQuery<UserProfileQuery>(
-          { query: USER_PROFILE_QUERY, variables: { name: me?.name } },
-          (profileData) => {
-            if (!profileData) {
+        cache.updateQuery<UserByNameQuery>(
+          { query: USER_BY_NAME_QUERY, variables: { name: me?.name } },
+          (userData) => {
+            if (!userData) {
               return;
             }
             return {
-              userProfile: produce(profileData.userProfile, (draft) => {
+              userByName: produce(userData.userByName, (draft) => {
                 draft.posts.unshift(postWithImages);
               }),
             };
@@ -128,7 +128,7 @@ export const useDeletePostMutation = () => {
           };
         });
       },
-      refetchQueries: [USER_PROFILE_QUERY],
+      refetchQueries: [USER_BY_NAME_QUERY],
     });
   };
 

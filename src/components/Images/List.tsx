@@ -25,7 +25,7 @@ const ImagesList = ({ images, sx, ...imageListProps }: Props) => {
       cols={getColumnSize()}
       gap={2}
       rowHeight="auto"
-      sx={{ marginX: -2, marginBottom: 0, ...sx }}
+      sx={{ marginX: -2, marginY: 0, ...sx }}
       {...imageListProps}
     >
       {images.map((image) => (

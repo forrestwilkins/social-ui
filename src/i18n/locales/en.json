@@ -131,13 +131,13 @@
   },
 
   "time": {
-    "now": "now",
+    "days": "{{days}}d",
+    "hours": "{{hours}}h",
     "hr": "hr",
+    "infinity": "∞",
     "min": "min",
     "minutes": "{{minutes}}m",
-    "hours": "{{hours}}h",
-    "days": "{{days}}d",
-    "infinity": "∞"
+    "now": "now"
   },
 
   "search": {

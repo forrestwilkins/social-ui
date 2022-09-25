@@ -1,3 +1,5 @@
+// TODO: Add basic functionality for likes, comments, and sharing. Below is a WIP
+
 import { Comment, Favorite, Reply } from "@mui/icons-material";
 import { CardActions, SxProps } from "@mui/material";
 import { useTranslate } from "../../hooks/common";

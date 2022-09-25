@@ -1,7 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import {
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardHeaderProps,
   CardProps,
@@ -35,6 +35,13 @@ const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
   },
 }));
 
+const CardContent = styled(MuiCardContent)(() => ({
+  paddingBottom: 0,
+  "&:last-child": {
+    paddingBottom: 0,
+  },
+}));
+
 interface Props extends CardProps {
   post: Post;
 }
@@ -54,10 +61,14 @@ const PostCard = ({
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
 
-  const bodyStyles: SxProps = { marginBottom: images.length ? 2.5 : 3.5 };
+  const bodyStyles: SxProps = {
+    marginBottom: images.length ? 2.5 : 3.5,
+  };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 1.25 : 3,
-    paddingBottom: 0,
+  };
+  const imageListStyles: SxProps = {
+    marginBottom: isLoggedIn ? 1.9 : 0,
   };
 
   const handleDelete = (id: number) => {
@@ -94,11 +105,11 @@ const PostCard = ({
             aria-label={t("images.labels.attachedImages")}
             href={linkToPostPage}
           >
-            <ImagesList images={images} />
+            <ImagesList images={images} sx={imageListStyles} />
           </Link>
         )}
 
-        <Divider />
+        {isLoggedIn && <Divider />}
       </CardContent>
 
       {isLoggedIn && <PostCardFooter />}

@@ -7,7 +7,7 @@ interface Props extends Omit<ImageListProps, "children"> {
   images: ImageEntity[];
 }
 
-const ImagesList = ({ images, ...imageListProps }: Props) => {
+const ImagesList = ({ images, sx, ...imageListProps }: Props) => {
   if (!images?.length) {
     return null;
   }
@@ -25,7 +25,7 @@ const ImagesList = ({ images, ...imageListProps }: Props) => {
       cols={getColumnSize()}
       gap={2}
       rowHeight="auto"
-      sx={{ marginX: -2 }}
+      sx={{ marginX: -2, marginBottom: 0, ...sx }}
       {...imageListProps}
     >
       {images.map((image) => (

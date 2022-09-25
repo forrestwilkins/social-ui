@@ -6,9 +6,9 @@ export const formatDate = (timeStamp: string) =>
   dayjs(timeStamp).format("MMMM D, YYYY");
 
 export const timeAgo = (timeStamp: string) => {
-  const now = new Date();
-  const unixTime = new Date(timeStamp).getTime();
-  const secondsPast: number = (now.getTime() - unixTime) / 1000;
+  const now = new Date().getTime();
+  const time = new Date(timeStamp).getTime();
+  const secondsPast = (now - time) / 1000;
   return timeMessage(timeStamp, secondsPast);
 };
 

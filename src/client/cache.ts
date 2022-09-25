@@ -5,6 +5,9 @@ import { ToastNotification } from "../types/common";
 export const isNavDrawerOpenVar = makeVar(false);
 export const toastVar = makeVar<ToastNotification | null>(null);
 
+// TODO: Remove reactive vars for authentication loading states,
+// which are already tracked with Apollo Client
+
 // Authentication state
 export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);

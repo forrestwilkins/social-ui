@@ -1,21 +1,32 @@
+import { ImageEntity } from "./image";
+import { Post } from "./post";
+
 export interface User {
   id: number;
   name: string;
   email: string;
-  password: string;
+  bio: string;
+  profilePicture: ImageEntity;
+  coverPhoto: ImageEntity | null;
+  posts: Post[];
   createdAt: string;
   updatedAt: string;
+  __typename: string;
 }
 
-export interface LoginFormValues {
-  email: string;
-  password: string;
+export interface UserFormValues {
+  password?: string;
+  name?: string;
+  email?: string;
+  bio?: string;
 }
 
-export interface SignUpFormValues {
-  email: string;
-  name: string;
-  password: string;
+export interface UserQuery {
+  user: User;
+}
+
+export interface UserProfileQuery {
+  userProfile: User;
 }
 
 export interface UsersQuery {
@@ -24,4 +35,8 @@ export interface UsersQuery {
 
 export interface MeQuery {
   me: User;
+}
+
+export interface UpdateUserMutation {
+  updateUser: User;
 }

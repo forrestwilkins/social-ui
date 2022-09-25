@@ -1,8 +1,5 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
-import {
-  AccountCircle as ProfileIcon,
-  ArrowDropDown,
-} from "@mui/icons-material";
+import { useReactiveVar } from "@apollo/client";
+import { ArrowDropDown } from "@mui/icons-material";
 import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import {
@@ -10,14 +7,15 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/queries";
 import { NavigationPaths } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { MeQuery } from "../../types/user";
+import { useMeQuery } from "../../hooks/user";
 import { redirectTo } from "../../utils/common";
+import { getUserProfilePath } from "../../utils/user";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";
+import UserAvatar from "../Users/Avatar";
 import TopNavDropdown from "./TopNavDropdown";
 
 const PROFILE_BUTTON_STYLES: SxProps = {
@@ -32,18 +30,24 @@ const TOP_NAV_STYLES: SxProps = {
   marginLeft: 3,
 };
 
-const TopNavDesktop = () => {
-  const { data, loading } = useQuery<MeQuery>(ME_QUERY);
-  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+const USER_AVATAR_STYLES: SxProps = {
+  marginRight: 1.3,
+  height: 24,
+  width: 24,
+};
 
+const TopNavDesktop = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
+  const [me, loading] = useMeQuery({ skip: !isLoggedIn });
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+
+  const t = useTranslate();
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-
-  const t = useTranslate();
+  const userProfilePath = getUserProfilePath(me?.name);
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -58,15 +62,15 @@ const TopNavDesktop = () => {
     <Flex sx={TOP_NAV_STYLES}>
       <SearchBar />
 
-      {isLoggedIn && data && (
+      {isLoggedIn && (
         <Flex>
-          <Link href={NavigationPaths.Profile}>
+          <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <ProfileIcon fontSize="small" sx={{ marginRight: 1 }} />
-              {data.me.name}
+              <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
+              {me?.name}
             </Button>
           </Link>
 
@@ -83,7 +87,7 @@ const TopNavDesktop = () => {
       )}
 
       {showLoginAndSignUp && (
-        <Flex>
+        <Flex sx={{ height: 41.75 }}>
           <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
           </Button>

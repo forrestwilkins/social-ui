@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
-import client from "../client";
+import { POST_FRAGMENT } from "../client/posts/fragments";
 import {
   CREATE_POST_MUTATION,
   DELETE_POST_MUTATION,
@@ -8,6 +8,8 @@ import {
 } from "../client/posts/mutations";
 import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
+import { USER_PROFILE_QUERY } from "../client/users/queries";
+import { TypeNames } from "../constants/common";
 import {
   CreatePostMutation,
   Post,
@@ -15,9 +17,11 @@ import {
   PostsFormValues,
   PostsQuery,
 } from "../types/post";
+import { UserProfileQuery } from "../types/user";
+import { useMeQuery } from "./user";
 
 export const usePostQuery = (
-  id: number
+  id?: number
 ): [Post | undefined, boolean, unknown] => {
   const { data, loading, error } = useQuery<PostQuery>(POST_QUERY, {
     variables: { id },
@@ -28,24 +32,47 @@ export const usePostQuery = (
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
+  const [me] = useMeQuery();
 
   const _createPost = async (
     postData: PostsFormValues,
-    imageData: FormData
+    imageData?: FormData
   ) => {
-    const { data } = await createPost({
+    await createPost({
       variables: { postData },
-    });
-    const images = await uploadPostImages(data!.createPost.id, imageData);
-    const postsData = client.readQuery<PostsQuery>({
-      query: POSTS_QUERY,
-    });
-    const posts = produce(postsData!.posts, (draft) => {
-      draft.unshift({ ...data!.createPost, images });
-    });
-    client.writeQuery({
-      query: POSTS_QUERY,
-      data: { posts },
+      async update(cache, { data }) {
+        if (!data) {
+          throw new Error("Failed to create post");
+        }
+        if (!imageData) {
+          return;
+        }
+        const images = await uploadPostImages(data.createPost.id, imageData);
+        const postWithImages = { ...data.createPost, images };
+        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
+          if (!postsData) {
+            throw new Error("Failed to update cache");
+          }
+          return {
+            posts: produce(postsData.posts, (draft) => {
+              draft.unshift(postWithImages);
+            }),
+          };
+        });
+        cache.updateQuery<UserProfileQuery>(
+          { query: USER_PROFILE_QUERY, variables: { name: me?.name } },
+          (profileData) => {
+            if (!profileData) {
+              throw new Error("Failed to update cache");
+            }
+            return {
+              userProfile: produce(profileData.userProfile, (draft) => {
+                draft.posts.unshift(postWithImages);
+              }),
+            };
+          }
+        );
+      },
     });
   };
 
@@ -58,21 +85,27 @@ export const useUpdatePostMutation = () => {
   const _updatePost = async (
     id: number,
     formValues: PostsFormValues,
-    imageData: FormData
+    imageData?: FormData
   ) => {
     await updatePost({
       variables: { postData: { id, ...formValues } },
-    });
-    const images = await uploadPostImages(id, imageData);
-    const postsData = client.readQuery<PostsQuery>({
-      query: POSTS_QUERY,
-    });
-    const posts = produce(postsData!.posts, (draft) => {
-      draft.find((p) => p.id === id)?.images.push(...images);
-    });
-    client.writeQuery<PostsQuery>({
-      query: POSTS_QUERY,
-      data: { posts },
+      async update(cache) {
+        if (!imageData) {
+          return;
+        }
+        const images = await uploadPostImages(id, imageData);
+        cache.updateFragment<Post>(
+          {
+            id: `${TypeNames.Post}:${id}`,
+            fragment: POST_FRAGMENT,
+            fragmentName: "PostFragment",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              draft?.images.push(...images);
+            })
+        );
+      },
     });
   };
 
@@ -86,18 +119,19 @@ export const useDeletePostMutation = () => {
     await deletePost({
       variables: { id },
       update(cache) {
-        const postsData = cache.readQuery<PostsQuery>({
-          query: POSTS_QUERY,
-        });
-        const posts = produce(postsData!.posts, (draft) => {
-          const index = draft.findIndex((p) => p.id === id);
-          draft.splice(index, 1);
-        });
-        cache.writeQuery<PostsQuery>({
-          query: POSTS_QUERY,
-          data: { posts },
+        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
+          if (!postsData) {
+            throw new Error("Failed to update cache");
+          }
+          return {
+            posts: produce(postsData.posts, (draft) => {
+              const index = draft.findIndex((p) => p.id === id);
+              draft.splice(index, 1);
+            }),
+          };
         });
       },
+      refetchQueries: [USER_PROFILE_QUERY],
     });
   };
 

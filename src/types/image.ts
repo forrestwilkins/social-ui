@@ -1,7 +1,10 @@
 export interface ImageEntity {
   id: number;
   filename: string;
-  postId?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  imageType: string;
+  postId: number;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
+  __typename: string;
 }

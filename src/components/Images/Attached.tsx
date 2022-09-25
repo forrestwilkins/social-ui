@@ -1,19 +1,15 @@
 import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
-import { CSSProperties } from "react";
+import Image from "next/image";
 import { useTranslate } from "../../hooks/common";
 import { ImageEntity } from "../../types/image";
 import { getImagePath } from "../../utils/image";
 
-const IMAGE: CSSProperties = {
-  marginBottom: 20,
-  marginRight: -4,
-  width: 150,
-};
-
 const IMAGE_CONTAINER: SxProps = {
-  marginRight: 3,
+  marginBottom: 2.5,
+  marginRight: 3.5,
   position: "relative",
+  width: 150,
 };
 
 const REMOVE_BUTTON: SxProps = {
@@ -56,8 +52,14 @@ const AttachedImages = ({
     {savedImages &&
       savedImages.map(({ id, filename }) => (
         <Box sx={IMAGE_CONTAINER} key={id}>
-          <img alt={filename} src={getImagePath(id)} style={IMAGE} />
-
+          <Image
+            alt={filename}
+            layout="responsive"
+            src={getImagePath(id)}
+            width={300}
+            height={300}
+            priority
+          />
           {deleteSavedImage && (
             <RemoveButton onClick={() => deleteSavedImage(id)} />
           )}
@@ -66,8 +68,14 @@ const AttachedImages = ({
 
     {selectedImages.map((image) => (
       <Box sx={IMAGE_CONTAINER} key={image.name}>
-        <img alt={image.name} src={URL.createObjectURL(image)} style={IMAGE} />
-
+        <Image
+          alt={image.name}
+          layout="responsive"
+          src={URL.createObjectURL(image)}
+          width={300}
+          height={300}
+          priority
+        />
         {removeSelectedImage && (
           <RemoveButton onClick={() => removeSelectedImage(image.name)} />
         )}

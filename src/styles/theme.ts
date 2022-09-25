@@ -93,6 +93,19 @@ const theme: Theme = createTheme(initialTheme, {
         },
       },
     },
+
+    MuiInput: {
+      styleOverrides: {
+        underline: {
+          "&:before": {
+            borderBottomColor: `${initialTheme.palette.divider} !important`,
+          },
+          "&:after": {
+            borderBottomColor: initialTheme.palette.divider,
+          },
+        },
+      },
+    },
   },
 });
 

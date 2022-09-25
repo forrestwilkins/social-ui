@@ -1,9 +1,12 @@
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
+import dayjs from "dayjs";
+import { t } from "i18next";
 import Router from "next/router";
 import { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../client";
+import { refreshToken } from "../client/auth/links/refreshTokenLink";
+import { toastVar } from "../client/cache";
 import {
   API_ROOT,
   HttpMethod,
@@ -26,7 +29,11 @@ export const multiPartRequest = async <T>(
   path: string,
   data: Record<string, any>
 ) => {
+  // FIXME: Axios might need to refresh while Apollo is already refreshing,
+  // which could then result in refresh tokens being revoked. We need to
+  // ensure that the two are unable to interfere with one another.
   createAuthRefreshInterceptor(axios, refreshToken);
+
   const url = `${API_ROOT}${path}`;
   const response = await axios.request<T>({
     url,
@@ -57,4 +64,14 @@ export const isRenderable = (node: ReactNode): boolean => {
 export const scrollTop = () => {
   const options = { smooth: true, duration: SCROLL_DURATION };
   animateScroll.scrollToTop(options);
+};
+
+export const formatDate = (timeStamp: string) =>
+  dayjs(timeStamp).format("MMMM D, YYYY");
+
+export const inDevToast = () => {
+  toastVar({
+    status: "info",
+    title: t("prompts.featureInDevelopment"),
+  });
 };

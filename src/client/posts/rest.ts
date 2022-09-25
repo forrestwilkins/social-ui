@@ -2,12 +2,7 @@ import { ApiRoutes, HttpMethod } from "../../constants/common";
 import { ImageEntity } from "../../types/image";
 import { multiPartRequest } from "../../utils/common";
 
-export const uploadPostImages = async (postId: number, data: FormData) => {
-  const path = `${ApiRoutes.Posts}/${postId}/upload-images`;
-  const images = await multiPartRequest<ImageEntity[]>(
-    HttpMethod.Post,
-    path,
-    data
-  );
-  return images.map((image) => ({ ...image, __typename: "Image" }));
+export const uploadPostImages = (postId: number, data: FormData) => {
+  const path = `${ApiRoutes.Posts}/${postId}/images`;
+  return multiPartRequest<ImageEntity[]>(HttpMethod.Post, path, data);
 };

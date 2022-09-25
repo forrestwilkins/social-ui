@@ -1,9 +1,9 @@
 export const API_ROOT = "/api";
 export const SCROLL_DURATION = 250;
+export const MIDDOT_WITH_SPACES = " · ";
 
 export enum NavigationPaths {
   About = "/about",
-  AccountSettings = "/users/account",
   Admin = "/admin",
   Edit = "/edit",
   Events = "/events",
@@ -11,22 +11,28 @@ export enum NavigationPaths {
   Home = "/",
   LogIn = "/auth/login",
   Posts = "/posts",
-  Profile = "/users/profile",
   SignUp = "/auth/signup",
   Users = "/users",
 }
 
 export enum ResourceNames {
-  Event = "event",
-  Group = "group",
-  Image = "image",
-  Post = "post",
-  User = "user",
+  Event = "events",
+  Group = "groups",
+  Image = "images",
+  Post = "posts",
+  User = "users",
+}
+
+export enum TypeNames {
+  Image = "Image",
+  Post = "Post",
+  User = "User",
 }
 
 export enum ApiRoutes {
   Health = "/",
   Posts = "/posts",
+  Users = "/users",
   Images = "/images",
 }
 

@@ -5,33 +5,36 @@ import { NextPage } from "next";
 import { useEffect } from "react";
 import { SIGN_UP_MUTATION } from "../../client/auth/mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { TextField } from "../../components/Shared/TextField";
+import { ME_QUERY, USERS_QUERY } from "../../client/users/queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import Spinner from "../../components/Shared/Spinner";
+import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common";
 import { UserFieldNames } from "../../constants/user";
 import { useTranslate } from "../../hooks/common";
 import { AuthResult } from "../../types/auth";
-import { SignUpFormValues } from "../../types/user";
+import { UserFormValues } from "../../types/user";
 import { redirectTo } from "../../utils/common";
 
 const SignUp: NextPage = () => {
+  const [signUp] = useMutation<AuthResult>(SIGN_UP_MUTATION, {
+    refetchQueries: [ME_QUERY, USERS_QUERY],
+  });
+
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const [signUp] = useMutation<AuthResult>(SIGN_UP_MUTATION);
-
   const t = useTranslate();
 
-  const initialValues: SignUpFormValues = {
+  const initialValues: UserFormValues = {
     email: "",
     name: "",
     password: "",
   };
 
-  const handleSubmit = async (formValues: SignUpFormValues) => {
+  const handleSubmit = async (formValues: UserFormValues) => {
     const result = await signUp({ variables: { input: formValues } });
     if (result.data?.signUp) {
       isLoggedInVar(true);

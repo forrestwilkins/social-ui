@@ -6,31 +6,34 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { LOGIN_MUTATION } from "../../client/auth/mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { TextField } from "../../components/Shared/TextField";
+import { ME_QUERY } from "../../client/users/queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import Spinner from "../../components/Shared/Spinner";
+import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common";
 import { UserFieldNames } from "../../constants/user";
 import { useTranslate } from "../../hooks/common";
 import { AuthResult } from "../../types/auth";
-import { LoginFormValues } from "../../types/user";
+import { UserFormValues } from "../../types/user";
 
 const Login: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const [login] = useMutation<AuthResult>(LOGIN_MUTATION);
+  const [login] = useMutation<AuthResult>(LOGIN_MUTATION, {
+    refetchQueries: [{ query: ME_QUERY }],
+  });
 
   const t = useTranslate();
 
-  const initialValues: LoginFormValues = {
+  const initialValues: UserFormValues = {
     email: "",
     password: "",
   };
 
-  const handleSubmit = async (formValues: LoginFormValues) => {
+  const handleSubmit = async (formValues: UserFormValues) => {
     try {
       const result = await login({ variables: { input: formValues } });
       if (result.data?.login) {

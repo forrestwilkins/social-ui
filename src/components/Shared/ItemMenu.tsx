@@ -57,7 +57,7 @@ const ItemMenu = ({
         open={Boolean(anchorEl)}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "right",
         }}
         transformOrigin={{
@@ -71,7 +71,7 @@ const ItemMenu = ({
           <MenuItem>
             <Link
               style={{ color: "inherit" }}
-              href={`/${itemType}s/${name ? name : itemId}${
+              href={`/${itemType}/${name ? name : itemId}${
                 NavigationPaths.Edit
               }`}
             >

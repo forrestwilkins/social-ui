@@ -1,29 +1,42 @@
 import { gql } from "@apollo/client";
-import { USER_SUMMARY } from "./fragments";
+import {
+  USER_FRAGMENT,
+  USER_PROFILE_FRAGMENT,
+  USER_PROFILE_LITE_FRAGMENT,
+} from "./fragments";
 
 export const ME_QUERY = gql`
   query MeQuery {
     me {
-      ...UserSummary
+      ...UserProfileLiteFragment
     }
   }
-  ${USER_SUMMARY}
-`;
-
-export const USERS_QUERY = gql`
-  query UsersQuery {
-    users {
-      ...UserSummary
-    }
-  }
-  ${USER_SUMMARY}
+  ${USER_PROFILE_LITE_FRAGMENT}
 `;
 
 export const USER_QUERY = gql`
   query UserQuery($id: ID!) {
     user(id: $id) {
-      ...UserSummary
+      ...UserProfileLiteFragment
     }
   }
-  ${USER_SUMMARY}
+  ${USER_PROFILE_LITE_FRAGMENT}
+`;
+
+export const USER_PROFILE_QUERY = gql`
+  query UserProfileQuery($name: String!) {
+    userProfile(name: $name) {
+      ...UserProfileFragment
+    }
+  }
+  ${USER_PROFILE_FRAGMENT}
+`;
+
+export const USERS_QUERY = gql`
+  query UsersQuery {
+    users {
+      ...UserFragment
+    }
+  }
+  ${USER_FRAGMENT}
 `;

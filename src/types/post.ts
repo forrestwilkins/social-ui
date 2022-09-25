@@ -3,10 +3,11 @@ import { ImageEntity } from "./image";
 export interface Post {
   id: number;
   body: string;
+  userId: number;
   createdAt: string;
   updatedAt: string;
   images: ImageEntity[];
-  __typename: "Post";
+  __typename: string;
 }
 
 export type EditPost = Pick<Post, "id" | "body" | "images">;

@@ -8,6 +8,7 @@ import {
 } from "../client/posts/mutations";
 import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
+import { USER_PROFILE_QUERY } from "../client/users/queries";
 import { TypeNames } from "../constants/common";
 import {
   CreatePostMutation,
@@ -16,6 +17,8 @@ import {
   PostsFormValues,
   PostsQuery,
 } from "../types/post";
+import { UserProfileQuery } from "../types/user";
+import { useMeQuery } from "./user";
 
 export const usePostQuery = (
   id?: number
@@ -29,6 +32,7 @@ export const usePostQuery = (
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
+  const [me] = useMeQuery();
 
   const _createPost = async (
     postData: PostsFormValues,
@@ -44,16 +48,30 @@ export const useCreatePostMutation = () => {
           return;
         }
         const images = await uploadPostImages(data.createPost.id, imageData);
+        const postWithImages = { ...data.createPost, images };
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
           if (!postsData) {
             throw new Error("Failed to update cache");
           }
           return {
             posts: produce(postsData.posts, (draft) => {
-              draft.unshift({ ...data.createPost, images });
+              draft.unshift(postWithImages);
             }),
           };
         });
+        cache.updateQuery<UserProfileQuery>(
+          { query: USER_PROFILE_QUERY, variables: { name: me?.name } },
+          (profileData) => {
+            if (!profileData) {
+              throw new Error("Failed to update cache");
+            }
+            return {
+              userProfile: produce(profileData.userProfile, (draft) => {
+                draft.posts.unshift(postWithImages);
+              }),
+            };
+          }
+        );
       },
     });
   };

@@ -16,7 +16,7 @@ import {
   MeQuery,
   UpdateUserMutation,
   User,
-  UserProfile,
+  UserProfileQuery,
   UserFormValues,
   UserQuery,
 } from "../types/user";
@@ -95,10 +95,13 @@ export const useUserQuery = (
 export const useUserProfileQuery = (
   name?: string
 ): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserProfile>(USER_PROFILE_QUERY, {
-    variables: { name },
-    skip: !name,
-  });
+  const { data, loading, error } = useQuery<UserProfileQuery>(
+    USER_PROFILE_QUERY,
+    {
+      variables: { name },
+      skip: !name,
+    }
+  );
   return [data?.userProfile, loading, error];
 };
 

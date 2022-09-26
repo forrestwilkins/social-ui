@@ -59,7 +59,7 @@ const PostCard = ({
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deletePost = useDeletePostMutation();
-  const [user] = useUserQuery(userId);
+  const [user] = useUserQuery({ id: userId });
 
   const t = useTranslate();
 

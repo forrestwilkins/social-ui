@@ -6,7 +6,7 @@ import { USER_PROFILE_FRAGMENT } from "../client/users/fragments";
 import { UPDATE_USER_MUTATION } from "../client/users/mutations";
 import {
   ME_QUERY,
-  USER_BY_NAME_QUERY,
+  USER_PROFILE_QUERY,
   USER_QUERY,
 } from "../client/users/queries";
 import { uploadCoverPhoto, uploadProfilePicture } from "../client/users/rest";
@@ -16,7 +16,6 @@ import {
   MeQuery,
   UpdateUserMutation,
   User,
-  UserByNameQuery,
   UserFormValues,
   UserQuery,
 } from "../types/user";
@@ -82,27 +81,23 @@ export const useUpdateUserMutation = () => {
   return _updateUser;
 };
 
-export const useUserQuery = (
-  id?: number
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserQuery>(USER_QUERY, {
-    variables: { id },
-    skip: !id,
-  });
-  return [data?.user, loading, error];
-};
-
-export const useUserByNameQuery = (
-  name?: string
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserByNameQuery>(
-    USER_BY_NAME_QUERY,
+export const useUserQuery = ({
+  id,
+  name,
+  profile = false,
+}: {
+  id?: number;
+  name?: string;
+  profile?: boolean;
+}): [User | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<UserQuery>(
+    profile ? USER_PROFILE_QUERY : USER_QUERY,
     {
-      variables: { name },
-      skip: !name,
+      variables: { id, name },
+      skip: !id && !name,
     }
   );
-  return [data?.userByName, loading, error];
+  return [data?.user, loading, error];
 };
 
 export const useMeQuery = (

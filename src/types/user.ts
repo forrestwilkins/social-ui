@@ -25,10 +25,6 @@ export interface UserQuery {
   user: User;
 }
 
-export interface UserByNameQuery {
-  userByName: User;
-}
-
 export interface UsersQuery {
   users: User[];
 }

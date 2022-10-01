@@ -19,7 +19,6 @@ import {
 } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useDeletePostMutation } from "../../hooks/post";
-import { useUserQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
 import { timeAgo } from "../../utils/time";
@@ -52,14 +51,13 @@ interface Props extends CardProps {
 }
 
 const PostCard = ({
-  post: { id, body, images, userId, createdAt },
+  post: { id, body, images, user, createdAt },
   sx,
   ...cardProps
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deletePost = useDeletePostMutation();
-  const [user] = useUserQuery({ id: userId });
 
   const t = useTranslate();
 

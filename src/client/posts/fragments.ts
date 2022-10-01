@@ -8,6 +8,12 @@ export const POST_FRAGMENT = gql`
     images {
       ...ImageFragment
     }
+    user {
+      name
+      profilePicture {
+        ...ImageFragment
+      }
+    }
     userId
     createdAt
     updatedAt

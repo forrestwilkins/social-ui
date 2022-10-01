@@ -9,6 +9,7 @@ export const POST_FRAGMENT = gql`
       ...ImageFragment
     }
     user {
+      id
       name
       profilePicture {
         ...ImageFragment
@@ -25,6 +26,7 @@ export const POST_MUTATION_FRAGMENT = gql`
     id
     body
     user {
+      id
       name
       profilePicture {
         ...ImageFragment

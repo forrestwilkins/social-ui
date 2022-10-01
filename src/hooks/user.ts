@@ -57,6 +57,9 @@ export const useUpdateUserMutation = () => {
                 }
                 if (profilePicture) {
                   draft.profilePicture = profilePicture;
+                  for (const post of draft.posts) {
+                    post.user.profilePicture = profilePicture;
+                  }
                 }
                 if (coverPhoto) {
                   draft.coverPhoto = coverPhoto;

@@ -4,7 +4,6 @@ import { User } from "./user";
 export interface Post {
   id: number;
   body: string;
-  userId: number;
   createdAt: string;
   updatedAt: string;
   images: ImageEntity[];

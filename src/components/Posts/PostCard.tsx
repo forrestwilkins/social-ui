@@ -72,7 +72,7 @@ const PostCard = ({
     marginBottom: images.length ? 2.5 : 3.5,
   };
   const cardContentStyles: SxProps = {
-    paddingTop: images.length && !body ? 1.25 : 3,
+    paddingTop: images.length && !body ? 2.5 : 3,
   };
   const imageListStyles: SxProps = {
     marginBottom: isLoggedIn ? 1.9 : 0,

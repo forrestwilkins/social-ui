@@ -15,7 +15,7 @@ import { getUserProfilePath } from "../../utils/user";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";
-import UserAvatar from "../Users/Avatar";
+import UserAvatar from "../Users/UserAvatar";
 import TopNavDropdown from "./TopNavDropdown";
 
 const PROFILE_BUTTON_STYLES: SxProps = {

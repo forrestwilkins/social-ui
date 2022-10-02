@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import PostCard from "../../components/Posts/Card";
+import PostCard from "../../components/Posts/PostCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { usePostQuery } from "../../hooks/post";
 

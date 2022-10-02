@@ -23,7 +23,7 @@ import { getUserProfilePath } from "../../utils/user";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
-import UserAvatar from "./Avatar";
+import UserAvatar from "./UserAvatar";
 
 const CardContent = styled(MuiCardContent)(() => ({
   paddingTop: 0,

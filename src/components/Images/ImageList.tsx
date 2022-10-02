@@ -1,49 +1,26 @@
-import { Box, ImageList, ImageListItem, ImageListProps } from "@mui/material";
-import Image from "next/image";
+import { Box, BoxProps } from "@mui/material";
 import { ImageEntity } from "../../types/image";
 import { getImagePath } from "../../utils/image";
 
-interface Props extends Omit<ImageListProps, "children"> {
+interface Props extends Omit<BoxProps, "children"> {
   images: ImageEntity[];
 }
 
-const ImagesList = ({ images, sx, ...imageListProps }: Props) => {
-  if (!images?.length) {
-    return null;
-  }
+const ImageList = ({ images, sx, ...boxProps }: Props) => (
+  <Box sx={{ marginX: -2, ...sx }} {...boxProps}>
+    {images.map((image, index) => (
+      <img
+        alt={image.filename}
+        key={image.id}
+        src={getImagePath(image.id)}
+        style={{
+          display: "block",
+          marginBottom: index + 1 === images.length ? undefined : 2,
+          width: "100%",
+        }}
+      />
+    ))}
+  </Box>
+);
 
-  // TODO: Add support for larger image sets
-  const getColumnSize = () => {
-    if (images.length <= 3) {
-      return images.length;
-    }
-    return 3;
-  };
-
-  return (
-    <ImageList
-      cols={getColumnSize()}
-      gap={2}
-      rowHeight="auto"
-      sx={{ marginX: -2, marginY: 0, ...sx }}
-      {...imageListProps}
-    >
-      {images.map((image) => (
-        <ImageListItem key={image.id}>
-          <Box>
-            <Image
-              src={getImagePath(image.id)}
-              alt={image.filename}
-              layout="responsive"
-              width={300}
-              height={300}
-              priority
-            />
-          </Box>
-        </ImageListItem>
-      ))}
-    </ImageList>
-  );
-};
-
-export default ImagesList;
+export default ImageList;

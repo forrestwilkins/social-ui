@@ -9,12 +9,12 @@ const IMAGE_CONTAINER: SxProps = {
   marginBottom: 2.5,
   marginRight: 3.5,
   position: "relative",
-  width: 150,
+  width: 170,
 };
 
 const REMOVE_BUTTON: SxProps = {
   position: "absolute",
-  right: -24,
+  right: -21,
   top: -21,
 };
 

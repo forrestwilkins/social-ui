@@ -1,6 +1,5 @@
 // TODO: Implement remaining functionality - below is a WIP
 
-import { useReactiveVar } from "@apollo/client";
 import { DateRange as JoinDateIcon } from "@mui/icons-material";
 import {
   Box,
@@ -14,9 +13,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
 import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
 import { useIsDesktop, useTranslate } from "../../hooks/common";
+import { useMeQuery } from "../../hooks/user";
 import { User } from "../../types/user";
 import { inDevToast } from "../../utils/common";
 import { formatDate } from "../../utils/time";
@@ -53,7 +52,7 @@ interface Props extends CardProps {
 
 const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [me] = useMeQuery();
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
@@ -61,6 +60,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
 
   const joinDate = formatDate(user.createdAt);
   const userProfilePath = getUserProfilePath(user.name);
+  const isMe = me?.id === user.id;
 
   const avatarStyles: SxProps = {
     backgroundColor: theme.palette.background.paper,
@@ -76,7 +76,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
 
       <CardHeader
         action={
-          isLoggedIn && (
+          isMe && (
             <ItemMenu
               anchorEl={menuAnchorEl}
               itemId={user.id}

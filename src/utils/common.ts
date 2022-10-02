@@ -5,13 +5,8 @@ import Router from "next/router";
 import { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
 import { refreshToken } from "../client/auth/links/refreshTokenLink";
-import { toastVar } from "../client/cache";
-import {
-  API_ROOT,
-  HttpMethod,
-  MULTI_PART_FORM_HEADER,
-  SCROLL_DURATION,
-} from "../constants/common";
+import { isRefreshingTokenVar, toastVar } from "../client/cache";
+import { API_ROOT, HttpMethod, SCROLL_DURATION } from "../constants/common";
 
 export const redirectTo = (path: string) => Router.push(path);
 
@@ -28,18 +23,21 @@ export const multiPartRequest = async <T>(
   path: string,
   data: Record<string, any>
 ) => {
-  // FIXME: Axios might need to refresh while Apollo is already refreshing,
-  // which could then result in refresh tokens being revoked. We need to
-  // ensure that the two are unable to interfere with one another.
+  // Prevent Axios from interfering with Apollo refresh logic
+  await waitFor(() => !isRefreshingTokenVar());
+
+  // Set auth refresh interceptor for Axios requests
   createAuthRefreshInterceptor(axios, refreshToken);
 
   const url = `${API_ROOT}${path}`;
+  const headers = { "Content-Type": "multipart/form-data" };
   const response = await axios.request<T>({
-    url,
-    method,
     data,
-    headers: MULTI_PART_FORM_HEADER,
+    headers,
+    method,
+    url,
   });
+
   return response.data;
 };
 
@@ -70,4 +68,15 @@ export const inDevToast = () => {
     status: "info",
     title: t("prompts.featureInDevelopment"),
   });
+};
+
+export const waitFor = (conditionFn: () => boolean, ms = 250) => {
+  const poll = (resolve: (_?: unknown) => void) => {
+    if (conditionFn()) {
+      resolve();
+    } else {
+      setTimeout(() => poll(resolve), ms);
+    }
+  };
+  return new Promise(poll);
 };

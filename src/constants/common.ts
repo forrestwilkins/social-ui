@@ -70,7 +70,3 @@ export enum Time {
   Week = 604800,
   Month = 2628000,
 }
-
-export const MULTI_PART_FORM_HEADER = {
-  "Content-Type": "multipart/form-data",
-};

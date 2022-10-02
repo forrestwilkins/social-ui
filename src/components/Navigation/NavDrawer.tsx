@@ -26,7 +26,7 @@ import { useMeQuery } from "../../hooks/user";
 import { redirectTo as commonRedirectTo } from "../../utils/common";
 import { getUserProfilePath } from "../../utils/user";
 import Flex from "../Shared/Flex";
-import UserAvatar from "../Users/Avatar";
+import UserAvatar from "../Users/UserAvatar";
 
 const USER_AVATAR_STYLES: SxProps = {
   width: 21,

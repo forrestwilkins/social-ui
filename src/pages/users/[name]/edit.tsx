@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import UserForm from "../../../components/Users/Form";
+import UserForm from "../../../components/Users/UserForm";
 import { useTranslate } from "../../../hooks/common";
 import { useUserQuery } from "../../../hooks/user";
 

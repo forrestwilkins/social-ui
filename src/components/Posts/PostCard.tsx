@@ -24,11 +24,11 @@ import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
 import { timeAgo } from "../../utils/time";
 import { getUserProfilePath } from "../../utils/user";
-import ImagesList from "../Images/List";
+import ImagesList from "../Images/ImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
-import UserAvatar from "../Users/Avatar";
-import PostCardFooter from "./CardFooter";
+import UserAvatar from "../Users/UserAvatar";
+import PostCardFooter from "./PostCardFooter";
 
 const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
   paddingBottom: 0,

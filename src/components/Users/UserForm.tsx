@@ -4,9 +4,6 @@ import { Button, Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
-import Flex from "../../components/Shared/Flex";
-import Spinner from "../../components/Shared/Spinner";
-import { TextField } from "../../components/Shared/TextField";
 import { UserFieldNames } from "../../constants/user";
 import { useTranslate } from "../../hooks/common";
 import { useUpdateUserMutation } from "../../hooks/user";
@@ -15,10 +12,13 @@ import { redirectTo } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
 import { getUserProfilePath } from "../../utils/user";
 import CoverPhoto from "../Images/CoverPhoto";
-import ImageInput from "../Images/Input";
+import ImageInput from "../Images/ImageInput";
 import Center from "../Shared/Center";
 import CompactButton from "../Shared/CompactButton";
-import UserAvatar from "./Avatar";
+import Flex from "../Shared/Flex";
+import Spinner from "../Shared/Spinner";
+import { TextField } from "../Shared/TextField";
+import UserAvatar from "./UserAvatar";
 
 interface Props {
   editUser?: User;

@@ -1,12 +1,12 @@
 import { Box, BoxProps } from "@mui/material";
 import { Post } from "../../types/post";
-import PostCard from "./Card";
+import PostCard from "./PostCard";
 
 interface Props extends BoxProps {
   posts: Post[];
 }
 
-const PostsList = ({ posts, ...boxProps }: Props) => (
+const PostList = ({ posts, ...boxProps }: Props) => (
   <Box {...boxProps}>
     {posts.map((post) => (
       <PostCard post={post} key={post.id} />
@@ -14,4 +14,4 @@ const PostsList = ({ posts, ...boxProps }: Props) => (
   </Box>
 );
 
-export default PostsList;
+export default PostList;

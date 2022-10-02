@@ -2,8 +2,8 @@ import { useQuery, useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../client/cache";
 import { POSTS_QUERY } from "../client/posts/queries";
-import PostForm from "../components/Posts/Form";
-import PostsList from "../components/Posts/List";
+import PostForm from "../components/Posts/PostForm";
+import PostList from "../components/Posts/PostList";
 import ProgressBar from "../components/Shared/ProgressBar";
 import { PostsQuery } from "../types/post";
 
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
     <>
       {isLoggedIn && <PostForm sx={{ marginBottom: 2 }} />}
 
-      <PostsList posts={data?.posts} />
+      <PostList posts={data?.posts} />
     </>
   );
 };

@@ -16,10 +16,35 @@ import {
   MeQuery,
   UpdateUserMutation,
   User,
-  UserProfileQuery,
   UserFormValues,
   UserQuery,
 } from "../types/user";
+
+export const useUserQuery = ({
+  id,
+  name,
+  profile = false,
+}: {
+  id?: number;
+  name?: string;
+  profile?: boolean;
+}): [User | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<UserQuery>(
+    profile ? USER_PROFILE_QUERY : USER_QUERY,
+    {
+      variables: { id, name },
+      skip: !id && !name,
+    }
+  );
+  return [data?.user, loading, error];
+};
+
+export const useMeQuery = (
+  options?: QueryFunctionOptions
+): [User | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
+  return [data?.me, loading, error];
+};
 
 export const useUpdateUserMutation = () => {
   const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
@@ -58,6 +83,9 @@ export const useUpdateUserMutation = () => {
                 }
                 if (profilePicture) {
                   draft.profilePicture = profilePicture;
+                  for (const post of draft.posts) {
+                    post.user.profilePicture = profilePicture;
+                  }
                 }
                 if (coverPhoto) {
                   draft.coverPhoto = coverPhoto;
@@ -80,34 +108,4 @@ export const useUpdateUserMutation = () => {
   };
 
   return _updateUser;
-};
-
-export const useUserQuery = (
-  id?: number
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserQuery>(USER_QUERY, {
-    variables: { id },
-    skip: !id,
-  });
-  return [data?.user, loading, error];
-};
-
-export const useUserProfileQuery = (
-  name?: string
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserProfileQuery>(
-    USER_PROFILE_QUERY,
-    {
-      variables: { name },
-      skip: !name,
-    }
-  );
-  return [data?.userProfile, loading, error];
-};
-
-export const useMeQuery = (
-  options?: QueryFunctionOptions
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
-  return [data?.me, loading, error];
 };

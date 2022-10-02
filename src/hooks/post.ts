@@ -17,7 +17,7 @@ import {
   PostsFormValues,
   PostsQuery,
 } from "../types/post";
-import { UserProfileQuery } from "../types/user";
+import { UserQuery } from "../types/user";
 import { useMeQuery } from "./user";
 
 export const usePostQuery = (
@@ -56,14 +56,14 @@ export const useCreatePostMutation = () => {
             }),
           };
         });
-        cache.updateQuery<UserProfileQuery>(
+        cache.updateQuery<UserQuery>(
           { query: USER_PROFILE_QUERY, variables: { name: me?.name } },
-          (profileData) => {
-            if (!profileData) {
+          (userData) => {
+            if (!userData) {
               return;
             }
             return {
-              userProfile: produce(profileData.userProfile, (draft) => {
+              user: produce(userData.user, (draft) => {
                 draft.posts.unshift(postWithImages);
               }),
             };

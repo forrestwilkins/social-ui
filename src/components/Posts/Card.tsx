@@ -19,7 +19,7 @@ import {
 } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useDeletePostMutation } from "../../hooks/post";
-import { useUserQuery } from "../../hooks/user";
+import { useMeQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
 import { timeAgo } from "../../utils/time";
@@ -52,20 +52,21 @@ interface Props extends CardProps {
 }
 
 const PostCard = ({
-  post: { id, body, images, userId, createdAt },
+  post: { id, body, images, user, createdAt },
   sx,
   ...cardProps
 }: Props) => {
-  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [me] = useMeQuery();
   const deletePost = useDeletePostMutation();
-  const [user] = useUserQuery(userId);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const t = useTranslate();
 
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
   const formattedDate = timeAgo(createdAt);
+  const isMe = me?.id === user.id;
 
   const bodyStyles: SxProps = {
     marginBottom: images.length ? 2.5 : 3.5,
@@ -87,7 +88,7 @@ const PostCard = ({
       <CardHeader
         action={
           // TODO: Add permission logic for edit and delete
-          isLoggedIn && (
+          isMe && (
             <ItemMenu
               anchorEl={menuAnchorEl}
               canDelete

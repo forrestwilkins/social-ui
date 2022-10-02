@@ -1,12 +1,13 @@
 import { ImageEntity } from "./image";
+import { User } from "./user";
 
 export interface Post {
   id: number;
   body: string;
-  userId: number;
   createdAt: string;
   updatedAt: string;
   images: ImageEntity[];
+  user: User;
   __typename: string;
 }
 

@@ -5,12 +5,12 @@ import PostsList from "../../components/Posts/List";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import ProfileCard from "../../components/Users/ProfileCard";
 import { useTranslate } from "../../hooks/common";
-import { useUserProfileQuery } from "../../hooks/user";
+import { useUserQuery } from "../../hooks/user";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
-  const userName = String(query?.name || "");
-  const [user, userLoading, userError] = useUserProfileQuery(userName);
+  const name = String(query?.name || "");
+  const [user, userLoading, userError] = useUserQuery({ name, profile: true });
 
   const t = useTranslate();
 

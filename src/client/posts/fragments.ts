@@ -8,7 +8,13 @@ export const POST_FRAGMENT = gql`
     images {
       ...ImageFragment
     }
-    userId
+    user {
+      id
+      name
+      profilePicture {
+        ...ImageFragment
+      }
+    }
     createdAt
     updatedAt
   }
@@ -19,8 +25,15 @@ export const POST_MUTATION_FRAGMENT = gql`
   fragment PostMutationFragment on Post {
     id
     body
-    userId
+    user {
+      id
+      name
+      profilePicture {
+        ...ImageFragment
+      }
+    }
     createdAt
     updatedAt
   }
+  ${IMAGE_FRAGMENT}
 `;

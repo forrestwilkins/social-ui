@@ -20,6 +20,32 @@ import {
   UserQuery,
 } from "../types/user";
 
+export const useUserQuery = ({
+  id,
+  name,
+  profile = false,
+}: {
+  id?: number;
+  name?: string;
+  profile?: boolean;
+}): [User | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<UserQuery>(
+    profile ? USER_PROFILE_QUERY : USER_QUERY,
+    {
+      variables: { id, name },
+      skip: !id && !name,
+    }
+  );
+  return [data?.user, loading, error];
+};
+
+export const useMeQuery = (
+  options?: QueryFunctionOptions
+): [User | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
+  return [data?.me, loading, error];
+};
+
 export const useUpdateUserMutation = () => {
   const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
 
@@ -82,30 +108,4 @@ export const useUpdateUserMutation = () => {
   };
 
   return _updateUser;
-};
-
-export const useUserQuery = ({
-  id,
-  name,
-  profile = false,
-}: {
-  id?: number;
-  name?: string;
-  profile?: boolean;
-}): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserQuery>(
-    profile ? USER_PROFILE_QUERY : USER_QUERY,
-    {
-      variables: { id, name },
-      skip: !id && !name,
-    }
-  );
-  return [data?.user, loading, error];
-};
-
-export const useMeQuery = (
-  options?: QueryFunctionOptions
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
-  return [data?.me, loading, error];
 };

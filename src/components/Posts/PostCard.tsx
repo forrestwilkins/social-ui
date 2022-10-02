@@ -24,7 +24,7 @@ import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
 import { timeAgo } from "../../utils/time";
 import { getUserProfilePath } from "../../utils/user";
-import ImagesList from "../Images/ImageList";
+import ImageList from "../Images/ImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
@@ -120,7 +120,7 @@ const PostCard = ({
             aria-label={t("images.labels.attachedImages")}
             href={linkToPostPage}
           >
-            <ImagesList images={images} sx={imageListStyles} />
+            <ImageList images={images} sx={imageListStyles} />
           </Link>
         )}
 

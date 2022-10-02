@@ -65,7 +65,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   const avatarStyles: SxProps = {
     backgroundColor: theme.palette.background.paper,
     border: `4px solid ${theme.palette.background.paper}`,
-    marginBottom: 1,
+    marginBottom: 1.25,
     marginLeft: -0.25,
     marginTop: isDesktop ? -10.5 : -7,
   };

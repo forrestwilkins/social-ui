@@ -8,16 +8,6 @@ import { refreshToken } from "../client/auth/links/refreshTokenLink";
 import { isRefreshingTokenVar, toastVar } from "../client/cache";
 import { API_ROOT, HttpMethod, SCROLL_DURATION } from "../constants/common";
 
-export const redirectTo = (path: string) => Router.push(path);
-
-export const generateRandom = (): string =>
-  Math.random()
-    .toString(36)
-    .slice(2, 10)
-    .split("")
-    .map((c) => (Math.random() < 0.5 ? c : c.toUpperCase()))
-    .join("");
-
 export const multiPartRequest = async <T>(
   method: HttpMethod,
   path: string,
@@ -41,6 +31,17 @@ export const multiPartRequest = async <T>(
   return response.data;
 };
 
+export const waitFor = (conditionFn: () => boolean, ms = 250) => {
+  const poll = (resolve: (_?: unknown) => void) => {
+    if (conditionFn()) {
+      resolve();
+    } else {
+      setTimeout(() => poll(resolve), ms);
+    }
+  };
+  return new Promise(poll);
+};
+
 /**
  * Returns whether or not a given node can be successfully rendered.
  * Useful for checking whether a component has been passed any children.
@@ -58,10 +59,13 @@ export const isRenderable = (node: ReactNode): boolean => {
   }
 };
 
-export const scrollTop = () => {
-  const options = { smooth: true, duration: SCROLL_DURATION };
-  animateScroll.scrollToTop(options);
-};
+export const generateRandom = (): string =>
+  Math.random()
+    .toString(36)
+    .slice(2, 10)
+    .split("")
+    .map((c) => (Math.random() < 0.5 ? c : c.toUpperCase()))
+    .join("");
 
 export const inDevToast = () => {
   toastVar({
@@ -70,13 +74,9 @@ export const inDevToast = () => {
   });
 };
 
-export const waitFor = (conditionFn: () => boolean, ms = 250) => {
-  const poll = (resolve: (_?: unknown) => void) => {
-    if (conditionFn()) {
-      resolve();
-    } else {
-      setTimeout(() => poll(resolve), ms);
-    }
-  };
-  return new Promise(poll);
+export const scrollTop = () => {
+  const options = { smooth: true, duration: SCROLL_DURATION };
+  animateScroll.scrollToTop(options);
 };
+
+export const redirectTo = (path: string) => Router.push(path);

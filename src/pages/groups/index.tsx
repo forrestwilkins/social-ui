@@ -1,11 +1,10 @@
 import { useQuery, useReactiveVar } from "@apollo/client";
-import { Groups } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../../client/cache";
 import { GROUPS_QUERY } from "../../client/groups/queries";
+import GroupCard from "../../components/Groups/GroupCard";
 import GroupForm from "../../components/Groups/GroupForm";
-import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common";
@@ -31,13 +30,10 @@ const GroupsIndex: NextPage = () => {
         {t("groups.headers.discoverGroups")}
       </LevelOneHeading>
 
-      {isLoggedIn && <GroupForm sx={{ marginBottom: 5 }} />}
+      {isLoggedIn && <GroupForm sx={{ marginBottom: 2 }} />}
 
       {data?.groups.map((group) => (
-        <Flex key={group.id} sx={{ marginBottom: 1 }}>
-          <Groups fontSize="small" sx={{ marginTop: 0.25, marginRight: 0.5 }} />
-          <Typography>{group.name}</Typography>
-        </Flex>
+        <GroupCard group={group} sx={{ marginBottom: 2 }} key={group.id} />
       ))}
     </>
   );

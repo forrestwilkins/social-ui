@@ -10,6 +10,7 @@ import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
 import { USER_PROFILE_QUERY } from "../client/users/queries";
 import { TypeNames } from "../constants/common";
+import { ImageEntity } from "../types/image";
 import {
   CreatePostMutation,
   Post,
@@ -30,7 +31,6 @@ export const usePostQuery = (
   return [data?.post, loading, error];
 };
 
-// FIXME: Currently doesn't update cache if no images
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
   const [me] = useMeQuery();
@@ -42,10 +42,13 @@ export const useCreatePostMutation = () => {
     await createPost({
       variables: { postData },
       async update(cache, { data }) {
-        if (!data || !imageData) {
+        if (!data) {
           return;
         }
-        const images = await uploadPostImages(data.createPost.id, imageData);
+        let images: ImageEntity[] = [];
+        if (imageData) {
+          images = await uploadPostImages(data.createPost.id, imageData);
+        }
         const postWithImages = { ...data.createPost, images };
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
           if (!postsData) {

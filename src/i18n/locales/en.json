@@ -49,22 +49,6 @@
     "users": "Users"
   },
 
-  "posts": {
-    "form": {
-      "body": "Body"
-    },
-    "labels": {
-      "posts": "Posts",
-      "addPost": "Add post",
-      "addImages": "Add images"
-    },
-    "actions": {
-      "comment": "Comment",
-      "like": "Like",
-      "share": "Share"
-    }
-  },
-
   "users": {
     "actions": {
       "editProfile": "Edit Profile",
@@ -108,6 +92,32 @@
       "passwordConfirmMatch": "Password and Confirm Password must match.",
       "passwordRequired": "Password is required.",
       "wrongPassword": "Wrong password. Please try again."
+    }
+  },
+
+  "posts": {
+    "form": {
+      "body": "Body"
+    },
+    "labels": {
+      "posts": "Posts",
+      "addPost": "Add post",
+      "addImages": "Add images"
+    },
+    "actions": {
+      "comment": "Comment",
+      "like": "Like",
+      "share": "Share"
+    }
+  },
+
+  "groups": {
+    "form": {
+      "name": "Name",
+      "description": "Description"
+    },
+    "headers": {
+      "discoverGroups": "Discover Groups"
     }
   },
 

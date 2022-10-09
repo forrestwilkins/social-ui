@@ -33,7 +33,7 @@ interface Props extends CardProps {
 
 const GroupForm = ({ editGroup }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
-  const [selectedImage, setSelctedImage] = useState<File>();
+  const [coverPhoto, setCoverPhoto] = useState<File>();
   const createGroup = useCreateGroupMutation();
 
   const t = useTranslate();
@@ -48,7 +48,7 @@ const GroupForm = ({ editGroup }: Props) => {
     { resetForm, setSubmitting }: FormikHelpers<GroupFormValues>
   ) => {
     try {
-      const imageData = buildImageData(selectedImage);
+      const imageData = buildImageData(coverPhoto);
 
       if (editGroup) {
         // TODO: Add update logic here
@@ -57,6 +57,7 @@ const GroupForm = ({ editGroup }: Props) => {
       createGroup(formValues, imageData);
 
       setImageInputKey(generateRandom());
+      setCoverPhoto(undefined);
       setSubmitting(false);
       resetForm();
     } catch (err) {
@@ -65,7 +66,7 @@ const GroupForm = ({ editGroup }: Props) => {
   };
 
   const removeSelectedImageHandler = () => {
-    setSelctedImage(undefined);
+    setCoverPhoto(undefined);
     setImageInputKey(generateRandom());
   };
 
@@ -86,10 +87,10 @@ const GroupForm = ({ editGroup }: Props) => {
                   name={FieldNames.Description}
                 />
 
-                {selectedImage && (
+                {coverPhoto && (
                   <AttachedImages
                     removeSelectedImage={removeSelectedImageHandler}
-                    selectedImages={[selectedImage]}
+                    selectedImages={[coverPhoto]}
                   />
                 )}
               </FormGroup>
@@ -97,7 +98,7 @@ const GroupForm = ({ editGroup }: Props) => {
               <Flex sx={{ justifyContent: "space-between" }}>
                 <ImageInput
                   refreshKey={imageInputKey}
-                  setImage={setSelctedImage}
+                  setImage={setCoverPhoto}
                 />
 
                 <PrimaryActionButton

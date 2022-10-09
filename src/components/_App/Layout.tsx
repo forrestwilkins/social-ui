@@ -7,7 +7,7 @@ import {
   useIsDesktop,
   useTranslate,
 } from "../../hooks/common";
-import theme from "../../theme";
+import theme from "../../styles/theme";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";

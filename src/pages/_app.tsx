@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import client from "../client";
 import Layout from "../components/_App/Layout";
 import "../i18n/config";
-import "../theme/globals.css";
+import "../styles/globals.css";
 import { initAxe } from "../utils/axe";
 import createEmotionCache from "../utils/createEmotionCache";
 

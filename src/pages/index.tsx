@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      {isLoggedIn && <PostForm sx={{ marginBottom: 2 }} />}
+      {isLoggedIn && <PostForm />}
 
       <PostList posts={data?.posts} />
     </>

@@ -30,10 +30,10 @@ const GroupsIndex: NextPage = () => {
         {t("groups.headers.discoverGroups")}
       </LevelOneHeading>
 
-      {isLoggedIn && <GroupForm sx={{ marginBottom: 2 }} />}
+      {isLoggedIn && <GroupForm />}
 
       {data?.groups.map((group) => (
-        <GroupCard group={group} sx={{ marginBottom: 2 }} key={group.id} />
+        <GroupCard group={group} key={group.id} />
       ))}
     </>
   );

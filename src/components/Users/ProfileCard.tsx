@@ -50,7 +50,7 @@ interface Props extends CardProps {
   user: User;
 }
 
-const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
+const ProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [me] = useMeQuery();
 
@@ -71,7 +71,7 @@ const ProfileCard = ({ user, sx, ...cardProps }: Props) => {
   };
 
   return (
-    <Card sx={{ marginBottom: 2, ...sx }} {...cardProps}>
+    <Card {...cardProps}>
       <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
 
       <CardHeader

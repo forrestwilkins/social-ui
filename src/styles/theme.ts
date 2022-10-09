@@ -65,6 +65,14 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          marginBottom: 12,
+        },
+      },
+    },
+
     MuiBottomNavigation: {
       styleOverrides: {
         root: {

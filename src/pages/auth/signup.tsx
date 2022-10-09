@@ -10,7 +10,6 @@ import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common";
 import { UserFieldNames } from "../../constants/user";
@@ -81,13 +80,10 @@ const SignUp: NextPage = () => {
 
               <Flex flexEnd>
                 <PrimaryActionButton
-                  type="submit"
                   disabled={formik.isSubmitting || !formik.dirty}
+                  type="submit"
                 >
                   {t("users.actions.signUp")}
-                  {formik.isSubmitting && (
-                    <Spinner size={10} sx={{ marginLeft: 1 }} />
-                  )}
                 </PrimaryActionButton>
               </Flex>
             </Form>

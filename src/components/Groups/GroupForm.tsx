@@ -8,7 +8,6 @@ import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useState } from "react";
 import Flex from "../../components/Shared/Flex";
-import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
@@ -87,9 +86,6 @@ const GroupForm: NextPage = () => {
                   type="submit"
                 >
                   {t("actions.create")}
-                  {formik.isSubmitting && (
-                    <Spinner size={10} sx={{ marginLeft: 1 }} />
-                  )}
                 </PrimaryActionButton>
               </Flex>
             </Form>

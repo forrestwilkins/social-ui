@@ -19,7 +19,6 @@ import AttachedImages from "../Images/AttachedImages";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import Spinner from "../Shared/Spinner";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -116,17 +115,14 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
                 />
 
                 <PrimaryActionButton
-                  type="submit"
-                  sx={{ marginTop: 1.5 }}
                   disabled={
                     formik.isSubmitting ||
                     (!formik.dirty && !selectedImages.length)
                   }
+                  sx={{ marginTop: 1.5 }}
+                  type="submit"
                 >
                   {t(editPost ? "actions.save" : "actions.post")}
-                  {formik.isSubmitting && (
-                    <Spinner size={10} sx={{ marginLeft: 1 }} />
-                  )}
                 </PrimaryActionButton>
               </Flex>
             </Form>

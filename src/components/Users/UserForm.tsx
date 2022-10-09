@@ -17,7 +17,6 @@ import Center from "../Shared/Center";
 import CompactButton from "../Shared/CompactButton";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import Spinner from "../Shared/Spinner";
 import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
 
@@ -142,16 +141,13 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
 
           <Flex flexEnd>
             <PrimaryActionButton
-              type="submit"
               disabled={
                 formik.isSubmitting ||
                 (!formik.dirty && !profilePicture && !coverPhoto)
               }
+              type="submit"
             >
               {submitButtonText}
-              {formik.isSubmitting && (
-                <Spinner size={10} sx={{ marginLeft: 1 }} />
-              )}
             </PrimaryActionButton>
           </Flex>
         </Form>

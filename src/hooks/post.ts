@@ -30,6 +30,7 @@ export const usePostQuery = (
   return [data?.post, loading, error];
 };
 
+// FIXME: Currently doesn't update cache if no images
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
   const [me] = useMeQuery();

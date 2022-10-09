@@ -5,15 +5,18 @@ export const getImagePath = (imageId: number) =>
 
 export const buildImageData = (selected?: File | File[]) => {
   const imageData = new FormData();
-  if (!selected) {
+  const isMultiple = !(selected instanceof File);
+
+  if (!selected || (isMultiple && !selected.length)) {
     return undefined;
   }
-  if (selected instanceof File) {
+  if (!isMultiple) {
     imageData.append("image", selected);
     return imageData;
   }
   for (const image of selected) {
     imageData.append("images", image);
   }
+
   return imageData;
 };

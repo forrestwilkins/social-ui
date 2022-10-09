@@ -8,6 +8,7 @@ import {
   GroupFormValues,
   GroupsQuery,
 } from "../types/group";
+import { ImageEntity } from "../types/image";
 
 export const useCreateGroupMutation = () => {
   const [createGroup] = useMutation<CreateGroupMutation>(CREATE_GROUP_MUTATION);
@@ -19,13 +20,16 @@ export const useCreateGroupMutation = () => {
     await createGroup({
       variables: { groupData },
       async update(cache, { data }) {
-        if (!data || !coverPhotoData) {
+        if (!data) {
           return;
         }
-        const coverPhoto = await uploadGroupCoverPhoto(
-          data.createGroup.id,
-          coverPhotoData
-        );
+        let coverPhoto: ImageEntity | undefined;
+        if (coverPhotoData) {
+          coverPhoto = await uploadGroupCoverPhoto(
+            data.createGroup.id,
+            coverPhotoData
+          );
+        }
         cache.updateQuery<GroupsQuery>(
           { query: GROUPS_QUERY },
           (groupsData) => {
@@ -34,7 +38,10 @@ export const useCreateGroupMutation = () => {
             }
             return {
               groups: produce(groupsData.groups, (draft) => {
-                draft.unshift({ ...data.createGroup, coverPhoto });
+                draft.unshift({
+                  ...data.createGroup,
+                  ...(coverPhoto && { coverPhoto }),
+                });
               }),
             };
           }

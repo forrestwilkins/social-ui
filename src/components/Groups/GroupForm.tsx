@@ -31,7 +31,7 @@ interface Props extends CardProps {
   editGroup?: Group;
 }
 
-const GroupForm = ({ editGroup }: Props) => {
+const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const createGroup = useCreateGroupMutation();
@@ -54,7 +54,7 @@ const GroupForm = ({ editGroup }: Props) => {
         // TODO: Add update logic here
         return;
       }
-      createGroup(formValues, imageData);
+      await createGroup(formValues, imageData);
 
       setImageInputKey(generateRandom());
       setCoverPhoto(undefined);
@@ -71,7 +71,7 @@ const GroupForm = ({ editGroup }: Props) => {
   };
 
   return (
-    <Card>
+    <Card {...cardProps}>
       <CardContent>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {(formik) => (

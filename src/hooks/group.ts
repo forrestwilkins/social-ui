@@ -1,22 +1,44 @@
 import { useMutation } from "@apollo/client";
+import produce from "immer";
 import { CREATE_GROUP_MUTATION } from "../client/groups/mutations";
-import { GroupFormValues } from "../types/group";
+import { GROUPS_QUERY } from "../client/groups/queries";
+import { uploadGroupCoverPhoto } from "../client/groups/rest";
+import {
+  CreateGroupMutation,
+  GroupFormValues,
+  GroupsQuery,
+} from "../types/group";
 
 export const useCreateGroupMutation = () => {
-  const [createGroup] = useMutation(CREATE_GROUP_MUTATION);
+  const [createGroup] = useMutation<CreateGroupMutation>(CREATE_GROUP_MUTATION);
 
   const _createGroup = async (
     groupData: GroupFormValues,
-    imageData?: FormData
+    coverPhotoData?: FormData
   ) => {
     await createGroup({
       variables: { groupData },
       async update(cache, { data }) {
-        if (!data || !imageData) {
+        if (!data || !coverPhotoData) {
           return;
         }
-        // TODO: Add remaining logic for creating a group
-        // const images = await uploadPostImages(data.createPost.id, imageData);
+        const coverPhoto = await uploadGroupCoverPhoto(
+          data.createGroup.id,
+          coverPhotoData
+        );
+        cache.updateQuery<GroupsQuery>(
+          { query: GROUPS_QUERY },
+          (groupsData) => {
+            if (!groupsData) {
+              return;
+            }
+            return {
+              groups: produce(groupsData.groups, (draft) => {
+                draft.unshift({ ...data.createGroup, coverPhoto });
+              }),
+            };
+          }
+        );
       },
     });
   };

@@ -29,10 +29,10 @@ export enum TypeNames {
 }
 
 export enum ApiRoutes {
-  Health = "/",
+  Groups = "/groups",
+  Images = "/images",
   Posts = "/posts",
   Users = "/users",
-  Images = "/images",
 }
 
 export enum FieldNames {

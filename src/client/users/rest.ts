@@ -7,7 +7,7 @@ export const uploadProfilePicture = (userId: number, data: FormData) => {
   return multiPartRequest<ImageEntity>(HttpMethod.Post, path, data);
 };
 
-export const uploadCoverPhoto = (userId: number, data: FormData) => {
+export const uploadUserCoverPhoto = (userId: number, data: FormData) => {
   const path = `${ApiRoutes.Users}/${userId}/cover-photo`;
   return multiPartRequest<ImageEntity>(HttpMethod.Post, path, data);
 };

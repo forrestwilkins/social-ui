@@ -9,7 +9,10 @@ import {
   USER_PROFILE_QUERY,
   USER_QUERY,
 } from "../client/users/queries";
-import { uploadCoverPhoto, uploadProfilePicture } from "../client/users/rest";
+import {
+  uploadUserCoverPhoto,
+  uploadProfilePicture,
+} from "../client/users/rest";
 import { TypeNames } from "../constants/common";
 import { ImageEntity } from "../types/image";
 import {
@@ -68,7 +71,7 @@ export const useUpdateUserMutation = () => {
             profilePicture = await uploadProfilePicture(id, profilePictureData);
           }
           if (coverPhotoData) {
-            coverPhoto = await uploadCoverPhoto(id, coverPhotoData);
+            coverPhoto = await uploadUserCoverPhoto(id, coverPhotoData);
           }
           cache.updateFragment<User>(
             {

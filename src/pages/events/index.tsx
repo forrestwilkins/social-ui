@@ -9,10 +9,7 @@ const EventsIndex: NextPage = () => {
 
   return (
     <>
-      <LevelOneHeading style={{ fontSize: 18, marginBottom: 20 }}>
-        {t("navigation.events")}
-      </LevelOneHeading>
-
+      <LevelOneHeading header>{t("navigation.events")}</LevelOneHeading>
       <Typography gutterBottom>{t("prompts.wip")}</Typography>
     </>
   );

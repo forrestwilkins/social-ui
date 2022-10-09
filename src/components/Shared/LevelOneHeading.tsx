@@ -1,12 +1,35 @@
-import { CSSProperties, ReactNode } from "react";
+import { Typography, TypographyProps, useTheme } from "@mui/material";
 
-interface Props {
-  children: string | ReactNode;
-  style?: CSSProperties;
+interface Props extends TypographyProps {
+  header?: boolean;
 }
 
-const LevelOneHeading = ({ children, style }: Props) => (
-  <h1 style={{ fontSize: 16, margin: 0, ...style }}>{children}</h1>
-);
+const LevelOneHeading = ({ children, header, sx }: Props) => {
+  const theme = useTheme();
+
+  const getStyles = () => {
+    const defaultStyles = {
+      fontSize: 16,
+      margin: 0,
+      ...sx,
+    };
+    if (!header) {
+      return defaultStyles;
+    }
+    return {
+      ...defaultStyles,
+      color: theme.palette.text.secondary,
+      fontSize: 35,
+      marginBottom: 3,
+      marginTop: -1,
+    };
+  };
+
+  return (
+    <Typography variant="h1" sx={getStyles()}>
+      {children}
+    </Typography>
+  );
+};
 
 export default LevelOneHeading;

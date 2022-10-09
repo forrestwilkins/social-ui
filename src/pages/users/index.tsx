@@ -23,9 +23,7 @@ const UsersIndex: NextPage = () => {
 
   return (
     <>
-      <LevelOneHeading style={{ fontSize: 20, marginBottom: 18 }}>
-        {t("navigation.users")}
-      </LevelOneHeading>
+      <LevelOneHeading header>{t("navigation.users")}</LevelOneHeading>
 
       {data?.users.map((user) => (
         <Flex key={user.id} sx={{ marginBottom: 1 }}>

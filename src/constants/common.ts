@@ -4,7 +4,6 @@ export const MIDDOT_WITH_SPACES = " · ";
 
 export enum NavigationPaths {
   About = "/about",
-  Admin = "/admin",
   Edit = "/edit",
   Events = "/events",
   Groups = "/groups",

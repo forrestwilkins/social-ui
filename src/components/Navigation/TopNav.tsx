@@ -56,7 +56,7 @@ const TopNav = ({ appBarProps }: Props) => {
     <AppBar role="banner" position="fixed" sx={appBarStyles} {...appBarProps}>
       <Toolbar sx={toolbarStyles}>
         <Link href={NavigationPaths.Home}>
-          <LevelOneHeading style={brandStyles}>{t("brand")}</LevelOneHeading>
+          <LevelOneHeading sx={brandStyles}>{t("brand")}</LevelOneHeading>
         </Link>
 
         {isDesktop ? (

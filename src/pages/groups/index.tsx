@@ -11,7 +11,7 @@ const GroupsIndex: NextPage = () => {
 
   return (
     <>
-      <LevelOneHeading style={{ fontSize: 18, marginBottom: 20 }}>
+      <LevelOneHeading header>
         {t("groups.headers.discoverGroups")}
       </LevelOneHeading>
 

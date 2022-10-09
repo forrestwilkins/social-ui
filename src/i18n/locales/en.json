@@ -38,7 +38,6 @@
 
   "navigation": {
     "accountSettings": "Account Settings",
-    "admin": "Admin",
     "events": "Events",
     "groups": "Groups",
     "home": "Home",
@@ -131,12 +130,6 @@
     },
     "errors": {
       "unsupportedFormat": "Unsupported image format"
-    }
-  },
-
-  "admin": {
-    "labels": {
-      "admin": "Admin"
     }
   },
 

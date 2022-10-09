@@ -58,7 +58,7 @@ const Login: NextPage = () => {
   return (
     <Card>
       <CardContent>
-        <LevelOneHeading style={{ marginBottom: 12 }}>
+        <LevelOneHeading sx={{ marginBottom: 2 }}>
           {t("users.prompts.signInToPost")}
         </LevelOneHeading>
 

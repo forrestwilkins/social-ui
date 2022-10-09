@@ -1,6 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
 import {
-  AdminPanelSettings,
   Close,
   ExitToApp as SessionIcon,
   PersonAdd as SignUpIcon,
@@ -99,13 +98,6 @@ const NavDrawer = () => {
                   <UsersIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("navigation.users")} />
-              </ListItemButton>
-
-              <ListItemButton onClick={redirectTo(NavigationPaths.Admin)}>
-                <ListItemIcon>
-                  <AdminPanelSettings />
-                </ListItemIcon>
-                <ListItemText primary={t("navigation.admin")} />
               </ListItemButton>
 
               <ListItemButton

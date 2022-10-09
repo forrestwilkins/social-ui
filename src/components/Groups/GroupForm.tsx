@@ -13,6 +13,7 @@ import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
 import { useCreateGroupMutation } from "../../hooks/group";
+import { Group, GroupFormValues } from "../../types/group";
 import { generateRandom } from "../../utils/common";
 import { buildImageData } from "../../utils/image";
 import AttachedImages from "../Images/AttachedImages";
@@ -27,7 +28,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  editGroup?: any;
+  editGroup?: Group;
 }
 
 const GroupForm = ({ editGroup }: Props) => {
@@ -43,8 +44,8 @@ const GroupForm = ({ editGroup }: Props) => {
   };
 
   const handleSubmit = async (
-    formValues: any,
-    { resetForm, setSubmitting }: FormikHelpers<any>
+    formValues: GroupFormValues,
+    { resetForm, setSubmitting }: FormikHelpers<GroupFormValues>
   ) => {
     try {
       const imageData = buildImageData(selectedImage);

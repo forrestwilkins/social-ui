@@ -11,8 +11,6 @@ export interface Post {
   __typename: string;
 }
 
-export type EditPost = Pick<Post, "id" | "body" | "images">;
-
 export type PostsFormValues = Pick<Post, "body">;
 
 export interface PostQuery {

@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardContent,
   CardProps,
@@ -18,6 +17,7 @@ import { buildImageData } from "../../utils/image";
 import AttachedImages from "../Images/AttachedImages";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
+import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import Spinner from "../Shared/Spinner";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
@@ -107,9 +107,9 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
                   setImages={setSelctedImages}
                 />
 
-                <Button
+                <PrimaryActionButton
                   type="submit"
-                  sx={{ height: 40, marginTop: 0.75 }}
+                  sx={{ marginTop: 0.75 }}
                   disabled={
                     formik.isSubmitting ||
                     (!formik.dirty && !selectedImages.length)
@@ -119,7 +119,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
                   {formik.isSubmitting && (
                     <Spinner size={10} sx={{ marginLeft: 1 }} />
                   )}
-                </Button>
+                </PrimaryActionButton>
               </Flex>
             </Form>
           )}

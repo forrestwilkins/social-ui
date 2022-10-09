@@ -1,5 +1,5 @@
 import { useMutation, useReactiveVar } from "@apollo/client";
-import { Button, Card, CardContent, FormGroup } from "@mui/material";
+import { Card, CardContent, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import Router from "next/router";
@@ -9,6 +9,7 @@ import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
 import { ME_QUERY } from "../../client/users/queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
@@ -78,7 +79,7 @@ const Login: NextPage = () => {
               </FormGroup>
 
               <Flex flexEnd>
-                <Button
+                <PrimaryActionButton
                   type="submit"
                   disabled={formik.isSubmitting || !formik.dirty}
                 >
@@ -86,7 +87,7 @@ const Login: NextPage = () => {
                   {formik.isSubmitting && (
                     <Spinner size={10} sx={{ marginLeft: 1 }} />
                   )}
-                </Button>
+                </PrimaryActionButton>
               </Flex>
             </Form>
           )}

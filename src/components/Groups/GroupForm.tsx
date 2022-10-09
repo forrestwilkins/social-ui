@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, FormGroup } from "@mui/material";
+import { Card, CardContent, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import Flex from "../../components/Shared/Flex";
@@ -6,6 +6,7 @@ import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
+import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
 const GroupForm: NextPage = () => {
   const t = useTranslate();
@@ -42,7 +43,7 @@ const GroupForm: NextPage = () => {
               </FormGroup>
 
               <Flex flexEnd>
-                <Button
+                <PrimaryActionButton
                   type="submit"
                   disabled={formik.isSubmitting || !formik.dirty}
                 >
@@ -50,7 +51,7 @@ const GroupForm: NextPage = () => {
                   {formik.isSubmitting && (
                     <Spinner size={10} sx={{ marginLeft: 1 }} />
                   )}
-                </Button>
+                </PrimaryActionButton>
               </Flex>
             </Form>
           )}

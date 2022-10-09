@@ -1,6 +1,6 @@
 // TODO: Use UserForm for both sign up and login if possible
 
-import { Button, Divider, FormGroup, Typography } from "@mui/material";
+import { Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
@@ -16,6 +16,7 @@ import ImageInput from "../Images/ImageInput";
 import Center from "../Shared/Center";
 import CompactButton from "../Shared/CompactButton";
 import Flex from "../Shared/Flex";
+import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import Spinner from "../Shared/Spinner";
 import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
@@ -140,7 +141,7 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
           </FormGroup>
 
           <Flex flexEnd>
-            <Button
+            <PrimaryActionButton
               type="submit"
               disabled={
                 formik.isSubmitting ||
@@ -151,7 +152,7 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
               {formik.isSubmitting && (
                 <Spinner size={10} sx={{ marginLeft: 1 }} />
               )}
-            </Button>
+            </PrimaryActionButton>
           </Flex>
         </Form>
       )}

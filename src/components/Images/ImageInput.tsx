@@ -43,7 +43,7 @@ const ImageInput = ({
         disableRipple
         edge="start"
       >
-        <Image fontSize="large" />
+        <Image sx={{ fontSize: 40 }} />
       </IconButton>
     );
   };

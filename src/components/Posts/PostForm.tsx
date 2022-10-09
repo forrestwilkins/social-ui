@@ -1,9 +1,10 @@
 import {
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardProps,
   Divider,
   FormGroup,
+  styled,
 } from "@mui/material";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
@@ -20,6 +21,13 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import Spinner from "../Shared/Spinner";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
+
+const CardContent = styled(MuiCardContent)(() => ({
+  paddingBottom: 12,
+  "&:last-child": {
+    paddingBottom: 12,
+  },
+}));
 
 interface Props extends CardProps {
   editPost?: Post;
@@ -74,7 +82,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
 
   return (
     <Card {...cardProps}>
-      <CardContent sx={{ paddingTop: 2.5 }}>
+      <CardContent>
         <Formik
           enableReinitialize
           initialValues={initialValues}
@@ -98,7 +106,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
                 />
               </FormGroup>
 
-              <Divider sx={{ marginBottom: 0.8 }} />
+              <Divider sx={{ marginBottom: 1.3 }} />
 
               <Flex sx={{ justifyContent: "space-between" }}>
                 <ImageInput
@@ -109,7 +117,7 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
 
                 <PrimaryActionButton
                   type="submit"
-                  sx={{ marginTop: 0.75 }}
+                  sx={{ marginTop: 1.5 }}
                   disabled={
                     formik.isSubmitting ||
                     (!formik.dirty && !selectedImages.length)

@@ -5,18 +5,28 @@ import {
   CardProps,
   Typography,
 } from "@mui/material";
+import { NavigationPaths } from "../../constants/common";
 import { Group } from "../../types/group";
+import Link from "../Shared/Link";
+import GroupAvatar from "./GroupAvatar";
 
 interface Props extends CardProps {
   group: Group;
 }
 
 // TODO: Add remaining layout and functionality
-const GroupCard = ({ group: { name, description }, ...cardProps }: Props) => (
+const GroupCard = ({ group, ...cardProps }: Props) => (
   <Card {...cardProps}>
-    <CardHeader title={name} />
+    <CardHeader
+      avatar={<GroupAvatar group={group} />}
+      title={
+        <Link href={`${NavigationPaths.Groups}/${group.name}`}>
+          {group.name}
+        </Link>
+      }
+    />
     <CardContent>
-      <Typography>{description}</Typography>
+      <Typography>{group.description}</Typography>
     </CardContent>
   </Card>
 );

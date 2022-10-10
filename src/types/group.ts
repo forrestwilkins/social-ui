@@ -4,7 +4,7 @@ export interface Group {
   id: number;
   name: string;
   description: string;
-  coverPhoto: ImageEntity;
+  coverPhoto: ImageEntity | null;
   createdAt: string;
   updatedAt: string;
   __typename: string;

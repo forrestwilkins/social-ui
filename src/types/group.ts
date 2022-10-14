@@ -12,6 +12,10 @@ export interface Group {
 
 export type GroupFormValues = Pick<Group, "name" | "description">;
 
+export interface GroupQuery {
+  group: Group;
+}
+
 export interface GroupsQuery {
   groups: Group[];
 }

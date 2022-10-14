@@ -1,14 +1,26 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
 import { CREATE_GROUP_MUTATION } from "../client/groups/mutations";
-import { GROUPS_QUERY } from "../client/groups/queries";
+import { GROUPS_QUERY, GROUP_QUERY } from "../client/groups/queries";
 import { uploadGroupCoverPhoto } from "../client/groups/rest";
 import {
   CreateGroupMutation,
+  Group,
   GroupFormValues,
+  GroupQuery,
   GroupsQuery,
 } from "../types/group";
 import { ImageEntity } from "../types/image";
+
+export const useGroupQuery = (
+  name: string
+): [Group | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<GroupQuery>(GROUP_QUERY, {
+    variables: { name },
+    skip: !name,
+  });
+  return [data?.group, loading, error];
+};
 
 export const useCreateGroupMutation = () => {
   const [createGroup] = useMutation<CreateGroupMutation>(CREATE_GROUP_MUTATION);

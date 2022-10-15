@@ -1,6 +1,5 @@
 import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
-import { GraphQLError } from "graphql";
 import client from "../..";
 import { AuthResult } from "../../../types/auth";
 import { logOutUser } from "../../../utils/auth";
@@ -28,7 +27,7 @@ const refreshTokenLink = onError(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
             );
             if (!response) {
-              throw new GraphQLError("No response found");
+              return observer.error(graphQLErrors[index]);
             }
 
             switch (extensions.code) {

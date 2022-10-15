@@ -39,8 +39,8 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const t = useTranslate();
 
   const initialValues = {
-    name: "",
-    description: "",
+    name: editGroup ? editGroup.name : "",
+    description: editGroup ? editGroup.description : "",
   };
 
   const handleSubmit = async (

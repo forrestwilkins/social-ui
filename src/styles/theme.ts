@@ -34,15 +34,13 @@ const theme: Theme = createTheme(initialTheme, {
     MuiContainer: {
       styleOverrides: {
         root: {
-          paddingBottom: 150,
-          paddingTop: 85,
+          padding: "85px 10px 150px 10px",
+          [initialTheme.breakpoints.up("sm")]: {
+            padding: "105px 24px 150px 24px",
+          },
           [initialTheme.breakpoints.up("md")]: {
             paddingBottom: 130,
             paddingTop: 135,
-          },
-          [initialTheme.breakpoints.down("sm")]: {
-            paddingLeft: 10,
-            paddingRight: 10,
           },
         },
         maxWidthSm: {

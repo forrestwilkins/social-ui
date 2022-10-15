@@ -6,8 +6,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { NavigationPaths, ResourceNames } from "../../constants/common";
+import { ResourceNames } from "../../constants/common";
 import { Group } from "../../types/group";
+import { getGroupPagePath } from "../../utils/group";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
@@ -19,6 +20,7 @@ interface Props extends CardProps {
 // TODO: Add remaining layout and functionality
 const GroupCard = ({ group, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const groupPagePath = getGroupPagePath(group.name);
 
   const handleDelete = () => console.log("TODO: Add delete logic for group");
 
@@ -26,11 +28,7 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
     <Card {...cardProps}>
       <CardHeader
         avatar={<GroupAvatar group={group} />}
-        title={
-          <Link href={`${NavigationPaths.Groups}/${group.name}`}>
-            {group.name}
-          </Link>
-        }
+        title={<Link href={groupPagePath}>{group.name}</Link>}
         action={
           // TODO: Add permission logic for edit and delete
           <ItemMenu

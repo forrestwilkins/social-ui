@@ -23,3 +23,7 @@ export interface GroupsQuery {
 export interface CreateGroupMutation {
   createGroup: Group;
 }
+
+export interface UpdateGroupMutation {
+  updateGroup: Group;
+}

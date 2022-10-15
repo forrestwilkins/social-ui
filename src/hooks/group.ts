@@ -1,14 +1,20 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
-import { CREATE_GROUP_MUTATION } from "../client/groups/mutations";
+import { GROUP_FRAGMENT } from "../client/groups/fragments";
+import {
+  CREATE_GROUP_MUTATION,
+  UPDATE_GROUP_MUTATION,
+} from "../client/groups/mutations";
 import { GROUPS_QUERY, GROUP_QUERY } from "../client/groups/queries";
 import { uploadGroupCoverPhoto } from "../client/groups/rest";
+import { TypeNames } from "../constants/common";
 import {
   CreateGroupMutation,
   Group,
   GroupFormValues,
   GroupQuery,
   GroupsQuery,
+  UpdateGroupMutation,
 } from "../types/group";
 import { ImageEntity } from "../types/image";
 
@@ -29,7 +35,7 @@ export const useCreateGroupMutation = () => {
     groupData: GroupFormValues,
     coverPhotoData?: FormData
   ) => {
-    await createGroup({
+    const { data } = await createGroup({
       variables: { groupData },
       async update(cache, { data }) {
         if (!data) {
@@ -60,7 +66,53 @@ export const useCreateGroupMutation = () => {
         );
       },
     });
+
+    return data?.createGroup;
   };
 
   return _createGroup;
+};
+
+export const useUpdateGroupMutation = () => {
+  const [updateGroup] = useMutation<UpdateGroupMutation>(UPDATE_GROUP_MUTATION);
+
+  const _updateGroup = async (
+    id: number,
+    formValues: GroupFormValues,
+    coverPhotoData?: FormData
+  ) => {
+    const { data } = await updateGroup({
+      variables: { groupData: { id, ...formValues } },
+      async update(cache, { data }) {
+        if (!coverPhotoData || !data) {
+          return;
+        }
+        let coverPhoto: ImageEntity | undefined;
+        if (coverPhotoData) {
+          coverPhoto = await uploadGroupCoverPhoto(
+            data.updateGroup.id,
+            coverPhotoData
+          );
+        }
+        cache.updateFragment<Group>(
+          {
+            id: `${TypeNames.Group}:${id}`,
+            fragment: GROUP_FRAGMENT,
+            fragmentName: "GroupFragment",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              if (!draft || !coverPhoto) {
+                return;
+              }
+              draft.coverPhoto = coverPhoto;
+            })
+        );
+      },
+    });
+
+    return data?.updateGroup;
+  };
+
+  return _updateGroup;
 };

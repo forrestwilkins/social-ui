@@ -25,7 +25,12 @@ const GroupPage: NextPage = () => {
     return null;
   }
 
-  return <>{group.name}</>;
+  return (
+    <>
+      <Typography>{group.name}</Typography>
+      <Typography>{group.description}</Typography>
+    </>
+  );
 };
 
 export default GroupPage;

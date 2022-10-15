@@ -23,6 +23,7 @@ export enum ResourceNames {
 }
 
 export enum TypeNames {
+  Group = "Group",
   Image = "Image",
   Post = "Post",
   User = "User",

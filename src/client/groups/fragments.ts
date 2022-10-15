@@ -14,3 +14,13 @@ export const GROUP_FRAGMENT = gql`
   }
   ${IMAGE_FRAGMENT}
 `;
+
+export const GROUP_MUTATION_FRAGMENT = gql`
+  fragment GroupMutationFragment on Group {
+    id
+    name
+    description
+    createdAt
+    updatedAt
+  }
+`;

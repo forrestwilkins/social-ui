@@ -12,9 +12,13 @@ import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common";
 import { useTranslate } from "../../hooks/common";
-import { useCreateGroupMutation } from "../../hooks/group";
+import {
+  useCreateGroupMutation,
+  useUpdateGroupMutation,
+} from "../../hooks/group";
 import { Group, GroupFormValues } from "../../types/group";
-import { generateRandom } from "../../utils/common";
+import { generateRandom, redirectTo } from "../../utils/common";
+import { getGroupPagePath } from "../../utils/group";
 import { buildImageData } from "../../utils/image";
 import AttachedImages from "../Images/AttachedImages";
 import ImageInput from "../Images/ImageInput";
@@ -35,6 +39,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const createGroup = useCreateGroupMutation();
+  const updateGroup = useUpdateGroupMutation();
 
   const t = useTranslate();
 
@@ -51,17 +56,22 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
       const imageData = buildImageData(coverPhoto);
 
       if (editGroup) {
-        // TODO: Add update logic here
+        const group = await updateGroup(editGroup.id, formValues, imageData);
+        if (!group) {
+          throw new Error(t("groups.errors.couldNotUpdate"));
+        }
+        const groupPagePath = getGroupPagePath(group.name);
+        redirectTo(groupPagePath);
         return;
       }
-      await createGroup(formValues, imageData);
 
+      await createGroup(formValues, imageData);
       setImageInputKey(generateRandom());
       setCoverPhoto(undefined);
       setSubmitting(false);
       resetForm();
     } catch (err) {
-      toastVar({ status: "error", title: err as string });
+      toastVar({ status: "error", title: String(err) });
     }
   };
 
@@ -102,11 +112,13 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                 />
 
                 <PrimaryActionButton
-                  disabled={formik.isSubmitting || !formik.dirty}
+                  disabled={
+                    formik.isSubmitting || (!formik.dirty && !coverPhoto)
+                  }
                   sx={{ marginTop: 1.5 }}
                   type="submit"
                 >
-                  {t("actions.create")}
+                  {editGroup ? t("actions.save") : t("actions.create")}
                 </PrimaryActionButton>
               </Flex>
             </Form>

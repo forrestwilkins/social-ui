@@ -88,11 +88,13 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
             <Form>
               <FormGroup>
                 <TextField
+                  autoComplete="off"
                   label={t("groups.form.name")}
                   name={FieldNames.Name}
                 />
 
                 <TextField
+                  autoComplete="off"
                   label={t("groups.form.description")}
                   name={FieldNames.Description}
                 />

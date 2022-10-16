@@ -18,3 +18,9 @@ export const UPDATE_GROUP_MUTATION = gql`
   }
   ${GROUP_MUTATION_FRAGMENT}
 `;
+
+export const DELETE_GROUP_MUTATION = gql`
+  mutation DeleteGroupMutation($id: ID!) {
+    deleteGroup(id: $id)
+  }
+`;

@@ -77,8 +77,8 @@ const PostCard = ({
     marginBottom: isLoggedIn ? 1.9 : 0,
   };
 
-  const handleDelete = (id: number) => {
-    deletePost(id);
+  const handleDelete = async (id: number) => {
+    await deletePost(id);
     redirectTo(NavigationPaths.Home);
   };
 

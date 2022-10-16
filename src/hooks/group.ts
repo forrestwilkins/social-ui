@@ -3,6 +3,7 @@ import produce from "immer";
 import { GROUP_FRAGMENT } from "../client/groups/fragments";
 import {
   CREATE_GROUP_MUTATION,
+  DELETE_GROUP_MUTATION,
   UPDATE_GROUP_MUTATION,
 } from "../client/groups/mutations";
 import { GROUPS_QUERY, GROUP_QUERY } from "../client/groups/queries";
@@ -115,4 +116,32 @@ export const useUpdateGroupMutation = () => {
   };
 
   return _updateGroup;
+};
+
+export const useDeleteGroupMutation = () => {
+  const [deleteGroup] = useMutation(DELETE_GROUP_MUTATION);
+
+  const _deleteGroup = async (id: number) => {
+    await deleteGroup({
+      variables: { id },
+      update(cache) {
+        cache.updateQuery<GroupsQuery>(
+          { query: GROUPS_QUERY },
+          (groupsData) => {
+            if (!groupsData) {
+              return;
+            }
+            return {
+              groups: produce(groupsData.groups, (draft) => {
+                const index = draft.findIndex((p) => p.id === id);
+                draft.splice(index, 1);
+              }),
+            };
+          }
+        );
+      },
+    });
+  };
+
+  return _deleteGroup;
 };

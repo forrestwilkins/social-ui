@@ -1,8 +1,9 @@
 import {
   Card,
   CardContent,
-  CardHeader,
+  CardHeader as MuiCardHeader,
   CardProps,
+  styled,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -13,6 +14,10 @@ import { getGroupPagePath } from "../../utils/group";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
+
+const CardHeader = styled(MuiCardHeader)(() => ({
+  paddingBottom: 0,
+}));
 
 interface Props extends CardProps {
   group: Group;

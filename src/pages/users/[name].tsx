@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import ProfileCard from "../../components/Users/ProfileCard";
+import UserProfileCard from "../../components/Users/UserProfileCard";
 import { useTranslate } from "../../hooks/common";
 import { useUserQuery } from "../../hooks/user";
 
@@ -28,7 +28,7 @@ const UserProfile: NextPage = () => {
 
   return (
     <>
-      <ProfileCard user={user} />
+      <UserProfileCard user={user} />
       {user.posts && <PostList posts={user.posts} />}
     </>
   );

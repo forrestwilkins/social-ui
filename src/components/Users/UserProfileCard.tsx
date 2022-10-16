@@ -49,7 +49,7 @@ interface Props extends CardProps {
   user: User;
 }
 
-const ProfileCard = ({ user, ...cardProps }: Props) => {
+const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [me] = useMeQuery();
 
@@ -123,4 +123,4 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
   );
 };
 
-export default ProfileCard;
+export default UserProfileCard;

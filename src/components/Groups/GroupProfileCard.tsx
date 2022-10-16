@@ -1,12 +1,14 @@
+// TODO: Add remaining layout and functionality - below is a WIP
+
 import { HowToVote } from "@mui/icons-material";
 import {
   Box,
   Card,
   CardContent,
-  CardHeader,
+  CardHeader as MuiCardHeader,
   CardProps,
+  styled,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
@@ -19,16 +21,27 @@ import GhostButton from "../Shared/GhostButton";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 
+const DetailsBox = styled(Box)(({ theme }) => ({
+  color: theme.palette.primary.main,
+}));
+const NameText = styled(Typography)(() => ({
+  fontFamily: "Inter Bold",
+  marginBottom: 5,
+  marginTop: -55,
+}));
+const CardHeader = styled(MuiCardHeader)(() => ({
+  marginTop: 7.5,
+  paddingBottom: 0,
+}));
+
 interface Props extends CardProps {
   group: Group;
 }
 
-// TODO: Add remaining layout and functionality - below is a WIP
 const GroupProfileCard = ({ group, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const deleteGroup = useDeleteGroupMutation();
   const t = useTranslate();
-  const theme = useTheme();
 
   const handleDelete = async (id: number) => await deleteGroup(id);
 
@@ -56,30 +69,15 @@ const GroupProfileCard = ({ group, ...cardProps }: Props) => {
             />
           </>
         }
-        sx={{
-          marginTop: 0.75,
-          paddingBottom: 0,
-        }}
       />
       <CardContent>
-        <Typography
-          color="primary"
-          sx={{
-            fontFamily: "Inter Bold",
-            marginBottom: 1.25,
-            marginTop: -7,
-          }}
-          variant="h5"
-        >
+        <NameText color="primary" variant="h5">
           {group.name}
-        </Typography>
+        </NameText>
 
-        <Box
-          onClick={inDevToast}
-          sx={{ marginBottom: 1.75, color: theme.palette.primary.main }}
-        >
+        <DetailsBox onClick={inDevToast}>
           <Link href={"/"} disabled>
-            <HowToVote sx={{ marginBottom: -0.5 }} />{" "}
+            <HowToVote sx={{ marginBottom: -0.5, marginRight: "0.2ch" }} />
             {t("groups.labels.majority")}
           </Link>
           {MIDDOT_WITH_SPACES}
@@ -90,7 +88,7 @@ const GroupProfileCard = ({ group, ...cardProps }: Props) => {
           <Link href={"/"} disabled>
             {t("groups.requests", { count: 0 })}
           </Link>
-        </Box>
+        </DetailsBox>
       </CardContent>
     </Card>
   );

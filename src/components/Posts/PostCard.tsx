@@ -3,7 +3,6 @@ import {
   Card,
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
-  CardHeaderProps,
   CardProps,
   Divider,
   styled,
@@ -30,7 +29,7 @@ import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 import PostCardFooter from "./PostCardFooter";
 
-const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
+const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
   "& .MuiCardHeader-avatar": {
     marginRight: 11,

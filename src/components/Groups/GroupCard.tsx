@@ -14,6 +14,7 @@ import { useDeleteGroupMutation } from "../../hooks/group";
 import { Group } from "../../types/group";
 import { inDevToast } from "../../utils/common";
 import { getGroupPagePath } from "../../utils/group";
+import GhostButton from "../Shared/GhostButton";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
@@ -60,7 +61,7 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
 
         {/* // TODO: Add functionality for members and member requests */}
-        <Box onClick={inDevToast}>
+        <Box onClick={inDevToast} sx={{ marginBottom: 1.75 }}>
           <Link href={"/"} disabled>
             {t("groups.members", { count: 0 })}
           </Link>
@@ -69,6 +70,10 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
             {t("groups.requests", { count: 0 })}
           </Link>
         </Box>
+
+        <GhostButton onClick={inDevToast}>
+          {t("groups.actions.join")}
+        </GhostButton>
       </CardContent>
     </Card>
   );

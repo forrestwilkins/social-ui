@@ -111,6 +111,10 @@
   },
 
   "groups": {
+    "actions": {
+      "join": "Join",
+      "leave": "Leave"
+    },
     "form": {
       "name": "Name",
       "description": "Description"
@@ -121,7 +125,6 @@
     "errors": {
       "couldNotUpdate": "Group could not be updated"
     },
-
     "members": "{{count}} Members",
     "requests": "{{count}} Requests"
   },

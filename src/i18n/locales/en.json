@@ -125,6 +125,11 @@
     "errors": {
       "couldNotUpdate": "Group could not be updated"
     },
+    "labels": {
+      "consensus": "Consensus",
+      "majority": "Majority Vote",
+      "xToPass": "X to Pass"
+    },
     "members": "{{count}} Members",
     "requests": "{{count}} Requests"
   },

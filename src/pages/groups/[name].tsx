@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common";
 import { useGroupQuery } from "../../hooks/group";
@@ -25,12 +26,7 @@ const GroupPage: NextPage = () => {
     return null;
   }
 
-  return (
-    <>
-      <Typography>{group.name}</Typography>
-      <Typography>{group.description}</Typography>
-    </>
-  );
+  return <GroupProfileCard group={group} />;
 };
 
 export default GroupPage;

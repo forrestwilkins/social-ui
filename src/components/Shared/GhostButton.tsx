@@ -10,7 +10,6 @@ const Button = styled(MuiButton)(() => ({
   borderRadius: 8,
   fontFamily: "Inter Bold",
   letterSpacing: "0.3px",
-  minWidth: 70,
   textTransform: "none",
 }));
 

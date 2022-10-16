@@ -32,6 +32,7 @@ const NameText = styled(Typography)(() => ({
 const CardHeader = styled(MuiCardHeader)(() => ({
   marginTop: 7.5,
   paddingBottom: 0,
+  paddingRight: 22,
 }));
 
 interface Props extends CardProps {
@@ -57,13 +58,13 @@ const GroupProfileCard = ({ group, ...cardProps }: Props) => {
 
             <ItemMenu
               anchorEl={menuAnchorEl}
+              buttonStyles={{ paddingX: 0, minWidth: 38 }}
               deleteItem={handleDelete}
               itemId={group.id}
               itemType={ResourceNames.Group}
               name={group.name}
               setAnchorEl={setMenuAnchorEl}
               variant="ghost"
-              buttonStyles={{ paddingX: 0, minWidth: 38 }}
               canDelete
               canEdit
             />

@@ -39,7 +39,7 @@ const Layout = ({ children }: Props) => {
 
         <TopNav />
         <NavDrawer />
-        {!isDesktop && <BottomNav />}
+        {!isLarge && <BottomNav />}
         {isLarge && <LeftNav />}
 
         <Container maxWidth="sm">

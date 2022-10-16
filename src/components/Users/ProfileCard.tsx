@@ -19,7 +19,6 @@ import { useMeQuery } from "../../hooks/user";
 import { User } from "../../types/user";
 import { inDevToast } from "../../utils/common";
 import { formatDate } from "../../utils/time";
-import { getUserProfilePath } from "../../utils/user";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -59,7 +58,6 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
   const theme = useTheme();
 
   const joinDate = formatDate(user.createdAt);
-  const userProfilePath = getUserProfilePath(user.name);
   const isMe = me?.id === user.id;
 
   const avatarStyles: SxProps = {
@@ -112,11 +110,11 @@ const ProfileCard = ({ user, ...cardProps }: Props) => {
         </Typography>
 
         <Box onClick={inDevToast}>
-          <Link href={userProfilePath}>
+          <Link href={"/"} disabled>
             {t("users.profile.followersX", { count: 0 })}
           </Link>
           {MIDDOT_WITH_SPACES}
-          <Link href={userProfilePath}>
+          <Link href={"/"} disabled>
             {t("users.profile.followingX", { count: 0 })}
           </Link>
         </Box>

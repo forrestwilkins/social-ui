@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardContent,
   CardHeader as MuiCardHeader,
@@ -7,9 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { ResourceNames } from "../../constants/common";
+import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
+import { useTranslate } from "../../hooks/common";
 import { useDeleteGroupMutation } from "../../hooks/group";
 import { Group } from "../../types/group";
+import { inDevToast } from "../../utils/common";
 import { getGroupPagePath } from "../../utils/group";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -27,6 +30,7 @@ interface Props extends CardProps {
 const GroupCard = ({ group, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const deleteGroup = useDeleteGroupMutation();
+  const t = useTranslate();
 
   const { id, name, description } = group;
   const groupPagePath = getGroupPagePath(name);
@@ -53,7 +57,18 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
         }
       />
       <CardContent>
-        <Typography>{description}</Typography>
+        <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
+
+        {/* // TODO: Add functionality for members and member requests */}
+        <Box onClick={inDevToast}>
+          <Link href={"/"} disabled>
+            {t("groups.members", { count: 0 })}
+          </Link>
+          {MIDDOT_WITH_SPACES}
+          <Link href={"/"} disabled>
+            {t("groups.requests", { count: 0 })}
+          </Link>
+        </Box>
       </CardContent>
     </Card>
   );

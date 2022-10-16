@@ -34,12 +34,22 @@ const theme: Theme = createTheme(initialTheme, {
     MuiContainer: {
       styleOverrides: {
         root: {
+          // Mobile (first priority)
           padding: "85px 10px 150px 10px",
+
+          // Tablet
           [initialTheme.breakpoints.up("sm")]: {
             padding: "105px 24px 150px 24px",
           },
+
+          // Desktop
           [initialTheme.breakpoints.up("md")]: {
             paddingBottom: 130,
+            paddingTop: 115,
+          },
+
+          // Larger devices
+          [initialTheme.breakpoints.up("lg")]: {
             paddingTop: 135,
           },
         },

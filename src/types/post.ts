@@ -11,7 +11,9 @@ export interface Post {
   __typename: string;
 }
 
-export type PostsFormValues = Pick<Post, "body">;
+export interface PostsFormValues extends Pick<Post, "body"> {
+  groupId?: number;
+}
 
 export interface PostQuery {
   post: Post;

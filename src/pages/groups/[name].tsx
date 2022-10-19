@@ -2,6 +2,8 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
+import PostForm from "../../components/Posts/PostForm";
+import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common";
 import { useGroupQuery } from "../../hooks/group";
@@ -26,7 +28,16 @@ const GroupPage: NextPage = () => {
     return null;
   }
 
-  return <GroupProfileCard group={group} />;
+  return (
+    <>
+      <GroupProfileCard group={group} />
+
+      <PostForm groupId={group.id} />
+
+      {/* // TODO: Pass group posts here */}
+      <PostList posts={[]} />
+    </>
+  );
 };
 
 export default GroupPage;

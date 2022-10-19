@@ -30,9 +30,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   editPost?: Post;
+  groupId?: number;
 }
 
-const PostForm = ({ editPost, ...cardProps }: Props) => {
+const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
 
@@ -42,8 +43,9 @@ const PostForm = ({ editPost, ...cardProps }: Props) => {
 
   const t = useTranslate();
 
-  const initialValues = {
+  const initialValues: PostsFormValues = {
     body: editPost ? editPost.body : "",
+    groupId,
   };
 
   const handleSubmit = async (

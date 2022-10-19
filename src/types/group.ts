@@ -1,10 +1,12 @@
 import { ImageEntity } from "./image";
+import { Post } from "./post";
 
 export interface Group {
   id: number;
   name: string;
   description: string;
   coverPhoto: ImageEntity | null;
+  posts: Post[];
   createdAt: string;
   updatedAt: string;
   __typename: string;

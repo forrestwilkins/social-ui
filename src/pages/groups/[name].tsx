@@ -31,11 +31,8 @@ const GroupPage: NextPage = () => {
   return (
     <>
       <GroupProfileCard group={group} />
-
       <PostForm groupId={group.id} />
-
-      {/* // TODO: Pass group posts here */}
-      <PostList posts={[]} />
+      {<PostList posts={group.posts} />}
     </>
   );
 };

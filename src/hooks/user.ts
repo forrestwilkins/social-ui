@@ -4,11 +4,7 @@ import produce from "immer";
 import { toastVar } from "../client/cache";
 import { USER_PROFILE_FRAGMENT } from "../client/users/fragments";
 import { UPDATE_USER_MUTATION } from "../client/users/mutations";
-import {
-  ME_QUERY,
-  USER_PROFILE_QUERY,
-  USER_QUERY,
-} from "../client/users/queries";
+import { ME_QUERY, USER_QUERY } from "../client/users/queries";
 import {
   uploadUserCoverPhoto,
   uploadProfilePicture,
@@ -23,22 +19,13 @@ import {
   UserQuery,
 } from "../types/user";
 
-export const useUserQuery = ({
-  id,
-  name,
-  profile = false,
-}: {
-  id?: number;
-  name?: string;
-  profile?: boolean;
-}): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserQuery>(
-    profile ? USER_PROFILE_QUERY : USER_QUERY,
-    {
-      variables: { id, name },
-      skip: !id && !name,
-    }
-  );
+export const useUserQuery = (
+  name: string
+): [User | undefined, boolean, unknown] => {
+  const { data, loading, error } = useQuery<UserQuery>(USER_QUERY, {
+    variables: { name },
+    skip: !name,
+  });
   return [data?.user, loading, error];
 };
 

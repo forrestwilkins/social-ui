@@ -9,7 +9,7 @@ import {
 } from "../client/posts/mutations";
 import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
-import { USER_PROFILE_QUERY } from "../client/users/queries";
+import { USER_QUERY } from "../client/users/queries";
 import { TypeNames } from "../constants/common";
 import { ImageEntity } from "../types/image";
 import {
@@ -62,7 +62,7 @@ export const useCreatePostMutation = () => {
           };
         });
         cache.updateQuery<UserQuery>(
-          { query: USER_PROFILE_QUERY, variables: { name: me?.name } },
+          { query: USER_QUERY, variables: { name: me?.name } },
           (userData) => {
             if (!userData) {
               return;
@@ -134,7 +134,7 @@ export const useDeletePostMutation = () => {
           };
         });
       },
-      refetchQueries: [USER_PROFILE_QUERY, GROUP_QUERY],
+      refetchQueries: [USER_QUERY, GROUP_QUERY],
     });
   };
 

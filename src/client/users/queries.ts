@@ -15,16 +15,7 @@ export const ME_QUERY = gql`
 `;
 
 export const USER_QUERY = gql`
-  query UserQuery($id: ID) {
-    user(id: $id) {
-      ...UserProfileLiteFragment
-    }
-  }
-  ${USER_PROFILE_LITE_FRAGMENT}
-`;
-
-export const USER_PROFILE_QUERY = gql`
-  query UserProfileQuery($name: String) {
+  query UserQuery($name: String) {
     user(name: $name) {
       ...UserProfileFragment
     }

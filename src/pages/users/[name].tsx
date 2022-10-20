@@ -10,7 +10,7 @@ import { useUserQuery } from "../../hooks/user";
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [user, userLoading, userError] = useUserQuery({ name, profile: true });
+  const [user, userLoading, userError] = useUserQuery(name);
 
   const t = useTranslate();
 

@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
+import { GROUP_QUERY } from "../client/groups/queries";
 import { POST_FRAGMENT } from "../client/posts/fragments";
 import {
   CREATE_POST_MUTATION,
@@ -74,6 +75,7 @@ export const useCreatePostMutation = () => {
           }
         );
       },
+      refetchQueries: [GROUP_QUERY],
     });
   };
 
@@ -132,7 +134,7 @@ export const useDeletePostMutation = () => {
           };
         });
       },
-      refetchQueries: [USER_PROFILE_QUERY],
+      refetchQueries: [USER_PROFILE_QUERY, GROUP_QUERY],
     });
   };
 

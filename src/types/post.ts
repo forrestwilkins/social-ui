@@ -1,3 +1,4 @@
+import { Group } from "./group";
 import { ImageEntity } from "./image";
 import { User } from "./user";
 
@@ -8,6 +9,7 @@ export interface Post {
   updatedAt: string;
   images: ImageEntity[];
   user: User;
+  group: Group | null;
   __typename: string;
 }
 

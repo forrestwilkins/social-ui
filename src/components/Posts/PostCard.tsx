@@ -9,6 +9,7 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
 import {
@@ -59,12 +60,14 @@ const PostCard = ({
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
+  const { asPath } = useRouter();
   const t = useTranslate();
 
+  const isMe = me?.id === user.id;
+  const isPostPage = asPath.includes(NavigationPaths.Posts);
   const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
   const formattedDate = timeAgo(createdAt);
-  const isMe = me?.id === user.id;
 
   const bodyStyles: SxProps = {
     marginBottom: images.length ? 2.5 : 3.5,
@@ -78,7 +81,9 @@ const PostCard = ({
 
   const handleDelete = async (id: number) => {
     await deletePost(id);
-    redirectTo(NavigationPaths.Home);
+    if (isPostPage) {
+      redirectTo(NavigationPaths.Home);
+    }
   };
 
   return (

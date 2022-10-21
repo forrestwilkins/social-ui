@@ -34,6 +34,8 @@ export const usePostQuery = (
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
+
+  // TODO: Use user ojbect returned by mutation instead of me query
   const [me] = useMeQuery();
 
   const _createPost = async (

@@ -20,6 +20,7 @@ import {
   PostsQuery,
 } from "../types/post";
 import { UserQuery } from "../types/user";
+import { filterInactiveQueries, isActiveQuery } from "../utils/apollo";
 import { useMeQuery } from "./user";
 
 export const usePostQuery = (
@@ -53,31 +54,35 @@ export const useCreatePostMutation = () => {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
         const postWithImages = { ...data.createPost, images };
-        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
-          if (!postsData) {
-            return;
-          }
-          return {
-            posts: produce(postsData.posts, (draft) => {
-              draft.unshift(postWithImages);
-            }),
-          };
-        });
-        cache.updateQuery<UserQuery>(
-          { query: USER_QUERY, variables: { name: me?.name } },
-          (userData) => {
-            if (!userData) {
+        if (isActiveQuery(POSTS_QUERY)) {
+          cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
+            if (!postsData) {
               return;
             }
             return {
-              user: produce(userData.user, (draft) => {
-                draft.posts.unshift(postWithImages);
+              posts: produce(postsData.posts, (draft) => {
+                draft.unshift(postWithImages);
               }),
             };
-          }
-        );
+          });
+        }
+        if (isActiveQuery(USER_QUERY)) {
+          cache.updateQuery<UserQuery>(
+            { query: USER_QUERY, variables: { name: me?.name } },
+            (userData) => {
+              if (!userData) {
+                return;
+              }
+              return {
+                user: produce(userData.user, (draft) => {
+                  draft.posts.unshift(postWithImages);
+                }),
+              };
+            }
+          );
+        }
       },
-      refetchQueries: [GROUP_QUERY],
+      refetchQueries: filterInactiveQueries([GROUP_QUERY]),
     });
   };
 
@@ -124,6 +129,9 @@ export const useDeletePostMutation = () => {
     await deletePost({
       variables: { id },
       update(cache) {
+        if (!isActiveQuery(POSTS_QUERY)) {
+          return;
+        }
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
           if (!postsData) {
             return;
@@ -136,7 +144,7 @@ export const useDeletePostMutation = () => {
           };
         });
       },
-      refetchQueries: [USER_QUERY, GROUP_QUERY],
+      refetchQueries: filterInactiveQueries([USER_QUERY, GROUP_QUERY]),
     });
   };
 

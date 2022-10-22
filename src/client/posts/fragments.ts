@@ -32,6 +32,9 @@ export const POST_MUTATION_FRAGMENT = gql`
         ...ImageFragment
       }
     }
+    group {
+      name
+    }
     createdAt
     updatedAt
   }

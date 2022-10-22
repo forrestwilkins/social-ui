@@ -11,6 +11,7 @@ import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
 import { USER_QUERY } from "../client/users/queries";
 import { TypeNames } from "../constants/common";
+import { GroupQuery } from "../types/group";
 import { ImageEntity } from "../types/image";
 import {
   CreatePostMutation,
@@ -81,8 +82,25 @@ export const useCreatePostMutation = () => {
             }
           );
         }
+        if (isActiveQuery(GROUP_QUERY)) {
+          cache.updateQuery<GroupQuery>(
+            {
+              query: GROUP_QUERY,
+              variables: { name: data.createPost.group?.name },
+            },
+            (groupData) => {
+              if (!groupData) {
+                return;
+              }
+              return {
+                group: produce(groupData.group, (draft) => {
+                  draft.posts.unshift(postWithImages);
+                }),
+              };
+            }
+          );
+        }
       },
-      refetchQueries: filterInactiveQueries([GROUP_QUERY]),
     });
   };
 

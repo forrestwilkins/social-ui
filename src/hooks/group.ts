@@ -18,6 +18,7 @@ import {
   UpdateGroupMutation,
 } from "../types/group";
 import { ImageEntity } from "../types/image";
+import { updateQuery } from "../utils/apollo";
 
 export const useGroupQuery = (
   name: string
@@ -124,22 +125,11 @@ export const useDeleteGroupMutation = () => {
   const _deleteGroup = async (id: number) => {
     await deleteGroup({
       variables: { id },
-      update(cache) {
-        cache.updateQuery<GroupsQuery>(
-          { query: GROUPS_QUERY },
-          (groupsData) => {
-            if (!groupsData) {
-              return;
-            }
-            return {
-              groups: produce(groupsData.groups, (draft) => {
-                const index = draft.findIndex((p) => p.id === id);
-                draft.splice(index, 1);
-              }),
-            };
-          }
-        );
-      },
+      update: () =>
+        updateQuery<Group[]>({ query: GROUPS_QUERY }, (draft) => {
+          const index = draft.findIndex((p) => p.id === id);
+          draft.splice(index, 1);
+        }),
     });
   };
 

@@ -7,25 +7,9 @@ import {
   ApolloCache as ApolloCacheDefault,
   DocumentNode,
 } from "@apollo/client";
+import produce from "immer";
 import client from "../client";
-
-type RootQuery = Record<string, any>;
-
-interface ApolloCache extends ApolloCacheDefault<any> {
-  data?: {
-    data: {
-      ROOT_QUERY: RootQuery;
-    };
-  };
-}
-
-interface DefinitionNode {
-  kind: "OperationDefinition" | "FragmentDefinition";
-  operation: "query" | "mutation";
-  name: {
-    value: string;
-  };
-}
+import { ApolloCache, DefinitionNode, RootQuery } from "../types/apollo";
 
 /**
  * Check whether a query is currently active in Apollo Client
@@ -71,3 +55,29 @@ export const filterInactiveQueries = (queries: DocumentNode[]) =>
     }
     return result;
   }, []);
+
+export const updateQuery = (
+  cache: ApolloCacheDefault<any>,
+  query: DocumentNode,
+  variables: Record<string, any>,
+  recipe: () => void
+) => {
+  if (!isActiveQuery(query)) {
+    return;
+  }
+  const queryName = "TODO: Get actual query name here";
+  cache.updateQuery(
+    {
+      query,
+      variables,
+    },
+    (queryData) => {
+      if (!queryData) {
+        return;
+      }
+      return {
+        [queryName]: produce(queryData[queryName], recipe),
+      };
+    }
+  );
+};

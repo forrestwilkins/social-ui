@@ -22,7 +22,6 @@ import {
 } from "../types/post";
 import { UserQuery } from "../types/user";
 import { filterInactiveQueries, isActiveQuery } from "../utils/apollo";
-import { useMeQuery } from "./user";
 
 export const usePostQuery = (
   id?: number
@@ -36,9 +35,6 @@ export const usePostQuery = (
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
-
-  // TODO: Use user ojbect returned by mutation instead of me query
-  const [me] = useMeQuery();
 
   const _createPost = async (
     postData: PostsFormValues,
@@ -69,7 +65,10 @@ export const useCreatePostMutation = () => {
         }
         if (isActiveQuery(USER_QUERY)) {
           cache.updateQuery<UserQuery>(
-            { query: USER_QUERY, variables: { name: me?.name } },
+            {
+              query: USER_QUERY,
+              variables: { name: data.createPost.user.name },
+            },
             (userData) => {
               if (!userData) {
                 return;

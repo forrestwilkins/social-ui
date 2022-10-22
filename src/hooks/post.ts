@@ -18,14 +18,9 @@ import {
   Post,
   PostQuery,
   PostsFormValues,
-  PostsQuery,
 } from "../types/post";
 import { User } from "../types/user";
-import {
-  filterInactiveQueries,
-  isActiveQuery,
-  updateQuery,
-} from "../utils/apollo";
+import { filterInactiveQueries, updateQuery } from "../utils/apollo";
 
 export const usePostQuery = (
   id?: number
@@ -122,22 +117,11 @@ export const useDeletePostMutation = () => {
   const _deletePost = async (id: number) => {
     await deletePost({
       variables: { id },
-      update(cache) {
-        if (!isActiveQuery(POSTS_QUERY)) {
-          return;
-        }
-        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
-          if (!postsData) {
-            return;
-          }
-          return {
-            posts: produce(postsData.posts, (draft) => {
-              const index = draft.findIndex((p) => p.id === id);
-              draft.splice(index, 1);
-            }),
-          };
-        });
-      },
+      update: () =>
+        updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
+          const index = draft.findIndex((p) => p.id === id);
+          draft.splice(index, 1);
+        }),
       refetchQueries: filterInactiveQueries([USER_QUERY, GROUP_QUERY]),
     });
   };

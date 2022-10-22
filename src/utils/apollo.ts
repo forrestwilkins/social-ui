@@ -12,10 +12,10 @@ export const updateQuery = (
   variables: Record<string, any>,
   recipe: () => void
 ) => {
-  if (!isActiveQuery(query)) {
+  const queryName = getQueryName(query);
+  if (!queryName || !isActiveQuery(query)) {
     return;
   }
-  const queryName = "TODO: Get actual query name here";
   cache.updateQuery(
     {
       query,
@@ -32,10 +32,7 @@ export const updateQuery = (
   );
 };
 
-/**
- * Check whether a query is currently active in Apollo Client
- */
-export const isActiveQuery = (query: DocumentNode) => {
+export const getQueryName = (query: DocumentNode) => {
   const cache: ApolloCache = client.cache;
   const definitions = query.definitions as unknown as DefinitionNode[];
   const operationDefition = definitions.find(
@@ -48,9 +45,17 @@ export const isActiveQuery = (query: DocumentNode) => {
   const queryName = operationDefition.name.value
     .toLowerCase()
     .replace("query", "");
-  const activeQueries = getActiveQueries();
 
-  return !!activeQueries[queryName];
+  return queryName;
+};
+
+/**
+ * Check whether a query is currently active in Apollo Client
+ */
+export const isActiveQuery = (query: DocumentNode) => {
+  const queryName = getQueryName(query);
+  const activeQueries = getActiveQueries();
+  return !!(queryName && activeQueries[queryName]);
 };
 
 /**

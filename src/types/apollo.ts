@@ -1,4 +1,7 @@
-import { ApolloCache as ApolloCacheDefault } from "@apollo/client";
+import {
+  ApolloCache as ApolloCacheDefault,
+  DocumentNode,
+} from "@apollo/client";
 
 export type RootQuery = Record<string, any>;
 
@@ -16,4 +19,9 @@ export interface DefinitionNode {
   name: {
     value: string;
   };
+}
+
+export interface UpdateQueryOptions {
+  query: DocumentNode;
+  variables?: Record<string, any>;
 }

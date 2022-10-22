@@ -1,17 +1,19 @@
-import {
-  ApolloCache as ApolloCacheDefault,
-  DocumentNode,
-} from "@apollo/client";
+import { DocumentNode } from "@apollo/client";
 import produce from "immer";
+import { WritableDraft } from "immer/dist/internal";
 import client from "../client";
-import { ApolloCache, DefinitionNode, RootQuery } from "../types/apollo";
+import {
+  ApolloCache,
+  DefinitionNode,
+  RootQuery,
+  UpdateQueryOptions,
+} from "../types/apollo";
 
-export const updateQuery = (
-  cache: ApolloCacheDefault<any>,
-  query: DocumentNode,
-  variables: Record<string, any>,
-  recipe: () => void
+export const updateQuery = <T>(
+  { query, variables }: UpdateQueryOptions,
+  recipe: (draft: WritableDraft<T>) => void
 ) => {
+  const { cache } = client;
   const queryName = getQueryName(query);
   if (!queryName || !isActiveQuery(query)) {
     return;

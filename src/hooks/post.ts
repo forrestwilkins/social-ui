@@ -11,7 +11,7 @@ import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
 import { USER_QUERY } from "../client/users/queries";
 import { TypeNames } from "../constants/common";
-import { GroupQuery } from "../types/group";
+import { Group } from "../types/group";
 import { ImageEntity } from "../types/image";
 import {
   CreatePostMutation,
@@ -20,8 +20,12 @@ import {
   PostsFormValues,
   PostsQuery,
 } from "../types/post";
-import { UserQuery } from "../types/user";
-import { filterInactiveQueries, isActiveQuery } from "../utils/apollo";
+import { User } from "../types/user";
+import {
+  filterInactiveQueries,
+  isActiveQuery,
+  updateQuery,
+} from "../utils/apollo";
 
 export const usePostQuery = (
   id?: number
@@ -42,7 +46,7 @@ export const useCreatePostMutation = () => {
   ) => {
     await createPost({
       variables: { postData },
-      async update(cache, { data }) {
+      async update(_, { data }) {
         if (!data) {
           return;
         }
@@ -51,54 +55,27 @@ export const useCreatePostMutation = () => {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
         const postWithImages = { ...data.createPost, images };
-        if (isActiveQuery(POSTS_QUERY)) {
-          cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) => {
-            if (!postsData) {
-              return;
-            }
-            return {
-              posts: produce(postsData.posts, (draft) => {
-                draft.unshift(postWithImages);
-              }),
-            };
-          });
-        }
-        if (isActiveQuery(USER_QUERY)) {
-          cache.updateQuery<UserQuery>(
-            {
-              query: USER_QUERY,
-              variables: { name: data.createPost.user.name },
-            },
-            (userData) => {
-              if (!userData) {
-                return;
-              }
-              return {
-                user: produce(userData.user, (draft) => {
-                  draft.posts.unshift(postWithImages);
-                }),
-              };
-            }
-          );
-        }
-        if (isActiveQuery(GROUP_QUERY)) {
-          cache.updateQuery<GroupQuery>(
-            {
-              query: GROUP_QUERY,
-              variables: { name: data.createPost.group?.name },
-            },
-            (groupData) => {
-              if (!groupData) {
-                return;
-              }
-              return {
-                group: produce(groupData.group, (draft) => {
-                  draft.posts.unshift(postWithImages);
-                }),
-              };
-            }
-          );
-        }
+        updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
+          draft.unshift(postWithImages);
+        });
+        updateQuery<User>(
+          {
+            query: USER_QUERY,
+            variables: { name: data.createPost.user.name },
+          },
+          (draft) => {
+            draft.posts.unshift(postWithImages);
+          }
+        );
+        updateQuery<Group>(
+          {
+            query: GROUP_QUERY,
+            variables: { name: data.createPost.group?.name },
+          },
+          (draft) => {
+            draft.posts.unshift(postWithImages);
+          }
+        );
       },
     });
   };

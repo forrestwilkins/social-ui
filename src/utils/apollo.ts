@@ -16,20 +16,12 @@ export const updateQuery = (
   if (!queryName || !isActiveQuery(query)) {
     return;
   }
-  cache.updateQuery(
-    {
-      query,
-      variables,
-    },
-    (queryData) => {
-      if (!queryData) {
-        return;
-      }
-      return {
-        [queryName]: produce(queryData[queryName], recipe),
-      };
+  cache.updateQuery({ query, variables }, (queryData) => {
+    if (!queryData) {
+      return;
     }
-  );
+    return { [queryName]: produce(queryData[queryName], recipe) };
+  });
 };
 
 export const getQueryName = (query: DocumentNode) => {

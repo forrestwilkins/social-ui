@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps } from "@mui/material";
+import { Avatar, AvatarProps, useTheme } from "@mui/material";
 import { CSSProperties } from "react";
 import { useTranslate } from "../../hooks/common";
 import { useMeQuery } from "../../hooks/user";
@@ -25,12 +25,15 @@ const UserAvatar = ({
   ...avatarProps
 }: Props) => {
   const [me] = useMeQuery({ skip: !!user });
+
   const t = useTranslate();
+  const theme = useTheme();
 
   const userName = user?.name || me?.name;
   const userProfilePath = getUserProfilePath(userName);
 
   const avatarStyles = {
+    backgroundColor: theme.palette.background.paper,
     ...sx,
     ...(size ? { width: size, height: size } : {}),
   };

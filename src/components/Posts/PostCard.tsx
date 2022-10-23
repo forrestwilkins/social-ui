@@ -24,6 +24,7 @@ import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
 import { timeAgo } from "../../utils/time";
 import { getUserProfilePath } from "../../utils/user";
+import GroupItemAvatar from "../Groups/GroupItemAvatar";
 import ImageList from "../Images/ImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -52,7 +53,7 @@ interface Props extends CardProps {
 }
 
 const PostCard = ({
-  post: { id, body, images, user, createdAt },
+  post: { id, body, images, user, group, createdAt },
   ...cardProps
 }: Props) => {
   const [me] = useMeQuery();
@@ -89,6 +90,22 @@ const PostCard = ({
   return (
     <Card {...cardProps}>
       <CardHeader
+        avatar={
+          group ? (
+            <GroupItemAvatar user={user} group={group} />
+          ) : (
+            <UserAvatar user={user} withLink />
+          )
+        }
+        title={
+          <span style={{ fontSize: 14 }}>
+            <Link href={userProfilePath}>{user?.name}</Link>
+            {MIDDOT_WITH_SPACES}
+            <Link href={postPath} style={{ color: "inherit" }}>
+              {formattedDate}
+            </Link>
+          </span>
+        }
         action={
           isMe && (
             <ItemMenu
@@ -102,16 +119,6 @@ const PostCard = ({
               canEdit
             />
           )
-        }
-        avatar={<UserAvatar user={user} withLink />}
-        title={
-          <span style={{ fontSize: 14 }}>
-            <Link href={userProfilePath}>{user?.name}</Link>
-            {MIDDOT_WITH_SPACES}
-            <Link href={postPath} style={{ color: "inherit" }}>
-              {formattedDate}
-            </Link>
-          </span>
         }
       />
 

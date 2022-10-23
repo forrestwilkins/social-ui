@@ -15,6 +15,13 @@ export const POST_FRAGMENT = gql`
         ...ImageFragment
       }
     }
+    group {
+      id
+      name
+      coverPhoto {
+        ...ImageFragment
+      }
+    }
     createdAt
     updatedAt
   }

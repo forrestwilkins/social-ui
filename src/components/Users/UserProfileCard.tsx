@@ -61,7 +61,6 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const isMe = me?.id === user.id;
 
   const avatarStyles: SxProps = {
-    backgroundColor: theme.palette.background.paper,
     border: `4px solid ${theme.palette.background.paper}`,
     marginBottom: 1.25,
     marginLeft: -0.25,

@@ -65,7 +65,7 @@ const PostCard = ({
 
   const isMe = me?.id === user.id;
   const isPostPage = asPath.includes(NavigationPaths.Posts);
-  const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
+  const postPath = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
   const formattedDate = timeAgo(createdAt);
 
@@ -108,7 +108,7 @@ const PostCard = ({
           <span style={{ fontSize: 14 }}>
             <Link href={userProfilePath}>{user?.name}</Link>
             {MIDDOT_WITH_SPACES}
-            <Link href={linkToPostPage} style={{ color: "inherit" }}>
+            <Link href={postPath} style={{ color: "inherit" }}>
               {formattedDate}
             </Link>
           </span>
@@ -119,10 +119,7 @@ const PostCard = ({
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
         {!!images.length && (
-          <Link
-            aria-label={t("images.labels.attachedImages")}
-            href={linkToPostPage}
-          >
+          <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
             <ImageList images={images} sx={imageListStyles} />
           </Link>
         )}

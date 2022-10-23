@@ -112,12 +112,12 @@ const PostCard = ({
         <Box fontSize={14}>
           <Link
             href={userProfilePath}
-            style={showGroup ? { color: "inherit" } : undefined}
+            sx={showGroup ? { color: "inherit" } : undefined}
           >
             {user?.name}
           </Link>
           {MIDDOT_WITH_SPACES}
-          <Link href={postPath} style={{ color: "inherit", fontSize: 13 }}>
+          <Link href={postPath} sx={{ color: "inherit", fontSize: 13 }}>
             {formattedDate}
           </Link>
         </Box>

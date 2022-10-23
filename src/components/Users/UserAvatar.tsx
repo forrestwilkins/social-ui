@@ -66,7 +66,7 @@ const UserAvatar = ({
 
   if (withLink) {
     return (
-      <Link href={userProfilePath} style={linkStyles}>
+      <Link href={userProfilePath} sx={linkStyles}>
         {renderAvatar()}
       </Link>
     );

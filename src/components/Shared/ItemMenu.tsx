@@ -88,7 +88,7 @@ const ItemMenu = ({
 
         {canEdit && (
           <MenuItem>
-            <Link style={{ color: "inherit" }} href={editItemPath}>
+            <Link sx={{ color: "inherit" }} href={editItemPath}>
               <Edit fontSize="small" sx={editIconStyles} />
               {t("actions.edit")}
             </Link>

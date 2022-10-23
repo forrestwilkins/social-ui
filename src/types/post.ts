@@ -5,11 +5,11 @@ import { User } from "./user";
 export interface Post {
   id: number;
   body: string;
+  images: ImageEntity[];
+  group: Group | null;
+  user: User;
   createdAt: string;
   updatedAt: string;
-  images: ImageEntity[];
-  user: User;
-  group: Group | null;
   __typename: string;
 }
 

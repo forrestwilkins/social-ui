@@ -33,7 +33,11 @@ export const POST_MUTATION_FRAGMENT = gql`
       }
     }
     group {
+      id
       name
+      coverPhoto {
+        ...ImageFragment
+      }
     }
     createdAt
     updatedAt

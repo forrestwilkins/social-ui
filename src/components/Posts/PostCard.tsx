@@ -90,16 +90,16 @@ const PostCard = ({
     <Card {...cardProps}>
       <CardHeader
         action={
-          // TODO: Add permission logic for edit and delete
           isMe && (
             <ItemMenu
               anchorEl={menuAnchorEl}
-              canDelete
-              canEdit
               deleteItem={handleDelete}
               itemId={id}
               itemType={ResourceNames.Post}
               setAnchorEl={setMenuAnchorEl}
+              // TODO: Add permission logic for edit and delete
+              canDelete
+              canEdit
             />
           )
         }

@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import {
+  Box,
   Card,
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
@@ -22,6 +23,7 @@ import { useDeletePostMutation } from "../../hooks/post";
 import { useMeQuery } from "../../hooks/user";
 import { Post } from "../../types/post";
 import { redirectTo } from "../../utils/common";
+import { getGroupPagePath } from "../../utils/group";
 import { timeAgo } from "../../utils/time";
 import { getUserProfilePath } from "../../utils/user";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
@@ -66,8 +68,10 @@ const PostCard = ({
 
   const isMe = me?.id === user.id;
   const isPostPage = asPath.includes(NavigationPaths.Posts);
+  const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const postPath = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
+  const groupPath = getGroupPagePath(group?.name || "");
   const formattedDate = timeAgo(createdAt);
 
   const bodyStyles: SxProps = {
@@ -87,39 +91,64 @@ const PostCard = ({
     }
   };
 
+  const renderAvatar = () => {
+    if (group) {
+      return <GroupItemAvatar user={user} group={group} />;
+    }
+    return <UserAvatar user={user} withLink />;
+  };
+
+  const renderTitle = () => {
+    const showGroup = group && !isGroupPage;
+    return (
+      <Box marginBottom={showGroup ? -0.5 : 0}>
+        {showGroup && (
+          <Link href={groupPath}>
+            <Typography color="primary" lineHeight={1} fontSize={15}>
+              {group.name}
+            </Typography>
+          </Link>
+        )}
+        <Box fontSize={14}>
+          <Link
+            href={userProfilePath}
+            style={showGroup ? { color: "inherit" } : undefined}
+          >
+            {user?.name}
+          </Link>
+          {MIDDOT_WITH_SPACES}
+          <Link href={postPath} style={{ color: "inherit", fontSize: 13 }}>
+            {formattedDate}
+          </Link>
+        </Box>
+      </Box>
+    );
+  };
+
+  const renderMenu = () => {
+    if (!isMe) {
+      return null;
+    }
+    return (
+      // TODO: Add permission logic for edit and delete
+      <ItemMenu
+        anchorEl={menuAnchorEl}
+        deleteItem={handleDelete}
+        itemId={id}
+        itemType={ResourceNames.Post}
+        setAnchorEl={setMenuAnchorEl}
+        canDelete
+        canEdit
+      />
+    );
+  };
+
   return (
     <Card {...cardProps}>
       <CardHeader
-        avatar={
-          group ? (
-            <GroupItemAvatar user={user} group={group} />
-          ) : (
-            <UserAvatar user={user} withLink />
-          )
-        }
-        title={
-          <span style={{ fontSize: 14 }}>
-            <Link href={userProfilePath}>{user?.name}</Link>
-            {MIDDOT_WITH_SPACES}
-            <Link href={postPath} style={{ color: "inherit", fontSize: 13 }}>
-              {formattedDate}
-            </Link>
-          </span>
-        }
-        action={
-          isMe && (
-            <ItemMenu
-              anchorEl={menuAnchorEl}
-              deleteItem={handleDelete}
-              itemId={id}
-              itemType={ResourceNames.Post}
-              setAnchorEl={setMenuAnchorEl}
-              // TODO: Add permission logic for edit and delete
-              canDelete
-              canEdit
-            />
-          )
-        }
+        action={renderMenu()}
+        avatar={renderAvatar()}
+        title={renderTitle()}
       />
 
       <CardContent sx={cardContentStyles}>

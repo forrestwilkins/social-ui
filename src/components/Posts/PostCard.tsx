@@ -92,7 +92,7 @@ const PostCard = ({
   };
 
   const renderAvatar = () => {
-    if (group) {
+    if (group && !isGroupPage) {
       return <GroupItemAvatar user={user} group={group} />;
     }
     return <UserAvatar user={user} withLink />;

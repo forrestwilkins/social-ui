@@ -101,7 +101,7 @@ const PostCard = ({
           <span style={{ fontSize: 14 }}>
             <Link href={userProfilePath}>{user?.name}</Link>
             {MIDDOT_WITH_SPACES}
-            <Link href={postPath} style={{ color: "inherit" }}>
+            <Link href={postPath} style={{ color: "inherit", fontSize: 13 }}>
               {formattedDate}
             </Link>
           </span>

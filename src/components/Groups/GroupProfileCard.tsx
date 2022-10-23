@@ -9,6 +9,7 @@ import {
   CardHeader as MuiCardHeader,
   CardProps,
   styled,
+  SxProps,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -26,6 +27,7 @@ import Link from "../Shared/Link";
 const NameText = styled(Typography)(() => ({
   fontFamily: "Inter Bold",
   marginBottom: 5,
+  fontSize: 25,
 }));
 const DetailsBox = styled(Box)(({ theme }) => ({
   color: theme.palette.primary.main,
@@ -40,21 +42,29 @@ interface Props extends CardProps {
   group: Group;
 }
 
-const GroupProfileCard = ({ group, ...cardProps }: Props) => {
+const GroupProfileCard = ({
+  group: { id, name, coverPhoto },
+  ...cardProps
+}: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deleteGroup = useDeleteGroupMutation();
 
   const t = useTranslate();
 
-  const nameTextStyles = { marginTop: isLoggedIn ? -7 : -0.3 };
-  const voteIconStyles = { marginBottom: -0.5, marginRight: "0.2ch" };
+  const nameTextStyles: SxProps = {
+    marginTop: isLoggedIn ? -7 : -0.3,
+  };
+  const voteIconStyles: SxProps = {
+    marginBottom: -0.5,
+    marginRight: "0.2ch",
+  };
 
   const handleDelete = async (id: number) => await deleteGroup(id);
 
   return (
     <Card {...cardProps}>
-      <CoverPhoto imageId={group.coverPhoto?.id} />
+      <CoverPhoto imageId={coverPhoto?.id} />
       {isLoggedIn && (
         <CardHeader
           action={
@@ -67,9 +77,9 @@ const GroupProfileCard = ({ group, ...cardProps }: Props) => {
                 anchorEl={menuAnchorEl}
                 buttonStyles={{ paddingX: 0, minWidth: 38 }}
                 deleteItem={handleDelete}
-                itemId={group.id}
+                itemId={id}
                 itemType={ResourceNames.Group}
-                name={group.name}
+                name={name}
                 setAnchorEl={setMenuAnchorEl}
                 variant="ghost"
                 canDelete
@@ -80,8 +90,8 @@ const GroupProfileCard = ({ group, ...cardProps }: Props) => {
         />
       )}
       <CardContent>
-        <NameText color="primary" variant="h5" sx={nameTextStyles}>
-          {group.name}
+        <NameText color="primary" variant="h2" sx={nameTextStyles}>
+          {name}
         </NameText>
 
         <DetailsBox onClick={inDevToast}>

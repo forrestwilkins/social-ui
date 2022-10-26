@@ -69,7 +69,7 @@ const GroupProfileCard = ({
         <CardHeader
           action={
             <>
-              <JoinButton />
+              <JoinButton groupId={id} />
 
               <ItemMenu
                 anchorEl={menuAnchorEl}

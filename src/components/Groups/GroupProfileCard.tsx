@@ -20,9 +20,9 @@ import { useDeleteGroupMutation } from "../../hooks/group";
 import { Group } from "../../types/group";
 import { inDevToast } from "../../utils/common";
 import CoverPhoto from "../Images/CoverPhoto";
-import GhostButton from "../Shared/GhostButton";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({
   fontFamily: "Inter Bold",
@@ -69,9 +69,7 @@ const GroupProfileCard = ({
         <CardHeader
           action={
             <>
-              <GhostButton onClick={inDevToast} sx={{ marginRight: 1 }}>
-                {t("groups.actions.join")}
-              </GhostButton>
+              <JoinButton />
 
               <ItemMenu
                 anchorEl={menuAnchorEl}

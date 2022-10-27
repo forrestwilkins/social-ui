@@ -11,8 +11,8 @@ export const CREATE_POST_MUTATION = gql`
 `;
 
 export const UPDATE_POST_MUTATION = gql`
-  mutation UpdatePostMutation($postData: PostInput!) {
-    updatePost(postData: $postData) {
+  mutation UpdatePostMutation($id: Int!, $postData: PostInput!) {
+    updatePost(id: $id, postData: $postData) {
       ...PostMutationFragment
     }
   }

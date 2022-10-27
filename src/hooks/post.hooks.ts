@@ -83,11 +83,11 @@ export const useUpdatePostMutation = () => {
 
   const _updatePost = async (
     id: number,
-    formValues: PostsFormValues,
+    postData: PostsFormValues,
     imageData?: FormData
   ) => {
     await updatePost({
-      variables: { postData: { id, ...formValues } },
+      variables: { id, postData },
       async update(cache) {
         if (!imageData) {
           return;

@@ -3,8 +3,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import GroupForm from "../../../components/Groups/GroupForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import { useTranslate } from "../../../hooks/common";
-import { useGroupQuery } from "../../../hooks/group";
+import { useTranslate } from "../../../hooks/common.hooks";
+import { useGroupQuery } from "../../../hooks/group.hooks";
 
 const EditGroup: NextPage = () => {
   const { query } = useRouter();

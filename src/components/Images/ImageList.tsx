@@ -1,6 +1,6 @@
 import { Box, BoxProps } from "@mui/material";
-import { ImageEntity } from "../../types/image";
-import { getImagePath } from "../../utils/image";
+import { ImageEntity } from "../../types/image.types";
+import { getImagePath } from "../../utils/image.utils";
 
 interface Props extends Omit<BoxProps, "children"> {
   images: ImageEntity[];

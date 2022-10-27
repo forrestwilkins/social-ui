@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { MEMBER_REQUEST_QUERY } from "../../client/groups/queries";
-import { useTranslate } from "../../hooks/common";
-import { useCreateMemberRequestMutation } from "../../hooks/group";
-import { useMeQuery } from "../../hooks/user";
-import { MemberRequestQuery } from "../../types/group";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useCreateMemberRequestMutation } from "../../hooks/group.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { MemberRequestQuery } from "../../types/group.types";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {

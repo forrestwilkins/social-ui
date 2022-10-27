@@ -2,8 +2,8 @@
 
 import { Comment, Favorite, Reply } from "@mui/icons-material";
 import { CardActions, SxProps } from "@mui/material";
-import { useTranslate } from "../../hooks/common";
-import { inDevToast } from "../../utils/common";
+import { useTranslate } from "../../hooks/common.hooks";
+import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 
 const ICON_STYLES: SxProps = {

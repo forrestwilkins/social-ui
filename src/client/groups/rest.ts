@@ -1,6 +1,6 @@
-import { ApiRoutes, HttpMethod } from "../../constants/common";
-import { ImageEntity } from "../../types/image";
-import { multiPartRequest } from "../../utils/common";
+import { ApiRoutes, HttpMethod } from "../../constants/common.constants";
+import { ImageEntity } from "../../types/image.types";
+import { multiPartRequest } from "../../utils/common.utils";
 
 export const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {
   const path = `${ApiRoutes.Groups}/${groupId}/cover-photo`;

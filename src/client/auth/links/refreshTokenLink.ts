@@ -1,8 +1,8 @@
 import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import client from "../..";
-import { AuthResult } from "../../../types/auth";
-import { logOutUser } from "../../../utils/auth";
+import { AuthResult } from "../../../types/auth.types";
+import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
 import { REFRESH_TOKEN_MUTATION } from "../mutations";
 

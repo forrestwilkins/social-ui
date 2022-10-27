@@ -18,12 +18,12 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { NavigationPaths } from "../../constants/common";
-import { useLogOutMutation } from "../../hooks/auth";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { redirectTo as commonRedirectTo } from "../../utils/common";
-import { getUserProfilePath } from "../../utils/user";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useLogOutMutation } from "../../hooks/auth.hooks";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/UserAvatar";
 

@@ -7,11 +7,11 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
-import { NavigationPaths } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { redirectTo } from "../../utils/common";
-import { getUserProfilePath } from "../../utils/user";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { redirectTo } from "../../utils/common.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";

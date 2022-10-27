@@ -5,7 +5,7 @@ import { POSTS_QUERY } from "../client/posts/queries";
 import PostForm from "../components/Posts/PostForm";
 import PostList from "../components/Posts/PostList";
 import ProgressBar from "../components/Shared/ProgressBar";
-import { PostsQuery } from "../types/post";
+import { PostsQuery } from "../types/post.types";
 
 const Home: NextPage = () => {
   const { data, loading } = useQuery<PostsQuery>(POSTS_QUERY);

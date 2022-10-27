@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@mui/material";
-import { Post } from "../../types/post";
+import { Post } from "../../types/post.types";
 import PostCard from "./PostCard";
 
 interface Props extends BoxProps {

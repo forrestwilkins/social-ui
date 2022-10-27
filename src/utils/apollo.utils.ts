@@ -6,7 +6,7 @@ import {
   ApolloCache,
   DefinitionNode,
   UpdateQueryOptions,
-} from "../types/apollo";
+} from "../types/apollo.types";
 
 export const updateQuery = <T>(
   { query, variables }: UpdateQueryOptions,

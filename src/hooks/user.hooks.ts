@@ -9,15 +9,15 @@ import {
   uploadUserCoverPhoto,
   uploadProfilePicture,
 } from "../client/users/rest";
-import { TypeNames } from "../constants/common";
-import { ImageEntity } from "../types/image";
+import { TypeNames } from "../constants/common.constants";
+import { ImageEntity } from "../types/image.types";
 import {
   MeQuery,
   UpdateUserMutation,
   User,
   UserFormValues,
   UserQuery,
-} from "../types/user";
+} from "../types/user.types";
 
 export const useUserQuery = (
   name: string

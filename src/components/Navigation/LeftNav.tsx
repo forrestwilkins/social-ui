@@ -15,8 +15,8 @@ import {
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { isLoggedInVar } from "../../client/cache";
-import { NavigationPaths } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
 import Link from "../Shared/Link";
 
 interface ListItemTextProps extends MuiListItemTextProps {

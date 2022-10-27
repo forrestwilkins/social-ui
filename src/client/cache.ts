@@ -1,5 +1,5 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
-import { ToastNotification } from "../types/common";
+import { ToastNotification } from "../types/common.types";
 
 // App state
 export const isNavDrawerOpenVar = makeVar(false);

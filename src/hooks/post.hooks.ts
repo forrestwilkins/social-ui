@@ -10,17 +10,17 @@ import {
 import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
 import { uploadPostImages } from "../client/posts/rest";
 import { USER_QUERY } from "../client/users/queries";
-import { TypeNames } from "../constants/common";
-import { Group } from "../types/group";
-import { ImageEntity } from "../types/image";
+import { TypeNames } from "../constants/common.constants";
+import { Group } from "../types/group.types";
+import { ImageEntity } from "../types/image.types";
 import {
   CreatePostMutation,
   Post,
   PostQuery,
   PostsFormValues,
-} from "../types/post";
-import { User } from "../types/user";
-import { filterInactiveQueries, updateQuery } from "../utils/apollo";
+} from "../types/post.types";
+import { User } from "../types/user.types";
+import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
 
 export const usePostQuery = (
   id?: number

@@ -10,16 +10,16 @@ import { useState } from "react";
 import { toastVar } from "../../client/cache";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
-import { FieldNames } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
+import { FieldNames } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
 import {
   useCreateGroupMutation,
   useUpdateGroupMutation,
-} from "../../hooks/group";
-import { Group, GroupFormValues } from "../../types/group";
-import { generateRandom, redirectTo } from "../../utils/common";
-import { getGroupPagePath } from "../../utils/group";
-import { buildImageData } from "../../utils/image";
+} from "../../hooks/group.hooks";
+import { Group, GroupFormValues } from "../../types/group.types";
+import { generateRandom, redirectTo } from "../../utils/common.utils";
+import { getGroupPagePath } from "../../utils/group.utils";
+import { buildImageData } from "../../utils/image.utils";
 import AttachedImages from "../Images/AttachedImages";
 import ImageInput from "../Images/ImageInput";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";

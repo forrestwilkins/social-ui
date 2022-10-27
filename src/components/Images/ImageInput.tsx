@@ -1,7 +1,7 @@
 import { Image } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { ChangeEvent, ReactNode, useRef } from "react";
-import { useTranslate } from "../../hooks/common";
+import { useTranslate } from "../../hooks/common.hooks";
 
 interface Props {
   multiple?: boolean;

@@ -1,6 +1,6 @@
 import { Box, useTheme } from "@mui/material";
-import { Group } from "../../types/group";
-import { User } from "../../types/user";
+import { Group } from "../../types/group.types";
+import { User } from "../../types/user.types";
 import UserAvatar from "../Users/UserAvatar";
 import GroupAvatar from "./GroupAvatar";
 

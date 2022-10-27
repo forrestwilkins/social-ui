@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps } from "@mui/material";
-import { Group } from "../../types/group";
-import { getGroupPagePath } from "../../utils/group";
-import { getImagePath } from "../../utils/image";
+import { Group } from "../../types/group.types";
+import { getGroupPagePath } from "../../utils/group.utils";
+import { getImagePath } from "../../utils/image.utils";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { t } from "i18next";
-import { Time } from "../constants/common";
+import { Time } from "../constants/common.constants";
 
 export const formatDate = (timeStamp: string) =>
   dayjs(timeStamp).format("MMMM D, YYYY");

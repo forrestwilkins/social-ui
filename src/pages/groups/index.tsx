@@ -7,8 +7,8 @@ import GroupCard from "../../components/Groups/GroupCard";
 import GroupForm from "../../components/Groups/GroupForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { useTranslate } from "../../hooks/common";
-import { GroupsQuery } from "../../types/group";
+import { useTranslate } from "../../hooks/common.hooks";
+import { GroupsQuery } from "../../types/group.types";
 
 const GroupsIndex: NextPage = () => {
   const { data, loading, error } = useQuery<GroupsQuery>(GROUPS_QUERY);

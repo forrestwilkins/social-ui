@@ -12,11 +12,11 @@ import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { TextField } from "../../components/Shared/TextField";
-import { NavigationPaths } from "../../constants/common";
-import { UserFieldNames } from "../../constants/user";
-import { useTranslate } from "../../hooks/common";
-import { AuthResult } from "../../types/auth";
-import { UserFormValues } from "../../types/user";
+import { NavigationPaths } from "../../constants/common.constants";
+import { UserFieldNames } from "../../constants/user.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { AuthResult } from "../../types/auth.types";
+import { UserFormValues } from "../../types/user.types";
 
 const Login: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);

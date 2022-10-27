@@ -13,12 +13,15 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
-import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { User } from "../../types/user";
-import { inDevToast } from "../../utils/common";
-import { formatDate } from "../../utils/time";
+import {
+  MIDDOT_WITH_SPACES,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { User } from "../../types/user.types";
+import { inDevToast } from "../../utils/common.utils";
+import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";

@@ -6,8 +6,8 @@ import { USERS_QUERY } from "../../client/users/queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { useTranslate } from "../../hooks/common";
-import { UsersQuery } from "../../types/user";
+import { useTranslate } from "../../hooks/common.hooks";
+import { UsersQuery } from "../../types/user.types";
 
 const UsersIndex: NextPage = () => {
   const { data, error, loading } = useQuery<UsersQuery>(USERS_QUERY);

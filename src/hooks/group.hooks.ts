@@ -13,7 +13,7 @@ import {
   MEMBER_REQUEST_QUERY,
 } from "../client/groups/queries";
 import { uploadGroupCoverPhoto } from "../client/groups/rest";
-import { TypeNames } from "../constants/common";
+import { TypeNames } from "../constants/common.constants";
 import {
   CreateGroupMutation,
   CreateMemberRequestMutation,
@@ -22,9 +22,9 @@ import {
   GroupQuery,
   MemberRequest,
   UpdateGroupMutation,
-} from "../types/group";
-import { ImageEntity } from "../types/image";
-import { filterInactiveQueries, updateQuery } from "../utils/apollo";
+} from "../types/group.types";
+import { ImageEntity } from "../types/image.types";
+import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
 
 export const useGroupQuery = (
   name: string

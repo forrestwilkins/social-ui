@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import { toastVar } from "../../../client/cache";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import { NavigationPaths } from "../../../constants/common";
-import { useTranslate } from "../../../hooks/common";
-import { useDeletePostMutation, usePostQuery } from "../../../hooks/post";
-import { redirectTo } from "../../../utils/common";
+import { NavigationPaths } from "../../../constants/common.constants";
+import { useTranslate } from "../../../hooks/common.hooks";
+import { useDeletePostMutation, usePostQuery } from "../../../hooks/post.hooks";
+import { redirectTo } from "../../../utils/common.utils";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();

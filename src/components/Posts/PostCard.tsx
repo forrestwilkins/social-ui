@@ -17,15 +17,15 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
   ResourceNames,
-} from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeletePostMutation } from "../../hooks/post";
-import { useMeQuery } from "../../hooks/user";
-import { Post } from "../../types/post";
-import { redirectTo } from "../../utils/common";
-import { getGroupPagePath } from "../../utils/group";
-import { timeAgo } from "../../utils/time";
-import { getUserProfilePath } from "../../utils/user";
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useDeletePostMutation } from "../../hooks/post.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { Post } from "../../types/post.types";
+import { redirectTo } from "../../utils/common.utils";
+import { getGroupPagePath } from "../../utils/group.utils";
+import { timeAgo } from "../../utils/time.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
 import ImageList from "../Images/ImageList";
 import ItemMenu from "../Shared/ItemMenu";

@@ -3,8 +3,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import UserForm from "../../../components/Users/UserForm";
-import { useTranslate } from "../../../hooks/common";
-import { useUserQuery } from "../../../hooks/user";
+import { useTranslate } from "../../../hooks/common.hooks";
+import { useUserQuery } from "../../../hooks/user.hooks";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();

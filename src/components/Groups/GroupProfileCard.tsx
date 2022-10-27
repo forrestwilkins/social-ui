@@ -14,11 +14,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
-import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeleteGroupMutation } from "../../hooks/group";
-import { Group } from "../../types/group";
-import { inDevToast } from "../../utils/common";
+import {
+  MIDDOT_WITH_SPACES,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useDeleteGroupMutation } from "../../hooks/group.hooks";
+import { Group } from "../../types/group.types";
+import { inDevToast } from "../../utils/common.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";

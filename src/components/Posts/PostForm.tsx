@@ -8,13 +8,16 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
-import { FieldNames, NavigationPaths } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeleteImageMutation } from "../../hooks/image";
-import { useCreatePostMutation, useUpdatePostMutation } from "../../hooks/post";
-import { Post, PostsFormValues } from "../../types/post";
-import { generateRandom, redirectTo } from "../../utils/common";
-import { buildImageData } from "../../utils/image";
+import { FieldNames, NavigationPaths } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useDeleteImageMutation } from "../../hooks/image.hooks";
+import {
+  useCreatePostMutation,
+  useUpdatePostMutation,
+} from "../../hooks/post.hooks";
+import { Post, PostsFormValues } from "../../types/post.types";
+import { generateRandom, redirectTo } from "../../utils/common.utils";
+import { buildImageData } from "../../utils/image.utils";
 import AttachedImages from "../Images/AttachedImages";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";

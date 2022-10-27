@@ -1,12 +1,12 @@
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { ReactNode } from "react";
-import { useAuthCheckQuery } from "../../hooks/auth";
+import { useAuthCheckQuery } from "../../hooks/auth.hooks";
 import {
   useAboveBreakpoint,
   useIsDesktop,
   useTranslate,
-} from "../../hooks/common";
+} from "../../hooks/common.hooks";
 import theme from "../../styles/theme";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";

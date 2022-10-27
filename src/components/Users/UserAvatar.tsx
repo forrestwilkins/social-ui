@@ -1,10 +1,10 @@
 import { Avatar, AvatarProps, useTheme } from "@mui/material";
 import { CSSProperties } from "react";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { User } from "../../types/user";
-import { getImagePath } from "../../utils/image";
-import { getUserProfilePath } from "../../utils/user";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { User } from "../../types/user.types";
+import { getImagePath } from "../../utils/image.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {

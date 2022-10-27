@@ -1,6 +1,6 @@
-import { Group } from "./group";
-import { ImageEntity } from "./image";
-import { User } from "./user";
+import { Group } from "./group.types";
+import { ImageEntity } from "./image.types";
+import { User } from "./user.types";
 
 export interface Post {
   id: number;

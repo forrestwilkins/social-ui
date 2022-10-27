@@ -5,8 +5,8 @@ import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import PostForm from "../../components/Posts/PostForm";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { useTranslate } from "../../hooks/common";
-import { useGroupQuery } from "../../hooks/group";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useGroupQuery } from "../../hooks/group.hooks";
 
 // TODO: Add remaining layout and functionality - below is a WIP
 const GroupPage: NextPage = () => {

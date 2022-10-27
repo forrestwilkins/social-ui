@@ -1,12 +1,18 @@
+import createCache from "@emotion/cache";
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import { t } from "i18next";
 import Router from "next/router";
-import { isValidElement, ReactNode } from "react";
+import React, { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
 import { refreshToken } from "../client/auth/links/refreshTokenLink";
 import { isRefreshingTokenVar, toastVar } from "../client/cache";
-import { API_ROOT, HttpMethod, SCROLL_DURATION } from "../constants/common";
+import {
+  API_ROOT,
+  Environments,
+  HttpMethod,
+  SCROLL_DURATION,
+} from "../constants/common.constants";
 
 export const multiPartRequest = async <T>(
   method: HttpMethod,
@@ -80,3 +86,16 @@ export const scrollTop = () => {
 };
 
 export const redirectTo = (path: string) => Router.push(path);
+
+export const createEmotionCache = () => createCache({ key: "css" });
+
+export const initAxe = () => {
+  if (
+    typeof window !== "undefined" &&
+    process.env.NODE_ENV !== Environments.Production
+  ) {
+    const ReactDOM = require("react-dom");
+    const axe = require("@axe-core/react");
+    axe(React, ReactDOM, 1000);
+  }
+};

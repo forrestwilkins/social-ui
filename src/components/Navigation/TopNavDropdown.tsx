@@ -1,10 +1,10 @@
 import { ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
-import { ResourceNames } from "../../constants/common";
-import { useLogOutMutation } from "../../hooks/auth";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { inDevToast, redirectTo } from "../../utils/common";
+import { ResourceNames } from "../../constants/common.constants";
+import { useLogOutMutation } from "../../hooks/auth.hooks";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery } from "../../hooks/user.hooks";
+import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 const ICON_PROPS: SvgIconProps = {
   fontSize: "small",

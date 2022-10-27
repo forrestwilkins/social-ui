@@ -7,9 +7,9 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../client/cache";
-import { NavigationPaths } from "../constants/common";
-import { AuthResult } from "../types/auth";
-import { redirectTo } from "../utils/common";
+import { NavigationPaths } from "../constants/common.constants";
+import { AuthResult } from "../types/auth.types";
+import { redirectTo } from "../utils/common.utils";
 
 export const useAuthCheckQuery = () => {
   const { data, loading } = useQuery<AuthResult>(AUTH_CHECK_QUERY);

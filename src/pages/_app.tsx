@@ -5,8 +5,7 @@ import client from "../client";
 import Layout from "../components/_App/Layout";
 import "../i18n/config";
 import "../styles/globals.css";
-import { initAxe } from "../utils/axe";
-import createEmotionCache from "../utils/createEmotionCache";
+import { createEmotionCache, initAxe } from "../utils/common.utils";
 
 initAxe();
 

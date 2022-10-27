@@ -1,9 +1,9 @@
 import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
 import Image from "next/image";
-import { useTranslate } from "../../hooks/common";
-import { ImageEntity } from "../../types/image";
-import { getImagePath } from "../../utils/image";
+import { useTranslate } from "../../hooks/common.hooks";
+import { ImageEntity } from "../../types/image.types";
+import { getImagePath } from "../../utils/image.utils";
 
 const IMAGE_CONTAINER: SxProps = {
   marginBottom: 2.5,

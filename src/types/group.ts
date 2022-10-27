@@ -12,6 +12,12 @@ export interface Group {
   __typename: string;
 }
 
+export interface MemberRequest {
+  id: number;
+  status: "approved" | "denied" | "pending";
+  __typename: string;
+}
+
 export type GroupFormValues = Pick<Group, "name" | "description">;
 
 export interface GroupQuery {
@@ -22,8 +28,20 @@ export interface GroupsQuery {
   groups: Group[];
 }
 
+export interface MemberRequestQuery {
+  memberRequest: MemberRequest | null;
+}
+
+export interface MemberRequestsQuery {
+  memberRequests: MemberRequest[];
+}
+
 export interface CreateGroupMutation {
   createGroup: Group;
+}
+
+export interface CreateMemberRequestMutation {
+  createMemberRequest: MemberRequest;
 }
 
 export interface UpdateGroupMutation {

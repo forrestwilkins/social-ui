@@ -20,7 +20,7 @@ export const UPDATE_POST_MUTATION = gql`
 `;
 
 export const DELETE_POST_MUTATION = gql`
-  mutation DeletePostMutation($id: ID!) {
+  mutation DeletePostMutation($id: Int!) {
     deletePost(id: $id)
   }
 `;

@@ -5,7 +5,6 @@ import client from "../client";
 import {
   ApolloCache,
   DefinitionNode,
-  RootQuery,
   UpdateQueryOptions,
 } from "../types/apollo";
 
@@ -15,7 +14,8 @@ export const updateQuery = <T>(
 ) => {
   const { cache } = client;
   const queryName = getQueryName(query);
-  if (!queryName || !isActiveQuery(query)) {
+  const isActive = isActiveQuery(query, variables);
+  if (!queryName || !isActive) {
     return;
   }
   cache.updateQuery({ query, variables }, (queryData) => {
@@ -33,12 +33,13 @@ export const getQueryName = (query: DocumentNode) => {
     (def) => def.kind === "OperationDefinition"
   );
   if (operationDefition?.operation !== "query" || !cache.data) {
-    return;
+    return "";
   }
   // Get query name with "Query" suffix removed
-  const queryName = operationDefition.name.value
-    .toLowerCase()
-    .replace("query", "");
+  let queryName = operationDefition.name.value.replace("Query", "");
+
+  // Convert first letter to lower case
+  queryName = queryName.charAt(0).toLowerCase() + queryName.slice(1);
 
   return queryName;
 };
@@ -46,10 +47,26 @@ export const getQueryName = (query: DocumentNode) => {
 /**
  * Check whether a query is currently active in Apollo Client
  */
-export const isActiveQuery = (query: DocumentNode) => {
+export const isActiveQuery = (
+  query: DocumentNode,
+  variables: Record<string, any> = {}
+) => {
   const queryName = getQueryName(query);
   const activeQueries = getActiveQueries();
-  return !!(queryName && activeQueries[queryName]);
+
+  // TODO: Consider refactoring to use reduce instead
+  for (const query of Object.keys(activeQueries)) {
+    const queryNameMatch = query.split("(")[0].includes(queryName);
+    const variablesMatch = Object.entries(variables).every(([key, value]) => {
+      const keyMatch = query.includes(key);
+      const valueMatch = query.includes(String(value));
+      return keyMatch && valueMatch;
+    });
+
+    if (queryNameMatch && variablesMatch) {
+      return true;
+    }
+  }
 };
 
 /**
@@ -61,15 +78,7 @@ export const getActiveQueries = () => {
   if (!cache.data) {
     return [];
   }
-  return Object.entries(cache.data.data.ROOT_QUERY).reduce<RootQuery>(
-    (result, [name, query]) => {
-      // Strip any argument syntax from query name
-      const formattedName = name.split("(")[0];
-      result[formattedName] = query;
-      return result;
-    },
-    {}
-  );
+  return cache.data.data.ROOT_QUERY;
 };
 
 export const filterInactiveQueries = (queries: DocumentNode[]) =>

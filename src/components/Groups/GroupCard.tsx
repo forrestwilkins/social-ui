@@ -14,10 +14,10 @@ import { useDeleteGroupMutation } from "../../hooks/group";
 import { Group } from "../../types/group";
 import { inDevToast } from "../../utils/common";
 import { getGroupPagePath } from "../../utils/group";
-import GhostButton from "../Shared/GhostButton";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
+import JoinButton from "./JoinButton";
 
 const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
@@ -71,9 +71,7 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
           </Link>
         </Box>
 
-        <GhostButton onClick={inDevToast}>
-          {t("groups.actions.join")}
-        </GhostButton>
+        <JoinButton groupId={group.id} />
       </CardContent>
     </Card>
   );

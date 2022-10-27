@@ -1,33 +1,57 @@
-import { useMutation } from "@apollo/client";
-import { CREATE_MEMBER_REQUEST_MUTATION } from "../../client/groups/mutations";
+import { useQuery } from "@apollo/client";
+import { MEMBER_REQUEST_QUERY } from "../../client/groups/queries";
 import { useTranslate } from "../../hooks/common";
+import { useCreateMemberRequestMutation } from "../../hooks/group";
 import { useMeQuery } from "../../hooks/user";
+import { MemberRequestQuery } from "../../types/group";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {
   groupId: number;
 }
 
-/**
- * TODO: Add remaining functionality for joining and leaving groups
- */
 const JoinButton = ({ groupId }: Props) => {
-  const [createMemberRequest] = useMutation(CREATE_MEMBER_REQUEST_MUTATION);
+  const [createMemberRequest, createMemberRequestLoading] =
+    useCreateMemberRequestMutation();
+
   const [me] = useMeQuery();
+
+  // TODO: Add hook for member request query
+  const { data, loading } = useQuery<MemberRequestQuery>(MEMBER_REQUEST_QUERY, {
+    variables: {
+      userId: me?.id,
+      groupId,
+    },
+    skip: !me,
+  });
 
   const t = useTranslate();
 
-  const handleButtonClick = async () =>
-    createMemberRequest({
-      variables: {
-        userId: me?.id,
-        groupId,
-      },
-    });
+  const getButtonText = () => {
+    if (data?.memberRequest?.status === "approved") {
+      return t("groups.labels.joined");
+    }
+    if (data?.memberRequest?.status === "pending") {
+      return t("groups.actions.cancelRequest");
+    }
+    return t("groups.actions.join");
+  };
+
+  const handleButtonClick = async () => {
+    if (!me?.id || data?.memberRequest) {
+      console.log("TODO: Add logic for leaving and canceling requests");
+      return;
+    }
+    createMemberRequest(groupId, me.id);
+  };
 
   return (
-    <GhostButton onClick={handleButtonClick} sx={{ marginRight: 1 }}>
-      {t("groups.actions.join")}
+    <GhostButton
+      disabled={loading || createMemberRequestLoading}
+      onClick={handleButtonClick}
+      sx={{ marginRight: 1 }}
+    >
+      {getButtonText()}
     </GhostButton>
   );
 };

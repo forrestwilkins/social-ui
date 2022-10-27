@@ -20,7 +20,7 @@ export const UPDATE_GROUP_MUTATION = gql`
 `;
 
 export const DELETE_GROUP_MUTATION = gql`
-  mutation DeleteGroupMutation($id: ID!) {
+  mutation DeleteGroupMutation($id: Int!) {
     deleteGroup(id: $id)
   }
 `;

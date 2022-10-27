@@ -11,7 +11,7 @@ export const POSTS_QUERY = gql`
 `;
 
 export const POST_QUERY = gql`
-  query PostQuery($id: ID!) {
+  query PostQuery($id: Int!) {
     post(id: $id) {
       ...PostFragment
     }

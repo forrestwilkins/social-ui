@@ -24,7 +24,9 @@ export enum ResourceNames {
 
 export enum TypeNames {
   Group = "Group",
+  GroupMember = "GroupMember",
   Image = "Image",
+  MemberRequest = "MemberRequest",
   Post = "Post",
   User = "User",
 }

@@ -18,3 +18,21 @@ export const GROUPS_QUERY = gql`
   }
   ${GROUP_FRAGMENT}
 `;
+
+export const MEMBER_REQUEST_QUERY = gql`
+  query MemberRequestQuery($groupId: Int!, $userId: Int!) {
+    memberRequest(groupId: $groupId, userId: $userId) {
+      id
+      status
+    }
+  }
+`;
+
+export const MEMBER_REQUESTS_QUERY = gql`
+  query MemberRequestsQuery {
+    memberRequest {
+      id
+      status
+    }
+  }
+`;

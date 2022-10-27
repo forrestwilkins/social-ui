@@ -113,7 +113,8 @@
   "groups": {
     "actions": {
       "join": "Join",
-      "leave": "Leave"
+      "leave": "Leave",
+      "cancelRequest": "Cancel Request"
     },
     "form": {
       "name": "Name",
@@ -128,7 +129,8 @@
     "labels": {
       "consensus": "Consensus",
       "majority": "Majority Vote",
-      "xToPass": "X to Pass"
+      "xToPass": "X to Pass",
+      "joined": "Joined"
     },
     "members": "{{count}} Members",
     "requests": "{{count}} Requests"

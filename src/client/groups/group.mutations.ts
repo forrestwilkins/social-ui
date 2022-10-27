@@ -33,3 +33,9 @@ export const CREATE_MEMBER_REQUEST_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_MEMBER_REQUEST_MUTATION = gql`
+  mutation DeleteMemberRequestMutation($id: Int!) {
+    deleteMemberRequest(id: $id)
+  }
+`;

@@ -1,6 +1,7 @@
 import { useTranslate } from "../../hooks/common.hooks";
 import {
   useCreateMemberRequestMutation,
+  useDeleteMemberRequestMutation,
   useMemberRequestQuery,
 } from "../../hooks/member-request.hooks";
 
@@ -12,8 +13,8 @@ interface Props {
 
 const JoinButton = ({ groupId }: Props) => {
   const [memberRequest, memberRequestLoading] = useMemberRequestQuery(groupId);
-  const [createMemberRequest, createMemberRequestLoading] =
-    useCreateMemberRequestMutation();
+  const [createMemberRequest, createLoading] = useCreateMemberRequestMutation();
+  const [deleteMemberRequest, deleteLoading] = useDeleteMemberRequestMutation();
 
   const t = useTranslate();
 
@@ -28,8 +29,12 @@ const JoinButton = ({ groupId }: Props) => {
   };
 
   const handleButtonClick = async () => {
-    if (memberRequest) {
-      console.log("TODO: Add logic for leaving and canceling requests");
+    if (memberRequest?.status === "pending") {
+      await deleteMemberRequest(memberRequest.id);
+      return;
+    }
+    if (memberRequest?.status === "approved") {
+      console.log("TODO: Add logic for leaving group");
       return;
     }
     await createMemberRequest(groupId);
@@ -37,7 +42,7 @@ const JoinButton = ({ groupId }: Props) => {
 
   return (
     <GhostButton
-      disabled={memberRequestLoading || createMemberRequestLoading}
+      disabled={memberRequestLoading || createLoading || deleteLoading}
       onClick={handleButtonClick}
       sx={{ marginRight: 1 }}
     >

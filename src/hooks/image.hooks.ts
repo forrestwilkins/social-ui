@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_IMAGE_MUTATION } from "../client/images/image.mutations";
+import { TypeNames } from "../constants/common.constants";
 
 export const useDeleteImageMutation = () => {
   const [deleteImage] = useMutation(DELETE_IMAGE_MUTATION);
@@ -8,8 +9,7 @@ export const useDeleteImageMutation = () => {
     await deleteImage({
       variables: { id },
       update(cache) {
-        const normalizedId = cache.identify({ id, __typename: "Image" });
-        cache.evict({ id: normalizedId });
+        cache.evict({ id: `${TypeNames.Image}:${id}` });
         cache.gc();
       },
     });

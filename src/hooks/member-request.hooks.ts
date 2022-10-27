@@ -1,5 +1,8 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_MEMBER_REQUEST_MUTATION } from "../client/groups/group.mutations";
+import {
+  CREATE_MEMBER_REQUEST_MUTATION,
+  DELETE_MEMBER_REQUEST_MUTATION,
+} from "../client/groups/group.mutations";
 import { MEMBER_REQUEST_QUERY } from "../client/groups/group.queries";
 import {
   CreateMemberRequestMutation,
@@ -45,4 +48,23 @@ export const useCreateMemberRequestMutation = (): [
   };
 
   return [_createMemberRequest, loading];
+};
+
+export const useDeleteMemberRequestMutation = (): [
+  typeof _deleteMemberRequest,
+  boolean
+] => {
+  const [deleteMemberRequest, { loading }] = useMutation(
+    DELETE_MEMBER_REQUEST_MUTATION
+  );
+
+  /** TODO: Directly update cache after deleteMemberRequest mutation */
+  const _deleteMemberRequest = async (id: number) => {
+    await deleteMemberRequest({
+      variables: { id },
+      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
+    });
+  };
+
+  return [_deleteMemberRequest, loading];
 };

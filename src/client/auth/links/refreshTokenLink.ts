@@ -4,7 +4,7 @@ import client from "../..";
 import { AuthResult } from "../../../types/auth.types";
 import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
-import { REFRESH_TOKEN_MUTATION } from "../mutations";
+import { REFRESH_TOKEN_MUTATION } from "../auth.mutations";
 
 type Callback = (arg: unknown) => void;
 

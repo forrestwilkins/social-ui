@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { GROUP_FRAGMENT, GROUP_MUTATION_FRAGMENT } from "./fragments";
+import { GROUP_FRAGMENT, GROUP_MUTATION_FRAGMENT } from "./group.fragments";
 
 export const CREATE_GROUP_MUTATION = gql`
   mutation CreateGroupMutation($groupData: GroupInput!) {

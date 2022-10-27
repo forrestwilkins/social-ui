@@ -3,7 +3,7 @@ import {
   USER_FRAGMENT,
   USER_PROFILE_FRAGMENT,
   USER_PROFILE_LITE_FRAGMENT,
-} from "./fragments";
+} from "./user.fragments";
 
 export const ME_QUERY = gql`
   query MeQuery {

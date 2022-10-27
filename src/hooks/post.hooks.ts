@@ -1,15 +1,15 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
-import { GROUP_QUERY } from "../client/groups/queries";
-import { POST_FRAGMENT } from "../client/posts/fragments";
+import { GROUP_QUERY } from "../client/groups/group.queries";
+import { POST_FRAGMENT } from "../client/posts/post.fragments";
 import {
   CREATE_POST_MUTATION,
   DELETE_POST_MUTATION,
   UPDATE_POST_MUTATION,
-} from "../client/posts/mutations";
-import { POSTS_QUERY, POST_QUERY } from "../client/posts/queries";
-import { uploadPostImages } from "../client/posts/rest";
-import { USER_QUERY } from "../client/users/queries";
+} from "../client/posts/post.mutations";
+import { POSTS_QUERY, POST_QUERY } from "../client/posts/post.queries";
+import { uploadPostImages } from "../client/posts/post.rest";
+import { USER_QUERY } from "../client/users/user.queries";
 import { TypeNames } from "../constants/common.constants";
 import { Group } from "../types/group.types";
 import { ImageEntity } from "../types/image.types";

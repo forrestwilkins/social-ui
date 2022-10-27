@@ -1,7 +1,7 @@
 import { useQuery, useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../client/cache";
-import { POSTS_QUERY } from "../client/posts/queries";
+import { POSTS_QUERY } from "../client/posts/post.queries";
 import PostForm from "../components/Posts/PostForm";
 import PostList from "../components/Posts/PostList";
 import ProgressBar from "../components/Shared/ProgressBar";

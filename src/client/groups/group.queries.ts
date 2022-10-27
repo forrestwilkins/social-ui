@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { GROUP_FRAGMENT, GROUP_PROFILE_FRAGMENT } from "./fragments";
+import { GROUP_FRAGMENT, GROUP_PROFILE_FRAGMENT } from "./group.fragments";
 
 export const GROUP_QUERY = gql`
   query GroupQuery($name: String!) {

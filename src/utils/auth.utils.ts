@@ -1,5 +1,5 @@
 import client from "../client";
-import { LOG_OUT_MUTATION } from "../client/auth/mutations";
+import { LOG_OUT_MUTATION } from "../client/auth/auth.mutations";
 import {
   isAuthLoadingVar,
   isLoggedInVar,

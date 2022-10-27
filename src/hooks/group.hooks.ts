@@ -1,18 +1,18 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
-import { GROUP_FRAGMENT } from "../client/groups/fragments";
+import { GROUP_FRAGMENT } from "../client/groups/group.fragments";
 import {
   CREATE_GROUP_MUTATION,
   CREATE_MEMBER_REQUEST_MUTATION,
   DELETE_GROUP_MUTATION,
   UPDATE_GROUP_MUTATION,
-} from "../client/groups/mutations";
+} from "../client/groups/group.mutations";
 import {
   GROUPS_QUERY,
   GROUP_QUERY,
   MEMBER_REQUEST_QUERY,
-} from "../client/groups/queries";
-import { uploadGroupCoverPhoto } from "../client/groups/rest";
+} from "../client/groups/group.queries";
+import { uploadGroupCoverPhoto } from "../client/groups/group.rest";
 import { TypeNames } from "../constants/common.constants";
 import {
   CreateGroupMutation,

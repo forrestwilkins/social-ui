@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { POST_MUTATION_FRAGMENT } from "./fragments";
+import { POST_MUTATION_FRAGMENT } from "./post.fragments";
 
 export const CREATE_POST_MUTATION = gql`
   mutation CreatePostMutation($postData: PostInput!) {

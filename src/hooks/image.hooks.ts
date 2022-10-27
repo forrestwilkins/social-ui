@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { DELETE_IMAGE_MUTATION } from "../client/images/mutations";
+import { DELETE_IMAGE_MUTATION } from "../client/images/image.mutations";
 
 export const useDeleteImageMutation = () => {
   const [deleteImage] = useMutation(DELETE_IMAGE_MUTATION);

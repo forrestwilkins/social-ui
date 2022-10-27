@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useEffect } from "react";
-import { LOG_OUT_MUTATION } from "../client/auth/mutations";
-import { AUTH_CHECK_QUERY } from "../client/auth/queries";
+import { LOG_OUT_MUTATION } from "../client/auth/auth.mutations";
+import { AUTH_CHECK_QUERY } from "../client/auth/auth.queries";
 import {
   isAuthLoadingVar,
   isLoggedInVar,

@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { MEMBER_REQUEST_QUERY } from "../../client/groups/queries";
+import { MEMBER_REQUEST_QUERY } from "../../client/groups/group.queries";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useCreateMemberRequestMutation } from "../../hooks/group.hooks";
 import { useMeQuery } from "../../hooks/user.hooks";

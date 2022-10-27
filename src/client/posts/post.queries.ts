@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { POST_FRAGMENT } from "./fragments";
+import { POST_FRAGMENT } from "./post.fragments";
 
 export const POSTS_QUERY = gql`
   query PostsQuery {

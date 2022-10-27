@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { IMAGE_FRAGMENT } from "../images/fragments";
+import { IMAGE_FRAGMENT } from "../images/image.fragments";
 
 export const POST_FRAGMENT = gql`
   fragment PostFragment on Post {

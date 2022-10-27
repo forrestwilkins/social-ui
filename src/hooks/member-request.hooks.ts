@@ -32,10 +32,13 @@ export const useCreateMemberRequestMutation = (): [
 
   const [me] = useMeQuery();
 
+  /**
+   * TODO: Determine how to update queries for single objects
+   * TODO: Directly update cache after createMemberRequest mutation
+   */
   const _createMemberRequest = async (groupId: number) => {
     const { data } = await createMemberRequest({
       variables: { groupId, userId: me?.id },
-
       refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
     return data?.createMemberRequest;

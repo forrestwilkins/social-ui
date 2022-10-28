@@ -10,8 +10,8 @@ export const GROUP_FRAGMENT = gql`
     coverPhoto {
       ...ImageFragment
     }
-    createdAt
-    updatedAt
+    memberCount
+    memberRequestCount
   }
   ${IMAGE_FRAGMENT}
 `;
@@ -25,16 +25,6 @@ export const GROUP_PROFILE_FRAGMENT = gql`
   }
   ${GROUP_FRAGMENT}
   ${POST_FRAGMENT}
-`;
-
-export const GROUP_MUTATION_FRAGMENT = gql`
-  fragment GroupMutationFragment on Group {
-    id
-    name
-    description
-    createdAt
-    updatedAt
-  }
 `;
 
 export const MEMBER_REQUEST_FRAGMENT = gql`

@@ -1,9 +1,5 @@
 import { gql } from "@apollo/client";
-import {
-  GROUP_FRAGMENT,
-  GROUP_MUTATION_FRAGMENT,
-  MEMBER_REQUEST_FRAGMENT,
-} from "./group.fragments";
+import { GROUP_FRAGMENT, MEMBER_REQUEST_FRAGMENT } from "./group.fragments";
 
 export const CREATE_GROUP_MUTATION = gql`
   mutation CreateGroupMutation($groupData: GroupInput!) {
@@ -17,10 +13,11 @@ export const CREATE_GROUP_MUTATION = gql`
 export const UPDATE_GROUP_MUTATION = gql`
   mutation UpdateGroupMutation($groupData: GroupInput!) {
     updateGroup(groupData: $groupData) {
-      ...GroupMutationFragment
+      id
+      name
+      description
     }
   }
-  ${GROUP_MUTATION_FRAGMENT}
 `;
 
 export const DELETE_GROUP_MUTATION = gql`

@@ -70,13 +70,13 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
         {/* TODO: Add functionality for members and member requests */}
         <Box sx={{ marginBottom: 1.75 }}>
           <Link href={"/"} disabled>
-            {t("groups.members", { count: 0 })}
+            {t("groups.members", { count: group.memberCount })}
           </Link>
           {isLoggedIn && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>
-                {t("groups.requests", { count: 0 })}
+                {t("groups.requests", { count: group.memberRequestCount })}
               </Link>
             </>
           )}

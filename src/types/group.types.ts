@@ -7,6 +7,8 @@ export interface Group {
   description: string;
   coverPhoto: ImageEntity | null;
   posts: Post[];
+  memberCount: number;
+  memberRequestCount: number;
   createdAt: string;
   updatedAt: string;
   __typename: string;

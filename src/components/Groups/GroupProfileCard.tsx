@@ -46,7 +46,7 @@ interface Props extends CardProps {
 }
 
 const GroupProfileCard = ({
-  group: { id, name, coverPhoto },
+  group: { id, name, coverPhoto, memberCount, memberRequestCount },
   ...cardProps
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -103,14 +103,14 @@ const GroupProfileCard = ({
           </Link>
           {MIDDOT_WITH_SPACES}
           <Link href={"/"} disabled>
-            {t("groups.members", { count: 0 })}
+            {t("groups.members", { count: memberCount })}
           </Link>
 
           {isLoggedIn && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>
-                {t("groups.requests", { count: 0 })}
+                {t("groups.requests", { count: memberRequestCount })}
               </Link>
             </>
           )}

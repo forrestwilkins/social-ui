@@ -37,10 +37,10 @@ export const GROUP_MUTATION_FRAGMENT = gql`
   }
 `;
 
-// TODO: Use in member request queries and mutations
 export const MEMBER_REQUEST_FRAGMENT = gql`
   fragment MemberRequestFragment on MemberRequest {
     id
     status
+    userId
   }
 `;

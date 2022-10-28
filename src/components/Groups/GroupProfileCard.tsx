@@ -21,7 +21,7 @@ import {
 import { useTranslate } from "../../hooks/common.hooks";
 import { useDeleteGroupMutation } from "../../hooks/group.hooks";
 import { Group } from "../../types/group.types";
-import { inDevToast } from "../../utils/common.utils";
+import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -52,8 +52,9 @@ const GroupProfileCard = ({
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deleteGroup = useDeleteGroupMutation();
-
   const t = useTranslate();
+
+  const memberRequestsPath = getMemberRequestsPath(name);
 
   const nameTextStyles: SxProps = {
     marginTop: isLoggedIn ? -7 : -0.3,
@@ -95,7 +96,7 @@ const GroupProfileCard = ({
           {name}
         </NameText>
 
-        <DetailsBox onClick={inDevToast}>
+        <DetailsBox>
           <Link href={"/"} disabled>
             <HowToVote sx={voteIconStyles} />
             {t("groups.labels.majority")}
@@ -108,7 +109,7 @@ const GroupProfileCard = ({
           {isLoggedIn && (
             <>
               {MIDDOT_WITH_SPACES}
-              <Link href={"/"} disabled>
+              <Link href={memberRequestsPath}>
                 {t("groups.requests", { count: 0 })}
               </Link>
             </>

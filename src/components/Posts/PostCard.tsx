@@ -23,7 +23,7 @@ import { useDeletePostMutation } from "../../hooks/post.hooks";
 import { useMeQuery } from "../../hooks/user.hooks";
 import { Post } from "../../types/post.types";
 import { redirectTo } from "../../utils/common.utils";
-import { getGroupPagePath } from "../../utils/group.utils";
+import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
@@ -71,7 +71,7 @@ const PostCard = ({
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const postPath = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
-  const groupPath = getGroupPagePath(group?.name || "");
+  const groupPath = getGroupPath(group?.name || "");
   const formattedDate = timeAgo(createdAt);
 
   const bodyStyles: SxProps = {

@@ -18,7 +18,7 @@ import {
 } from "../../hooks/group.hooks";
 import { Group, GroupFormValues } from "../../types/group.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
-import { getGroupPagePath } from "../../utils/group.utils";
+import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImages from "../Images/AttachedImages";
 import ImageInput from "../Images/ImageInput";
@@ -60,7 +60,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         if (!group) {
           throw new Error(t("groups.errors.couldNotUpdate"));
         }
-        const groupPagePath = getGroupPagePath(group.name);
+        const groupPagePath = getGroupPath(group.name);
         redirectTo(groupPagePath);
         return;
       }

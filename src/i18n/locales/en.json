@@ -128,9 +128,11 @@
     },
     "labels": {
       "consensus": "Consensus",
+      "groupMembers": "Group Members",
+      "joined": "Joined",
       "majority": "Majority Vote",
-      "xToPass": "X to Pass",
-      "joined": "Joined"
+      "memberRequests": "Member Requests",
+      "xToPass": "X to Pass"
     },
     "members": "{{count}} Members",
     "requests": "{{count}} Requests"

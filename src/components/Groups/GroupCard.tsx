@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -8,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { isLoggedInVar } from "../../client/cache";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
@@ -15,8 +17,7 @@ import {
 import { useTranslate } from "../../hooks/common.hooks";
 import { useDeleteGroupMutation } from "../../hooks/group.hooks";
 import { Group } from "../../types/group.types";
-import { inDevToast } from "../../utils/common.utils";
-import { getGroupPagePath } from "../../utils/group.utils";
+import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
@@ -33,11 +34,14 @@ interface Props extends CardProps {
 // TODO: Add remaining layout and functionality
 const GroupCard = ({ group, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const deleteGroup = useDeleteGroupMutation();
+
   const t = useTranslate();
 
   const { id, name, description } = group;
-  const groupPagePath = getGroupPagePath(name);
+  const groupPath = getGroupPath(name);
+  const memberRequestsPath = getMemberRequestsPath(name);
 
   const handleDelete = async (id: number) => await deleteGroup(id);
 
@@ -45,7 +49,7 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
     <Card {...cardProps}>
       <CardHeader
         avatar={<GroupAvatar group={group} />}
-        title={<Link href={groupPagePath}>{name}</Link>}
+        title={<Link href={groupPath}>{name}</Link>}
         action={
           // TODO: Add permission logic for edit and delete
           <ItemMenu
@@ -63,15 +67,19 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
       <CardContent>
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
 
-        {/* // TODO: Add functionality for members and member requests */}
-        <Box onClick={inDevToast} sx={{ marginBottom: 1.75 }}>
+        {/* TODO: Add functionality for members and member requests */}
+        <Box sx={{ marginBottom: 1.75 }}>
           <Link href={"/"} disabled>
             {t("groups.members", { count: 0 })}
           </Link>
-          {MIDDOT_WITH_SPACES}
-          <Link href={"/"} disabled>
-            {t("groups.requests", { count: 0 })}
-          </Link>
+          {isLoggedIn && (
+            <>
+              {MIDDOT_WITH_SPACES}
+              <Link href={memberRequestsPath}>
+                {t("groups.requests", { count: 0 })}
+              </Link>
+            </>
+          )}
         </Box>
 
         <JoinButton groupId={group.id} />

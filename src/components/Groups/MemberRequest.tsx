@@ -1,4 +1,6 @@
+import { useMutation } from "@apollo/client";
 import { Button, Typography } from "@mui/material";
+import { APPROVE_MEMBER_REQUEST_MUTATION } from "../../client/groups/group.mutations";
 import { useTranslate } from "../../hooks/common.hooks";
 import { MemberRequest } from "../../types/group.types";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -10,8 +12,14 @@ interface Props {
   memberRequest: MemberRequest;
 }
 
-const MemberRequest = ({ memberRequest: { user } }: Props) => {
+const MemberRequest = ({ memberRequest: { id, user } }: Props) => {
+  const [approve] = useMutation(APPROVE_MEMBER_REQUEST_MUTATION);
   const t = useTranslate();
+
+  const handleButtonClick = async () =>
+    await approve({
+      variables: { id },
+    });
 
   return (
     <Flex sx={{ justifyContent: "space-between" }}>
@@ -22,7 +30,7 @@ const MemberRequest = ({ memberRequest: { user } }: Props) => {
         </Flex>
       </Link>
 
-      <Button>{t("groups.actions.approve")}</Button>
+      <Button onClick={handleButtonClick}>{t("groups.actions.approve")}</Button>
     </Flex>
   );
 };

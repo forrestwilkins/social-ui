@@ -16,8 +16,8 @@ const MemberRequests: NextPage = () => {
   const name = String(query?.name || "");
   const [group, loading, error] = useGroupQuery(name);
 
-  const t = useTranslate();
   const isDesktop = useIsDesktop();
+  const t = useTranslate();
 
   useEffect(() => {
     if (group) {
@@ -34,8 +34,6 @@ const MemberRequests: NextPage = () => {
           label: t("groups.labels.memberRequests"),
         },
       ]);
-    } else {
-      breadcrumbsVar([]);
     }
 
     return () => {

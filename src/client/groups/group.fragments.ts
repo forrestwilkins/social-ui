@@ -31,6 +31,5 @@ export const MEMBER_REQUEST_FRAGMENT = gql`
   fragment MemberRequestFragment on MemberRequest {
     id
     status
-    userId
   }
 `;

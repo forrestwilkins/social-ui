@@ -16,7 +16,7 @@ const Breadcrumbs = () => {
   }
 
   return (
-    <MuiBreadcrumbs>
+    <MuiBreadcrumbs sx={{ marginBottom: 1.25 }}>
       {breadcrumbs.map(({ label, href }) => {
         if (href) {
           return (

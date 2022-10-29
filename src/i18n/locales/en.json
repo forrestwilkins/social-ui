@@ -112,9 +112,11 @@
 
   "groups": {
     "actions": {
+      "approve": "Approve",
+      "cancelRequest": "Cancel Request",
+      "deny": "Deny",
       "join": "Join",
-      "leave": "Leave",
-      "cancelRequest": "Cancel Request"
+      "leave": "Leave"
     },
     "form": {
       "name": "Name",

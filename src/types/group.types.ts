@@ -1,5 +1,6 @@
 import { ImageEntity } from "./image.types";
 import { Post } from "./post.types";
+import { User } from "./user.types";
 
 export interface Group {
   id: number;
@@ -17,6 +18,7 @@ export interface Group {
 export interface MemberRequest {
   id: number;
   status: "approved" | "denied" | "pending";
+  user: User;
   __typename: string;
 }
 

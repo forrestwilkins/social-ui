@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { IMAGE_FRAGMENT } from "../images/image.fragments";
 import {
   GROUP_FRAGMENT,
   GROUP_PROFILE_FRAGMENT,
@@ -35,8 +36,16 @@ export const MEMBER_REQUEST_QUERY = gql`
 export const MEMBER_REQUESTS_QUERY = gql`
   query MemberRequestsQuery($groupId: Int!) {
     memberRequests(groupId: $groupId) {
-      ...MemberRequestFragment
+      id
+      status
+      user {
+        id
+        name
+        profilePicture {
+          ...ImageFragment
+        }
+      }
     }
   }
-  ${MEMBER_REQUEST_FRAGMENT}
+  ${IMAGE_FRAGMENT}
 `;

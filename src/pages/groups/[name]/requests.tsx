@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import {
-  Button,
   Card,
   CardContent as MuiCardContent,
   styled,
@@ -12,16 +11,13 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { breadcrumbsVar } from "../../../client/cache";
 import { MEMBER_REQUESTS_QUERY } from "../../../client/groups/group.queries";
-import Flex from "../../../components/Shared/Flex";
-import Link from "../../../components/Shared/Link";
+import MemberRequest from "../../../components/Groups/MemberRequest";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import UserAvatar from "../../../components/Users/UserAvatar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
 import { useGroupQuery } from "../../../hooks/group.hooks";
 import { MemberRequestsQuery } from "../../../types/group.types";
 import { getGroupPath } from "../../../utils/group.utils";
-import { getUserProfilePath } from "../../../utils/user.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -83,17 +79,8 @@ const MemberRequests: NextPage = () => {
   return (
     <Card>
       <CardContent>
-        {data.memberRequests.map(({ id, user }) => (
-          <Flex key={id} sx={{ justifyContent: "space-between" }}>
-            <Link href={getUserProfilePath(user.name)}>
-              <Flex>
-                <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
-                <Typography sx={{ marginTop: 1 }}>{user.name}</Typography>
-              </Flex>
-            </Link>
-
-            <Button>{t("groups.actions.approve")}</Button>
-          </Flex>
+        {data.memberRequests.map((memberRequest) => (
+          <MemberRequest memberRequest={memberRequest} key={memberRequest.id} />
         ))}
       </CardContent>
     </Card>

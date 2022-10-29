@@ -72,3 +72,10 @@ export enum Time {
   Week = 604800,
   Month = 2628000,
 }
+
+export enum TruncationSizes {
+  ExtraSmall = 25,
+  Small = 40,
+  Medium = 65,
+  Large = 175,
+}

@@ -13,6 +13,7 @@ import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
 import ScrollToTop from "../Navigation/ScrollToTop";
 import TopNav from "../Navigation/TopNav";
+import Breadcrumbs from "../Shared/Breadcrumbs";
 import Toast from "../Shared/Toast";
 import HeadContent from "./HeadContent";
 
@@ -44,6 +45,8 @@ const Layout = ({ children }: Props) => {
 
         <Container maxWidth="sm">
           <main role="main">
+            <Breadcrumbs />
+
             {children}
 
             <Toast />

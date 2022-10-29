@@ -54,7 +54,9 @@ const MemberRequests: NextPage = () => {
           href: getGroupPath(group.name),
         },
         {
-          label: t("groups.labels.memberRequests"),
+          label: t("groups.labels.memberRequests", {
+            count: data?.memberRequests.length || 0,
+          }),
         },
       ]);
     }
@@ -62,7 +64,7 @@ const MemberRequests: NextPage = () => {
     return () => {
       breadcrumbsVar([]);
     };
-  }, [group, t, isDesktop]);
+  }, [group, t, isDesktop, data?.memberRequests]);
 
   if (error || groupError) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
@@ -72,7 +74,7 @@ const MemberRequests: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!data || !data.memberRequests.length) {
     return null;
   }
 

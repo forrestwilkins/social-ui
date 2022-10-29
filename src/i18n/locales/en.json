@@ -133,7 +133,7 @@
       "groupMembers": "Group Members",
       "joined": "Joined",
       "majority": "Majority Vote",
-      "memberRequests": "Member Requests",
+      "memberRequests": "{{count}} Member Requests",
       "xToPass": "X to Pass"
     },
     "members": "{{count}} Members",

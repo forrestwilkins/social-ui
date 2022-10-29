@@ -4,9 +4,14 @@ import { GROUP_FRAGMENT } from "../client/groups/group.fragments";
 import {
   CREATE_GROUP_MUTATION,
   DELETE_GROUP_MUTATION,
+  LEAVE_GROUP_MUTATION,
   UPDATE_GROUP_MUTATION,
 } from "../client/groups/group.mutations";
-import { GROUPS_QUERY, GROUP_QUERY } from "../client/groups/group.queries";
+import {
+  GROUPS_QUERY,
+  GROUP_QUERY,
+  MEMBER_REQUEST_QUERY,
+} from "../client/groups/group.queries";
 import { uploadGroupCoverPhoto } from "../client/groups/group.rest";
 import { TypeNames } from "../constants/common.constants";
 import {
@@ -17,7 +22,7 @@ import {
   UpdateGroupMutation,
 } from "../types/group.types";
 import { ImageEntity } from "../types/image.types";
-import { updateQuery } from "../utils/apollo.utils";
+import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
 
 export const useGroupQuery = (
   name: string
@@ -124,4 +129,17 @@ export const useDeleteGroupMutation = () => {
   };
 
   return _deleteGroup;
+};
+
+export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
+  const [leaveGroup, { loading }] = useMutation(LEAVE_GROUP_MUTATION);
+
+  /** TODO: Directly update cache after leaveGroup mutation */
+  const _leaveGroup = async (groupId: number) =>
+    await leaveGroup({
+      variables: { groupId },
+      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
+    });
+
+  return [_leaveGroup, loading];
 };

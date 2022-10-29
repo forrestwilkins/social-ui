@@ -59,3 +59,9 @@ export const DELETE_MEMBER_REQUEST_MUTATION = gql`
     deleteMemberRequest(id: $id)
   }
 `;
+
+export const LEAVE_GROUP_MUTATION = gql`
+  mutation LeaveGroupMutation($groupId: Int!) {
+    leaveGroup(groupId: $groupId)
+  }
+`;

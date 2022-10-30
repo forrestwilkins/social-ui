@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   APPROVE_MEMBER_REQUEST_MUTATION,
   CREATE_MEMBER_REQUEST_MUTATION,
-  DELETE_MEMBER_REQUEST_MUTATION,
+  CANCEL_MEMBER_REQUEST_MUTATION,
 } from "../client/groups/group.mutations";
 import {
   GROUP_QUERY,
@@ -11,6 +11,7 @@ import {
 } from "../client/groups/group.queries";
 import {
   ApproveMemberRequestMutation,
+  CancelMemberRequestMutation,
   CreateMemberRequestMutation,
   Group,
   MemberRequest,
@@ -123,25 +124,44 @@ export const useApproveMemberRequestMutation = (): [
   return [_approve, loading];
 };
 
-export const useDeleteMemberRequestMutation = (): [
-  typeof _deleteMemberRequest,
+export const useCancelMemberRequestMutation = (): [
+  typeof _cancelMemberRequest,
   boolean
 ] => {
-  const [deleteMemberRequest, { loading }] = useMutation(
-    DELETE_MEMBER_REQUEST_MUTATION
-  );
+  const [cancelMemberRequest, { loading }] =
+    useMutation<CancelMemberRequestMutation>(CANCEL_MEMBER_REQUEST_MUTATION);
 
-  /** TODO: Directly update cache after deleteMemberRequest mutation */
-  const _deleteMemberRequest = async (id: number) => {
-    await deleteMemberRequest({
+  const _cancelMemberRequest = async (id: number) => {
+    await cancelMemberRequest({
       variables: { id },
-      refetchQueries: filterInactiveQueries([
-        MEMBER_REQUESTS_QUERY,
-        MEMBER_REQUEST_QUERY,
-        GROUP_QUERY,
-      ]),
+      update(_, { data }) {
+        if (!data) {
+          return;
+        }
+        updateQuery<MemberRequest[]>(
+          {
+            query: MEMBER_REQUESTS_QUERY,
+            variables: { groupId: data.cancelMemberRequest.id },
+          },
+          (draft) => {
+            const index = draft.findIndex((p) => p.id === id);
+            draft.splice(index, 1);
+          }
+        );
+        updateQuery<Group>(
+          {
+            query: GROUP_QUERY,
+            variables: { name: data.cancelMemberRequest.name },
+          },
+          (draft) => {
+            draft.memberRequestCount -= 1;
+          }
+        );
+      },
+      // TODO: Determine how to update queries for single objects
+      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
   };
 
-  return [_deleteMemberRequest, loading];
+  return [_cancelMemberRequest, loading];
 };

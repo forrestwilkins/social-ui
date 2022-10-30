@@ -3,7 +3,7 @@ import { useTranslate } from "../../hooks/common.hooks";
 import { useLeaveGroupMutation } from "../../hooks/group.hooks";
 import {
   useCreateMemberRequestMutation,
-  useDeleteMemberRequestMutation,
+  useCancelMemberRequestMutation,
   useMemberRequestQuery,
 } from "../../hooks/member-request.hooks";
 import GhostButton from "../Shared/GhostButton";
@@ -15,7 +15,7 @@ interface Props {
 const JoinButton = ({ groupId }: Props) => {
   const [memberRequest, memberRequestLoading] = useMemberRequestQuery(groupId);
   const [createMemberRequest, createLoading] = useCreateMemberRequestMutation();
-  const [deleteMemberRequest, deleteLoading] = useDeleteMemberRequestMutation();
+  const [cancelMemberRequest, cancelLoading] = useCancelMemberRequestMutation();
   const [leaveGroup, leaveGroupLoading] = useLeaveGroupMutation();
   const [isHovering, setIsHovering] = useState(false);
 
@@ -36,9 +36,11 @@ const JoinButton = ({ groupId }: Props) => {
 
   const handleButtonClick = async () => {
     if (memberRequest?.status === "pending") {
-      await deleteMemberRequest(memberRequest.id);
+      await cancelMemberRequest(memberRequest.id);
       return;
     }
+
+    // TODO: Add confirmation dialog for leaving group
     if (memberRequest?.status === "approved") {
       await leaveGroup(groupId);
       return;
@@ -49,8 +51,8 @@ const JoinButton = ({ groupId }: Props) => {
   return (
     <GhostButton
       disabled={
+        cancelLoading ||
         createLoading ||
-        deleteLoading ||
         leaveGroupLoading ||
         memberRequestLoading
       }

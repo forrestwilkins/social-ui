@@ -62,9 +62,12 @@ export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
   ${USER_AVATAR_FRAGMENT}
 `;
 
-export const DELETE_MEMBER_REQUEST_MUTATION = gql`
-  mutation DeleteMemberRequestMutation($id: Int!) {
-    deleteMemberRequest(id: $id)
+export const CANCEL_MEMBER_REQUEST_MUTATION = gql`
+  mutation CancelMemberRequestMutation($id: Int!) {
+    cancelMemberRequest(id: $id) {
+      id
+      name
+    }
   }
 `;
 

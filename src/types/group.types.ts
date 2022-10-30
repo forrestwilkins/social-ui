@@ -59,6 +59,10 @@ export interface CreateMemberRequestMutation {
   createMemberRequest: MemberRequest;
 }
 
+export interface CancelMemberRequestMutation {
+  cancelMemberRequest: Group;
+}
+
 export interface ApproveMemberRequestMutation {
   approveMemberRequest: GroupMember;
 }

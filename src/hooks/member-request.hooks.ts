@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from "@apollo/client";
 import {
   APPROVE_MEMBER_REQUEST_MUTATION,
-  CREATE_MEMBER_REQUEST_MUTATION,
   CANCEL_MEMBER_REQUEST_MUTATION,
+  CREATE_MEMBER_REQUEST_MUTATION,
 } from "../client/groups/group.mutations";
 import {
   GROUP_QUERY,
   MEMBER_REQUESTS_QUERY,
   MEMBER_REQUEST_QUERY,
 } from "../client/groups/group.queries";
+import { TypeNames } from "../constants/common.constants";
 import {
   ApproveMemberRequestMutation,
   CancelMemberRequestMutation,
@@ -47,7 +48,7 @@ export const useCreateMemberRequestMutation = (): [
   const _createMemberRequest = async (groupId: number) => {
     const { data } = await createMemberRequest({
       variables: { memberRequestData: { groupId, userId: me?.id } },
-      update(_, { data }) {
+      update(cache, { data }) {
         if (!data) {
           return;
         }
@@ -60,15 +61,17 @@ export const useCreateMemberRequestMutation = (): [
             draft.unshift(data.createMemberRequest);
           }
         );
-        updateQuery<Group>(
-          {
-            query: GROUP_QUERY,
-            variables: { name: data.createMemberRequest.group.name },
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.Group,
+            id: data.createMemberRequest.group.id,
+          }),
+          fields: {
+            memberRequestCount(existingCount: number) {
+              return existingCount + 1;
+            },
           },
-          (draft) => {
-            draft.memberRequestCount += 1;
-          }
-        );
+        });
       },
       // TODO: Determine how to update queries for single objects
       refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),

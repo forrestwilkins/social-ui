@@ -40,12 +40,9 @@ export const useCreateMemberRequestMutation = (): [
   const [createMemberRequest, { loading }] =
     useMutation<CreateMemberRequestMutation>(CREATE_MEMBER_REQUEST_MUTATION);
 
+  // TODO: Refactor so that MeQuery is unneeded
   const [me] = useMeQuery();
 
-  /**
-   * TODO: Determine how to update queries for single objects
-   * TODO: Directly update cache after createMemberRequest mutation
-   */
   const _createMemberRequest = async (groupId: number) => {
     const { data } = await createMemberRequest({
       variables: { memberRequestData: { groupId, userId: me?.id } },
@@ -53,6 +50,15 @@ export const useCreateMemberRequestMutation = (): [
         if (!data) {
           return;
         }
+        updateQuery<MemberRequest[]>(
+          {
+            query: MEMBER_REQUESTS_QUERY,
+            variables: { groupId: data.createMemberRequest.group.id },
+          },
+          (draft) => {
+            draft.unshift(data.createMemberRequest);
+          }
+        );
         updateQuery<Group>(
           {
             query: GROUP_QUERY,
@@ -63,10 +69,8 @@ export const useCreateMemberRequestMutation = (): [
           }
         );
       },
-      refetchQueries: filterInactiveQueries([
-        MEMBER_REQUESTS_QUERY,
-        MEMBER_REQUEST_QUERY,
-      ]),
+      // TODO: Determine how to update queries for single objects
+      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
     return data?.createMemberRequest;
   };
@@ -83,6 +87,8 @@ export const useApproveMemberRequestMutation = (): [
   );
 
   const _approve = async (id: number) =>
+    // TODO: Determine if approveMemberRequest should return member request
+    // with group member as a field instead of just the group member alone
     await approve({
       variables: { id },
       update(_, { data }) {
@@ -130,6 +136,7 @@ export const useDeleteMemberRequestMutation = (): [
     await deleteMemberRequest({
       variables: { id },
       refetchQueries: filterInactiveQueries([
+        MEMBER_REQUESTS_QUERY,
         MEMBER_REQUEST_QUERY,
         GROUP_QUERY,
       ]),

@@ -138,7 +138,10 @@ export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
   const _leaveGroup = async (groupId: number) =>
     await leaveGroup({
       variables: { groupId },
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
+      refetchQueries: filterInactiveQueries([
+        MEMBER_REQUEST_QUERY,
+        GROUP_QUERY,
+      ]),
     });
 
   return [_leaveGroup, loading];

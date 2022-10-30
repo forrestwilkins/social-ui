@@ -3,7 +3,10 @@ import {
   CREATE_MEMBER_REQUEST_MUTATION,
   DELETE_MEMBER_REQUEST_MUTATION,
 } from "../client/groups/group.mutations";
-import { MEMBER_REQUEST_QUERY } from "../client/groups/group.queries";
+import {
+  GROUP_QUERY,
+  MEMBER_REQUEST_QUERY,
+} from "../client/groups/group.queries";
 import {
   CreateMemberRequestMutation,
   MemberRequest,
@@ -42,7 +45,10 @@ export const useCreateMemberRequestMutation = (): [
   const _createMemberRequest = async (groupId: number) => {
     const { data } = await createMemberRequest({
       variables: { memberRequestData: { groupId, userId: me?.id } },
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
+      refetchQueries: filterInactiveQueries([
+        MEMBER_REQUEST_QUERY,
+        GROUP_QUERY,
+      ]),
     });
     return data?.createMemberRequest;
   };
@@ -62,7 +68,10 @@ export const useDeleteMemberRequestMutation = (): [
   const _deleteMemberRequest = async (id: number) => {
     await deleteMemberRequest({
       variables: { id },
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
+      refetchQueries: filterInactiveQueries([
+        MEMBER_REQUEST_QUERY,
+        GROUP_QUERY,
+      ]),
     });
   };
 

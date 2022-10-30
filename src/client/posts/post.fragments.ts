@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 import { IMAGE_FRAGMENT } from "../images/image.fragments";
-import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
 
 export const POST_FRAGMENT = gql`
   fragment PostFragment on Post {
@@ -10,7 +9,11 @@ export const POST_FRAGMENT = gql`
       ...ImageFragment
     }
     user {
-      ...UserAvatarFragment
+      id
+      name
+      profilePicture {
+        ...ImageFragment
+      }
     }
     group {
       id
@@ -23,7 +26,6 @@ export const POST_FRAGMENT = gql`
     updatedAt
   }
   ${IMAGE_FRAGMENT}
-  ${USER_AVATAR_FRAGMENT}
 `;
 
 export const POST_MUTATION_FRAGMENT = gql`
@@ -31,7 +33,11 @@ export const POST_MUTATION_FRAGMENT = gql`
     id
     body
     user {
-      ...UserAvatarFragment
+      id
+      name
+      profilePicture {
+        ...ImageFragment
+      }
     }
     group {
       id
@@ -44,5 +50,4 @@ export const POST_MUTATION_FRAGMENT = gql`
     updatedAt
   }
   ${IMAGE_FRAGMENT}
-  ${USER_AVATAR_FRAGMENT}
 `;

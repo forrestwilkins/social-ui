@@ -42,7 +42,6 @@ export const USER_PROFILE_LITE_FRAGMENT = gql`
   ${USER_FRAGMENT}
 `;
 
-// TODO: Use wherever applicable
 export const USER_AVATAR_FRAGMENT = gql`
   fragment UserAvatarFragment on User {
     id

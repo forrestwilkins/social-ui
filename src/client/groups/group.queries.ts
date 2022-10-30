@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { IMAGE_FRAGMENT } from "../images/image.fragments";
+import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
 import {
   GROUP_FRAGMENT,
   GROUP_PROFILE_FRAGMENT,
@@ -39,13 +40,10 @@ export const MEMBER_REQUESTS_QUERY = gql`
       id
       status
       user {
-        id
-        name
-        profilePicture {
-          ...ImageFragment
-        }
+        ...UserAvatarFragment
       }
     }
   }
   ${IMAGE_FRAGMENT}
+  ${USER_AVATAR_FRAGMENT}
 `;

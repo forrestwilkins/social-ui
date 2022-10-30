@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { IMAGE_FRAGMENT } from "../images/image.fragments";
+import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
 import { GROUP_FRAGMENT, MEMBER_REQUEST_FRAGMENT } from "./group.fragments";
 
 export const CREATE_GROUP_MUTATION = gql`
@@ -43,11 +44,7 @@ export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
     approveMemberRequest(id: $id) {
       id
       user {
-        id
-        name
-        profilePicture {
-          ...ImageFragment
-        }
+        ...UserAvatarFragment
       }
       group {
         id
@@ -56,6 +53,7 @@ export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
     }
   }
   ${IMAGE_FRAGMENT}
+  ${USER_AVATAR_FRAGMENT}
 `;
 
 export const DELETE_MEMBER_REQUEST_MUTATION = gql`

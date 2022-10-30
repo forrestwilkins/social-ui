@@ -49,10 +49,23 @@ export const useCreateMemberRequestMutation = (): [
   const _createMemberRequest = async (groupId: number) => {
     const { data } = await createMemberRequest({
       variables: { memberRequestData: { groupId, userId: me?.id } },
+      update(_, { data }) {
+        if (!data) {
+          return;
+        }
+        updateQuery<Group>(
+          {
+            query: GROUP_QUERY,
+            variables: { name: data.createMemberRequest.group.name },
+          },
+          (draft) => {
+            draft.memberRequestCount += 1;
+          }
+        );
+      },
       refetchQueries: filterInactiveQueries([
         MEMBER_REQUESTS_QUERY,
         MEMBER_REQUEST_QUERY,
-        GROUP_QUERY,
       ]),
     });
     return data?.createMemberRequest;

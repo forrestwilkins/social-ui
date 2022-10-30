@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { IMAGE_FRAGMENT } from "../images/image.fragments";
 import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
-import { GROUP_FRAGMENT, MEMBER_REQUEST_FRAGMENT } from "./group.fragments";
+import { GROUP_FRAGMENT } from "./group.fragments";
 
 export const CREATE_GROUP_MUTATION = gql`
   mutation CreateGroupMutation($groupData: GroupInput!) {
@@ -33,10 +33,13 @@ export const CREATE_MEMBER_REQUEST_MUTATION = gql`
     $memberRequestData: MemberRequestInput!
   ) {
     createMemberRequest(memberRequestData: $memberRequestData) {
-      ...MemberRequestFragment
+      id
+      status
+      group {
+        name
+      }
     }
   }
-  ${MEMBER_REQUEST_FRAGMENT}
 `;
 
 export const APPROVE_MEMBER_REQUEST_MUTATION = gql`

@@ -34,10 +34,3 @@ export const GROUP_PROFILE_FRAGMENT = gql`
   ${GROUP_FRAGMENT}
   ${POST_FRAGMENT}
 `;
-
-export const MEMBER_REQUEST_FRAGMENT = gql`
-  fragment MemberRequestFragment on MemberRequest {
-    id
-    status
-  }
-`;

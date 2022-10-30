@@ -28,6 +28,7 @@ export interface GroupMember {
 export interface MemberRequest {
   id: number;
   status: "approved" | "denied" | "pending";
+  group: Group;
   user: User;
   __typename: string;
 }

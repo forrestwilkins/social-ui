@@ -54,9 +54,8 @@ export const isActiveQuery = (
   const queryName = getQueryName(query);
   const activeQueries = getActiveQueries();
 
-  // TODO: Consider refactoring to use reduce instead
   for (const query of Object.keys(activeQueries)) {
-    const queryNameMatch = query.split("(")[0].includes(queryName);
+    const queryNameMatch = query.split("(")[0] === queryName;
     const variablesMatch = Object.entries(variables).every(([key, value]) => {
       const keyMatch = query.includes(key);
       const valueMatch = query.includes(String(value));

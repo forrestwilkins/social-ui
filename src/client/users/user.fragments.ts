@@ -42,6 +42,18 @@ export const USER_PROFILE_LITE_FRAGMENT = gql`
   ${USER_FRAGMENT}
 `;
 
+// TODO: Use wherever applicable
+export const USER_AVATAR_FRAGMENT = gql`
+  fragment UserAvatarFragment on User {
+    id
+    name
+    profilePicture {
+      ...ImageFragment
+    }
+  }
+  ${IMAGE_FRAGMENT}
+`;
+
 export const USER_MUTATION_FRAGMENT = gql`
   fragment UserMutationFragment on User {
     id

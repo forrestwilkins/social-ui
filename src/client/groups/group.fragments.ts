@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { IMAGE_FRAGMENT } from "../images/image.fragments";
 import { POST_FRAGMENT } from "../posts/post.fragments";
+import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
 
 export const GROUP_FRAGMENT = gql`
   fragment GroupFragment on Group {
@@ -22,7 +23,14 @@ export const GROUP_PROFILE_FRAGMENT = gql`
     posts {
       ...PostFragment
     }
+    members {
+      id
+      user {
+        ...UserAvatarFragment
+      }
+    }
   }
+  ${USER_AVATAR_FRAGMENT}
   ${GROUP_FRAGMENT}
   ${POST_FRAGMENT}
 `;

@@ -49,6 +49,10 @@ export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
           ...ImageFragment
         }
       }
+      group {
+        id
+        name
+      }
     }
   }
   ${IMAGE_FRAGMENT}

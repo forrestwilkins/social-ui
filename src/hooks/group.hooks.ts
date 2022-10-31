@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { StoreObject, useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
 import { GROUP_FRAGMENT } from "../client/groups/group.fragments";
 import {
@@ -134,14 +134,29 @@ export const useDeleteGroupMutation = () => {
 export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
   const [leaveGroup, { loading }] = useMutation(LEAVE_GROUP_MUTATION);
 
-  /** TODO: Directly update cache after leaveGroup mutation */
-  const _leaveGroup = async (groupId: number) =>
+  const _leaveGroup = async (groupId: number, memberRequestId: number) =>
     await leaveGroup({
       variables: { groupId },
-      refetchQueries: filterInactiveQueries([
-        MEMBER_REQUEST_QUERY,
-        GROUP_QUERY,
-      ]),
+      update(cache) {
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.Group,
+            id: groupId,
+          }),
+          fields: {
+            members(existingMemberRefs: StoreObject[], { readField }) {
+              return existingMemberRefs.filter(
+                (memberRef) => memberRequestId !== readField("id", memberRef)
+              );
+            },
+            memberCount(existingCount: number) {
+              return existingCount - 1;
+            },
+          },
+        });
+      },
+      // TODO: Attempt to replace refetch with writeQuery
+      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
 
   return [_leaveGroup, loading];

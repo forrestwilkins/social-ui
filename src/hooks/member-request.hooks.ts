@@ -74,6 +74,7 @@ export const useCreateMemberRequestMutation = (): [
         });
       },
       // TODO: Determine how to update queries for single objects
+      // Can likely use writeQuery here
       refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
     return data?.createMemberRequest;
@@ -121,6 +122,7 @@ export const useApproveMemberRequestMutation = (): [
           }
         );
       },
+      // TODO: Update cache directly - can likely use writeQuery here
       refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
 

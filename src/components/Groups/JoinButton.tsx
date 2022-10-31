@@ -42,7 +42,7 @@ const JoinButton = ({ groupId }: Props) => {
 
     // TODO: Add confirmation dialog for leaving group
     if (memberRequest?.status === "approved") {
-      await leaveGroup(groupId);
+      await leaveGroup(groupId, memberRequest.id);
       return;
     }
     await createMemberRequest(groupId);

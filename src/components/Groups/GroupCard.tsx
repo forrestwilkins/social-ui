@@ -82,7 +82,7 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
           )}
         </Box>
 
-        <JoinButton groupId={group.id} />
+        {isLoggedIn && <JoinButton groupId={group.id} />}
       </CardContent>
     </Card>
   );

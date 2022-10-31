@@ -22,8 +22,8 @@ export const GROUPS_QUERY = gql`
 `;
 
 export const MEMBER_REQUEST_QUERY = gql`
-  query MemberRequestQuery($groupId: Int!, $userId: Int!) {
-    memberRequest(groupId: $groupId, userId: $userId) {
+  query MemberRequestQuery($groupId: Int!) {
+    memberRequest(groupId: $groupId) {
       id
       status
     }

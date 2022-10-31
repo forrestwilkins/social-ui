@@ -23,6 +23,7 @@ import { useMeQuery } from "./user.hooks";
 export const useMemberRequestQuery = (
   groupId: number
 ): [MemberRequest | undefined | null, boolean] => {
+  // TODO: Refactor so that MeQuery is unneeded
   const [me] = useMeQuery();
   const { data, loading } = useQuery<MemberRequestQuery>(MEMBER_REQUEST_QUERY, {
     variables: {

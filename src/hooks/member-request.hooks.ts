@@ -9,7 +9,6 @@ import {
   MEMBER_REQUESTS_QUERY,
   MEMBER_REQUEST_QUERY,
 } from "../client/groups/group.queries";
-import { TypeNames } from "../constants/common.constants";
 import {
   ApproveMemberRequestMutation,
   CancelMemberRequestMutation,
@@ -62,10 +61,7 @@ export const useCreateMemberRequestMutation = (): [
           }
         );
         cache.modify({
-          id: cache.identify({
-            __typename: TypeNames.Group,
-            id: data.createMemberRequest.group.id,
-          }),
+          id: cache.identify({ ...data.createMemberRequest.group }),
           fields: {
             memberRequestCount(existingCount: number) {
               return existingCount + 1;

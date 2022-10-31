@@ -28,10 +28,8 @@ export const DELETE_GROUP_MUTATION = gql`
 `;
 
 export const CREATE_MEMBER_REQUEST_MUTATION = gql`
-  mutation CreateMemberRequestMutation(
-    $memberRequestData: MemberRequestInput!
-  ) {
-    createMemberRequest(memberRequestData: $memberRequestData) {
+  mutation CreateMemberRequestMutation($groupId: Int!) {
+    createMemberRequest(groupId: $groupId) {
       id
       status
       group {

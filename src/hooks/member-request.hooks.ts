@@ -18,7 +18,6 @@ import {
   MemberRequestQuery,
 } from "../types/group.types";
 import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
-import { useMeQuery } from "./user.hooks";
 
 export const useMemberRequestQuery = (
   groupId: number
@@ -36,12 +35,9 @@ export const useCreateMemberRequestMutation = (): [
   const [createMemberRequest, { loading }] =
     useMutation<CreateMemberRequestMutation>(CREATE_MEMBER_REQUEST_MUTATION);
 
-  // TODO: Refactor so that MeQuery is unneeded
-  const [me] = useMeQuery();
-
   const _createMemberRequest = async (groupId: number) => {
     const { data } = await createMemberRequest({
-      variables: { memberRequestData: { groupId, userId: me?.id } },
+      variables: { groupId },
       update(cache, { data }) {
         if (!data) {
           return;

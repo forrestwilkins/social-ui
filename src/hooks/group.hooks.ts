@@ -19,10 +19,11 @@ import {
   Group,
   GroupFormValues,
   GroupQuery,
+  MemberRequest,
   UpdateGroupMutation,
 } from "../types/group.types";
 import { ImageEntity } from "../types/image.types";
-import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
+import { updateQuery } from "../utils/apollo.utils";
 
 export const useGroupQuery = (
   name: string
@@ -138,6 +139,13 @@ export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
     await leaveGroup({
       variables: { id },
       update(cache) {
+        updateQuery<MemberRequest>(
+          {
+            query: MEMBER_REQUEST_QUERY,
+            variables: { groupId: id },
+          },
+          () => null
+        );
         cache.modify({
           id: cache.identify({ __typename: TypeNames.Group, id }),
           fields: {
@@ -152,8 +160,6 @@ export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
           },
         });
       },
-      // TODO: Attempt to replace refetch with writeQuery
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
 
   return [_leaveGroup, loading];

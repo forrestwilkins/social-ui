@@ -42,11 +42,13 @@ export const useCreateMemberRequestMutation = (): [
         if (!data) {
           return;
         }
+        const variables = { groupId: data.createMemberRequest.group.id };
+        updateQuery<MemberRequest>(
+          { query: MEMBER_REQUEST_QUERY, variables },
+          () => data.createMemberRequest
+        );
         updateQuery<MemberRequest[]>(
-          {
-            query: MEMBER_REQUESTS_QUERY,
-            variables: { groupId: data.createMemberRequest.group.id },
-          },
+          { query: MEMBER_REQUESTS_QUERY, variables },
           (draft) => {
             draft.unshift(data.createMemberRequest);
           }
@@ -60,9 +62,6 @@ export const useCreateMemberRequestMutation = (): [
           },
         });
       },
-      // TODO: Determine how to update queries for single objects
-      // Can likely use writeQuery here
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
     return data?.createMemberRequest;
   };

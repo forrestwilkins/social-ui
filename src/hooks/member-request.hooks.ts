@@ -17,7 +17,7 @@ import {
   MemberRequest,
   MemberRequestQuery,
 } from "../types/group.types";
-import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
+import { updateQuery } from "../utils/apollo.utils";
 
 export const useMemberRequestQuery = (
   groupId: number
@@ -88,11 +88,17 @@ export const useApproveMemberRequestMutation = (): [
         if (!data) {
           return;
         }
+        const variables = {
+          groupId: data.approveMemberRequest.group.id,
+        };
+        updateQuery<MemberRequest>(
+          { query: MEMBER_REQUEST_QUERY, variables },
+          (draft) => {
+            draft.status = "approved";
+          }
+        );
         updateQuery<MemberRequest[]>(
-          {
-            query: MEMBER_REQUESTS_QUERY,
-            variables: { groupId: data.approveMemberRequest.group.id },
-          },
+          { query: MEMBER_REQUESTS_QUERY, variables },
           (draft) => {
             const index = draft.findIndex((p) => p.id === id);
             draft.splice(index, 1);
@@ -110,8 +116,6 @@ export const useApproveMemberRequestMutation = (): [
           }
         );
       },
-      // TODO: Update cache directly - can likely use writeQuery here
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
 
   return [_approve, loading];

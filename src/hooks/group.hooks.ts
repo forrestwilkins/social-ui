@@ -134,15 +134,12 @@ export const useDeleteGroupMutation = () => {
 export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
   const [leaveGroup, { loading }] = useMutation(LEAVE_GROUP_MUTATION);
 
-  const _leaveGroup = async (groupId: number, memberRequestId: number) =>
+  const _leaveGroup = async (id: number, memberRequestId: number) =>
     await leaveGroup({
-      variables: { groupId },
+      variables: { id },
       update(cache) {
         cache.modify({
-          id: cache.identify({
-            __typename: TypeNames.Group,
-            id: groupId,
-          }),
+          id: cache.identify({ __typename: TypeNames.Group, id }),
           fields: {
             members(existingMemberRefs: StoreObject[], { readField }) {
               return existingMemberRefs.filter(

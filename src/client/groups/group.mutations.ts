@@ -27,6 +27,12 @@ export const DELETE_GROUP_MUTATION = gql`
   }
 `;
 
+export const LEAVE_GROUP_MUTATION = gql`
+  mutation LeaveGroupMutation($id: Int!) {
+    leaveGroup(id: $id)
+  }
+`;
+
 export const CREATE_MEMBER_REQUEST_MUTATION = gql`
   mutation CreateMemberRequestMutation($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
@@ -65,11 +71,5 @@ export const CANCEL_MEMBER_REQUEST_MUTATION = gql`
       id
       name
     }
-  }
-`;
-
-export const LEAVE_GROUP_MUTATION = gql`
-  mutation LeaveGroupMutation($groupId: Int!) {
-    leaveGroup(groupId: $groupId)
   }
 `;

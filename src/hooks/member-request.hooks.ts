@@ -42,7 +42,9 @@ export const useCreateMemberRequestMutation = (): [
         if (!data) {
           return;
         }
-        const variables = { groupId: data.createMemberRequest.group.id };
+        const variables = {
+          groupId: data.createMemberRequest.group.id,
+        };
         updateQuery<MemberRequest>(
           { query: MEMBER_REQUEST_QUERY, variables },
           () => data.createMemberRequest
@@ -129,11 +131,15 @@ export const useCancelMemberRequestMutation = (): [
         if (!data) {
           return;
         }
+        const variables = {
+          groupId: data.cancelMemberRequest.id,
+        };
+        updateQuery<MemberRequest>(
+          { query: MEMBER_REQUEST_QUERY, variables },
+          () => null
+        );
         updateQuery<MemberRequest[]>(
-          {
-            query: MEMBER_REQUESTS_QUERY,
-            variables: { groupId: data.cancelMemberRequest.id },
-          },
+          { query: MEMBER_REQUESTS_QUERY, variables },
           (draft) => {
             const index = draft.findIndex((p) => p.id === id);
             draft.splice(index, 1);
@@ -149,8 +155,6 @@ export const useCancelMemberRequestMutation = (): [
           }
         );
       },
-      // TODO: Determine how to update queries for single objects
-      refetchQueries: filterInactiveQueries([MEMBER_REQUEST_QUERY]),
     });
   };
 

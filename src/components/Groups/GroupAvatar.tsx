@@ -1,5 +1,5 @@
 import { Avatar, AvatarProps } from "@mui/material";
-import { Group } from "../../types/group.types";
+import { Group } from "../../types/generated.types";
 import { getGroupPath } from "../../utils/group.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Link from "../Shared/Link";

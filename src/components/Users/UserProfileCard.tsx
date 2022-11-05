@@ -19,7 +19,7 @@ import {
 } from "../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
 import { useMeQuery } from "../../hooks/user.hooks";
-import { User } from "../../types/user.types";
+import { User } from "../../types/generated.types";
 import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";

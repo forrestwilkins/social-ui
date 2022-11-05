@@ -1,9 +1,9 @@
 import { Box, BoxProps } from "@mui/material";
-import { ImageEntity } from "../../types/image.types";
+import { Image } from "../../types/generated.types";
 import { getImagePath } from "../../utils/image.utils";
 
 interface Props extends Omit<BoxProps, "children"> {
-  images: ImageEntity[];
+  images: Image[];
 }
 
 const ImageList = ({ images, sx, ...boxProps }: Props) => (

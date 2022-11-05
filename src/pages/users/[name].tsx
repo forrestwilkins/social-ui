@@ -5,31 +5,36 @@ import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useUserQuery } from "../../hooks/user.hooks";
+import { Post, User, useUserQuery } from "../../types/generated.types";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [user, userLoading, userError] = useUserQuery(name);
-
   const t = useTranslate();
 
-  if (userError) {
+  const { data, loading, error } = useUserQuery({
+    variables: { name },
+    skip: !name,
+  });
+
+  if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
-  if (userLoading) {
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!user) {
+  if (!data) {
     return null;
   }
 
+  const { user } = data;
+
   return (
     <>
-      <UserProfileCard user={user} />
-      {user.posts && <PostList posts={user.posts} />}
+      <UserProfileCard user={user as User} />
+      {user.posts && <PostList posts={user.posts as Post[]} />}
     </>
   );
 };

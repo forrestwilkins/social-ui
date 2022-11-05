@@ -241,7 +241,6 @@ export type User = {
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
   id: Scalars["Int"];
-  images: Array<Image>;
   name: Scalars["String"];
   posts: Array<Post>;
   profilePicture: Image;

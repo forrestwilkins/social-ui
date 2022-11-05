@@ -64,7 +64,7 @@ export const useUpdateUserMutation = () => {
             {
               id: `${TypeNames.User}:${id}`,
               fragment: USER_PROFILE_FRAGMENT,
-              fragmentName: "UserProfileFragment",
+              fragmentName: "UserProfile",
             },
             (data) =>
               produce(data, (draft) => {

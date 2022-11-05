@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
 import { GROUP_QUERY } from "../client/groups/group.queries";
-import { POST_FRAGMENT } from "../client/posts/post.fragments";
+import { POST_SUMMARY_FRAGMENT } from "../client/posts/post.fragments";
 import {
   CREATE_POST_MUTATION,
   DELETE_POST_MUTATION,
@@ -96,8 +96,8 @@ export const useUpdatePostMutation = () => {
         cache.updateFragment<Post>(
           {
             id: `${TypeNames.Post}:${id}`,
-            fragment: POST_FRAGMENT,
-            fragmentName: "PostFragment",
+            fragment: POST_SUMMARY_FRAGMENT,
+            fragmentName: "PostSummary",
           },
           (data) =>
             produce(data, (draft) => {

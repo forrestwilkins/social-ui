@@ -1,20 +1,20 @@
 import { gql } from "@apollo/client";
-import { POST_FRAGMENT } from "./post.fragments";
+import { POST_SUMMARY_FRAGMENT } from "./post.fragments";
 
 export const POSTS_QUERY = gql`
-  query PostsQuery {
+  query Posts {
     posts {
-      ...PostFragment
+      ...PostSummary
     }
   }
-  ${POST_FRAGMENT}
+  ${POST_SUMMARY_FRAGMENT}
 `;
 
 export const POST_QUERY = gql`
-  query PostQuery($id: Int!) {
+  query Post($id: Int!) {
     post(id: $id) {
-      ...PostFragment
+      ...PostSummary
     }
   }
-  ${POST_FRAGMENT}
+  ${POST_SUMMARY_FRAGMENT}
 `;

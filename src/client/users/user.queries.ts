@@ -1,33 +1,33 @@
 import { gql } from "@apollo/client";
 import {
-  USER_FRAGMENT,
+  USER_SUMMARY_FRAGMENT,
   USER_PROFILE_FRAGMENT,
   USER_PROFILE_LITE_FRAGMENT,
 } from "./user.fragments";
 
 export const ME_QUERY = gql`
-  query MeQuery {
+  query Me {
     me {
-      ...UserProfileLiteFragment
+      ...UserProfileLite
     }
   }
   ${USER_PROFILE_LITE_FRAGMENT}
 `;
 
 export const USER_QUERY = gql`
-  query UserQuery($name: String) {
+  query User($name: String) {
     user(name: $name) {
-      ...UserProfileFragment
+      ...UserProfile
     }
   }
   ${USER_PROFILE_FRAGMENT}
 `;
 
 export const USERS_QUERY = gql`
-  query UsersQuery {
+  query Users {
     users {
-      ...UserFragment
+      ...UserSummary
     }
   }
-  ${USER_FRAGMENT}
+  ${USER_SUMMARY_FRAGMENT}
 `;

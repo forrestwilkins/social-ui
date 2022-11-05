@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
-import { IMAGE_FRAGMENT } from "../images/image.fragments";
-import { POST_FRAGMENT } from "../posts/post.fragments";
+import { IMAGE_SUMMARY_FRAGMENT } from "../images/image.fragments";
+import { POST_SUMMARY_FRAGMENT } from "../posts/post.fragments";
 
-export const USER_FRAGMENT = gql`
-  fragment UserFragment on User {
+export const USER_SUMMARY_FRAGMENT = gql`
+  fragment UserSummary on User {
     id
     bio
     email
@@ -14,47 +14,47 @@ export const USER_FRAGMENT = gql`
 `;
 
 export const USER_PROFILE_FRAGMENT = gql`
-  fragment UserProfileFragment on User {
-    ...UserFragment
+  fragment UserProfile on User {
+    ...UserSummary
     profilePicture {
-      ...ImageFragment
+      ...ImageSummary
     }
     coverPhoto {
-      ...ImageFragment
+      ...ImageSummary
     }
     posts {
-      ...PostFragment
+      ...PostSummary
     }
   }
-  ${IMAGE_FRAGMENT}
-  ${POST_FRAGMENT}
-  ${USER_FRAGMENT}
+  ${IMAGE_SUMMARY_FRAGMENT}
+  ${POST_SUMMARY_FRAGMENT}
+  ${USER_SUMMARY_FRAGMENT}
 `;
 
 export const USER_PROFILE_LITE_FRAGMENT = gql`
-  fragment UserProfileLiteFragment on User {
-    ...UserFragment
+  fragment UserProfileLite on User {
+    ...UserSummary
     profilePicture {
-      ...ImageFragment
+      ...ImageSummary
     }
   }
-  ${IMAGE_FRAGMENT}
-  ${USER_FRAGMENT}
+  ${IMAGE_SUMMARY_FRAGMENT}
+  ${USER_SUMMARY_FRAGMENT}
 `;
 
 export const USER_AVATAR_FRAGMENT = gql`
-  fragment UserAvatarFragment on User {
+  fragment UserAvatar on User {
     id
     name
     profilePicture {
-      ...ImageFragment
+      ...ImageSummary
     }
   }
-  ${IMAGE_FRAGMENT}
+  ${IMAGE_SUMMARY_FRAGMENT}
 `;
 
-export const USER_MUTATION_FRAGMENT = gql`
-  fragment UserMutationFragment on User {
+export const USER_MUTATION_SUMMARY_FRAGMENT = gql`
+  fragment UserMutationSummary on User {
     id
     name
     email

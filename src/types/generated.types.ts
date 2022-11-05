@@ -282,7 +282,7 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
-export type GroupFragmentFragment = {
+export type GroupSummaryFragment = {
   __typename?: "Group";
   id: number;
   name: string;
@@ -292,7 +292,7 @@ export type GroupFragmentFragment = {
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
-export type GroupProfileFragmentFragment = {
+export type GroupProfileFragment = {
   __typename?: "Group";
   id: number;
   name: string;
@@ -336,11 +336,11 @@ export type GroupProfileFragmentFragment = {
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
-export type CreateGroupMutationMutationVariables = Exact<{
+export type CreateGroupMutationVariables = Exact<{
   groupData: GroupInput;
 }>;
 
-export type CreateGroupMutationMutation = {
+export type CreateGroupMutation = {
   __typename?: "Mutation";
   createGroup: {
     __typename?: "Group";
@@ -353,11 +353,11 @@ export type CreateGroupMutationMutation = {
   };
 };
 
-export type UpdateGroupMutationMutationVariables = Exact<{
+export type UpdateGroupMutationVariables = Exact<{
   groupData: GroupInput;
 }>;
 
-export type UpdateGroupMutationMutation = {
+export type UpdateGroupMutation = {
   __typename?: "Mutation";
   updateGroup: {
     __typename?: "Group";
@@ -367,29 +367,29 @@ export type UpdateGroupMutationMutation = {
   };
 };
 
-export type DeleteGroupMutationMutationVariables = Exact<{
+export type DeleteGroupMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type DeleteGroupMutationMutation = {
+export type DeleteGroupMutation = {
   __typename?: "Mutation";
   deleteGroup: boolean;
 };
 
-export type LeaveGroupMutationMutationVariables = Exact<{
+export type LeaveGroupMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type LeaveGroupMutationMutation = {
+export type LeaveGroupMutation = {
   __typename?: "Mutation";
   leaveGroup: boolean;
 };
 
-export type CreateMemberRequestMutationMutationVariables = Exact<{
+export type CreateMemberRequestMutationVariables = Exact<{
   groupId: Scalars["Int"];
 }>;
 
-export type CreateMemberRequestMutationMutation = {
+export type CreateMemberRequestMutation = {
   __typename?: "Mutation";
   createMemberRequest: {
     __typename?: "MemberRequest";
@@ -405,11 +405,11 @@ export type CreateMemberRequestMutationMutation = {
   };
 };
 
-export type ApproveMemberRequestMutationMutationVariables = Exact<{
+export type ApproveMemberRequestMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type ApproveMemberRequestMutationMutation = {
+export type ApproveMemberRequestMutation = {
   __typename?: "Mutation";
   approveMemberRequest: {
     __typename?: "GroupMember";
@@ -424,20 +424,20 @@ export type ApproveMemberRequestMutationMutation = {
   };
 };
 
-export type CancelMemberRequestMutationMutationVariables = Exact<{
+export type CancelMemberRequestMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type CancelMemberRequestMutationMutation = {
+export type CancelMemberRequestMutation = {
   __typename?: "Mutation";
   cancelMemberRequest: { __typename?: "Group"; id: number; name: string };
 };
 
-export type GroupQueryQueryVariables = Exact<{
+export type GroupQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
 
-export type GroupQueryQuery = {
+export type GroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
@@ -484,9 +484,9 @@ export type GroupQueryQuery = {
   };
 };
 
-export type GroupsQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GroupsQueryQuery = {
+export type GroupsQuery = {
   __typename?: "Query";
   groups: Array<{
     __typename?: "Group";
@@ -499,11 +499,11 @@ export type GroupsQueryQuery = {
   }>;
 };
 
-export type MemberRequestQueryQueryVariables = Exact<{
+export type MemberRequestQueryVariables = Exact<{
   groupId: Scalars["Int"];
 }>;
 
-export type MemberRequestQueryQuery = {
+export type MemberRequestQuery = {
   __typename?: "Query";
   memberRequest?: {
     __typename?: "MemberRequest";
@@ -512,11 +512,11 @@ export type MemberRequestQueryQuery = {
   } | null;
 };
 
-export type MemberRequestsQueryQueryVariables = Exact<{
+export type MemberRequestsQueryVariables = Exact<{
   groupId: Scalars["Int"];
 }>;
 
-export type MemberRequestsQueryQuery = {
+export type MemberRequestsQuery = {
   __typename?: "Query";
   memberRequests: Array<{
     __typename?: "MemberRequest";
@@ -531,22 +531,22 @@ export type MemberRequestsQueryQuery = {
   }>;
 };
 
-export type ImageFragmentFragment = {
+export type ImageSummaryFragment = {
   __typename?: "Image";
   filename: string;
   id: number;
 };
 
-export type DeleteImageMutationMutationVariables = Exact<{
+export type DeleteImageMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type DeleteImageMutationMutation = {
+export type DeleteImageMutation = {
   __typename?: "Mutation";
   deleteImage: boolean;
 };
 
-export type PostFragmentFragment = {
+export type PostSummaryFragment = {
   __typename?: "Post";
   id: number;
   body: string;
@@ -567,7 +567,7 @@ export type PostFragmentFragment = {
   } | null;
 };
 
-export type PostMutationFragmentFragment = {
+export type PostMutationSummaryFragment = {
   __typename?: "Post";
   id: number;
   body: string;
@@ -587,11 +587,11 @@ export type PostMutationFragmentFragment = {
   } | null;
 };
 
-export type CreatePostMutationMutationVariables = Exact<{
+export type CreatePostMutationVariables = Exact<{
   postData: PostInput;
 }>;
 
-export type CreatePostMutationMutation = {
+export type CreatePostMutation = {
   __typename?: "Mutation";
   createPost: {
     __typename?: "Post";
@@ -618,12 +618,12 @@ export type CreatePostMutationMutation = {
   };
 };
 
-export type UpdatePostMutationMutationVariables = Exact<{
+export type UpdatePostMutationVariables = Exact<{
   id: Scalars["Int"];
   postData: PostInput;
 }>;
 
-export type UpdatePostMutationMutation = {
+export type UpdatePostMutation = {
   __typename?: "Mutation";
   updatePost: {
     __typename?: "Post";
@@ -650,18 +650,18 @@ export type UpdatePostMutationMutation = {
   };
 };
 
-export type DeletePostMutationMutationVariables = Exact<{
+export type DeletePostMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type DeletePostMutationMutation = {
+export type DeletePostMutation = {
   __typename?: "Mutation";
   deletePost: boolean;
 };
 
-export type PostsQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type PostsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PostsQueryQuery = {
+export type PostsQuery = {
   __typename?: "Query";
   posts: Array<{
     __typename?: "Post";
@@ -689,11 +689,11 @@ export type PostsQueryQuery = {
   }>;
 };
 
-export type PostQueryQueryVariables = Exact<{
+export type PostQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type PostQueryQuery = {
+export type PostQuery = {
   __typename?: "Query";
   post: {
     __typename?: "Post";
@@ -721,7 +721,7 @@ export type PostQueryQuery = {
   };
 };
 
-export type UserFragmentFragment = {
+export type UserSummaryFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
@@ -731,7 +731,7 @@ export type UserFragmentFragment = {
   updatedAt: any;
 };
 
-export type UserProfileFragmentFragment = {
+export type UserProfileFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
@@ -767,7 +767,7 @@ export type UserProfileFragmentFragment = {
   }>;
 };
 
-export type UserProfileLiteFragmentFragment = {
+export type UserProfileLiteFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
@@ -778,14 +778,14 @@ export type UserProfileLiteFragmentFragment = {
   profilePicture: { __typename?: "Image"; filename: string; id: number };
 };
 
-export type UserAvatarFragmentFragment = {
+export type UserAvatarFragment = {
   __typename?: "User";
   id: number;
   name: string;
   profilePicture: { __typename?: "Image"; filename: string; id: number };
 };
 
-export type UserMutationFragmentFragment = {
+export type UserMutationSummaryFragment = {
   __typename?: "User";
   id: number;
   name: string;
@@ -793,11 +793,11 @@ export type UserMutationFragmentFragment = {
   bio?: string | null;
 };
 
-export type UpdateUserMutationMutationVariables = Exact<{
+export type UpdateUserMutationVariables = Exact<{
   userData: UserInput;
 }>;
 
-export type UpdateUserMutationMutation = {
+export type UpdateUserMutation = {
   __typename?: "Mutation";
   updateUser: {
     __typename?: "User";
@@ -808,9 +808,9 @@ export type UpdateUserMutationMutation = {
   };
 };
 
-export type MeQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQueryQuery = {
+export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
@@ -824,11 +824,11 @@ export type MeQueryQuery = {
   };
 };
 
-export type UserQueryQueryVariables = Exact<{
+export type UserQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
 }>;
 
-export type UserQueryQuery = {
+export type UserQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
@@ -867,9 +867,9 @@ export type UserQueryQuery = {
   };
 };
 
-export type UsersQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UsersQueryQuery = {
+export type UsersQuery = {
   __typename?: "Query";
   users: Array<{
     __typename?: "User";
@@ -882,103 +882,103 @@ export type UsersQueryQuery = {
   }>;
 };
 
-export const ImageFragmentFragmentDoc = gql`
-  fragment ImageFragment on Image {
+export const ImageSummaryFragmentDoc = gql`
+  fragment ImageSummary on Image {
     filename
     id
   }
 `;
-export const GroupFragmentFragmentDoc = gql`
-  fragment GroupFragment on Group {
+export const GroupSummaryFragmentDoc = gql`
+  fragment GroupSummary on Group {
     id
     name
     description
     coverPhoto {
-      ...ImageFragment
+      ...ImageSummary
     }
     memberCount
     memberRequestCount
   }
-  ${ImageFragmentFragmentDoc}
+  ${ImageSummaryFragmentDoc}
 `;
-export const PostFragmentFragmentDoc = gql`
-  fragment PostFragment on Post {
+export const PostSummaryFragmentDoc = gql`
+  fragment PostSummary on Post {
     id
     body
     images {
-      ...ImageFragment
+      ...ImageSummary
     }
     user {
       id
       name
       profilePicture {
-        ...ImageFragment
+        ...ImageSummary
       }
     }
     group {
       id
       name
       coverPhoto {
-        ...ImageFragment
+        ...ImageSummary
       }
     }
     createdAt
     updatedAt
   }
-  ${ImageFragmentFragmentDoc}
+  ${ImageSummaryFragmentDoc}
 `;
-export const UserAvatarFragmentFragmentDoc = gql`
-  fragment UserAvatarFragment on User {
+export const UserAvatarFragmentDoc = gql`
+  fragment UserAvatar on User {
     id
     name
     profilePicture {
-      ...ImageFragment
+      ...ImageSummary
     }
   }
-  ${ImageFragmentFragmentDoc}
+  ${ImageSummaryFragmentDoc}
 `;
-export const GroupProfileFragmentFragmentDoc = gql`
-  fragment GroupProfileFragment on Group {
-    ...GroupFragment
+export const GroupProfileFragmentDoc = gql`
+  fragment GroupProfile on Group {
+    ...GroupSummary
     posts {
-      ...PostFragment
+      ...PostSummary
     }
     members {
       id
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
-  ${GroupFragmentFragmentDoc}
-  ${PostFragmentFragmentDoc}
-  ${UserAvatarFragmentFragmentDoc}
+  ${GroupSummaryFragmentDoc}
+  ${PostSummaryFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
-export const PostMutationFragmentFragmentDoc = gql`
-  fragment PostMutationFragment on Post {
+export const PostMutationSummaryFragmentDoc = gql`
+  fragment PostMutationSummary on Post {
     id
     body
     user {
       id
       name
       profilePicture {
-        ...ImageFragment
+        ...ImageSummary
       }
     }
     group {
       id
       name
       coverPhoto {
-        ...ImageFragment
+        ...ImageSummary
       }
     }
     createdAt
     updatedAt
   }
-  ${ImageFragmentFragmentDoc}
+  ${ImageSummaryFragmentDoc}
 `;
-export const UserFragmentFragmentDoc = gql`
-  fragment UserFragment on User {
+export const UserSummaryFragmentDoc = gql`
+  fragment UserSummary on User {
     id
     bio
     email
@@ -987,35 +987,35 @@ export const UserFragmentFragmentDoc = gql`
     updatedAt
   }
 `;
-export const UserProfileFragmentFragmentDoc = gql`
-  fragment UserProfileFragment on User {
-    ...UserFragment
+export const UserProfileFragmentDoc = gql`
+  fragment UserProfile on User {
+    ...UserSummary
     profilePicture {
-      ...ImageFragment
+      ...ImageSummary
     }
     coverPhoto {
-      ...ImageFragment
+      ...ImageSummary
     }
     posts {
-      ...PostFragment
+      ...PostSummary
     }
   }
-  ${UserFragmentFragmentDoc}
-  ${ImageFragmentFragmentDoc}
-  ${PostFragmentFragmentDoc}
+  ${UserSummaryFragmentDoc}
+  ${ImageSummaryFragmentDoc}
+  ${PostSummaryFragmentDoc}
 `;
-export const UserProfileLiteFragmentFragmentDoc = gql`
-  fragment UserProfileLiteFragment on User {
-    ...UserFragment
+export const UserProfileLiteFragmentDoc = gql`
+  fragment UserProfileLite on User {
+    ...UserSummary
     profilePicture {
-      ...ImageFragment
+      ...ImageSummary
     }
   }
-  ${UserFragmentFragmentDoc}
-  ${ImageFragmentFragmentDoc}
+  ${UserSummaryFragmentDoc}
+  ${ImageSummaryFragmentDoc}
 `;
-export const UserMutationFragmentFragmentDoc = gql`
-  fragment UserMutationFragment on User {
+export const UserMutationSummaryFragmentDoc = gql`
+  fragment UserMutationSummary on User {
     id
     name
     email
@@ -1253,59 +1253,59 @@ export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQuery,
   AuthCheckQueryVariables
 >;
-export const CreateGroupMutationDocument = gql`
-  mutation CreateGroupMutation($groupData: GroupInput!) {
+export const CreateGroupDocument = gql`
+  mutation CreateGroup($groupData: GroupInput!) {
     createGroup(groupData: $groupData) {
-      ...GroupFragment
+      ...GroupSummary
     }
   }
-  ${GroupFragmentFragmentDoc}
+  ${GroupSummaryFragmentDoc}
 `;
-export type CreateGroupMutationMutationFn = Apollo.MutationFunction<
-  CreateGroupMutationMutation,
-  CreateGroupMutationMutationVariables
+export type CreateGroupMutationFn = Apollo.MutationFunction<
+  CreateGroupMutation,
+  CreateGroupMutationVariables
 >;
 
 /**
- * __useCreateGroupMutationMutation__
+ * __useCreateGroupMutation__
  *
- * To run a mutation, you first call `useCreateGroupMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateGroupMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGroupMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createGroupMutationMutation, { data, loading, error }] = useCreateGroupMutationMutation({
+ * const [createGroupMutation, { data, loading, error }] = useCreateGroupMutation({
  *   variables: {
  *      groupData: // value for 'groupData'
  *   },
  * });
  */
-export function useCreateGroupMutationMutation(
+export function useCreateGroupMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateGroupMutationMutation,
-    CreateGroupMutationMutationVariables
+    CreateGroupMutation,
+    CreateGroupMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateGroupMutationMutation,
-    CreateGroupMutationMutationVariables
-  >(CreateGroupMutationDocument, options);
+  return Apollo.useMutation<CreateGroupMutation, CreateGroupMutationVariables>(
+    CreateGroupDocument,
+    options
+  );
 }
-export type CreateGroupMutationMutationHookResult = ReturnType<
-  typeof useCreateGroupMutationMutation
+export type CreateGroupMutationHookResult = ReturnType<
+  typeof useCreateGroupMutation
 >;
-export type CreateGroupMutationMutationResult =
-  Apollo.MutationResult<CreateGroupMutationMutation>;
-export type CreateGroupMutationMutationOptions = Apollo.BaseMutationOptions<
-  CreateGroupMutationMutation,
-  CreateGroupMutationMutationVariables
+export type CreateGroupMutationResult =
+  Apollo.MutationResult<CreateGroupMutation>;
+export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<
+  CreateGroupMutation,
+  CreateGroupMutationVariables
 >;
-export const UpdateGroupMutationDocument = gql`
-  mutation UpdateGroupMutation($groupData: GroupInput!) {
+export const UpdateGroupDocument = gql`
+  mutation UpdateGroup($groupData: GroupInput!) {
     updateGroup(groupData: $groupData) {
       id
       name
@@ -1313,147 +1313,147 @@ export const UpdateGroupMutationDocument = gql`
     }
   }
 `;
-export type UpdateGroupMutationMutationFn = Apollo.MutationFunction<
-  UpdateGroupMutationMutation,
-  UpdateGroupMutationMutationVariables
+export type UpdateGroupMutationFn = Apollo.MutationFunction<
+  UpdateGroupMutation,
+  UpdateGroupMutationVariables
 >;
 
 /**
- * __useUpdateGroupMutationMutation__
+ * __useUpdateGroupMutation__
  *
- * To run a mutation, you first call `useUpdateGroupMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateGroupMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGroupMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateGroupMutationMutation, { data, loading, error }] = useUpdateGroupMutationMutation({
+ * const [updateGroupMutation, { data, loading, error }] = useUpdateGroupMutation({
  *   variables: {
  *      groupData: // value for 'groupData'
  *   },
  * });
  */
-export function useUpdateGroupMutationMutation(
+export function useUpdateGroupMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateGroupMutationMutation,
-    UpdateGroupMutationMutationVariables
+    UpdateGroupMutation,
+    UpdateGroupMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateGroupMutationMutation,
-    UpdateGroupMutationMutationVariables
-  >(UpdateGroupMutationDocument, options);
+  return Apollo.useMutation<UpdateGroupMutation, UpdateGroupMutationVariables>(
+    UpdateGroupDocument,
+    options
+  );
 }
-export type UpdateGroupMutationMutationHookResult = ReturnType<
-  typeof useUpdateGroupMutationMutation
+export type UpdateGroupMutationHookResult = ReturnType<
+  typeof useUpdateGroupMutation
 >;
-export type UpdateGroupMutationMutationResult =
-  Apollo.MutationResult<UpdateGroupMutationMutation>;
-export type UpdateGroupMutationMutationOptions = Apollo.BaseMutationOptions<
-  UpdateGroupMutationMutation,
-  UpdateGroupMutationMutationVariables
+export type UpdateGroupMutationResult =
+  Apollo.MutationResult<UpdateGroupMutation>;
+export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
+  UpdateGroupMutation,
+  UpdateGroupMutationVariables
 >;
-export const DeleteGroupMutationDocument = gql`
-  mutation DeleteGroupMutation($id: Int!) {
+export const DeleteGroupDocument = gql`
+  mutation DeleteGroup($id: Int!) {
     deleteGroup(id: $id)
   }
 `;
-export type DeleteGroupMutationMutationFn = Apollo.MutationFunction<
-  DeleteGroupMutationMutation,
-  DeleteGroupMutationMutationVariables
+export type DeleteGroupMutationFn = Apollo.MutationFunction<
+  DeleteGroupMutation,
+  DeleteGroupMutationVariables
 >;
 
 /**
- * __useDeleteGroupMutationMutation__
+ * __useDeleteGroupMutation__
  *
- * To run a mutation, you first call `useDeleteGroupMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteGroupMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGroupMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteGroupMutationMutation, { data, loading, error }] = useDeleteGroupMutationMutation({
+ * const [deleteGroupMutation, { data, loading, error }] = useDeleteGroupMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeleteGroupMutationMutation(
+export function useDeleteGroupMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteGroupMutationMutation,
-    DeleteGroupMutationMutationVariables
+    DeleteGroupMutation,
+    DeleteGroupMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteGroupMutationMutation,
-    DeleteGroupMutationMutationVariables
-  >(DeleteGroupMutationDocument, options);
+  return Apollo.useMutation<DeleteGroupMutation, DeleteGroupMutationVariables>(
+    DeleteGroupDocument,
+    options
+  );
 }
-export type DeleteGroupMutationMutationHookResult = ReturnType<
-  typeof useDeleteGroupMutationMutation
+export type DeleteGroupMutationHookResult = ReturnType<
+  typeof useDeleteGroupMutation
 >;
-export type DeleteGroupMutationMutationResult =
-  Apollo.MutationResult<DeleteGroupMutationMutation>;
-export type DeleteGroupMutationMutationOptions = Apollo.BaseMutationOptions<
-  DeleteGroupMutationMutation,
-  DeleteGroupMutationMutationVariables
+export type DeleteGroupMutationResult =
+  Apollo.MutationResult<DeleteGroupMutation>;
+export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<
+  DeleteGroupMutation,
+  DeleteGroupMutationVariables
 >;
-export const LeaveGroupMutationDocument = gql`
-  mutation LeaveGroupMutation($id: Int!) {
+export const LeaveGroupDocument = gql`
+  mutation LeaveGroup($id: Int!) {
     leaveGroup(id: $id)
   }
 `;
-export type LeaveGroupMutationMutationFn = Apollo.MutationFunction<
-  LeaveGroupMutationMutation,
-  LeaveGroupMutationMutationVariables
+export type LeaveGroupMutationFn = Apollo.MutationFunction<
+  LeaveGroupMutation,
+  LeaveGroupMutationVariables
 >;
 
 /**
- * __useLeaveGroupMutationMutation__
+ * __useLeaveGroupMutation__
  *
- * To run a mutation, you first call `useLeaveGroupMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLeaveGroupMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLeaveGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveGroupMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [leaveGroupMutationMutation, { data, loading, error }] = useLeaveGroupMutationMutation({
+ * const [leaveGroupMutation, { data, loading, error }] = useLeaveGroupMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useLeaveGroupMutationMutation(
+export function useLeaveGroupMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    LeaveGroupMutationMutation,
-    LeaveGroupMutationMutationVariables
+    LeaveGroupMutation,
+    LeaveGroupMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    LeaveGroupMutationMutation,
-    LeaveGroupMutationMutationVariables
-  >(LeaveGroupMutationDocument, options);
+  return Apollo.useMutation<LeaveGroupMutation, LeaveGroupMutationVariables>(
+    LeaveGroupDocument,
+    options
+  );
 }
-export type LeaveGroupMutationMutationHookResult = ReturnType<
-  typeof useLeaveGroupMutationMutation
+export type LeaveGroupMutationHookResult = ReturnType<
+  typeof useLeaveGroupMutation
 >;
-export type LeaveGroupMutationMutationResult =
-  Apollo.MutationResult<LeaveGroupMutationMutation>;
-export type LeaveGroupMutationMutationOptions = Apollo.BaseMutationOptions<
-  LeaveGroupMutationMutation,
-  LeaveGroupMutationMutationVariables
+export type LeaveGroupMutationResult =
+  Apollo.MutationResult<LeaveGroupMutation>;
+export type LeaveGroupMutationOptions = Apollo.BaseMutationOptions<
+  LeaveGroupMutation,
+  LeaveGroupMutationVariables
 >;
-export const CreateMemberRequestMutationDocument = gql`
-  mutation CreateMemberRequestMutation($groupId: Int!) {
+export const CreateMemberRequestDocument = gql`
+  mutation CreateMemberRequest($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
       id
       status
@@ -1461,58 +1461,57 @@ export const CreateMemberRequestMutationDocument = gql`
         id
       }
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
-  ${UserAvatarFragmentFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
-export type CreateMemberRequestMutationMutationFn = Apollo.MutationFunction<
-  CreateMemberRequestMutationMutation,
-  CreateMemberRequestMutationMutationVariables
+export type CreateMemberRequestMutationFn = Apollo.MutationFunction<
+  CreateMemberRequestMutation,
+  CreateMemberRequestMutationVariables
 >;
 
 /**
- * __useCreateMemberRequestMutationMutation__
+ * __useCreateMemberRequestMutation__
  *
- * To run a mutation, you first call `useCreateMemberRequestMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateMemberRequestMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMemberRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createMemberRequestMutationMutation, { data, loading, error }] = useCreateMemberRequestMutationMutation({
+ * const [createMemberRequestMutation, { data, loading, error }] = useCreateMemberRequestMutation({
  *   variables: {
  *      groupId: // value for 'groupId'
  *   },
  * });
  */
-export function useCreateMemberRequestMutationMutation(
+export function useCreateMemberRequestMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateMemberRequestMutationMutation,
-    CreateMemberRequestMutationMutationVariables
+    CreateMemberRequestMutation,
+    CreateMemberRequestMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CreateMemberRequestMutationMutation,
-    CreateMemberRequestMutationMutationVariables
-  >(CreateMemberRequestMutationDocument, options);
+    CreateMemberRequestMutation,
+    CreateMemberRequestMutationVariables
+  >(CreateMemberRequestDocument, options);
 }
-export type CreateMemberRequestMutationMutationHookResult = ReturnType<
-  typeof useCreateMemberRequestMutationMutation
+export type CreateMemberRequestMutationHookResult = ReturnType<
+  typeof useCreateMemberRequestMutation
 >;
-export type CreateMemberRequestMutationMutationResult =
-  Apollo.MutationResult<CreateMemberRequestMutationMutation>;
-export type CreateMemberRequestMutationMutationOptions =
-  Apollo.BaseMutationOptions<
-    CreateMemberRequestMutationMutation,
-    CreateMemberRequestMutationMutationVariables
-  >;
-export const ApproveMemberRequestMutationDocument = gql`
-  mutation ApproveMemberRequestMutation($id: Int!) {
+export type CreateMemberRequestMutationResult =
+  Apollo.MutationResult<CreateMemberRequestMutation>;
+export type CreateMemberRequestMutationOptions = Apollo.BaseMutationOptions<
+  CreateMemberRequestMutation,
+  CreateMemberRequestMutationVariables
+>;
+export const ApproveMemberRequestDocument = gql`
+  mutation ApproveMemberRequest($id: Int!) {
     approveMemberRequest(id: $id) {
       id
       group {
@@ -1520,223 +1519,205 @@ export const ApproveMemberRequestMutationDocument = gql`
         name
       }
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
-  ${UserAvatarFragmentFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
-export type ApproveMemberRequestMutationMutationFn = Apollo.MutationFunction<
-  ApproveMemberRequestMutationMutation,
-  ApproveMemberRequestMutationMutationVariables
+export type ApproveMemberRequestMutationFn = Apollo.MutationFunction<
+  ApproveMemberRequestMutation,
+  ApproveMemberRequestMutationVariables
 >;
 
 /**
- * __useApproveMemberRequestMutationMutation__
+ * __useApproveMemberRequestMutation__
  *
- * To run a mutation, you first call `useApproveMemberRequestMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApproveMemberRequestMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useApproveMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApproveMemberRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [approveMemberRequestMutationMutation, { data, loading, error }] = useApproveMemberRequestMutationMutation({
+ * const [approveMemberRequestMutation, { data, loading, error }] = useApproveMemberRequestMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useApproveMemberRequestMutationMutation(
+export function useApproveMemberRequestMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    ApproveMemberRequestMutationMutation,
-    ApproveMemberRequestMutationMutationVariables
+    ApproveMemberRequestMutation,
+    ApproveMemberRequestMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    ApproveMemberRequestMutationMutation,
-    ApproveMemberRequestMutationMutationVariables
-  >(ApproveMemberRequestMutationDocument, options);
+    ApproveMemberRequestMutation,
+    ApproveMemberRequestMutationVariables
+  >(ApproveMemberRequestDocument, options);
 }
-export type ApproveMemberRequestMutationMutationHookResult = ReturnType<
-  typeof useApproveMemberRequestMutationMutation
+export type ApproveMemberRequestMutationHookResult = ReturnType<
+  typeof useApproveMemberRequestMutation
 >;
-export type ApproveMemberRequestMutationMutationResult =
-  Apollo.MutationResult<ApproveMemberRequestMutationMutation>;
-export type ApproveMemberRequestMutationMutationOptions =
-  Apollo.BaseMutationOptions<
-    ApproveMemberRequestMutationMutation,
-    ApproveMemberRequestMutationMutationVariables
-  >;
-export const CancelMemberRequestMutationDocument = gql`
-  mutation CancelMemberRequestMutation($id: Int!) {
+export type ApproveMemberRequestMutationResult =
+  Apollo.MutationResult<ApproveMemberRequestMutation>;
+export type ApproveMemberRequestMutationOptions = Apollo.BaseMutationOptions<
+  ApproveMemberRequestMutation,
+  ApproveMemberRequestMutationVariables
+>;
+export const CancelMemberRequestDocument = gql`
+  mutation CancelMemberRequest($id: Int!) {
     cancelMemberRequest(id: $id) {
       id
       name
     }
   }
 `;
-export type CancelMemberRequestMutationMutationFn = Apollo.MutationFunction<
-  CancelMemberRequestMutationMutation,
-  CancelMemberRequestMutationMutationVariables
+export type CancelMemberRequestMutationFn = Apollo.MutationFunction<
+  CancelMemberRequestMutation,
+  CancelMemberRequestMutationVariables
 >;
 
 /**
- * __useCancelMemberRequestMutationMutation__
+ * __useCancelMemberRequestMutation__
  *
- * To run a mutation, you first call `useCancelMemberRequestMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCancelMemberRequestMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCancelMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelMemberRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [cancelMemberRequestMutationMutation, { data, loading, error }] = useCancelMemberRequestMutationMutation({
+ * const [cancelMemberRequestMutation, { data, loading, error }] = useCancelMemberRequestMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useCancelMemberRequestMutationMutation(
+export function useCancelMemberRequestMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CancelMemberRequestMutationMutation,
-    CancelMemberRequestMutationMutationVariables
+    CancelMemberRequestMutation,
+    CancelMemberRequestMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CancelMemberRequestMutationMutation,
-    CancelMemberRequestMutationMutationVariables
-  >(CancelMemberRequestMutationDocument, options);
+    CancelMemberRequestMutation,
+    CancelMemberRequestMutationVariables
+  >(CancelMemberRequestDocument, options);
 }
-export type CancelMemberRequestMutationMutationHookResult = ReturnType<
-  typeof useCancelMemberRequestMutationMutation
+export type CancelMemberRequestMutationHookResult = ReturnType<
+  typeof useCancelMemberRequestMutation
 >;
-export type CancelMemberRequestMutationMutationResult =
-  Apollo.MutationResult<CancelMemberRequestMutationMutation>;
-export type CancelMemberRequestMutationMutationOptions =
-  Apollo.BaseMutationOptions<
-    CancelMemberRequestMutationMutation,
-    CancelMemberRequestMutationMutationVariables
-  >;
-export const GroupQueryDocument = gql`
-  query GroupQuery($name: String!) {
+export type CancelMemberRequestMutationResult =
+  Apollo.MutationResult<CancelMemberRequestMutation>;
+export type CancelMemberRequestMutationOptions = Apollo.BaseMutationOptions<
+  CancelMemberRequestMutation,
+  CancelMemberRequestMutationVariables
+>;
+export const GroupDocument = gql`
+  query Group($name: String!) {
     group(name: $name) {
-      ...GroupProfileFragment
+      ...GroupProfile
     }
   }
-  ${GroupProfileFragmentFragmentDoc}
+  ${GroupProfileFragmentDoc}
 `;
 
 /**
- * __useGroupQueryQuery__
+ * __useGroupQuery__
  *
- * To run a query within a React component, call `useGroupQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGroupQueryQuery({
+ * const { data, loading, error } = useGroupQuery({
  *   variables: {
  *      name: // value for 'name'
  *   },
  * });
  */
-export function useGroupQueryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GroupQueryQuery,
-    GroupQueryQueryVariables
-  >
+export function useGroupQuery(
+  baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupQueryQuery, GroupQueryQueryVariables>(
-    GroupQueryDocument,
+  return Apollo.useQuery<GroupQuery, GroupQueryVariables>(
+    GroupDocument,
     options
   );
 }
-export function useGroupQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GroupQueryQuery,
-    GroupQueryQueryVariables
-  >
+export function useGroupLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupQueryQuery, GroupQueryQueryVariables>(
-    GroupQueryDocument,
+  return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(
+    GroupDocument,
     options
   );
 }
-export type GroupQueryQueryHookResult = ReturnType<typeof useGroupQueryQuery>;
-export type GroupQueryLazyQueryHookResult = ReturnType<
-  typeof useGroupQueryLazyQuery
+export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
+export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
+export type GroupQueryResult = Apollo.QueryResult<
+  GroupQuery,
+  GroupQueryVariables
 >;
-export type GroupQueryQueryResult = Apollo.QueryResult<
-  GroupQueryQuery,
-  GroupQueryQueryVariables
->;
-export const GroupsQueryDocument = gql`
-  query GroupsQuery {
+export const GroupsDocument = gql`
+  query Groups {
     groups {
-      ...GroupFragment
+      ...GroupSummary
     }
   }
-  ${GroupFragmentFragmentDoc}
+  ${GroupSummaryFragmentDoc}
 `;
 
 /**
- * __useGroupsQueryQuery__
+ * __useGroupsQuery__
  *
- * To run a query within a React component, call `useGroupsQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGroupsQueryQuery({
+ * const { data, loading, error } = useGroupsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGroupsQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GroupsQueryQuery,
-    GroupsQueryQueryVariables
-  >
+export function useGroupsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GroupsQuery, GroupsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupsQueryQuery, GroupsQueryQueryVariables>(
-    GroupsQueryDocument,
+  return Apollo.useQuery<GroupsQuery, GroupsQueryVariables>(
+    GroupsDocument,
     options
   );
 }
-export function useGroupsQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GroupsQueryQuery,
-    GroupsQueryQueryVariables
-  >
+export function useGroupsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GroupsQuery, GroupsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupsQueryQuery, GroupsQueryQueryVariables>(
-    GroupsQueryDocument,
+  return Apollo.useLazyQuery<GroupsQuery, GroupsQueryVariables>(
+    GroupsDocument,
     options
   );
 }
-export type GroupsQueryQueryHookResult = ReturnType<typeof useGroupsQueryQuery>;
-export type GroupsQueryLazyQueryHookResult = ReturnType<
-  typeof useGroupsQueryLazyQuery
+export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
+export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
+export type GroupsQueryResult = Apollo.QueryResult<
+  GroupsQuery,
+  GroupsQueryVariables
 >;
-export type GroupsQueryQueryResult = Apollo.QueryResult<
-  GroupsQueryQuery,
-  GroupsQueryQueryVariables
->;
-export const MemberRequestQueryDocument = gql`
-  query MemberRequestQuery($groupId: Int!) {
+export const MemberRequestDocument = gql`
+  query MemberRequest($groupId: Int!) {
     memberRequest(groupId: $groupId) {
       id
       status
@@ -1745,633 +1726,586 @@ export const MemberRequestQueryDocument = gql`
 `;
 
 /**
- * __useMemberRequestQueryQuery__
+ * __useMemberRequestQuery__
  *
- * To run a query within a React component, call `useMemberRequestQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useMemberRequestQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMemberRequestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMemberRequestQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMemberRequestQueryQuery({
+ * const { data, loading, error } = useMemberRequestQuery({
  *   variables: {
  *      groupId: // value for 'groupId'
  *   },
  * });
  */
-export function useMemberRequestQueryQuery(
+export function useMemberRequestQuery(
   baseOptions: Apollo.QueryHookOptions<
-    MemberRequestQueryQuery,
-    MemberRequestQueryQueryVariables
+    MemberRequestQuery,
+    MemberRequestQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    MemberRequestQueryQuery,
-    MemberRequestQueryQueryVariables
-  >(MemberRequestQueryDocument, options);
+  return Apollo.useQuery<MemberRequestQuery, MemberRequestQueryVariables>(
+    MemberRequestDocument,
+    options
+  );
 }
-export function useMemberRequestQueryLazyQuery(
+export function useMemberRequestLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    MemberRequestQueryQuery,
-    MemberRequestQueryQueryVariables
+    MemberRequestQuery,
+    MemberRequestQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    MemberRequestQueryQuery,
-    MemberRequestQueryQueryVariables
-  >(MemberRequestQueryDocument, options);
+  return Apollo.useLazyQuery<MemberRequestQuery, MemberRequestQueryVariables>(
+    MemberRequestDocument,
+    options
+  );
 }
-export type MemberRequestQueryQueryHookResult = ReturnType<
-  typeof useMemberRequestQueryQuery
+export type MemberRequestQueryHookResult = ReturnType<
+  typeof useMemberRequestQuery
 >;
-export type MemberRequestQueryLazyQueryHookResult = ReturnType<
-  typeof useMemberRequestQueryLazyQuery
+export type MemberRequestLazyQueryHookResult = ReturnType<
+  typeof useMemberRequestLazyQuery
 >;
-export type MemberRequestQueryQueryResult = Apollo.QueryResult<
-  MemberRequestQueryQuery,
-  MemberRequestQueryQueryVariables
+export type MemberRequestQueryResult = Apollo.QueryResult<
+  MemberRequestQuery,
+  MemberRequestQueryVariables
 >;
-export const MemberRequestsQueryDocument = gql`
-  query MemberRequestsQuery($groupId: Int!) {
+export const MemberRequestsDocument = gql`
+  query MemberRequests($groupId: Int!) {
     memberRequests(groupId: $groupId) {
       id
       status
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
-  ${UserAvatarFragmentFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
 
 /**
- * __useMemberRequestsQueryQuery__
+ * __useMemberRequestsQuery__
  *
- * To run a query within a React component, call `useMemberRequestsQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useMemberRequestsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMemberRequestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMemberRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMemberRequestsQueryQuery({
+ * const { data, loading, error } = useMemberRequestsQuery({
  *   variables: {
  *      groupId: // value for 'groupId'
  *   },
  * });
  */
-export function useMemberRequestsQueryQuery(
+export function useMemberRequestsQuery(
   baseOptions: Apollo.QueryHookOptions<
-    MemberRequestsQueryQuery,
-    MemberRequestsQueryQueryVariables
+    MemberRequestsQuery,
+    MemberRequestsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    MemberRequestsQueryQuery,
-    MemberRequestsQueryQueryVariables
-  >(MemberRequestsQueryDocument, options);
+  return Apollo.useQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+    MemberRequestsDocument,
+    options
+  );
 }
-export function useMemberRequestsQueryLazyQuery(
+export function useMemberRequestsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    MemberRequestsQueryQuery,
-    MemberRequestsQueryQueryVariables
+    MemberRequestsQuery,
+    MemberRequestsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    MemberRequestsQueryQuery,
-    MemberRequestsQueryQueryVariables
-  >(MemberRequestsQueryDocument, options);
+  return Apollo.useLazyQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+    MemberRequestsDocument,
+    options
+  );
 }
-export type MemberRequestsQueryQueryHookResult = ReturnType<
-  typeof useMemberRequestsQueryQuery
+export type MemberRequestsQueryHookResult = ReturnType<
+  typeof useMemberRequestsQuery
 >;
-export type MemberRequestsQueryLazyQueryHookResult = ReturnType<
-  typeof useMemberRequestsQueryLazyQuery
+export type MemberRequestsLazyQueryHookResult = ReturnType<
+  typeof useMemberRequestsLazyQuery
 >;
-export type MemberRequestsQueryQueryResult = Apollo.QueryResult<
-  MemberRequestsQueryQuery,
-  MemberRequestsQueryQueryVariables
+export type MemberRequestsQueryResult = Apollo.QueryResult<
+  MemberRequestsQuery,
+  MemberRequestsQueryVariables
 >;
-export const DeleteImageMutationDocument = gql`
-  mutation DeleteImageMutation($id: Int!) {
+export const DeleteImageDocument = gql`
+  mutation DeleteImage($id: Int!) {
     deleteImage(id: $id)
   }
 `;
-export type DeleteImageMutationMutationFn = Apollo.MutationFunction<
-  DeleteImageMutationMutation,
-  DeleteImageMutationMutationVariables
+export type DeleteImageMutationFn = Apollo.MutationFunction<
+  DeleteImageMutation,
+  DeleteImageMutationVariables
 >;
 
 /**
- * __useDeleteImageMutationMutation__
+ * __useDeleteImageMutation__
  *
- * To run a mutation, you first call `useDeleteImageMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteImageMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteImageMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteImageMutationMutation, { data, loading, error }] = useDeleteImageMutationMutation({
+ * const [deleteImageMutation, { data, loading, error }] = useDeleteImageMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeleteImageMutationMutation(
+export function useDeleteImageMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeleteImageMutationMutation,
-    DeleteImageMutationMutationVariables
+    DeleteImageMutation,
+    DeleteImageMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteImageMutationMutation,
-    DeleteImageMutationMutationVariables
-  >(DeleteImageMutationDocument, options);
+  return Apollo.useMutation<DeleteImageMutation, DeleteImageMutationVariables>(
+    DeleteImageDocument,
+    options
+  );
 }
-export type DeleteImageMutationMutationHookResult = ReturnType<
-  typeof useDeleteImageMutationMutation
+export type DeleteImageMutationHookResult = ReturnType<
+  typeof useDeleteImageMutation
 >;
-export type DeleteImageMutationMutationResult =
-  Apollo.MutationResult<DeleteImageMutationMutation>;
-export type DeleteImageMutationMutationOptions = Apollo.BaseMutationOptions<
-  DeleteImageMutationMutation,
-  DeleteImageMutationMutationVariables
+export type DeleteImageMutationResult =
+  Apollo.MutationResult<DeleteImageMutation>;
+export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<
+  DeleteImageMutation,
+  DeleteImageMutationVariables
 >;
-export const CreatePostMutationDocument = gql`
-  mutation CreatePostMutation($postData: PostInput!) {
+export const CreatePostDocument = gql`
+  mutation CreatePost($postData: PostInput!) {
     createPost(postData: $postData) {
-      ...PostMutationFragment
+      ...PostMutationSummary
     }
   }
-  ${PostMutationFragmentFragmentDoc}
+  ${PostMutationSummaryFragmentDoc}
 `;
-export type CreatePostMutationMutationFn = Apollo.MutationFunction<
-  CreatePostMutationMutation,
-  CreatePostMutationMutationVariables
+export type CreatePostMutationFn = Apollo.MutationFunction<
+  CreatePostMutation,
+  CreatePostMutationVariables
 >;
 
 /**
- * __useCreatePostMutationMutation__
+ * __useCreatePostMutation__
  *
- * To run a mutation, you first call `useCreatePostMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePostMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createPostMutationMutation, { data, loading, error }] = useCreatePostMutationMutation({
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
  *   variables: {
  *      postData: // value for 'postData'
  *   },
  * });
  */
-export function useCreatePostMutationMutation(
+export function useCreatePostMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreatePostMutationMutation,
-    CreatePostMutationMutationVariables
+    CreatePostMutation,
+    CreatePostMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreatePostMutationMutation,
-    CreatePostMutationMutationVariables
-  >(CreatePostMutationDocument, options);
+  return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(
+    CreatePostDocument,
+    options
+  );
 }
-export type CreatePostMutationMutationHookResult = ReturnType<
-  typeof useCreatePostMutationMutation
+export type CreatePostMutationHookResult = ReturnType<
+  typeof useCreatePostMutation
 >;
-export type CreatePostMutationMutationResult =
-  Apollo.MutationResult<CreatePostMutationMutation>;
-export type CreatePostMutationMutationOptions = Apollo.BaseMutationOptions<
-  CreatePostMutationMutation,
-  CreatePostMutationMutationVariables
+export type CreatePostMutationResult =
+  Apollo.MutationResult<CreatePostMutation>;
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<
+  CreatePostMutation,
+  CreatePostMutationVariables
 >;
-export const UpdatePostMutationDocument = gql`
-  mutation UpdatePostMutation($id: Int!, $postData: PostInput!) {
+export const UpdatePostDocument = gql`
+  mutation UpdatePost($id: Int!, $postData: PostInput!) {
     updatePost(id: $id, postData: $postData) {
-      ...PostMutationFragment
+      ...PostMutationSummary
     }
   }
-  ${PostMutationFragmentFragmentDoc}
+  ${PostMutationSummaryFragmentDoc}
 `;
-export type UpdatePostMutationMutationFn = Apollo.MutationFunction<
-  UpdatePostMutationMutation,
-  UpdatePostMutationMutationVariables
+export type UpdatePostMutationFn = Apollo.MutationFunction<
+  UpdatePostMutation,
+  UpdatePostMutationVariables
 >;
 
 /**
- * __useUpdatePostMutationMutation__
+ * __useUpdatePostMutation__
  *
- * To run a mutation, you first call `useUpdatePostMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePostMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePostMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updatePostMutationMutation, { data, loading, error }] = useUpdatePostMutationMutation({
+ * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
  *   variables: {
  *      id: // value for 'id'
  *      postData: // value for 'postData'
  *   },
  * });
  */
-export function useUpdatePostMutationMutation(
+export function useUpdatePostMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdatePostMutationMutation,
-    UpdatePostMutationMutationVariables
+    UpdatePostMutation,
+    UpdatePostMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdatePostMutationMutation,
-    UpdatePostMutationMutationVariables
-  >(UpdatePostMutationDocument, options);
+  return Apollo.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(
+    UpdatePostDocument,
+    options
+  );
 }
-export type UpdatePostMutationMutationHookResult = ReturnType<
-  typeof useUpdatePostMutationMutation
+export type UpdatePostMutationHookResult = ReturnType<
+  typeof useUpdatePostMutation
 >;
-export type UpdatePostMutationMutationResult =
-  Apollo.MutationResult<UpdatePostMutationMutation>;
-export type UpdatePostMutationMutationOptions = Apollo.BaseMutationOptions<
-  UpdatePostMutationMutation,
-  UpdatePostMutationMutationVariables
+export type UpdatePostMutationResult =
+  Apollo.MutationResult<UpdatePostMutation>;
+export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<
+  UpdatePostMutation,
+  UpdatePostMutationVariables
 >;
-export const DeletePostMutationDocument = gql`
-  mutation DeletePostMutation($id: Int!) {
+export const DeletePostDocument = gql`
+  mutation DeletePost($id: Int!) {
     deletePost(id: $id)
   }
 `;
-export type DeletePostMutationMutationFn = Apollo.MutationFunction<
-  DeletePostMutationMutation,
-  DeletePostMutationMutationVariables
+export type DeletePostMutationFn = Apollo.MutationFunction<
+  DeletePostMutation,
+  DeletePostMutationVariables
 >;
 
 /**
- * __useDeletePostMutationMutation__
+ * __useDeletePostMutation__
  *
- * To run a mutation, you first call `useDeletePostMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeletePostMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeletePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePostMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deletePostMutationMutation, { data, loading, error }] = useDeletePostMutationMutation({
+ * const [deletePostMutation, { data, loading, error }] = useDeletePostMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeletePostMutationMutation(
+export function useDeletePostMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DeletePostMutationMutation,
-    DeletePostMutationMutationVariables
+    DeletePostMutation,
+    DeletePostMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeletePostMutationMutation,
-    DeletePostMutationMutationVariables
-  >(DeletePostMutationDocument, options);
+  return Apollo.useMutation<DeletePostMutation, DeletePostMutationVariables>(
+    DeletePostDocument,
+    options
+  );
 }
-export type DeletePostMutationMutationHookResult = ReturnType<
-  typeof useDeletePostMutationMutation
+export type DeletePostMutationHookResult = ReturnType<
+  typeof useDeletePostMutation
 >;
-export type DeletePostMutationMutationResult =
-  Apollo.MutationResult<DeletePostMutationMutation>;
-export type DeletePostMutationMutationOptions = Apollo.BaseMutationOptions<
-  DeletePostMutationMutation,
-  DeletePostMutationMutationVariables
+export type DeletePostMutationResult =
+  Apollo.MutationResult<DeletePostMutation>;
+export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
+  DeletePostMutation,
+  DeletePostMutationVariables
 >;
-export const PostsQueryDocument = gql`
-  query PostsQuery {
+export const PostsDocument = gql`
+  query Posts {
     posts {
-      ...PostFragment
+      ...PostSummary
     }
   }
-  ${PostFragmentFragmentDoc}
+  ${PostSummaryFragmentDoc}
 `;
 
 /**
- * __usePostsQueryQuery__
+ * __usePostsQuery__
  *
- * To run a query within a React component, call `usePostsQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `usePostsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePostsQueryQuery({
+ * const { data, loading, error } = usePostsQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePostsQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    PostsQueryQuery,
-    PostsQueryQueryVariables
-  >
+export function usePostsQuery(
+  baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostsQueryQuery, PostsQueryQueryVariables>(
-    PostsQueryDocument,
+  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(
+    PostsDocument,
     options
   );
 }
-export function usePostsQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PostsQueryQuery,
-    PostsQueryQueryVariables
-  >
+export function usePostsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostsQueryQuery, PostsQueryQueryVariables>(
-    PostsQueryDocument,
+  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(
+    PostsDocument,
     options
   );
 }
-export type PostsQueryQueryHookResult = ReturnType<typeof usePostsQueryQuery>;
-export type PostsQueryLazyQueryHookResult = ReturnType<
-  typeof usePostsQueryLazyQuery
+export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
+export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
+export type PostsQueryResult = Apollo.QueryResult<
+  PostsQuery,
+  PostsQueryVariables
 >;
-export type PostsQueryQueryResult = Apollo.QueryResult<
-  PostsQueryQuery,
-  PostsQueryQueryVariables
->;
-export const PostQueryDocument = gql`
-  query PostQuery($id: Int!) {
+export const PostDocument = gql`
+  query Post($id: Int!) {
     post(id: $id) {
-      ...PostFragment
+      ...PostSummary
     }
   }
-  ${PostFragmentFragmentDoc}
+  ${PostSummaryFragmentDoc}
 `;
 
 /**
- * __usePostQueryQuery__
+ * __usePostQuery__
  *
- * To run a query within a React component, call `usePostQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `usePostQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePostQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePostQueryQuery({
+ * const { data, loading, error } = usePostQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function usePostQueryQuery(
-  baseOptions: Apollo.QueryHookOptions<PostQueryQuery, PostQueryQueryVariables>
+export function usePostQuery(
+  baseOptions: Apollo.QueryHookOptions<PostQuery, PostQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostQueryQuery, PostQueryQueryVariables>(
-    PostQueryDocument,
+  return Apollo.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
+}
+export function usePostLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PostQuery, PostQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PostQuery, PostQueryVariables>(
+    PostDocument,
     options
   );
 }
-export function usePostQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PostQueryQuery,
-    PostQueryQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostQueryQuery, PostQueryQueryVariables>(
-    PostQueryDocument,
-    options
-  );
-}
-export type PostQueryQueryHookResult = ReturnType<typeof usePostQueryQuery>;
-export type PostQueryLazyQueryHookResult = ReturnType<
-  typeof usePostQueryLazyQuery
->;
-export type PostQueryQueryResult = Apollo.QueryResult<
-  PostQueryQuery,
-  PostQueryQueryVariables
->;
-export const UpdateUserMutationDocument = gql`
-  mutation UpdateUserMutation($userData: UserInput!) {
+export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
+export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
+export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($userData: UserInput!) {
     updateUser(userData: $userData) {
-      ...UserMutationFragment
+      ...UserMutationSummary
     }
   }
-  ${UserMutationFragmentFragmentDoc}
+  ${UserMutationSummaryFragmentDoc}
 `;
-export type UpdateUserMutationMutationFn = Apollo.MutationFunction<
-  UpdateUserMutationMutation,
-  UpdateUserMutationMutationVariables
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
 >;
 
 /**
- * __useUpdateUserMutationMutation__
+ * __useUpdateUserMutation__
  *
- * To run a mutation, you first call `useUpdateUserMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateUserMutationMutation, { data, loading, error }] = useUpdateUserMutationMutation({
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
  *   variables: {
  *      userData: // value for 'userData'
  *   },
  * });
  */
-export function useUpdateUserMutationMutation(
+export function useUpdateUserMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserMutationMutation,
-    UpdateUserMutationMutationVariables
+    UpdateUserMutation,
+    UpdateUserMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateUserMutationMutation,
-    UpdateUserMutationMutationVariables
-  >(UpdateUserMutationDocument, options);
+  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    UpdateUserDocument,
+    options
+  );
 }
-export type UpdateUserMutationMutationHookResult = ReturnType<
-  typeof useUpdateUserMutationMutation
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
 >;
-export type UpdateUserMutationMutationResult =
-  Apollo.MutationResult<UpdateUserMutationMutation>;
-export type UpdateUserMutationMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserMutationMutation,
-  UpdateUserMutationMutationVariables
+export type UpdateUserMutationResult =
+  Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
 >;
-export const MeQueryDocument = gql`
-  query MeQuery {
+export const MeDocument = gql`
+  query Me {
     me {
-      ...UserProfileLiteFragment
+      ...UserProfileLite
     }
   }
-  ${UserProfileLiteFragmentFragmentDoc}
+  ${UserProfileLiteFragmentDoc}
 `;
 
 /**
- * __useMeQueryQuery__
+ * __useMeQuery__
  *
- * To run a query within a React component, call `useMeQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeQueryQuery({
+ * const { data, loading, error } = useMeQuery({
  *   variables: {
  *   },
  * });
  */
-export function useMeQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<MeQueryQuery, MeQueryQueryVariables>
+export function useMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MeQueryQuery, MeQueryQueryVariables>(
-    MeQueryDocument,
-    options
-  );
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
 }
-export function useMeQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<MeQueryQuery, MeQueryQueryVariables>
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MeQueryQuery, MeQueryQueryVariables>(
-    MeQueryDocument,
-    options
-  );
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
 }
-export type MeQueryQueryHookResult = ReturnType<typeof useMeQueryQuery>;
-export type MeQueryLazyQueryHookResult = ReturnType<typeof useMeQueryLazyQuery>;
-export type MeQueryQueryResult = Apollo.QueryResult<
-  MeQueryQuery,
-  MeQueryQueryVariables
->;
-export const UserQueryDocument = gql`
-  query UserQuery($name: String) {
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const UserDocument = gql`
+  query User($name: String) {
     user(name: $name) {
-      ...UserProfileFragment
+      ...UserProfile
     }
   }
-  ${UserProfileFragmentFragmentDoc}
+  ${UserProfileFragmentDoc}
 `;
 
 /**
- * __useUserQueryQuery__
+ * __useUserQuery__
  *
- * To run a query within a React component, call `useUserQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserQueryQuery({
+ * const { data, loading, error } = useUserQuery({
  *   variables: {
  *      name: // value for 'name'
  *   },
  * });
  */
-export function useUserQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<UserQueryQuery, UserQueryQueryVariables>
+export function useUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UserQueryQuery, UserQueryQueryVariables>(
-    UserQueryDocument,
+  return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+}
+export function useUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(
+    UserDocument,
     options
   );
 }
-export function useUserQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    UserQueryQuery,
-    UserQueryQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UserQueryQuery, UserQueryQueryVariables>(
-    UserQueryDocument,
-    options
-  );
-}
-export type UserQueryQueryHookResult = ReturnType<typeof useUserQueryQuery>;
-export type UserQueryLazyQueryHookResult = ReturnType<
-  typeof useUserQueryLazyQuery
->;
-export type UserQueryQueryResult = Apollo.QueryResult<
-  UserQueryQuery,
-  UserQueryQueryVariables
->;
-export const UsersQueryDocument = gql`
-  query UsersQuery {
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const UsersDocument = gql`
+  query Users {
     users {
-      ...UserFragment
+      ...UserSummary
     }
   }
-  ${UserFragmentFragmentDoc}
+  ${UserSummaryFragmentDoc}
 `;
 
 /**
- * __useUsersQueryQuery__
+ * __useUsersQuery__
  *
- * To run a query within a React component, call `useUsersQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUsersQueryQuery({
+ * const { data, loading, error } = useUsersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useUsersQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    UsersQueryQuery,
-    UsersQueryQueryVariables
-  >
+export function useUsersQuery(
+  baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UsersQueryQuery, UsersQueryQueryVariables>(
-    UsersQueryDocument,
+  return Apollo.useQuery<UsersQuery, UsersQueryVariables>(
+    UsersDocument,
     options
   );
 }
-export function useUsersQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    UsersQueryQuery,
-    UsersQueryQueryVariables
-  >
+export function useUsersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UsersQueryQuery, UsersQueryQueryVariables>(
-    UsersQueryDocument,
+  return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(
+    UsersDocument,
     options
   );
 }
-export type UsersQueryQueryHookResult = ReturnType<typeof useUsersQueryQuery>;
-export type UsersQueryLazyQueryHookResult = ReturnType<
-  typeof useUsersQueryLazyQuery
->;
-export type UsersQueryQueryResult = Apollo.QueryResult<
-  UsersQueryQuery,
-  UsersQueryQueryVariables
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<
+  UsersQuery,
+  UsersQueryVariables
 >;

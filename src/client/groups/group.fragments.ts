@@ -1,36 +1,36 @@
 import { gql } from "@apollo/client";
-import { IMAGE_FRAGMENT } from "../images/image.fragments";
-import { POST_FRAGMENT } from "../posts/post.fragments";
+import { IMAGE_SUMMARY_FRAGMENT } from "../images/image.fragments";
+import { POST_SUMMARY_FRAGMENT } from "../posts/post.fragments";
 import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
 
-export const GROUP_FRAGMENT = gql`
-  fragment GroupFragment on Group {
+export const GROUP_SUMMARY_FRAGMENT = gql`
+  fragment GroupSummary on Group {
     id
     name
     description
     coverPhoto {
-      ...ImageFragment
+      ...ImageSummary
     }
     memberCount
     memberRequestCount
   }
-  ${IMAGE_FRAGMENT}
+  ${IMAGE_SUMMARY_FRAGMENT}
 `;
 
 export const GROUP_PROFILE_FRAGMENT = gql`
-  fragment GroupProfileFragment on Group {
-    ...GroupFragment
+  fragment GroupProfile on Group {
+    ...GroupSummary
     posts {
-      ...PostFragment
+      ...PostSummary
     }
     members {
       id
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
   ${USER_AVATAR_FRAGMENT}
-  ${GROUP_FRAGMENT}
-  ${POST_FRAGMENT}
+  ${GROUP_SUMMARY_FRAGMENT}
+  ${POST_SUMMARY_FRAGMENT}
 `;

@@ -1,6 +1,6 @@
 import { StoreObject, useMutation, useQuery } from "@apollo/client";
 import produce from "immer";
-import { GROUP_FRAGMENT } from "../client/groups/group.fragments";
+import { GROUP_SUMMARY_FRAGMENT } from "../client/groups/group.fragments";
 import {
   CREATE_GROUP_MUTATION,
   DELETE_GROUP_MUTATION,
@@ -94,8 +94,8 @@ export const useUpdateGroupMutation = () => {
         cache.updateFragment<Group>(
           {
             id: `${TypeNames.Group}:${id}`,
-            fragment: GROUP_FRAGMENT,
-            fragmentName: "GroupFragment",
+            fragment: GROUP_SUMMARY_FRAGMENT,
+            fragmentName: "GroupSummary",
           },
           (data) =>
             // TODO: Refactor so that early return happens here instead of in produce

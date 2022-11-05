@@ -1,18 +1,18 @@
 import { gql } from "@apollo/client";
 import { USER_AVATAR_FRAGMENT } from "../users/user.fragments";
-import { GROUP_FRAGMENT } from "./group.fragments";
+import { GROUP_SUMMARY_FRAGMENT } from "./group.fragments";
 
 export const CREATE_GROUP_MUTATION = gql`
-  mutation CreateGroupMutation($groupData: GroupInput!) {
+  mutation CreateGroup($groupData: GroupInput!) {
     createGroup(groupData: $groupData) {
-      ...GroupFragment
+      ...GroupSummary
     }
   }
-  ${GROUP_FRAGMENT}
+  ${GROUP_SUMMARY_FRAGMENT}
 `;
 
 export const UPDATE_GROUP_MUTATION = gql`
-  mutation UpdateGroupMutation($groupData: GroupInput!) {
+  mutation UpdateGroup($groupData: GroupInput!) {
     updateGroup(groupData: $groupData) {
       id
       name
@@ -22,19 +22,19 @@ export const UPDATE_GROUP_MUTATION = gql`
 `;
 
 export const DELETE_GROUP_MUTATION = gql`
-  mutation DeleteGroupMutation($id: Int!) {
+  mutation DeleteGroup($id: Int!) {
     deleteGroup(id: $id)
   }
 `;
 
 export const LEAVE_GROUP_MUTATION = gql`
-  mutation LeaveGroupMutation($id: Int!) {
+  mutation LeaveGroup($id: Int!) {
     leaveGroup(id: $id)
   }
 `;
 
 export const CREATE_MEMBER_REQUEST_MUTATION = gql`
-  mutation CreateMemberRequestMutation($groupId: Int!) {
+  mutation CreateMemberRequest($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
       id
       status
@@ -42,7 +42,7 @@ export const CREATE_MEMBER_REQUEST_MUTATION = gql`
         id
       }
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
@@ -50,7 +50,7 @@ export const CREATE_MEMBER_REQUEST_MUTATION = gql`
 `;
 
 export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
-  mutation ApproveMemberRequestMutation($id: Int!) {
+  mutation ApproveMemberRequest($id: Int!) {
     approveMemberRequest(id: $id) {
       id
       group {
@@ -58,7 +58,7 @@ export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
         name
       }
       user {
-        ...UserAvatarFragment
+        ...UserAvatar
       }
     }
   }
@@ -66,7 +66,7 @@ export const APPROVE_MEMBER_REQUEST_MUTATION = gql`
 `;
 
 export const CANCEL_MEMBER_REQUEST_MUTATION = gql`
-  mutation CancelMemberRequestMutation($id: Int!) {
+  mutation CancelMemberRequest($id: Int!) {
     cancelMemberRequest(id: $id) {
       id
       name

@@ -19,13 +19,14 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
 import { NavigationPaths } from "../../constants/common.constants";
-import { useLogOutMutation } from "../../hooks/auth.hooks";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useMeQuery } from "../../hooks/user.hooks";
+import { useLogOutMutation } from "../../types/generated.types";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/UserAvatar";
+import { handleLogOutComplete } from "./TopNavDropdown";
 
 const USER_AVATAR_STYLES: SxProps = {
   width: 21,
@@ -46,15 +47,16 @@ const NavDrawer = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const open = useReactiveVar(isNavDrawerOpenVar);
 
+  const [logOut] = useLogOutMutation();
   const [me] = useMeQuery();
-  const logOut = useLogOutMutation();
 
   const router = useRouter();
   const t = useTranslate();
 
   const userProfilePath = getUserProfilePath(me?.name);
 
-  const handleLogOutClick = async () => await logOut();
+  const handleLogOutClick = async () =>
+    await logOut({ onCompleted: handleLogOutComplete });
 
   const redirectTo = (path: string) => () => {
     handleClose();

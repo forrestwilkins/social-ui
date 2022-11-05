@@ -1,10 +1,25 @@
 import { ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
-import { ResourceNames } from "../../constants/common.constants";
-import { useLogOutMutation } from "../../hooks/auth.hooks";
+import {
+  isAuthLoadingVar,
+  isLoggedInVar,
+  isRefreshingTokenVar,
+} from "../../client/cache";
+import {
+  NavigationPaths,
+  ResourceNames,
+} from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useMeQuery } from "../../hooks/user.hooks";
+import { useLogOutMutation } from "../../types/generated.types";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
+
+export const handleLogOutComplete = () => {
+  isLoggedInVar(false);
+  isAuthLoadingVar(false);
+  isRefreshingTokenVar(false);
+  redirectTo(NavigationPaths.LogIn);
+};
 
 const ICON_PROPS: SvgIconProps = {
   fontSize: "small",
@@ -19,12 +34,13 @@ interface Props {
 }
 
 const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
+  const [logOut] = useLogOutMutation();
   const [me] = useMeQuery();
-  const logOut = useLogOutMutation();
   const t = useTranslate();
 
   const handleLogOutButtonClick = () =>
-    window.confirm(t("users.prompts.logOut")) && logOut();
+    window.confirm(t("users.prompts.logOut")) &&
+    logOut({ onCompleted: handleLogOutComplete });
 
   const handleEditProfileButtonClick = () => {
     if (!me) {

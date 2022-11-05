@@ -4,24 +4,27 @@ import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import UserForm from "../../../components/Users/UserForm";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useUserQuery } from "../../../hooks/user.hooks";
+import { User, useUserQuery } from "../../../types/generated.types";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [user, userLoading, error] = useUserQuery(name);
-
   const t = useTranslate();
+
+  const { data, loading, error } = useUserQuery({
+    variables: { name },
+    skip: !name,
+  });
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
-  if (userLoading) {
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!user) {
+  if (!data) {
     return null;
   }
 
@@ -29,7 +32,7 @@ const EditUser: NextPage = () => {
     <Card>
       <CardContent>
         <UserForm
-          editUser={user}
+          editUser={data.user as User}
           submitButtonText={t("actions.save")}
           isEditing
         />

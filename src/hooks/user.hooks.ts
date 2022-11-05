@@ -4,10 +4,10 @@ import produce from "immer";
 import { toastVar } from "../client/cache";
 import { USER_PROFILE_FRAGMENT } from "../client/users/user.fragments";
 import { UPDATE_USER_MUTATION } from "../client/users/user.mutations";
-import { ME_QUERY, USER_QUERY } from "../client/users/user.queries";
+import { ME_QUERY } from "../client/users/user.queries";
 import {
-  uploadUserCoverPhoto,
   uploadProfilePicture,
+  uploadUserCoverPhoto,
 } from "../client/users/user.rest";
 import { TypeNames } from "../constants/common.constants";
 import { ImageEntity } from "../types/image.types";
@@ -16,18 +16,7 @@ import {
   UpdateUserMutation,
   User,
   UserFormValues,
-  UserQuery,
 } from "../types/user.types";
-
-export const useUserQuery = (
-  name: string
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<UserQuery>(USER_QUERY, {
-    variables: { name },
-    skip: !name,
-  });
-  return [data?.user, loading, error];
-};
 
 export const useMeQuery = (
   options?: QueryFunctionOptions

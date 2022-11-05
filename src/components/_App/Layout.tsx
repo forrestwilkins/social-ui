@@ -1,13 +1,14 @@
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Head from "next/head";
-import { ReactNode } from "react";
-import { useAuthCheckQuery } from "../../hooks/auth.hooks";
+import { ReactNode, useEffect } from "react";
+import { isAuthLoadingVar, isLoggedInVar } from "../../client/cache";
 import {
   useAboveBreakpoint,
   useIsDesktop,
   useTranslate,
 } from "../../hooks/common.hooks";
 import theme from "../../styles/theme";
+import { useAuthCheckQuery } from "../../types/generated.types";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
@@ -22,11 +23,23 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
+  const { data, loading } = useAuthCheckQuery();
+
   const isDesktop = useIsDesktop();
   const isLarge = useAboveBreakpoint("lg");
   const t = useTranslate();
 
-  useAuthCheckQuery();
+  // TODO: Refactor to avoid duplicating state
+  useEffect(() => {
+    if (data?.authCheck) {
+      isLoggedInVar(data.authCheck);
+    }
+  }, [data]);
+
+  // TODO: Refactor to avoid duplicating state
+  useEffect(() => {
+    isAuthLoadingVar(loading);
+  }, [loading]);
 
   return (
     <>

@@ -1,10 +1,9 @@
-import { useMutation, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { Card, CardContent, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import Router from "next/router";
 import { useEffect } from "react";
-import { LOGIN_MUTATION } from "../../client/auth/auth.mutations";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
 import { ME_QUERY } from "../../client/users/user.queries";
 import Flex from "../../components/Shared/Flex";
@@ -15,25 +14,24 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { AuthResult } from "../../types/auth.types";
-import { UserFormValues } from "../../types/user.types";
+import { LoginInput, useLoginMutation } from "../../types/generated.types";
 
 const Login: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const [login] = useMutation<AuthResult>(LOGIN_MUTATION, {
+  const [login] = useLoginMutation({
     refetchQueries: [{ query: ME_QUERY }],
   });
 
   const t = useTranslate();
 
-  const initialValues: UserFormValues = {
+  const initialValues: LoginInput = {
     email: "",
     password: "",
   };
 
-  const handleSubmit = async (formValues: UserFormValues) => {
+  const handleSubmit = async (formValues: LoginInput) => {
     try {
       const result = await login({ variables: { input: formValues } });
       if (result.data?.login) {

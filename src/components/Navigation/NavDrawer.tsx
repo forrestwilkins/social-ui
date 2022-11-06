@@ -17,7 +17,7 @@ import {
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
+import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
 import { ME_QUERY } from "../../client/users/user.queries";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
@@ -48,9 +48,10 @@ const ListItemText = styled(MuiListItemText)(({ theme }) => ({
 }));
 
 const NavDrawer = () => {
-  const { data } = useMeQuery();
-  const [logOut] = useLogOutMutation();
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const open = useReactiveVar(isNavDrawerOpenVar);
+  const { data } = useMeQuery({ skip: !isLoggedIn });
+  const [logOut] = useLogOutMutation();
 
   const router = useRouter();
   const t = useTranslate();

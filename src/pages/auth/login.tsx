@@ -4,7 +4,11 @@ import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import Router from "next/router";
 import { useEffect } from "react";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
+import {
+  isLoggedInVar,
+  isNavDrawerOpenVar,
+  toastVar,
+} from "../../client/cache";
 import { ME_QUERY } from "../../client/users/user.queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
@@ -14,11 +18,14 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { LoginInput, useLoginMutation } from "../../types/generated.types";
+import {
+  LoginInput,
+  MeQuery,
+  useLoginMutation,
+} from "../../types/generated.types";
 
 const Login: NextPage = () => {
-  const [login] = useLoginMutation({ refetchQueries: [ME_QUERY] });
-
+  const [login] = useLoginMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
@@ -31,12 +38,24 @@ const Login: NextPage = () => {
 
   const handleSubmit = async (formValues: LoginInput) => {
     try {
-      const result = await login({ variables: { input: formValues } });
-      if (result.data?.login) {
-        isLoggedInVar(true);
-      }
+      await login({
+        variables: { input: formValues },
+        update(cache, { data }) {
+          if (!data?.login.user) {
+            return;
+          }
+          cache.writeQuery<MeQuery>({
+            data: { me: data.login.user },
+            query: ME_QUERY,
+          });
+          isLoggedInVar(true);
+        },
+      });
     } catch (err) {
-      console.error(err);
+      toastVar({
+        status: "error",
+        title: t("errors.somethingWentWrong"),
+      });
     }
   };
 

@@ -6,10 +6,8 @@ export const USER_SUMMARY_FRAGMENT = gql`
   fragment UserSummary on User {
     id
     bio
-    email
     name
     createdAt
-    updatedAt
   }
 `;
 
@@ -57,7 +55,6 @@ export const USER_MUTATION_SUMMARY_FRAGMENT = gql`
   fragment UserMutationSummary on User {
     id
     name
-    email
     bio
   }
 `;

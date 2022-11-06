@@ -1,7 +1,6 @@
 import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import client from "../..";
-import { AuthResult } from "../../../types/auth.types";
 import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
 import { REFRESH_TOKEN_MUTATION } from "../auth.mutations";
@@ -85,7 +84,7 @@ const refreshTokenLink = onError(
 export const refreshToken = async () => {
   try {
     isRefreshingTokenVar(true);
-    await client.mutate<AuthResult>({ mutation: REFRESH_TOKEN_MUTATION });
+    await client.mutate({ mutation: REFRESH_TOKEN_MUTATION });
   } catch (err) {
     await logOutUser();
     throw err;

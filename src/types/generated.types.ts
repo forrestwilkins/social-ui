@@ -23,6 +23,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AuthPayload = {
+  __typename?: "AuthPayload";
+  user: User;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -101,9 +106,9 @@ export type Mutation = {
   denyMemberRequest: Scalars["Boolean"];
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
-  login: Scalars["Boolean"];
+  login: AuthPayload;
   refreshToken: Scalars["Boolean"];
-  signUp: Scalars["Boolean"];
+  signUp: AuthPayload;
   updateGroup: Group;
   updatePost: Post;
   updateUser: User;
@@ -258,13 +263,39 @@ export type SignUpMutationVariables = Exact<{
   input: SignUpInput;
 }>;
 
-export type SignUpMutation = { __typename?: "Mutation"; signUp: boolean };
+export type SignUpMutation = {
+  __typename?: "Mutation";
+  signUp: {
+    __typename?: "AuthPayload";
+    user: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      name: string;
+      createdAt: any;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
+  };
+};
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
 
-export type LoginMutation = { __typename?: "Mutation"; login: boolean };
+export type LoginMutation = {
+  __typename?: "Mutation";
+  login: {
+    __typename?: "AuthPayload";
+    user: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      name: string;
+      createdAt: any;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
+  };
+};
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never }>;
 
@@ -724,20 +755,16 @@ export type UserSummaryFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
-  email: string;
   name: string;
   createdAt: any;
-  updatedAt: any;
 };
 
 export type UserProfileFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
-  email: string;
   name: string;
   createdAt: any;
-  updatedAt: any;
   profilePicture: { __typename?: "Image"; filename: string; id: number };
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   posts: Array<{
@@ -770,10 +797,8 @@ export type UserProfileLiteFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
-  email: string;
   name: string;
   createdAt: any;
-  updatedAt: any;
   profilePicture: { __typename?: "Image"; filename: string; id: number };
 };
 
@@ -788,7 +813,6 @@ export type UserMutationSummaryFragment = {
   __typename?: "User";
   id: number;
   name: string;
-  email: string;
   bio?: string | null;
 };
 
@@ -802,7 +826,6 @@ export type UpdateUserMutation = {
     __typename?: "User";
     id: number;
     name: string;
-    email: string;
     bio?: string | null;
   };
 };
@@ -815,10 +838,8 @@ export type MeQuery = {
     __typename?: "User";
     id: number;
     bio?: string | null;
-    email: string;
     name: string;
     createdAt: any;
-    updatedAt: any;
     profilePicture: { __typename?: "Image"; filename: string; id: number };
   };
 };
@@ -833,10 +854,8 @@ export type UserQuery = {
     __typename?: "User";
     id: number;
     bio?: string | null;
-    email: string;
     name: string;
     createdAt: any;
-    updatedAt: any;
     profilePicture: { __typename?: "Image"; filename: string; id: number };
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
     posts: Array<{
@@ -874,10 +893,8 @@ export type UsersQuery = {
     __typename?: "User";
     id: number;
     bio?: string | null;
-    email: string;
     name: string;
     createdAt: any;
-    updatedAt: any;
   }>;
 };
 
@@ -980,10 +997,8 @@ export const UserSummaryFragmentDoc = gql`
   fragment UserSummary on User {
     id
     bio
-    email
     name
     createdAt
-    updatedAt
   }
 `;
 export const UserProfileFragmentDoc = gql`
@@ -1017,14 +1032,18 @@ export const UserMutationSummaryFragmentDoc = gql`
   fragment UserMutationSummary on User {
     id
     name
-    email
     bio
   }
 `;
 export const SignUpDocument = gql`
   mutation SignUp($input: SignUpInput!) {
-    signUp(input: $input)
+    signUp(input: $input) {
+      user {
+        ...UserProfileLite
+      }
+    }
   }
+  ${UserProfileLiteFragmentDoc}
 `;
 export type SignUpMutationFn = Apollo.MutationFunction<
   SignUpMutation,
@@ -1068,8 +1087,13 @@ export type SignUpMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
-    login(input: $input)
+    login(input: $input) {
+      user {
+        ...UserProfileLite
+      }
+    }
   }
+  ${UserProfileLiteFragmentDoc}
 `;
 export type LoginMutationFn = Apollo.MutationFunction<
   LoginMutation,

@@ -17,12 +17,10 @@ import { useTranslate } from "../../hooks/common.hooks";
 import { LoginInput, useLoginMutation } from "../../types/generated.types";
 
 const Login: NextPage = () => {
+  const [login] = useLoginMutation({ refetchQueries: [ME_QUERY] });
+
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
-
-  const [login] = useLoginMutation({
-    refetchQueries: [{ query: ME_QUERY }],
-  });
 
   const t = useTranslate();
 

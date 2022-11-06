@@ -39,10 +39,6 @@ export interface CreateGroupMutation {
   createGroup: Group;
 }
 
-export interface CreateMemberRequestMutation {
-  createMemberRequest: MemberRequest;
-}
-
 export interface CancelMemberRequestMutation {
   cancelMemberRequest: Group;
 }

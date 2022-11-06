@@ -20,7 +20,3 @@ export interface UserFormValues {
   email?: string;
   bio?: string;
 }
-
-export interface UpdateUserMutation {
-  updateUser: User;
-}

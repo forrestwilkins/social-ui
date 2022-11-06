@@ -9,8 +9,9 @@ import {
   uploadUserCoverPhoto,
 } from "../client/users/user.rest";
 import { TypeNames } from "../constants/common.constants";
+import { UpdateUserMutation } from "../types/generated.types";
 import { ImageEntity } from "../types/image.types";
-import { UpdateUserMutation, User, UserFormValues } from "../types/user.types";
+import { User, UserFormValues } from "../types/user.types";
 
 export const useUpdateUserMutation = () => {
   const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);

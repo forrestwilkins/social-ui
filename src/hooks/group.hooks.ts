@@ -13,11 +13,11 @@ import {
 } from "../client/groups/group.queries";
 import { uploadGroupCoverPhoto } from "../client/groups/group.rest";
 import { TypeNames } from "../constants/common.constants";
+import { MemberRequestQuery } from "../types/generated.types";
 import {
   CreateGroupMutation,
   Group,
   GroupFormValues,
-  MemberRequest,
   UpdateGroupMutation,
 } from "../types/group.types";
 import { ImageEntity } from "../types/image.types";
@@ -127,13 +127,11 @@ export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
     await leaveGroup({
       variables: { id },
       update(cache) {
-        updateQuery<MemberRequest>(
-          {
-            query: MEMBER_REQUEST_QUERY,
-            variables: { groupId: id },
-          },
-          () => null
-        );
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          variables: { groupId: id },
+          data: { memberRequest: null },
+        });
         cache.modify({
           id: cache.identify({ __typename: TypeNames.Group, id }),
           fields: {

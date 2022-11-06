@@ -1,8 +1,7 @@
 import { Avatar, AvatarProps, useTheme } from "@mui/material";
 import { CSSProperties } from "react";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery } from "../../hooks/user.hooks";
-import { User } from "../../types/generated.types";
+import { useMeQuery, User } from "../../types/generated.types";
 import { getImagePath } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Link from "../Shared/Link";
@@ -24,11 +23,12 @@ const UserAvatar = ({
   sx,
   ...avatarProps
 }: Props) => {
-  const [me] = useMeQuery({ skip: !!user });
+  const { data } = useMeQuery({ skip: !!user });
 
   const t = useTranslate();
   const theme = useTheme();
 
+  const me = data && data.me;
   const userName = user?.name || me?.name;
   const userProfilePath = getUserProfilePath(userName);
 

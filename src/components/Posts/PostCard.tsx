@@ -20,8 +20,7 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useDeletePostMutation } from "../../hooks/post.hooks";
-import { useMeQuery } from "../../hooks/user.hooks";
-import { Post } from "../../types/generated.types";
+import { Post, useMeQuery } from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -58,7 +57,7 @@ const PostCard = ({
   post: { id, body, images, user, group, createdAt },
   ...cardProps
 }: Props) => {
-  const [me] = useMeQuery();
+  const { data } = useMeQuery();
   const deletePost = useDeletePostMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -66,6 +65,7 @@ const PostCard = ({
   const { asPath } = useRouter();
   const t = useTranslate();
 
+  const me = data && data.me;
   const isMe = me?.id === user.id;
   const isPostPage = asPath.includes(NavigationPaths.Posts);
   const isGroupPage = asPath.includes(NavigationPaths.Groups);

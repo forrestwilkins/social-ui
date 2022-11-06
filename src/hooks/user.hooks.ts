@@ -1,29 +1,16 @@
-import { QueryFunctionOptions, useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { t } from "i18next";
 import produce from "immer";
 import { toastVar } from "../client/cache";
 import { USER_PROFILE_FRAGMENT } from "../client/users/user.fragments";
 import { UPDATE_USER_MUTATION } from "../client/users/user.mutations";
-import { ME_QUERY } from "../client/users/user.queries";
 import {
   uploadProfilePicture,
   uploadUserCoverPhoto,
 } from "../client/users/user.rest";
 import { TypeNames } from "../constants/common.constants";
 import { ImageEntity } from "../types/image.types";
-import {
-  MeQuery,
-  UpdateUserMutation,
-  User,
-  UserFormValues,
-} from "../types/user.types";
-
-export const useMeQuery = (
-  options?: QueryFunctionOptions
-): [User | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<MeQuery>(ME_QUERY, options);
-  return [data?.me, loading, error];
-};
+import { UpdateUserMutation, User, UserFormValues } from "../types/user.types";
 
 export const useUpdateUserMutation = () => {
   const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);

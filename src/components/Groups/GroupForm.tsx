@@ -16,7 +16,8 @@ import {
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../hooks/group.hooks";
-import { Group, GroupFormValues } from "../../types/group.types";
+import { Group } from "../../types/generated.types";
+import { GroupFormValues } from "../../types/group.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";

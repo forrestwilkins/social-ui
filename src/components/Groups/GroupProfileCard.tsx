@@ -20,7 +20,7 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useDeleteGroupMutation } from "../../hooks/group.hooks";
-import { Group } from "../../types/group.types";
+import { Group } from "../../types/generated.types";
 import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";

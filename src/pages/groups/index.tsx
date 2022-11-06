@@ -1,17 +1,16 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../../client/cache";
-import { GROUPS_QUERY } from "../../client/groups/group.queries";
 import GroupCard from "../../components/Groups/GroupCard";
 import GroupForm from "../../components/Groups/GroupForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { GroupsQuery } from "../../types/group.types";
+import { Group, useGroupsQuery } from "../../types/generated.types";
 
 const GroupsIndex: NextPage = () => {
-  const { data, loading, error } = useQuery<GroupsQuery>(GROUPS_QUERY);
+  const { data, loading, error } = useGroupsQuery();
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const t = useTranslate();
@@ -33,7 +32,7 @@ const GroupsIndex: NextPage = () => {
       {isLoggedIn && <GroupForm />}
 
       {data?.groups.map((group) => (
-        <GroupCard group={group} key={group.id} />
+        <GroupCard group={group as Group} key={group.id} />
       ))}
     </>
   );

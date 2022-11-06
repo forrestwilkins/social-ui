@@ -35,10 +35,6 @@ export interface MemberRequest {
 
 export type GroupFormValues = Pick<Group, "name" | "description">;
 
-export interface GroupsQuery {
-  groups: Group[];
-}
-
 export interface CreateGroupMutation {
   createGroup: Group;
 }

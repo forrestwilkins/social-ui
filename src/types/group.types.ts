@@ -35,20 +35,8 @@ export interface MemberRequest {
 
 export type GroupFormValues = Pick<Group, "name" | "description">;
 
-export interface GroupQuery {
-  group: Group;
-}
-
 export interface GroupsQuery {
   groups: Group[];
-}
-
-export interface MemberRequestQuery {
-  memberRequest: MemberRequest | null;
-}
-
-export interface MemberRequestsQuery {
-  memberRequests: MemberRequest[];
 }
 
 export interface CreateGroupMutation {

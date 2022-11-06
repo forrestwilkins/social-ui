@@ -21,16 +21,8 @@ export interface UserFormValues {
   bio?: string;
 }
 
-export interface UserQuery {
-  user: User;
-}
-
 export interface UsersQuery {
   users: User[];
-}
-
-export interface MeQuery {
-  me: User;
 }
 
 export interface UpdateUserMutation {

@@ -17,14 +17,6 @@ export interface PostsFormValues extends Pick<Post, "body"> {
   groupId?: number;
 }
 
-export interface PostQuery {
-  post: Post;
-}
-
-export interface PostsQuery {
-  posts: Post[];
-}
-
 export interface CreatePostMutation {
   createPost: Post;
 }

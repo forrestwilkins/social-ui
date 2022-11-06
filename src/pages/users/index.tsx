@@ -1,16 +1,14 @@
-import { useQuery } from "@apollo/client";
 import { Person as UserIcon } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
-import { USERS_QUERY } from "../../client/users/user.queries";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { UsersQuery } from "../../types/user.types";
+import { useUsersQuery } from "../../types/generated.types";
 
 const UsersIndex: NextPage = () => {
-  const { data, error, loading } = useQuery<UsersQuery>(USERS_QUERY);
+  const { data, error, loading } = useUsersQuery();
   const t = useTranslate();
 
   if (error) {

@@ -2,7 +2,7 @@ import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
 import Image from "next/image";
 import { useTranslate } from "../../hooks/common.hooks";
-import { ImageEntity } from "../../types/image.types";
+import { Image as ImageType } from "../../types/generated.types";
 import { getImagePath } from "../../utils/image.utils";
 
 const IMAGE_CONTAINER: SxProps = {
@@ -21,7 +21,7 @@ const REMOVE_BUTTON: SxProps = {
 interface AttachedImagesProps {
   deleteSavedImage?: (id: number) => void;
   removeSelectedImage?: (imageName: string) => void;
-  savedImages?: ImageEntity[];
+  savedImages?: ImageType[];
   selectedImages: File[];
 }
 

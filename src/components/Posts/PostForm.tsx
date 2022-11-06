@@ -15,7 +15,8 @@ import {
   useCreatePostMutation,
   useUpdatePostMutation,
 } from "../../hooks/post.hooks";
-import { Post, PostsFormValues } from "../../types/post.types";
+import { Post } from "../../types/generated.types";
+import { PostsFormValues } from "../../types/post.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImages from "../Images/AttachedImages";

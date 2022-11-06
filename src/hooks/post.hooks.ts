@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import produce from "immer";
 import { GROUP_QUERY } from "../client/groups/group.queries";
 import { POST_SUMMARY_FRAGMENT } from "../client/posts/post.fragments";
@@ -7,30 +7,15 @@ import {
   DELETE_POST_MUTATION,
   UPDATE_POST_MUTATION,
 } from "../client/posts/post.mutations";
-import { POSTS_QUERY, POST_QUERY } from "../client/posts/post.queries";
+import { POSTS_QUERY } from "../client/posts/post.queries";
 import { uploadPostImages } from "../client/posts/post.rest";
 import { USER_QUERY } from "../client/users/user.queries";
 import { TypeNames } from "../constants/common.constants";
 import { Group } from "../types/group.types";
 import { ImageEntity } from "../types/image.types";
-import {
-  CreatePostMutation,
-  Post,
-  PostQuery,
-  PostsFormValues,
-} from "../types/post.types";
+import { CreatePostMutation, Post, PostsFormValues } from "../types/post.types";
 import { User } from "../types/user.types";
 import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
-
-export const usePostQuery = (
-  id?: number
-): [Post | undefined, boolean, unknown] => {
-  const { data, loading, error } = useQuery<PostQuery>(POST_QUERY, {
-    variables: { id },
-    skip: !id,
-  });
-  return [data?.post, loading, error];
-};
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);

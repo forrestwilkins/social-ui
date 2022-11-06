@@ -1,6 +1,7 @@
 import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import client from "../..";
+import { MutationNames } from "../../../constants/common.constants";
 import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
 import { REFRESH_TOKEN_MUTATION } from "../auth.mutations";
@@ -32,7 +33,7 @@ const refreshTokenLink = onError(
             switch (extensions.code) {
               case "UNAUTHENTICATED": {
                 // Ignores 401 errors for refresh requests
-                if (operation.operationName === "RefreshTokenMutation") {
+                if (operation.operationName === MutationNames.RefreshToken) {
                   return observer.next(response);
                 }
 

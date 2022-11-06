@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { MutationNames } from "../../constants/common.constants";
 import { USER_PROFILE_LITE_FRAGMENT } from "../users/user.fragments";
 
 export const SIGN_UP_MUTATION = gql`
@@ -30,7 +31,7 @@ export const LOG_OUT_MUTATION = gql`
 `;
 
 export const REFRESH_TOKEN_MUTATION = gql`
-  mutation RefreshToken {
+  mutation ${MutationNames.RefreshToken} {
     refreshToken
   }
 `;

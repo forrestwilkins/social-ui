@@ -10,11 +10,14 @@ import {
   MEMBER_REQUEST_QUERY,
 } from "../client/groups/group.queries";
 import {
+  CreateMemberRequestMutation,
+  MemberRequest,
+  MemberRequestQuery,
+} from "../types/generated.types";
+import {
   ApproveMemberRequestMutation,
   CancelMemberRequestMutation,
-  CreateMemberRequestMutation,
   Group,
-  MemberRequest,
 } from "../types/group.types";
 import { updateQuery } from "../utils/apollo.utils";
 
@@ -29,20 +32,21 @@ export const useCreateMemberRequestMutation = (): [
     const { data } = await createMemberRequest({
       variables: { groupId },
       update(cache, { data }) {
-        if (!data) {
+        if (!data?.createMemberRequest) {
           return;
         }
         const variables = {
           groupId: data.createMemberRequest.group.id,
         };
-        updateQuery<MemberRequest>(
-          { query: MEMBER_REQUEST_QUERY, variables },
-          () => data.createMemberRequest
-        );
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          data: { memberRequest: data.createMemberRequest },
+          variables,
+        });
         updateQuery<MemberRequest[]>(
           { query: MEMBER_REQUESTS_QUERY, variables },
           (draft) => {
-            draft.unshift(data.createMemberRequest);
+            draft.unshift(data.createMemberRequest as MemberRequest);
           }
         );
         cache.modify({

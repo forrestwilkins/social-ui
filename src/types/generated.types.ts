@@ -83,13 +83,11 @@ export type LoginInput = {
 export type MemberRequest = {
   __typename?: "MemberRequest";
   createdAt: Scalars["DateTime"];
-  group?: Maybe<Group>;
-  groupId?: Maybe<Scalars["Float"]>;
+  group: Group;
   id: Scalars["Int"];
   status: Scalars["String"];
   updatedAt: Scalars["DateTime"];
   user: User;
-  userId: Scalars["Float"];
 };
 
 export type Mutation = {
@@ -425,7 +423,7 @@ export type CreateMemberRequestMutation = {
     __typename?: "MemberRequest";
     id: number;
     status: string;
-    group?: { __typename?: "Group"; id: number } | null;
+    group: { __typename?: "Group"; id: number };
     user: {
       __typename?: "User";
       id: number;

@@ -8,14 +8,17 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
-import { FieldNames, NavigationPaths } from "../../constants/common.constants";
+import {
+  FieldNames,
+  NavigationPaths,
+  TypeNames,
+} from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useDeleteImageMutation } from "../../hooks/image.hooks";
 import {
   useCreatePostMutation,
   useUpdatePostMutation,
 } from "../../hooks/post.hooks";
-import { Post } from "../../types/generated.types";
+import { Post, useDeleteImageMutation } from "../../types/generated.types";
 import { PostsFormValues } from "../../types/post.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
@@ -41,9 +44,9 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
 
+  const [deleteImage] = useDeleteImageMutation();
   const createPost = useCreatePostMutation();
   const updatePost = useUpdatePostMutation();
-  const deleteImage = useDeleteImageMutation();
 
   const t = useTranslate();
 
@@ -73,7 +76,14 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
 
   const deleteSavedImageHandler = async (id: number) => {
     if (editPost) {
-      await deleteImage(id);
+      await deleteImage({
+        variables: { id },
+        update(cache) {
+          const cacheId = cache.identify({ __typename: TypeNames.Image, id });
+          cache.evict({ id: cacheId });
+          cache.gc();
+        },
+      });
       setImagesInputKey(generateRandom());
     }
   };

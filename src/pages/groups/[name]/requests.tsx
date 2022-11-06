@@ -13,9 +13,9 @@ import MemberRequest from "../../../components/Groups/MemberRequest";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
-import { useGroupQuery } from "../../../hooks/group.hooks";
 import {
   MemberRequest as MemberRequestType,
+  useGroupQuery,
   useMemberRequestsQuery,
 } from "../../../types/generated.types";
 import { getGroupPath } from "../../../utils/group.utils";
@@ -30,18 +30,23 @@ const CardContent = styled(MuiCardContent)(() => ({
 const MemberRequests: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [group, _, groupError] = useGroupQuery(name);
+
+  const { data: groupData, error: groupError } = useGroupQuery({
+    variables: { name },
+    skip: !name,
+  });
 
   const { data, loading, error } = useMemberRequestsQuery({
-    variables: { groupId: group!.id },
-    skip: !group,
+    variables: { groupId: groupData?.group.id as number },
+    skip: !groupData?.group,
   });
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
 
   useEffect(() => {
-    if (group) {
+    if (groupData?.group) {
+      const { group } = groupData;
       breadcrumbsVar([
         {
           label: truncate(group.name, {
@@ -62,7 +67,7 @@ const MemberRequests: NextPage = () => {
     return () => {
       breadcrumbsVar([]);
     };
-  }, [group, t, isDesktop, data?.memberRequests]);
+  }, [groupData, t, isDesktop, data?.memberRequests]);
 
   if (error || groupError) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

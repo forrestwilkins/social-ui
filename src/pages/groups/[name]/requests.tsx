@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -10,13 +9,15 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { breadcrumbsVar } from "../../../client/cache";
-import { MEMBER_REQUESTS_QUERY } from "../../../client/groups/group.queries";
 import MemberRequest from "../../../components/Groups/MemberRequest";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
 import { useGroupQuery } from "../../../hooks/group.hooks";
-import { MemberRequestsQuery } from "../../../types/group.types";
+import {
+  MemberRequest as MemberRequestType,
+  useMemberRequestsQuery,
+} from "../../../types/generated.types";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -31,13 +32,10 @@ const MemberRequests: NextPage = () => {
   const name = String(query?.name || "");
   const [group, _, groupError] = useGroupQuery(name);
 
-  const { data, loading, error } = useQuery<MemberRequestsQuery>(
-    MEMBER_REQUESTS_QUERY,
-    {
-      variables: { groupId: group?.id },
-      skip: !group,
-    }
-  );
+  const { data, loading, error } = useMemberRequestsQuery({
+    variables: { groupId: group!.id },
+    skip: !group,
+  });
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
@@ -82,7 +80,10 @@ const MemberRequests: NextPage = () => {
     <Card>
       <CardContent>
         {data.memberRequests.map((memberRequest) => (
-          <MemberRequest memberRequest={memberRequest} key={memberRequest.id} />
+          <MemberRequest
+            key={memberRequest.id}
+            memberRequest={memberRequest as MemberRequestType}
+          />
         ))}
       </CardContent>
     </Card>

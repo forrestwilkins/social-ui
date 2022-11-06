@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useApproveMemberRequestMutation } from "../../hooks/member-request.hooks";
-import { MemberRequest } from "../../types/group.types";
+import { MemberRequest } from "../../types/generated.types";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";

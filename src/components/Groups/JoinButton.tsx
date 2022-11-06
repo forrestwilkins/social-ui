@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useLeaveGroupMutation } from "../../hooks/group.hooks";
 import {
-  useCreateMemberRequestMutation,
   useCancelMemberRequestMutation,
-  useMemberRequestQuery,
+  useCreateMemberRequestMutation,
 } from "../../hooks/member-request.hooks";
+import { useMemberRequestQuery } from "../../types/generated.types";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const JoinButton = ({ groupId }: Props) => {
-  const [memberRequest, memberRequestLoading] = useMemberRequestQuery(groupId);
+  const { data, loading } = useMemberRequestQuery({ variables: { groupId } });
   const [createMemberRequest, createLoading] = useCreateMemberRequestMutation();
   const [cancelMemberRequest, cancelLoading] = useCancelMemberRequestMutation();
   const [leaveGroup, leaveGroupLoading] = useLeaveGroupMutation();
@@ -22,40 +22,38 @@ const JoinButton = ({ groupId }: Props) => {
   const t = useTranslate();
 
   const getButtonText = () => {
-    if (memberRequest?.status === "approved") {
+    if (!data?.memberRequest) {
+      return t("groups.actions.join");
+    }
+    const { memberRequest } = data;
+    if (memberRequest.status === "approved") {
       if (isHovering) {
         return t("groups.actions.leave");
       }
       return t("groups.labels.joined");
     }
-    if (memberRequest?.status === "pending") {
+    if (memberRequest.status === "pending") {
       return t("groups.actions.cancelRequest");
     }
-    return t("groups.actions.join");
   };
 
   const handleButtonClick = async () => {
-    if (memberRequest?.status === "pending") {
-      await cancelMemberRequest(memberRequest.id);
-      return;
+    if (!data?.memberRequest) {
+      return await createMemberRequest(groupId);
     }
-
+    const { memberRequest } = data;
+    if (memberRequest.status === "pending") {
+      return await cancelMemberRequest(data?.memberRequest.id);
+    }
     // TODO: Add confirmation dialog for leaving group
-    if (memberRequest?.status === "approved") {
-      await leaveGroup(groupId, memberRequest.id);
-      return;
+    if (memberRequest.status === "approved") {
+      await leaveGroup(groupId, data.memberRequest.id);
     }
-    await createMemberRequest(groupId);
   };
 
   return (
     <GhostButton
-      disabled={
-        cancelLoading ||
-        createLoading ||
-        leaveGroupLoading ||
-        memberRequestLoading
-      }
+      disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
       onClick={handleButtonClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

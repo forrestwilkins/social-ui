@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {
   APPROVE_MEMBER_REQUEST_MUTATION,
   CANCEL_MEMBER_REQUEST_MUTATION,
@@ -15,18 +15,8 @@ import {
   CreateMemberRequestMutation,
   Group,
   MemberRequest,
-  MemberRequestQuery,
 } from "../types/group.types";
 import { updateQuery } from "../utils/apollo.utils";
-
-export const useMemberRequestQuery = (
-  groupId: number
-): [MemberRequest | undefined | null, boolean] => {
-  const { data, loading } = useQuery<MemberRequestQuery>(MEMBER_REQUEST_QUERY, {
-    variables: { groupId },
-  });
-  return [data?.memberRequest, loading];
-};
 
 export const useCreateMemberRequestMutation = (): [
   typeof _createMemberRequest,

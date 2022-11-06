@@ -17,11 +17,15 @@ import {
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
+import { isNavDrawerOpenVar } from "../../client/cache";
+import { ME_QUERY } from "../../client/users/user.queries";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery } from "../../hooks/user.hooks";
-import { useLogOutMutation } from "../../types/generated.types";
+import {
+  useLogOutMutation,
+  useMeQuery,
+  User,
+} from "../../types/generated.types";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -44,19 +48,23 @@ const ListItemText = styled(MuiListItemText)(({ theme }) => ({
 }));
 
 const NavDrawer = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const open = useReactiveVar(isNavDrawerOpenVar);
-
+  const { data } = useMeQuery();
   const [logOut] = useLogOutMutation();
-  const [me] = useMeQuery();
+  const open = useReactiveVar(isNavDrawerOpenVar);
 
   const router = useRouter();
   const t = useTranslate();
 
-  const userProfilePath = getUserProfilePath(me?.name);
-
   const handleLogOutClick = async () =>
-    await logOut({ onCompleted: handleLogOutComplete });
+    await logOut({
+      onCompleted: handleLogOutComplete,
+      update(cache) {
+        cache.writeQuery({
+          query: ME_QUERY,
+          data: { me: null },
+        });
+      },
+    });
 
   const redirectTo = (path: string) => () => {
     handleClose();
@@ -68,6 +76,60 @@ const NavDrawer = () => {
   useEffect(() => {
     handleClose();
   }, [router.pathname]);
+
+  const renderList = () => {
+    if (data?.me) {
+      const { me } = data;
+      const userProfilePath = getUserProfilePath(me.name);
+
+      return (
+        <>
+          <ListItemButton onClick={redirectTo(userProfilePath)}>
+            <ListItemIcon>
+              <UserAvatar user={me as User} sx={USER_AVATAR_STYLES} />
+            </ListItemIcon>
+            <ListItemText primary={me.name} />
+          </ListItemButton>
+
+          <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
+            <ListItemIcon>
+              <UsersIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("navigation.users")} />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() =>
+              window.confirm(t("users.prompts.logOut")) && handleLogOutClick()
+            }
+          >
+            <ListItemIcon>
+              <SessionIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("users.actions.logOut")} />
+          </ListItemButton>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
+          <ListItemIcon>
+            <SessionIcon />
+          </ListItemIcon>
+          <ListItemText primary={t("users.actions.logIn")} />
+        </ListItemButton>
+
+        <ListItemButton onClick={redirectTo(NavigationPaths.SignUp)}>
+          <ListItemIcon>
+            <SignUpIcon />
+          </ListItemIcon>
+          <ListItemText primary={t("users.actions.signUp")} />
+        </ListItemButton>
+      </>
+    );
+  };
 
   return (
     <Drawer
@@ -85,55 +147,7 @@ const NavDrawer = () => {
 
         <Divider />
 
-        <List sx={{ minWidth: "50vw" }}>
-          {isLoggedIn && (
-            <>
-              <ListItemButton onClick={redirectTo(userProfilePath)}>
-                <ListItemIcon>
-                  <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
-                </ListItemIcon>
-                <ListItemText primary={me?.name} />
-              </ListItemButton>
-
-              <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
-                <ListItemIcon>
-                  <UsersIcon />
-                </ListItemIcon>
-                <ListItemText primary={t("navigation.users")} />
-              </ListItemButton>
-
-              <ListItemButton
-                onClick={() =>
-                  window.confirm(t("users.prompts.logOut")) &&
-                  handleLogOutClick()
-                }
-              >
-                <ListItemIcon>
-                  <SessionIcon />
-                </ListItemIcon>
-                <ListItemText primary={t("users.actions.logOut")} />
-              </ListItemButton>
-            </>
-          )}
-
-          {!isLoggedIn && (
-            <>
-              <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
-                <ListItemIcon>
-                  <SessionIcon />
-                </ListItemIcon>
-                <ListItemText primary={t("users.actions.logIn")} />
-              </ListItemButton>
-
-              <ListItemButton onClick={redirectTo(NavigationPaths.SignUp)}>
-                <ListItemIcon>
-                  <SignUpIcon />
-                </ListItemIcon>
-                <ListItemText primary={t("users.actions.signUp")} />
-              </ListItemButton>
-            </>
-          )}
-        </List>
+        <List sx={{ minWidth: "50vw" }}>{renderList()}</List>
       </main>
     </Drawer>
   );

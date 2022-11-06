@@ -38,6 +38,10 @@ const SEARCH_ICON_STYLES: SxProps = {
   transition: "0.2s",
 };
 
+/**
+ * TODO: Resolve styling issue with search bar on page refresh
+ * Was resolved but seems to have been reintroduced somehow
+ */
 const SearchBar = () => {
   const [focused, setFocused] = useState<boolean>(false);
   const t = useTranslate();

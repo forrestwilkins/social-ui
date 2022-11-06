@@ -5,13 +5,13 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
+import { ME_QUERY } from "../../client/users/user.queries";
 import {
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery } from "../../hooks/user.hooks";
-import { useLogOutMutation } from "../../types/generated.types";
+import { useLogOutMutation, User } from "../../types/generated.types";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 export const handleLogOutComplete = () => {
@@ -31,22 +31,27 @@ const ICON_PROPS: SvgIconProps = {
 interface Props {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
+  user: User;
 }
 
-const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
+const TopNavDropdown = ({ user, anchorEl, handleClose }: Props) => {
   const [logOut] = useLogOutMutation();
-  const [me] = useMeQuery();
   const t = useTranslate();
 
   const handleLogOutButtonClick = () =>
     window.confirm(t("users.prompts.logOut")) &&
-    logOut({ onCompleted: handleLogOutComplete });
+    logOut({
+      onCompleted: handleLogOutComplete,
+      update(cache) {
+        cache.writeQuery({
+          query: ME_QUERY,
+          data: { me: null },
+        });
+      },
+    });
 
   const handleEditProfileButtonClick = () => {
-    if (!me) {
-      throw Error(t("errors.somethingWentWrong"));
-    }
-    const path = `/${ResourceNames.User}/${me.name}/edit`;
+    const path = `/${ResourceNames.User}/${user.name}/edit`;
     redirectTo(path);
   };
 

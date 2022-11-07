@@ -1,27 +1,19 @@
-// TODO: Generate types with Apollo codegen and remove any duplicate types below
+// TODO: Remove any duplicate types below
 
-import { ImageEntity } from "./image.types";
+import { GroupMember, Image } from "./generated.types";
 import { Post } from "./post.types";
-import { User } from "./user.types";
 
 export interface Group {
   id: number;
   name: string;
   description: string;
-  coverPhoto: ImageEntity | null;
+  coverPhoto: Image | null;
   posts: Post[];
   members: GroupMember[];
   memberCount: number;
   memberRequestCount: number;
   createdAt: string;
   updatedAt: string;
-  __typename: string;
-}
-
-export interface GroupMember {
-  id: number;
-  group: Group;
-  user: User;
   __typename: string;
 }
 

@@ -9,9 +9,8 @@ import {
   uploadUserCoverPhoto,
 } from "../client/users/user.rest";
 import { TypeNames } from "../constants/common.constants";
-import { UpdateUserMutation } from "../types/generated.types";
-import { ImageEntity } from "../types/image.types";
-import { User, UserFormValues } from "../types/user.types";
+import { Image, UpdateUserMutation, User } from "../types/generated.types";
+import { UserFormValues } from "../types/user.types";
 
 export const useUpdateUserMutation = () => {
   const [updateUser] = useMutation<UpdateUserMutation>(UPDATE_USER_MUTATION);
@@ -29,8 +28,8 @@ export const useUpdateUserMutation = () => {
           if (!data || (!coverPhotoData && !profilePictureData)) {
             return;
           }
-          let coverPhoto: ImageEntity | undefined;
-          let profilePicture: ImageEntity | undefined;
+          let coverPhoto: Image | undefined;
+          let profilePicture: Image | undefined;
           if (profilePictureData) {
             profilePicture = await uploadProfilePicture(id, profilePictureData);
           }

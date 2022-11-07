@@ -173,7 +173,7 @@ export type MutationUpdatePostArgs = {
 };
 
 export type MutationUpdateUserArgs = {
-  userData: UserInput;
+  userData: UpdateUserInput;
 };
 
 export type Post = {
@@ -236,6 +236,12 @@ export type SignUpInput = {
   password: Scalars["String"];
 };
 
+export type UpdateUserInput = {
+  bio: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+};
+
 export type User = {
   __typename?: "User";
   bio?: Maybe<Scalars["String"]>;
@@ -247,13 +253,6 @@ export type User = {
   posts: Array<Post>;
   profilePicture: Image;
   updatedAt: Scalars["DateTime"];
-};
-
-export type UserInput = {
-  bio: Scalars["String"];
-  email: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
 };
 
 export type SignUpMutationVariables = Exact<{
@@ -814,7 +813,7 @@ export type UserMutationSummaryFragment = {
 };
 
 export type UpdateUserMutationVariables = Exact<{
-  userData: UserInput;
+  userData: UpdateUserInput;
 }>;
 
 export type UpdateUserMutation = {
@@ -2149,7 +2148,7 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const UpdateUserDocument = gql`
-  mutation UpdateUser($userData: UserInput!) {
+  mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
       ...UserMutationSummary
     }

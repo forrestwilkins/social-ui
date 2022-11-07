@@ -11,10 +11,10 @@ import {
 import {
   CancelMemberRequestMutation,
   CreateMemberRequestMutation,
+  Group,
   MemberRequest,
   MemberRequestQuery,
 } from "../types/generated.types";
-import { Group } from "../types/group.types";
 import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreateMemberRequestMutation = (): [

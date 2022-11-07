@@ -1,5 +1,4 @@
-import { Image } from "./generated.types";
-import { Group } from "./group.types";
+import { Group, Image } from "./generated.types";
 import { User } from "./user.types";
 
 export interface Post {

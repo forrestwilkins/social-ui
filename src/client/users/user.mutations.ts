@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { USER_MUTATION_SUMMARY_FRAGMENT } from "./user.fragments";
 
 export const UPDATE_USER_MUTATION = gql`
-  mutation UpdateUser($userData: UserInput!) {
+  mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
       ...UserMutationSummary
     }

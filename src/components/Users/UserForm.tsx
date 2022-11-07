@@ -35,7 +35,6 @@ const UserForm = ({ isEditing, editUser, submitButtonText }: Props) => {
 
   const initialValues: UserFormValues = {
     bio: editUser?.bio || "",
-    email: editUser?.email || "",
     name: editUser?.name || "",
   };
 

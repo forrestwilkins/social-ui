@@ -16,7 +16,3 @@ export interface Post {
 export interface PostsFormValues extends Pick<Post, "body"> {
   groupId?: number;
 }
-
-export interface CreatePostMutation {
-  createPost: Post;
-}

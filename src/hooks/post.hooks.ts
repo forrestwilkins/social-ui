@@ -11,10 +11,14 @@ import { POSTS_QUERY } from "../client/posts/post.queries";
 import { uploadPostImages } from "../client/posts/post.rest";
 import { USER_QUERY } from "../client/users/user.queries";
 import { TypeNames } from "../constants/common.constants";
-import { Group } from "../types/group.types";
-import { ImageEntity } from "../types/image.types";
-import { CreatePostMutation, Post, PostsFormValues } from "../types/post.types";
-import { User } from "../types/user.types";
+import {
+  CreatePostMutation,
+  Group,
+  Image,
+  Post,
+  User,
+} from "../types/generated.types";
+import { PostsFormValues } from "../types/post.types";
 import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
 
 export const useCreatePostMutation = () => {
@@ -30,11 +34,11 @@ export const useCreatePostMutation = () => {
         if (!data) {
           return;
         }
-        let images: ImageEntity[] = [];
+        let images: Image[] = [];
         if (imageData) {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
-        const postWithImages = { ...data.createPost, images };
+        const postWithImages = { ...data.createPost, images } as Post;
         updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
           draft.unshift(postWithImages);
         });

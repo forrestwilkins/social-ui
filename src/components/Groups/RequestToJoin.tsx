@@ -21,7 +21,7 @@ interface Props {
   memberRequest: MemberRequest;
 }
 
-const MemberRequest = ({ memberRequest: { id, user } }: Props) => {
+const RequestToJoin = ({ memberRequest: { id, user } }: Props) => {
   const [approve] = useApproveMemberRequestMutation();
   const t = useTranslate();
 
@@ -78,4 +78,4 @@ const MemberRequest = ({ memberRequest: { id, user } }: Props) => {
   );
 };
 
-export default MemberRequest;
+export default RequestToJoin;

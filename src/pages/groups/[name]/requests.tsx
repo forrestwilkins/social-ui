@@ -9,12 +9,12 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { breadcrumbsVar } from "../../../client/cache";
-import MemberRequest from "../../../components/Groups/MemberRequest";
+import RequestToJoin from "../../../components/Groups/RequestToJoin";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
 import {
-  MemberRequest as MemberRequestType,
+  MemberRequest,
   useGroupQuery,
   useMemberRequestsQuery,
 } from "../../../types/generated.types";
@@ -85,9 +85,9 @@ const MemberRequests: NextPage = () => {
     <Card>
       <CardContent>
         {data.memberRequests.map((memberRequest) => (
-          <MemberRequest
+          <RequestToJoin
             key={memberRequest.id}
-            memberRequest={memberRequest as MemberRequestType}
+            memberRequest={memberRequest as MemberRequest}
           />
         ))}
       </CardContent>

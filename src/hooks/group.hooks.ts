@@ -13,14 +13,14 @@ import {
 } from "../client/groups/group.queries";
 import { uploadGroupCoverPhoto } from "../client/groups/group.rest";
 import { TypeNames } from "../constants/common.constants";
-import { MemberRequestQuery } from "../types/generated.types";
 import {
   CreateGroupMutation,
   Group,
-  GroupFormValues,
+  Image,
+  MemberRequestQuery,
   UpdateGroupMutation,
-} from "../types/group.types";
-import { ImageEntity } from "../types/image.types";
+} from "../types/generated.types";
+import { GroupFormValues } from "../types/group.types";
 import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreateGroupMutation = () => {
@@ -36,7 +36,7 @@ export const useCreateGroupMutation = () => {
         if (!data) {
           return;
         }
-        let coverPhoto: ImageEntity | undefined;
+        let coverPhoto: Image | undefined;
         if (coverPhotoData) {
           coverPhoto = await uploadGroupCoverPhoto(
             data.createGroup.id,
@@ -47,7 +47,7 @@ export const useCreateGroupMutation = () => {
           draft.unshift({
             ...data.createGroup,
             ...(coverPhoto && { coverPhoto }),
-          });
+          } as Group);
         });
       },
     });
@@ -72,7 +72,7 @@ export const useUpdateGroupMutation = () => {
         if (!coverPhotoData || !data) {
           return;
         }
-        let coverPhoto: ImageEntity | undefined;
+        let coverPhoto: Image | undefined;
         if (coverPhotoData) {
           coverPhoto = await uploadGroupCoverPhoto(
             data.updateGroup.id,

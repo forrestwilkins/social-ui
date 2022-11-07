@@ -26,11 +26,3 @@ export interface GroupMember {
 }
 
 export type GroupFormValues = Pick<Group, "name" | "description">;
-
-export interface CreateGroupMutation {
-  createGroup: Group;
-}
-
-export interface UpdateGroupMutation {
-  updateGroup: Group;
-}

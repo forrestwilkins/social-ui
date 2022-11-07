@@ -34,7 +34,6 @@ export type Group = {
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
   id: Scalars["Int"];
-  images: Array<Image>;
   memberCount: Scalars["Int"];
   memberRequestCount: Scalars["Int"];
   members: Array<GroupMember>;

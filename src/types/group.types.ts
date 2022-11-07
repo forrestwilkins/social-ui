@@ -25,22 +25,10 @@ export interface GroupMember {
   __typename: string;
 }
 
-export interface MemberRequest {
-  id: number;
-  status: "approved" | "denied" | "pending";
-  group: Group;
-  user: User;
-  __typename: string;
-}
-
 export type GroupFormValues = Pick<Group, "name" | "description">;
 
 export interface CreateGroupMutation {
   createGroup: Group;
-}
-
-export interface ApproveMemberRequestMutation {
-  approveMemberRequest: GroupMember;
 }
 
 export interface UpdateGroupMutation {

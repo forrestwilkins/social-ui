@@ -1,6 +1,5 @@
 import { useMutation } from "@apollo/client";
 import {
-  APPROVE_MEMBER_REQUEST_MUTATION,
   CANCEL_MEMBER_REQUEST_MUTATION,
   CREATE_MEMBER_REQUEST_MUTATION,
 } from "../client/groups/group.mutations";
@@ -15,7 +14,7 @@ import {
   MemberRequest,
   MemberRequestQuery,
 } from "../types/generated.types";
-import { ApproveMemberRequestMutation, Group } from "../types/group.types";
+import { Group } from "../types/group.types";
 import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreateMemberRequestMutation = (): [
@@ -60,56 +59,6 @@ export const useCreateMemberRequestMutation = (): [
   };
 
   return [_createMemberRequest, loading];
-};
-
-export const useApproveMemberRequestMutation = (): [
-  typeof _approve,
-  boolean
-] => {
-  const [approve, { loading }] = useMutation<ApproveMemberRequestMutation>(
-    APPROVE_MEMBER_REQUEST_MUTATION
-  );
-
-  const _approve = async (id: number) =>
-    // TODO: Determine if approveMemberRequest should return member request
-    // with group member as a field instead of just the group member alone
-    await approve({
-      variables: { id },
-      update(_, { data }) {
-        if (!data) {
-          return;
-        }
-        const variables = {
-          groupId: data.approveMemberRequest.group.id,
-        };
-        updateQuery<MemberRequest>(
-          { query: MEMBER_REQUEST_QUERY, variables },
-          (draft) => {
-            draft.status = "approved";
-          }
-        );
-        updateQuery<MemberRequest[]>(
-          { query: MEMBER_REQUESTS_QUERY, variables },
-          (draft) => {
-            const index = draft.findIndex((p) => p.id === id);
-            draft.splice(index, 1);
-          }
-        );
-        updateQuery<Group>(
-          {
-            query: GROUP_QUERY,
-            variables: { name: data.approveMemberRequest.group.name },
-          },
-          (draft) => {
-            draft.members.unshift(data.approveMemberRequest);
-            draft.memberRequestCount -= 1;
-            draft.memberCount += 1;
-          }
-        );
-      },
-    });
-
-  return [_approve, loading];
 };
 
 export const useCancelMemberRequestMutation = (): [

@@ -1,11 +1,11 @@
+import { Image } from "./generated.types";
 import { Group } from "./group.types";
-import { ImageEntity } from "./image.types";
 import { User } from "./user.types";
 
 export interface Post {
   id: number;
   body: string;
-  images: ImageEntity[];
+  images: Image[];
   group: Group | null;
   user: User;
   createdAt: string;

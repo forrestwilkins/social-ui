@@ -1,4 +1,4 @@
-import { ImageEntity } from "./image.types";
+import { Image } from "./generated.types";
 import { Post } from "./post.types";
 
 export interface User {
@@ -6,8 +6,8 @@ export interface User {
   name: string;
   email: string;
   bio: string;
-  profilePicture: ImageEntity;
-  coverPhoto: ImageEntity | null;
+  profilePicture: Image;
+  coverPhoto: Image | null;
   posts: Post[];
   createdAt: string;
   updatedAt: string;

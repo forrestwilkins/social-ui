@@ -10,6 +10,7 @@ import {
   GroupQuery,
   GroupQueryVariables,
   MemberRequest,
+  MemberRequestsQuery,
   useApproveMemberRequestMutation,
 } from "../../types/generated.types";
 import { updateQuery } from "../../utils/apollo.utils";
@@ -44,12 +45,16 @@ const RequestToJoin = ({ memberRequest: { id, user } }: Props) => {
             draft.status = "approved";
           }
         );
-        updateQuery<MemberRequest[]>(
+        cache.updateQuery<MemberRequestsQuery>(
           { query: MEMBER_REQUESTS_QUERY, variables },
-          (draft) => {
-            const index = draft.findIndex((p) => p.id === id);
-            draft.splice(index, 1);
-          }
+          (memberRequestsData) =>
+            produce(memberRequestsData, (draft) => {
+              if (!draft) {
+                return;
+              }
+              const index = draft.memberRequests.findIndex((p) => p.id === id);
+              draft.memberRequests.splice(index, 1);
+            })
         );
         cache.updateQuery<GroupQuery, GroupQueryVariables>(
           {

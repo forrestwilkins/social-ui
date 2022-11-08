@@ -12,6 +12,7 @@ import { TypeNames } from "../constants/common.constants";
 import {
   CreateGroupMutation,
   Group,
+  GroupsQuery,
   GroupSummaryFragment,
   Image,
   UpdateGroupMutation,
@@ -28,7 +29,7 @@ export const useCreateGroupMutation = () => {
   ) => {
     const { data } = await createGroup({
       variables: { groupData },
-      async update(_, { data }) {
+      async update(cache, { data }) {
         if (!data) {
           return;
         }
@@ -39,12 +40,14 @@ export const useCreateGroupMutation = () => {
             coverPhotoData
           );
         }
-        updateQuery<Group[]>({ query: GROUPS_QUERY }, (draft) => {
-          draft.unshift({
-            ...data.createGroup,
-            ...(coverPhoto && { coverPhoto }),
-          } as Group);
-        });
+        cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
+          produce(groupsData, (draft) => {
+            draft?.groups.unshift({
+              ...data.createGroup,
+              ...(coverPhoto && { coverPhoto }),
+            });
+          })
+        );
       },
     });
 

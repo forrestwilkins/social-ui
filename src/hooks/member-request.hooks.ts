@@ -1,6 +1,5 @@
 import { useMutation } from "@apollo/client";
 import produce from "immer";
-import { GROUP_SUMMARY_FRAGMENT } from "../client/groups/group.fragments";
 import {
   CANCEL_MEMBER_REQUEST_MUTATION,
   CREATE_MEMBER_REQUEST_MUTATION,
@@ -9,16 +8,12 @@ import {
   MEMBER_REQUESTS_QUERY,
   MEMBER_REQUEST_QUERY,
 } from "../client/groups/group.queries";
-import { TypeNames } from "../constants/common.constants";
 import {
   CancelMemberRequestMutation,
   CreateMemberRequestMutation,
-  GroupSummaryFragment,
-  MemberRequest,
   MemberRequestQuery,
   MemberRequestsQuery,
 } from "../types/generated.types";
-import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreateMemberRequestMutation = (): [
   typeof _createMemberRequest,
@@ -81,35 +76,30 @@ export const useCancelMemberRequestMutation = (): [
         const variables = {
           groupId: data.cancelMemberRequest.id,
         };
-        updateQuery<MemberRequest[]>(
-          { query: MEMBER_REQUESTS_QUERY, variables },
-          (draft) => {
-            const index = draft.findIndex((p) => p.id === id);
-            draft.splice(index, 1);
-          }
-        );
         cache.writeQuery<MemberRequestQuery>({
           query: MEMBER_REQUEST_QUERY,
           data: { memberRequest: null },
           variables,
         });
-        cache.updateFragment<GroupSummaryFragment>(
-          {
-            id: cache.identify({
-              id: data.cancelMemberRequest.id,
-              __typename: TypeNames.Group,
-            }),
-            fragment: GROUP_SUMMARY_FRAGMENT,
-            fragmentName: "GroupSummary",
-          },
-          (data) =>
-            produce(data, (draft) => {
+        cache.updateQuery<MemberRequestsQuery>(
+          { query: MEMBER_REQUESTS_QUERY, variables },
+          (memberRequestsData) =>
+            produce(memberRequestsData, (draft) => {
               if (!draft) {
                 return;
               }
-              draft.memberRequestCount -= 1;
+              const index = draft.memberRequests.findIndex((p) => p.id === id);
+              draft.memberRequests.splice(index, 1);
             })
         );
+        cache.modify({
+          id: cache.identify(data.cancelMemberRequest),
+          fields: {
+            memberRequestCount(existingCount: number) {
+              return existingCount - 1;
+            },
+          },
+        });
       },
     });
   };

@@ -9,7 +9,11 @@ import {
   uploadUserCoverPhoto,
 } from "../client/users/user.rest";
 import { TypeNames } from "../constants/common.constants";
-import { Image, UpdateUserMutation, User } from "../types/generated.types";
+import {
+  Image,
+  UpdateUserMutation,
+  UserProfileFragment,
+} from "../types/generated.types";
 import { UserFormValues } from "../types/user.types";
 
 export const useUpdateUserMutation = () => {
@@ -36,7 +40,7 @@ export const useUpdateUserMutation = () => {
           if (coverPhotoData) {
             coverPhoto = await uploadUserCoverPhoto(id, coverPhotoData);
           }
-          cache.updateFragment<User>(
+          cache.updateFragment<UserProfileFragment>(
             {
               id: `${TypeNames.User}:${id}`,
               fragment: USER_PROFILE_FRAGMENT,

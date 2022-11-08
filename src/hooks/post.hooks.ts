@@ -16,6 +16,7 @@ import {
   Group,
   Image,
   Post,
+  PostSummaryFragment,
   User,
 } from "../types/generated.types";
 import { PostsFormValues } from "../types/post.types";
@@ -82,7 +83,7 @@ export const useUpdatePostMutation = () => {
           return;
         }
         const images = await uploadPostImages(id, imageData);
-        cache.updateFragment<Post>(
+        cache.updateFragment<PostSummaryFragment>(
           {
             id: `${TypeNames.Post}:${id}`,
             fragment: POST_SUMMARY_FRAGMENT,

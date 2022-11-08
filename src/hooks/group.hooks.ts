@@ -12,6 +12,7 @@ import { TypeNames } from "../constants/common.constants";
 import {
   CreateGroupMutation,
   Group,
+  GroupSummaryFragment,
   Image,
   UpdateGroupMutation,
 } from "../types/generated.types";
@@ -74,7 +75,7 @@ export const useUpdateGroupMutation = () => {
             coverPhotoData
           );
         }
-        cache.updateFragment<Group>(
+        cache.updateFragment<GroupSummaryFragment>(
           {
             id: `${TypeNames.Group}:${id}`,
             fragment: GROUP_SUMMARY_FRAGMENT,

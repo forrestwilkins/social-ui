@@ -44,7 +44,7 @@ export const useCreateMemberRequestMutation = (): [
             })
         );
         cache.modify({
-          id: cache.identify({ ...createMemberRequest.group }),
+          id: cache.identify(createMemberRequest.group),
           fields: {
             memberRequestCount(existingCount: number) {
               return existingCount + 1;

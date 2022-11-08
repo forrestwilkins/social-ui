@@ -3,7 +3,6 @@ import produce from "immer";
 import {
   GROUP_QUERY,
   MEMBER_REQUESTS_QUERY,
-  MEMBER_REQUEST_QUERY,
 } from "../../client/groups/group.queries";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
@@ -11,9 +10,9 @@ import {
   GroupQueryVariables,
   MemberRequest,
   MemberRequestsQuery,
+  MemberRequestsQueryVariables,
   useApproveMemberRequestMutation,
 } from "../../types/generated.types";
-import { updateQuery } from "../../utils/apollo.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -23,30 +22,28 @@ interface Props {
   memberRequest: MemberRequest;
 }
 
-const RequestToJoin = ({ memberRequest: { id, user } }: Props) => {
+const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
   const [approve] = useApproveMemberRequestMutation();
   const t = useTranslate();
 
   const handleButtonClick = async () =>
-    // TODO: Determine if approveMemberRequest should return member request
-    // with group member as a field instead of just the group member alone
     await approve({
       variables: { id },
       update(cache, { data }) {
         if (!data?.approveMemberRequest.group) {
           return;
         }
-        const variables = {
-          groupId: data.approveMemberRequest.group.id,
-        };
-        updateQuery<MemberRequest>(
-          { query: MEMBER_REQUEST_QUERY, variables },
-          (draft) => {
-            draft.status = "approved";
-          }
-        );
-        cache.updateQuery<MemberRequestsQuery>(
-          { query: MEMBER_REQUESTS_QUERY, variables },
+        cache.modify({
+          id: cache.identify({ id, __typename }),
+          fields: { status: () => "approved" },
+        });
+        cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+          {
+            query: MEMBER_REQUESTS_QUERY,
+            variables: {
+              groupId: data.approveMemberRequest.group.id,
+            },
+          },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
               if (!draft) {

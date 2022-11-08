@@ -85,7 +85,7 @@ const PostCard = ({
   };
 
   const handleDelete = async (id: number) => {
-    await deletePost(id);
+    await deletePost(id, user.id, group?.id);
     if (isPostPage) {
       redirectTo(NavigationPaths.Home);
     }

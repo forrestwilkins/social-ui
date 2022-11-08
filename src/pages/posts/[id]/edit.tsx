@@ -17,7 +17,6 @@ const EditPostPage: NextPage = () => {
     variables: { id: postId },
     skip: !postId,
   });
-
   const deletePost = useDeletePostMutation();
 
   const t = useTranslate();
@@ -35,8 +34,11 @@ const EditPostPage: NextPage = () => {
   }
 
   const handleDeleteButtonClick = async () => {
+    const {
+      post: { group, user },
+    } = data;
     try {
-      await deletePost(postId);
+      await deletePost(postId, user.id, group?.id);
       redirectTo(NavigationPaths.Home);
     } catch {
       toastVar({

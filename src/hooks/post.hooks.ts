@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/client";
 import produce from "immer";
 import { GROUP_PROFILE_FRAGMENT } from "../client/groups/group.fragments";
-import { GROUP_QUERY } from "../client/groups/group.queries";
 import { POST_SUMMARY_FRAGMENT } from "../client/posts/post.fragments";
 import {
   CREATE_POST_MUTATION,
@@ -11,7 +10,6 @@ import {
 import { POSTS_QUERY } from "../client/posts/post.queries";
 import { uploadPostImages } from "../client/posts/post.rest";
 import { USER_PROFILE_FRAGMENT } from "../client/users/user.fragments";
-import { USER_QUERY } from "../client/users/user.queries";
 import { TypeNames } from "../constants/common.constants";
 import {
   CreatePostMutation,
@@ -22,7 +20,7 @@ import {
   UserProfileFragment,
 } from "../types/generated.types";
 import { PostsFormValues } from "../types/post.types";
-import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
+import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
@@ -56,19 +54,20 @@ export const useCreatePostMutation = () => {
               draft?.posts.unshift(postWithImages);
             })
         );
-        if (data.createPost.group) {
-          cache.updateFragment<GroupProfileFragment>(
-            {
-              id: cache.identify(data.createPost.group),
-              fragment: GROUP_PROFILE_FRAGMENT,
-              fragmentName: "GroupProfile",
-            },
-            (data) =>
-              produce(data, (draft) => {
-                draft?.posts.unshift(postWithImages);
-              })
-          );
+        if (!data.createPost.group) {
+          return;
         }
+        cache.updateFragment<GroupProfileFragment>(
+          {
+            id: cache.identify(data.createPost.group),
+            fragment: GROUP_PROFILE_FRAGMENT,
+            fragmentName: "GroupProfile",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              draft?.posts.unshift(postWithImages);
+            })
+        );
       },
     });
   };
@@ -113,18 +112,48 @@ export const useUpdatePostMutation = () => {
 export const useDeletePostMutation = () => {
   const [deletePost] = useMutation(DELETE_POST_MUTATION);
 
-  const _deletePost = async (id: number) => {
+  const _deletePost = async (id: number, userId: number, groupId?: number) => {
     await deletePost({
       variables: { id },
-      update: () =>
+      update(cache) {
         updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
           const index = draft.findIndex((p) => p.id === id);
           draft.splice(index, 1);
-        }),
-
-      // FIXME: Refetches require specifying the exact variables to work
-      // This is currently broken and shows an "Unknown query" warning
-      refetchQueries: filterInactiveQueries([USER_QUERY, GROUP_QUERY]),
+        });
+        cache.updateFragment<UserProfileFragment>(
+          {
+            id: cache.identify({ id: userId, __typename: TypeNames.User }),
+            fragment: USER_PROFILE_FRAGMENT,
+            fragmentName: "UserProfile",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              if (!draft) {
+                return;
+              }
+              const index = draft.posts.findIndex((p) => p.id === id);
+              draft.posts.splice(index, 1);
+            })
+        );
+        if (!groupId) {
+          return;
+        }
+        cache.updateFragment<GroupProfileFragment>(
+          {
+            id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
+            fragment: GROUP_PROFILE_FRAGMENT,
+            fragmentName: "GroupProfile",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              if (!draft) {
+                return;
+              }
+              const index = draft.posts.findIndex((p) => p.id === id);
+              draft.posts.splice(index, 1);
+            })
+        );
+      },
     });
   };
 

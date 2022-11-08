@@ -14,6 +14,10 @@ export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);
 export const isRefreshingTokenVar = makeVar(false);
 
+/**
+ * TODO: Determine whether defining custom merge functions as done below is
+ * the correct way to silence warnings seen when deleting items from cache
+ */
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -29,6 +33,24 @@ const cache = new InMemoryCache({
           },
         },
         memberRequests: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
+    User: {
+      fields: {
+        posts: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
+    Group: {
+      fields: {
+        posts: {
           merge(_, incoming) {
             return incoming;
           },

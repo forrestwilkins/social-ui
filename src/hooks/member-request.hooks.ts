@@ -16,6 +16,7 @@ import {
   GroupSummaryFragment,
   MemberRequest,
   MemberRequestQuery,
+  MemberRequestsQuery,
 } from "../types/generated.types";
 import { updateQuery } from "../utils/apollo.utils";
 
@@ -33,22 +34,22 @@ export const useCreateMemberRequestMutation = (): [
         if (!data?.createMemberRequest) {
           return;
         }
-        const variables = {
-          groupId: data.createMemberRequest.group.id,
-        };
+        const { createMemberRequest } = data;
+        const variables = { groupId: createMemberRequest.group.id };
         cache.writeQuery<MemberRequestQuery>({
           query: MEMBER_REQUEST_QUERY,
-          data: { memberRequest: data.createMemberRequest },
+          data: { memberRequest: createMemberRequest },
           variables,
         });
-        updateQuery<MemberRequest[]>(
+        cache.updateQuery<MemberRequestsQuery>(
           { query: MEMBER_REQUESTS_QUERY, variables },
-          (draft) => {
-            draft.unshift(data.createMemberRequest as MemberRequest);
-          }
+          (memberRequestsData) =>
+            produce(memberRequestsData, (draft) => {
+              draft?.memberRequests.unshift(createMemberRequest);
+            })
         );
         cache.modify({
-          id: cache.identify({ ...data.createMemberRequest.group }),
+          id: cache.identify({ ...createMemberRequest.group }),
           fields: {
             memberRequestCount(existingCount: number) {
               return existingCount + 1;

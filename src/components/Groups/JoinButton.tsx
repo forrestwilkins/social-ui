@@ -1,11 +1,17 @@
+import { StoreObject } from "@apollo/client";
 import { useState } from "react";
+import { MEMBER_REQUEST_QUERY } from "../../client/groups/group.queries";
+import { TypeNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useLeaveGroupMutation } from "../../hooks/group.hooks";
 import {
   useCancelMemberRequestMutation,
   useCreateMemberRequestMutation,
 } from "../../hooks/member-request.hooks";
-import { useMemberRequestQuery } from "../../types/generated.types";
+import {
+  MemberRequestQuery,
+  useLeaveGroupMutation,
+  useMemberRequestQuery,
+} from "../../types/generated.types";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {
@@ -16,7 +22,7 @@ const JoinButton = ({ groupId }: Props) => {
   const { data, loading } = useMemberRequestQuery({ variables: { groupId } });
   const [createMemberRequest, createLoading] = useCreateMemberRequestMutation();
   const [cancelMemberRequest, cancelLoading] = useCancelMemberRequestMutation();
-  const [leaveGroup, leaveGroupLoading] = useLeaveGroupMutation();
+  const [leaveGroup, { loading: leaveGroupLoading }] = useLeaveGroupMutation();
   const [isHovering, setIsHovering] = useState(false);
 
   const t = useTranslate();
@@ -47,7 +53,31 @@ const JoinButton = ({ groupId }: Props) => {
     }
     // TODO: Add confirmation dialog for leaving group
     if (memberRequest.status === "approved") {
-      await leaveGroup(groupId, data.memberRequest.id);
+      await leaveGroup({
+        variables: {
+          id: groupId,
+        },
+        update(cache) {
+          cache.writeQuery<MemberRequestQuery>({
+            query: MEMBER_REQUEST_QUERY,
+            variables: { groupId },
+            data: { memberRequest: null },
+          });
+          cache.modify({
+            id: cache.identify({ __typename: TypeNames.Group, id: groupId }),
+            fields: {
+              members(existingMemberRefs: StoreObject[], { readField }) {
+                return existingMemberRefs.filter(
+                  (memberRef) => memberRequest.id !== readField("id", memberRef)
+                );
+              },
+              memberCount(existingCount: number) {
+                return existingCount - 1;
+              },
+            },
+          });
+        },
+      });
     }
   };
 

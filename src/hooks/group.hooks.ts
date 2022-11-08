@@ -1,23 +1,18 @@
-import { StoreObject, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import produce from "immer";
 import { GROUP_SUMMARY_FRAGMENT } from "../client/groups/group.fragments";
 import {
   CREATE_GROUP_MUTATION,
   DELETE_GROUP_MUTATION,
-  LEAVE_GROUP_MUTATION,
   UPDATE_GROUP_MUTATION,
 } from "../client/groups/group.mutations";
-import {
-  GROUPS_QUERY,
-  MEMBER_REQUEST_QUERY,
-} from "../client/groups/group.queries";
+import { GROUPS_QUERY } from "../client/groups/group.queries";
 import { uploadGroupCoverPhoto } from "../client/groups/group.rest";
 import { TypeNames } from "../constants/common.constants";
 import {
   CreateGroupMutation,
   Group,
   Image,
-  MemberRequestQuery,
   UpdateGroupMutation,
 } from "../types/generated.types";
 import { GroupFormValues } from "../types/group.types";
@@ -118,35 +113,4 @@ export const useDeleteGroupMutation = () => {
   };
 
   return _deleteGroup;
-};
-
-export const useLeaveGroupMutation = (): [typeof _leaveGroup, boolean] => {
-  const [leaveGroup, { loading }] = useMutation(LEAVE_GROUP_MUTATION);
-
-  const _leaveGroup = async (id: number, memberRequestId: number) =>
-    await leaveGroup({
-      variables: { id },
-      update(cache) {
-        cache.writeQuery<MemberRequestQuery>({
-          query: MEMBER_REQUEST_QUERY,
-          variables: { groupId: id },
-          data: { memberRequest: null },
-        });
-        cache.modify({
-          id: cache.identify({ __typename: TypeNames.Group, id }),
-          fields: {
-            members(existingMemberRefs: StoreObject[], { readField }) {
-              return existingMemberRefs.filter(
-                (memberRef) => memberRequestId !== readField("id", memberRef)
-              );
-            },
-            memberCount(existingCount: number) {
-              return existingCount - 1;
-            },
-          },
-        });
-      },
-    });
-
-  return [_leaveGroup, loading];
 };

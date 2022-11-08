@@ -16,6 +16,7 @@ import {
   GroupProfileFragment,
   Image,
   Post,
+  PostsQuery,
   PostSummaryFragment,
   UserProfileFragment,
 } from "../types/generated.types";
@@ -40,9 +41,11 @@ export const useCreatePostMutation = () => {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
         const postWithImages = { ...data.createPost, images } as Post;
-        updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
-          draft.unshift(postWithImages);
-        });
+        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
+          produce(postsData, (draft) => {
+            draft?.posts.unshift(postWithImages);
+          })
+        );
         cache.updateFragment<UserProfileFragment>(
           {
             id: cache.identify(data.createPost.user),

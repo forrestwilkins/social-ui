@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import produce from "immer";
+import { GROUP_PROFILE_FRAGMENT } from "../client/groups/group.fragments";
 import { GROUP_QUERY } from "../client/groups/group.queries";
 import { POST_SUMMARY_FRAGMENT } from "../client/posts/post.fragments";
 import {
@@ -14,7 +15,7 @@ import { USER_QUERY } from "../client/users/user.queries";
 import { TypeNames } from "../constants/common.constants";
 import {
   CreatePostMutation,
-  Group,
+  GroupProfileFragment,
   Image,
   Post,
   PostSummaryFragment,
@@ -33,7 +34,7 @@ export const useCreatePostMutation = () => {
     await createPost({
       variables: { postData },
       async update(cache, { data }) {
-        if (!data) {
+        if (!data?.createPost) {
           return;
         }
         let images: Image[] = [];
@@ -46,10 +47,7 @@ export const useCreatePostMutation = () => {
         });
         cache.updateFragment<UserProfileFragment>(
           {
-            id: cache.identify({
-              id: data.createPost.user.id,
-              __typename: TypeNames.User,
-            }),
+            id: cache.identify(data.createPost.user),
             fragment: USER_PROFILE_FRAGMENT,
             fragmentName: "UserProfile",
           },
@@ -58,15 +56,19 @@ export const useCreatePostMutation = () => {
               draft?.posts.unshift(postWithImages);
             })
         );
-        updateQuery<Group>(
-          {
-            query: GROUP_QUERY,
-            variables: { name: data.createPost.group?.name },
-          },
-          (draft) => {
-            draft.posts.unshift(postWithImages);
-          }
-        );
+        if (data.createPost.group) {
+          cache.updateFragment<GroupProfileFragment>(
+            {
+              id: cache.identify(data.createPost.group),
+              fragment: GROUP_PROFILE_FRAGMENT,
+              fragmentName: "GroupProfile",
+            },
+            (data) =>
+              produce(data, (draft) => {
+                draft?.posts.unshift(postWithImages);
+              })
+          );
+        }
       },
     });
   };

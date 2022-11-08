@@ -21,7 +21,6 @@ import {
   UserProfileFragment,
 } from "../types/generated.types";
 import { PostsFormValues } from "../types/post.types";
-import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreatePostMutation = () => {
   const [createPost] = useMutation<CreatePostMutation>(CREATE_POST_MUTATION);
@@ -118,10 +117,15 @@ export const useDeletePostMutation = () => {
     await deletePost({
       variables: { id },
       update(cache) {
-        updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
-          const index = draft.findIndex((p) => p.id === id);
-          draft.splice(index, 1);
-        });
+        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
+          produce(postsData, (draft) => {
+            if (!draft) {
+              return;
+            }
+            const index = draft.posts.findIndex((p) => p.id === id);
+            draft.posts.splice(index, 1);
+          })
+        );
         cache.updateFragment<UserProfileFragment>(
           {
             id: cache.identify({ id: userId, __typename: TypeNames.User }),

@@ -83,7 +83,6 @@ export const useUpdateGroupMutation = () => {
             fragmentName: "GroupSummary",
           },
           (data) =>
-            // TODO: Refactor so that early return happens here instead of in produce
             produce(data, (draft) => {
               if (!draft || !coverPhoto) {
                 return;

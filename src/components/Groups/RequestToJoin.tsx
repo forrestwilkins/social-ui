@@ -1,4 +1,5 @@
 import { Button, Typography } from "@mui/material";
+import produce from "immer";
 import {
   GROUP_QUERY,
   MEMBER_REQUESTS_QUERY,
@@ -6,8 +7,8 @@ import {
 } from "../../client/groups/group.queries";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  Group,
-  GroupMember,
+  GroupQuery,
+  GroupQueryVariables,
   MemberRequest,
   useApproveMemberRequestMutation,
 } from "../../types/generated.types";
@@ -30,7 +31,7 @@ const RequestToJoin = ({ memberRequest: { id, user } }: Props) => {
     // with group member as a field instead of just the group member alone
     await approve({
       variables: { id },
-      update(_, { data }) {
+      update(cache, { data }) {
         if (!data?.approveMemberRequest.group) {
           return;
         }
@@ -50,16 +51,20 @@ const RequestToJoin = ({ memberRequest: { id, user } }: Props) => {
             draft.splice(index, 1);
           }
         );
-        updateQuery<Group>(
+        cache.updateQuery<GroupQuery, GroupQueryVariables>(
           {
             query: GROUP_QUERY,
             variables: { name: data.approveMemberRequest.group.name },
           },
-          (draft) => {
-            draft.members.unshift(data.approveMemberRequest as GroupMember);
-            draft.memberRequestCount -= 1;
-            draft.memberCount += 1;
-          }
+          (groupData) =>
+            produce(groupData, (draft) => {
+              if (!draft) {
+                return;
+              }
+              draft.group.members.unshift(data.approveMemberRequest);
+              draft.group.memberRequestCount -= 1;
+              draft.group.memberCount += 1;
+            })
         );
       },
     });

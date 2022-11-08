@@ -1,17 +1,19 @@
 import { useMutation } from "@apollo/client";
+import produce from "immer";
+import { GROUP_SUMMARY_FRAGMENT } from "../client/groups/group.fragments";
 import {
   CANCEL_MEMBER_REQUEST_MUTATION,
   CREATE_MEMBER_REQUEST_MUTATION,
 } from "../client/groups/group.mutations";
 import {
-  GROUP_QUERY,
   MEMBER_REQUESTS_QUERY,
   MEMBER_REQUEST_QUERY,
 } from "../client/groups/group.queries";
+import { TypeNames } from "../constants/common.constants";
 import {
   CancelMemberRequestMutation,
   CreateMemberRequestMutation,
-  Group,
+  GroupSummaryFragment,
   MemberRequest,
   MemberRequestQuery,
 } from "../types/generated.types";
@@ -78,11 +80,6 @@ export const useCancelMemberRequestMutation = (): [
         const variables = {
           groupId: data.cancelMemberRequest.id,
         };
-        cache.writeQuery<MemberRequestQuery>({
-          query: MEMBER_REQUEST_QUERY,
-          data: { memberRequest: null },
-          variables,
-        });
         updateQuery<MemberRequest[]>(
           { query: MEMBER_REQUESTS_QUERY, variables },
           (draft) => {
@@ -90,14 +87,27 @@ export const useCancelMemberRequestMutation = (): [
             draft.splice(index, 1);
           }
         );
-        updateQuery<Group>(
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          data: { memberRequest: null },
+          variables,
+        });
+        cache.updateFragment<GroupSummaryFragment>(
           {
-            query: GROUP_QUERY,
-            variables: { name: data.cancelMemberRequest.name },
+            id: cache.identify({
+              id: data.cancelMemberRequest.id,
+              __typename: TypeNames.Group,
+            }),
+            fragment: GROUP_SUMMARY_FRAGMENT,
+            fragmentName: "GroupSummary",
           },
-          (draft) => {
-            draft.memberRequestCount -= 1;
-          }
+          (data) =>
+            produce(data, (draft) => {
+              if (!draft) {
+                return;
+              }
+              draft.memberRequestCount -= 1;
+            })
         );
       },
     });

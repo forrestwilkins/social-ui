@@ -71,17 +71,18 @@ export const useCancelMemberRequestMutation = (): [
   const _cancelMemberRequest = async (id: number) => {
     await cancelMemberRequest({
       variables: { id },
-      update(_, { data }) {
+      update(cache, { data }) {
         if (!data) {
           return;
         }
         const variables = {
           groupId: data.cancelMemberRequest.id,
         };
-        updateQuery<MemberRequest>(
-          { query: MEMBER_REQUEST_QUERY, variables },
-          () => null
-        );
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          data: { memberRequest: null },
+          variables,
+        });
         updateQuery<MemberRequest[]>(
           { query: MEMBER_REQUESTS_QUERY, variables },
           (draft) => {

@@ -108,7 +108,6 @@ export const useUpdatePostMutation = () => {
   return _updatePost;
 };
 
-// TODO: Add optional arguments for user ID and group ID and update cache directly for both
 export const useDeletePostMutation = () => {
   const [deletePost] = useMutation(DELETE_POST_MUTATION);
 

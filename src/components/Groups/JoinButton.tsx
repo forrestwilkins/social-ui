@@ -1,4 +1,4 @@
-import { StoreObject } from "@apollo/client";
+import { Reference } from "@apollo/client";
 import { useState } from "react";
 import { MEMBER_REQUEST_QUERY } from "../../client/groups/group.queries";
 import { TypeNames } from "../../constants/common.constants";
@@ -66,7 +66,7 @@ const JoinButton = ({ groupId }: Props) => {
           cache.modify({
             id: cache.identify({ __typename: TypeNames.Group, id: groupId }),
             fields: {
-              members(existingMemberRefs: StoreObject[], { readField }) {
+              members(existingMemberRefs: Reference[], { readField }) {
                 return existingMemberRefs.filter(
                   (memberRef) => memberRequest.id !== readField("id", memberRef)
                 );

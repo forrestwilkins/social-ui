@@ -9,6 +9,7 @@ import {
 } from "../client/posts/post.mutations";
 import { POSTS_QUERY } from "../client/posts/post.queries";
 import { uploadPostImages } from "../client/posts/post.rest";
+import { USER_PROFILE_FRAGMENT } from "../client/users/user.fragments";
 import { USER_QUERY } from "../client/users/user.queries";
 import { TypeNames } from "../constants/common.constants";
 import {
@@ -17,7 +18,7 @@ import {
   Image,
   Post,
   PostSummaryFragment,
-  User,
+  UserProfileFragment,
 } from "../types/generated.types";
 import { PostsFormValues } from "../types/post.types";
 import { filterInactiveQueries, updateQuery } from "../utils/apollo.utils";
@@ -31,7 +32,7 @@ export const useCreatePostMutation = () => {
   ) => {
     await createPost({
       variables: { postData },
-      async update(_, { data }) {
+      async update(cache, { data }) {
         if (!data) {
           return;
         }
@@ -43,14 +44,19 @@ export const useCreatePostMutation = () => {
         updateQuery<Post[]>({ query: POSTS_QUERY }, (draft) => {
           draft.unshift(postWithImages);
         });
-        updateQuery<User>(
+        cache.updateFragment<UserProfileFragment>(
           {
-            query: USER_QUERY,
-            variables: { name: data.createPost.user.name },
+            id: cache.identify({
+              id: data.createPost.user.id,
+              __typename: TypeNames.User,
+            }),
+            fragment: USER_PROFILE_FRAGMENT,
+            fragmentName: "UserProfile",
           },
-          (draft) => {
-            draft.posts.unshift(postWithImages);
-          }
+          (data) =>
+            produce(data, (draft) => {
+              draft?.posts.unshift(postWithImages);
+            })
         );
         updateQuery<Group>(
           {
@@ -113,6 +119,9 @@ export const useDeletePostMutation = () => {
           const index = draft.findIndex((p) => p.id === id);
           draft.splice(index, 1);
         }),
+
+      // FIXME: Refetches require specifying the exact variables to work
+      // This is currently broken and shows an "Unknown query" warning
       refetchQueries: filterInactiveQueries([USER_QUERY, GROUP_QUERY]),
     });
   };

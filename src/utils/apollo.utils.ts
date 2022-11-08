@@ -1,3 +1,6 @@
+// TODO: Most of the utils in this file should be removed, as they deviate away
+// from standard Apollo Client calls too much and have been causing bugs
+
 import { DocumentNode } from "@apollo/client";
 import produce from "immer";
 import { WritableDraft } from "immer/dist/internal";
@@ -35,12 +38,9 @@ export const getQueryName = (query: DocumentNode) => {
   if (operationDefition?.operation !== "query" || !cache.data) {
     return "";
   }
-  // Get query name with "Query" suffix removed
-  let queryName = operationDefition.name.value.replace("Query", "");
-
+  let { value: queryName } = operationDefition.name;
   // Convert first letter to lower case
   queryName = queryName.charAt(0).toLowerCase() + queryName.slice(1);
-
   return queryName;
 };
 

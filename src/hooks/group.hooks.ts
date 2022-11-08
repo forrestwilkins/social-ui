@@ -11,14 +11,12 @@ import { uploadGroupCoverPhoto } from "../client/groups/group.rest";
 import { TypeNames } from "../constants/common.constants";
 import {
   CreateGroupMutation,
-  Group,
   GroupsQuery,
   GroupSummaryFragment,
   Image,
   UpdateGroupMutation,
 } from "../types/generated.types";
 import { GroupFormValues } from "../types/group.types";
-import { updateQuery } from "../utils/apollo.utils";
 
 export const useCreateGroupMutation = () => {
   const [createGroup] = useMutation<CreateGroupMutation>(CREATE_GROUP_MUTATION);
@@ -108,11 +106,17 @@ export const useDeleteGroupMutation = () => {
   const _deleteGroup = async (id: number) => {
     await deleteGroup({
       variables: { id },
-      update: () =>
-        updateQuery<Group[]>({ query: GROUPS_QUERY }, (draft) => {
-          const index = draft.findIndex((p) => p.id === id);
-          draft.splice(index, 1);
-        }),
+      update(cache) {
+        cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
+          produce(groupsData, (draft) => {
+            if (!draft) {
+              return;
+            }
+            const index = draft.groups.findIndex((p) => p.id === id);
+            draft.groups.splice(index, 1);
+          })
+        );
+      },
     });
   };
 

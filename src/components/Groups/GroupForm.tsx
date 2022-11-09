@@ -11,19 +11,21 @@ import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
+import { GROUP_SUMMARY_FRAGMENT } from "../../client/groups/group.fragments";
 import { GROUPS_QUERY } from "../../client/groups/group.queries";
 import { uploadGroupCoverPhoto } from "../../client/groups/group.rest";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useUpdateGroupMutation } from "../../hooks/group.hooks";
 import {
   Group,
   GroupInput,
   GroupsQuery,
+  GroupSummaryFragment,
   Image,
   useCreateGroupMutation,
+  useUpdateGroupMutation,
 } from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
@@ -47,7 +49,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [createGroup] = useCreateGroupMutation();
-  const updateGroup = useUpdateGroupMutation();
+  const [updateGroup] = useUpdateGroupMutation();
 
   const t = useTranslate();
 
@@ -64,15 +66,41 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
       const coverPhotoData = buildImageData(coverPhoto);
 
       if (editGroup) {
-        const group = await updateGroup(
-          editGroup.id,
-          formValues,
-          coverPhotoData
-        );
-        if (!group) {
+        const { data } = await updateGroup({
+          variables: {
+            groupData: { id: editGroup.id, ...formValues },
+          },
+          async update(cache, { data }) {
+            if (!coverPhotoData || !data) {
+              return;
+            }
+            let coverPhoto: Image | undefined;
+            if (coverPhotoData) {
+              coverPhoto = await uploadGroupCoverPhoto(
+                data.updateGroup.id,
+                coverPhotoData
+              );
+            }
+            cache.updateFragment<GroupSummaryFragment>(
+              {
+                id: cache.identify(editGroup),
+                fragment: GROUP_SUMMARY_FRAGMENT,
+                fragmentName: "GroupSummary",
+              },
+              (data) =>
+                produce(data, (draft) => {
+                  if (!draft || !coverPhoto) {
+                    return;
+                  }
+                  draft.coverPhoto = coverPhoto;
+                })
+            );
+          },
+        });
+        if (!data?.updateGroup) {
           throw new Error(t("groups.errors.couldNotUpdate"));
         }
-        const groupPagePath = getGroupPath(group.name);
+        const groupPagePath = getGroupPath(data.updateGroup.name);
         redirectTo(groupPagePath);
         return;
       }

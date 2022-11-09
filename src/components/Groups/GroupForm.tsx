@@ -1,3 +1,5 @@
+// TODO: Ensure that update group and create group have separate input types
+
 import {
   Card,
   CardContent as MuiCardContent,
@@ -6,18 +8,23 @@ import {
   styled,
 } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
+import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
+import { GROUPS_QUERY } from "../../client/groups/group.queries";
+import { uploadGroupCoverPhoto } from "../../client/groups/group.rest";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
+import { useUpdateGroupMutation } from "../../hooks/group.hooks";
 import {
+  Group,
+  GroupInput,
+  GroupsQuery,
+  Image,
   useCreateGroupMutation,
-  useUpdateGroupMutation,
-} from "../../hooks/group.hooks";
-import { Group } from "../../types/generated.types";
-import { GroupFormValues } from "../../types/group.types";
+} from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";
@@ -39,25 +46,29 @@ interface Props extends CardProps {
 const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
-  const createGroup = useCreateGroupMutation();
+  const [createGroup] = useCreateGroupMutation();
   const updateGroup = useUpdateGroupMutation();
 
   const t = useTranslate();
 
-  const initialValues = {
+  const initialValues: GroupInput = {
     name: editGroup ? editGroup.name : "",
     description: editGroup ? editGroup.description : "",
   };
 
   const handleSubmit = async (
-    formValues: GroupFormValues,
-    { resetForm, setSubmitting }: FormikHelpers<GroupFormValues>
+    formValues: GroupInput,
+    { resetForm, setSubmitting }: FormikHelpers<GroupInput>
   ) => {
     try {
-      const imageData = buildImageData(coverPhoto);
+      const coverPhotoData = buildImageData(coverPhoto);
 
       if (editGroup) {
-        const group = await updateGroup(editGroup.id, formValues, imageData);
+        const group = await updateGroup(
+          editGroup.id,
+          formValues,
+          coverPhotoData
+        );
         if (!group) {
           throw new Error(t("groups.errors.couldNotUpdate"));
         }
@@ -66,13 +77,41 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         return;
       }
 
-      await createGroup(formValues, imageData);
+      await createGroup({
+        variables: { groupData: formValues },
+        async update(cache, { data }) {
+          if (!data) {
+            return;
+          }
+          let coverPhoto: Image | undefined;
+          if (coverPhotoData) {
+            coverPhoto = await uploadGroupCoverPhoto(
+              data.createGroup.id,
+              coverPhotoData
+            );
+          }
+          cache.updateQuery<GroupsQuery>(
+            { query: GROUPS_QUERY },
+            (groupsData) =>
+              produce(groupsData, (draft) => {
+                draft?.groups.unshift({
+                  ...data.createGroup,
+                  ...(coverPhoto && { coverPhoto }),
+                });
+              })
+          );
+        },
+      });
+
       setImageInputKey(generateRandom());
       setCoverPhoto(undefined);
       setSubmitting(false);
       resetForm();
     } catch (err) {
-      toastVar({ status: "error", title: String(err) });
+      toastVar({
+        status: "error",
+        title: String(err),
+      });
     }
   };
 

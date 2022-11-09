@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import UserForm from "../../../components/Users/UserForm";
+import EditProfileForm from "../../../components/Users/EditProfileForm";
 import { useTranslate } from "../../../hooks/common.hooks";
 import { User, useUserQuery } from "../../../types/generated.types";
 
@@ -24,17 +24,16 @@ const EditUser: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!data?.user) {
     return null;
   }
 
   return (
     <Card>
       <CardContent>
-        <UserForm
+        <EditProfileForm
           editUser={data.user as User}
           submitButtonText={t("actions.save")}
-          isEditing
         />
       </CardContent>
     </Card>

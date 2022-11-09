@@ -1,14 +1,17 @@
 import { Reference } from "@apollo/client";
+import produce from "immer";
 import { useState } from "react";
-import { MEMBER_REQUEST_QUERY } from "../../client/groups/group.queries";
+import {
+  MEMBER_REQUESTS_QUERY,
+  MEMBER_REQUEST_QUERY,
+} from "../../client/groups/group.queries";
 import { TypeNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  useCancelMemberRequestMutation,
-  useCreateMemberRequestMutation,
-} from "../../hooks/member-request.hooks";
+import { useCancelMemberRequestMutation } from "../../hooks/member-request.hooks";
 import {
   MemberRequestQuery,
+  MemberRequestsQuery,
+  useCreateMemberRequestMutation,
   useLeaveGroupMutation,
   useMemberRequestQuery,
 } from "../../types/generated.types";
@@ -20,7 +23,8 @@ interface Props {
 
 const JoinButton = ({ groupId }: Props) => {
   const { data, loading } = useMemberRequestQuery({ variables: { groupId } });
-  const [createMemberRequest, createLoading] = useCreateMemberRequestMutation();
+  const [createMemberRequest, { loading: createLoading }] =
+    useCreateMemberRequestMutation();
   const [cancelMemberRequest, cancelLoading] = useCancelMemberRequestMutation();
   const [leaveGroup, { loading: leaveGroupLoading }] = useLeaveGroupMutation();
   const [isHovering, setIsHovering] = useState(false);
@@ -45,7 +49,36 @@ const JoinButton = ({ groupId }: Props) => {
 
   const handleButtonClick = async () => {
     if (!data?.memberRequest) {
-      return await createMemberRequest(groupId);
+      return await createMemberRequest({
+        variables: { groupId },
+        update(cache, { data }) {
+          if (!data?.createMemberRequest) {
+            return;
+          }
+          const { createMemberRequest } = data;
+          const variables = { groupId: createMemberRequest.group.id };
+          cache.writeQuery<MemberRequestQuery>({
+            query: MEMBER_REQUEST_QUERY,
+            data: { memberRequest: createMemberRequest },
+            variables,
+          });
+          cache.updateQuery<MemberRequestsQuery>(
+            { query: MEMBER_REQUESTS_QUERY, variables },
+            (memberRequestsData) =>
+              produce(memberRequestsData, (draft) => {
+                draft?.memberRequests.unshift(createMemberRequest);
+              })
+          );
+          cache.modify({
+            id: cache.identify(createMemberRequest.group),
+            fields: {
+              memberRequestCount(existingCount: number) {
+                return existingCount + 1;
+              },
+            },
+          });
+        },
+      });
     }
     const { memberRequest } = data;
     if (memberRequest.status === "pending") {

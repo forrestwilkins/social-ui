@@ -7,10 +7,10 @@ import {
 } from "../../client/groups/group.queries";
 import { TypeNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useCancelMemberRequestMutation } from "../../hooks/member-request.hooks";
 import {
   MemberRequestQuery,
   MemberRequestsQuery,
+  useCancelMemberRequestMutation,
   useCreateMemberRequestMutation,
   useLeaveGroupMutation,
   useMemberRequestQuery,
@@ -25,7 +25,8 @@ const JoinButton = ({ groupId }: Props) => {
   const { data, loading } = useMemberRequestQuery({ variables: { groupId } });
   const [createMemberRequest, { loading: createLoading }] =
     useCreateMemberRequestMutation();
-  const [cancelMemberRequest, cancelLoading] = useCancelMemberRequestMutation();
+  const [cancelMemberRequest, { loading: cancelLoading }] =
+    useCancelMemberRequestMutation();
   const [leaveGroup, { loading: leaveGroupLoading }] = useLeaveGroupMutation();
   const [isHovering, setIsHovering] = useState(false);
 
@@ -82,7 +83,45 @@ const JoinButton = ({ groupId }: Props) => {
     }
     const { memberRequest } = data;
     if (memberRequest.status === "pending") {
-      return await cancelMemberRequest(data?.memberRequest.id);
+      return await cancelMemberRequest({
+        variables: {
+          id: memberRequest.id,
+        },
+        update(cache, { data }) {
+          if (!data) {
+            return;
+          }
+          const variables = {
+            groupId: data.cancelMemberRequest.id,
+          };
+          cache.writeQuery<MemberRequestQuery>({
+            query: MEMBER_REQUEST_QUERY,
+            data: { memberRequest: null },
+            variables,
+          });
+          cache.updateQuery<MemberRequestsQuery>(
+            { query: MEMBER_REQUESTS_QUERY, variables },
+            (memberRequestsData) =>
+              produce(memberRequestsData, (draft) => {
+                if (!draft) {
+                  return;
+                }
+                const index = draft.memberRequests.findIndex(
+                  (p) => p.id === memberRequest.id
+                );
+                draft.memberRequests.splice(index, 1);
+              })
+          );
+          cache.modify({
+            id: cache.identify(data.cancelMemberRequest),
+            fields: {
+              memberRequestCount(existingCount: number) {
+                return existingCount - 1;
+              },
+            },
+          });
+        },
+      });
     }
     // TODO: Add confirmation dialog for leaving group
     if (memberRequest.status === "approved") {

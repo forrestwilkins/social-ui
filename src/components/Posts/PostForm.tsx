@@ -7,7 +7,13 @@ import {
   styled,
 } from "@mui/material";
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import produce from "immer";
 import { useState } from "react";
+import { GROUP_PROFILE_FRAGMENT } from "../../client/groups/group.fragments";
+import { POST_SUMMARY_FRAGMENT } from "../../client/posts/post.fragments";
+import { POSTS_QUERY } from "../../client/posts/post.queries";
+import { uploadPostImages } from "../../client/posts/post.rest";
+import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
 import {
   FieldNames,
   NavigationPaths,
@@ -15,11 +21,17 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
+  GroupProfileFragment,
+  Image,
+  Post,
+  PostInput,
+  PostsQuery,
   useCreatePostMutation,
+  useDeleteImageMutation,
+  UserProfileFragment,
+  PostSummaryFragment,
   useUpdatePostMutation,
-} from "../../hooks/post.hooks";
-import { Post, useDeleteImageMutation } from "../../types/generated.types";
-import { PostsFormValues } from "../../types/post.types";
+} from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImages from "../Images/AttachedImages";
@@ -45,28 +57,90 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
 
   const [deleteImage] = useDeleteImageMutation();
-  const createPost = useCreatePostMutation();
-  const updatePost = useUpdatePostMutation();
+  const [createPost] = useCreatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
 
   const t = useTranslate();
 
-  const initialValues: PostsFormValues = {
+  const initialValues: PostInput = {
     body: editPost ? editPost.body : "",
     groupId,
   };
 
   const handleSubmit = async (
-    formValues: PostsFormValues,
-    { resetForm, setSubmitting }: FormikHelpers<PostsFormValues>
+    formValues: PostInput,
+    { resetForm, setSubmitting }: FormikHelpers<PostInput>
   ) => {
     const imageData = buildImageData(selectedImages);
 
     if (editPost) {
-      await updatePost(editPost.id, formValues, imageData);
+      await updatePost({
+        variables: { id: editPost.id, postData: formValues },
+        async update(cache) {
+          if (!imageData) {
+            return;
+          }
+          const images = await uploadPostImages(editPost.id, imageData);
+          cache.updateFragment<PostSummaryFragment>(
+            {
+              id: cache.identify(editPost),
+              fragment: POST_SUMMARY_FRAGMENT,
+              fragmentName: "PostSummary",
+            },
+            (data) =>
+              produce(data, (draft) => {
+                draft?.images.push(...images);
+              })
+          );
+        },
+      });
       redirectTo(NavigationPaths.Home);
       return;
     }
-    await createPost(formValues, imageData);
+
+    await createPost({
+      variables: { postData: formValues },
+      async update(cache, { data }) {
+        if (!data?.createPost) {
+          return;
+        }
+        let images: Image[] = [];
+        if (imageData) {
+          images = await uploadPostImages(data.createPost.id, imageData);
+        }
+        const postWithImages = { ...data.createPost, images } as Post;
+        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
+          produce(postsData, (draft) => {
+            draft?.posts.unshift(postWithImages);
+          })
+        );
+        cache.updateFragment<UserProfileFragment>(
+          {
+            id: cache.identify(data.createPost.user),
+            fragment: USER_PROFILE_FRAGMENT,
+            fragmentName: "UserProfile",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              draft?.posts.unshift(postWithImages);
+            })
+        );
+        if (!data.createPost.group) {
+          return;
+        }
+        cache.updateFragment<GroupProfileFragment>(
+          {
+            id: cache.identify(data.createPost.group),
+            fragment: GROUP_PROFILE_FRAGMENT,
+            fragmentName: "GroupProfile",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              draft?.posts.unshift(postWithImages);
+            })
+        );
+      },
+    });
 
     setImagesInputKey(generateRandom());
     setSelctedImages([]);

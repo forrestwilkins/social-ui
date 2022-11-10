@@ -19,8 +19,12 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useDeletePostMutation } from "../../hooks/post.hooks";
-import { Post, useMeQuery } from "../../types/generated.types";
+import { removePost } from "../../pages/posts/[id]/edit";
+import {
+  Post,
+  useDeletePostMutation,
+  useMeQuery,
+} from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -58,7 +62,7 @@ const PostCard = ({
   ...cardProps
 }: Props) => {
   const { data } = useMeQuery();
-  const deletePost = useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -85,7 +89,10 @@ const PostCard = ({
   };
 
   const handleDelete = async (id: number) => {
-    await deletePost(id, user.id, group?.id);
+    await deletePost({
+      variables: { id },
+      update: removePost(id, user.id, group?.id),
+    });
     if (isPostPage) {
       redirectTo(NavigationPaths.Home);
     }

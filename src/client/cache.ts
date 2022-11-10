@@ -1,3 +1,5 @@
+// TODO: Consider breaking up by entity type into respective src/client sub-folders
+
 import { InMemoryCache, makeVar } from "@apollo/client";
 import { Breadcrumb, ToastNotification } from "../types/common.types";
 

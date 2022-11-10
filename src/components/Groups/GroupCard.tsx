@@ -1,4 +1,4 @@
-import { ApolloCache, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -8,20 +8,15 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import produce from "immer";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
-import { GROUPS_QUERY } from "../../client/groups/group.queries";
+import { removeGroup } from "../../client/groups/group.cache";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  Group,
-  GroupsQuery,
-  useDeleteGroupMutation,
-} from "../../types/generated.types";
+import { Group, useDeleteGroupMutation } from "../../types/generated.types";
 import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -31,18 +26,6 @@ import JoinButton from "./JoinButton";
 const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
 }));
-
-export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
-  cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
-    produce(groupsData, (draft) => {
-      if (!draft) {
-        return;
-      }
-      const index = draft.groups.findIndex((p) => p.id === id);
-      draft.groups.splice(index, 1);
-    })
-  );
-};
 
 interface Props extends CardProps {
   group: Group;

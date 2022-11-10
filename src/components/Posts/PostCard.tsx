@@ -13,13 +13,13 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
+import { removePost } from "../../client/posts/post.cache";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { removePost } from "../../pages/posts/[id]/edit";
 import {
   Post,
   useDeletePostMutation,

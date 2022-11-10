@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
+import { removeGroup } from "../../client/groups/group.cache";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
@@ -24,7 +25,6 @@ import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
-import { removeGroup } from "./GroupCard";
 import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({

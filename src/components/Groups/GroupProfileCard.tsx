@@ -19,12 +19,12 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useDeleteGroupMutation } from "../../hooks/group.hooks";
-import { Group } from "../../types/generated.types";
+import { Group, useDeleteGroupMutation } from "../../types/generated.types";
 import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import { removeGroup } from "./GroupCard";
 import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({
@@ -51,7 +51,7 @@ const GroupProfileCard = ({
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const deleteGroup = useDeleteGroupMutation();
+  const [deleteGroup] = useDeleteGroupMutation();
   const t = useTranslate();
 
   const memberRequestsPath = getMemberRequestsPath(name);
@@ -64,7 +64,11 @@ const GroupProfileCard = ({
     marginRight: "0.2ch",
   };
 
-  const handleDelete = async (id: number) => await deleteGroup(id);
+  const handleDelete = async (id: number) =>
+    await deleteGroup({
+      variables: { id },
+      update: removeGroup(id),
+    });
 
   return (
     <Card {...cardProps}>

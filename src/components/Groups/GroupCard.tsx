@@ -1,4 +1,4 @@
-import { useReactiveVar } from "@apollo/client";
+import { ApolloCache, useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -8,15 +8,20 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import produce from "immer";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
+import { GROUPS_QUERY } from "../../client/groups/group.queries";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useDeleteGroupMutation } from "../../hooks/group.hooks";
-import { Group } from "../../types/generated.types";
+import {
+  Group,
+  GroupsQuery,
+  useDeleteGroupMutation,
+} from "../../types/generated.types";
 import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -27,6 +32,18 @@ const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
 }));
 
+export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
+  cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
+    produce(groupsData, (draft) => {
+      if (!draft) {
+        return;
+      }
+      const index = draft.groups.findIndex((p) => p.id === id);
+      draft.groups.splice(index, 1);
+    })
+  );
+};
+
 interface Props extends CardProps {
   group: Group;
 }
@@ -35,7 +52,7 @@ interface Props extends CardProps {
 const GroupCard = ({ group, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const deleteGroup = useDeleteGroupMutation();
+  const [deleteGroup] = useDeleteGroupMutation();
 
   const t = useTranslate();
 
@@ -43,7 +60,11 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
   const groupPath = getGroupPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
 
-  const handleDelete = async (id: number) => await deleteGroup(id);
+  const handleDelete = async (id: number) =>
+    await deleteGroup({
+      variables: { id },
+      update: removeGroup(id),
+    });
 
   return (
     <Card {...cardProps}>

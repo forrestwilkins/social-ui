@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { IMAGE_SUMMARY_FRAGMENT } from "../../images/image.fragments";
+import IMAGE_SUMMARY_FRAGMENT from "../../images/fragments/image-summary.fragment";
 import { USER_AVATAR_FRAGMENT } from "../../users/user.fragments";
 
 const MEMBER_REQUESTS_QUERY = gql`

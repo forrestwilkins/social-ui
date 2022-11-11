@@ -50,6 +50,15 @@ const cache = new InMemoryCache({
         },
       },
     },
+    Post: {
+      fields: {
+        images: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
     Group: {
       fields: {
         posts: {

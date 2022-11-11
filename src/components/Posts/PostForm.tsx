@@ -13,7 +13,7 @@ import GROUP_PROFILE_FRAGMENT from "../../client/groups/fragments/group-profile.
 import POST_SUMMARY_FRAGMENT from "../../client/posts/fragments/post-summary.fragment";
 import { uploadPostImages } from "../../client/posts/mutations/create-post.mutation";
 import POSTS_QUERY from "../../client/posts/queries/posts.query";
-import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
+import USER_PROFILE_FRAGMENT from "../../client/users/fragments/user-profile.fragment";
 import {
   FieldNames,
   NavigationPaths,

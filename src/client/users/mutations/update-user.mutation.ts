@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
 import { Image } from "../../../types/generated.types";
 import { multiPartRequest } from "../../../utils/common.utils";
-import { USER_MUTATION_SUMMARY_FRAGMENT } from "../user.fragments";
+import USER_MUTATION_SUMMARY_FRAGMENT from "../fragments/user-mutation-summary.fragments";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser($userData: UpdateUserInput!) {

@@ -7,7 +7,7 @@ import {
   UserProfileFragment,
 } from "../../../types/generated.types";
 import GROUP_PROFILE_FRAGMENT from "../../groups/fragments/group-profile.fragment";
-import { USER_PROFILE_FRAGMENT } from "../../users/user.fragments";
+import USER_PROFILE_FRAGMENT from "../../users/fragments/user-profile.fragment";
 import POSTS_QUERY from "../queries/posts.query";
 
 const DELETE_POST_MUTATION = gql`

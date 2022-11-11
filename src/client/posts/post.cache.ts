@@ -6,7 +6,7 @@ import {
   PostsQuery,
   UserProfileFragment,
 } from "../../types/generated.types";
-import { GROUP_PROFILE_FRAGMENT } from "../groups/group.fragments";
+import GROUP_PROFILE_FRAGMENT from "../groups/fragments/group-profile.fragment";
 import { USER_PROFILE_FRAGMENT } from "../users/user.fragments";
 import { POSTS_QUERY } from "./post.queries";
 

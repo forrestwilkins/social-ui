@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
 import { Image } from "../../../types/generated.types";
 import { multiPartRequest } from "../../../utils/common.utils";
-import { POST_MUTATION_SUMMARY_FRAGMENT } from "../post.fragments";
+import POST_MUTATION_SUMMARY_FRAGMENT from "../fragments/post-mutation-summary.fragment";
 
 const CREATE_POST_MUTATION = gql`
   mutation CreatePost($postData: PostInput!) {

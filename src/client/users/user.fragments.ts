@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import IMAGE_SUMMARY_FRAGMENT from "../images/fragments/image-summary.fragment";
-import { POST_SUMMARY_FRAGMENT } from "../posts/post.fragments";
+import POST_SUMMARY_FRAGMENT from "../posts/fragments/post-summary.fragment";
 
 export const USER_SUMMARY_FRAGMENT = gql`
   fragment UserSummary on User {

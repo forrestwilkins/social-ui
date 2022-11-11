@@ -12,7 +12,7 @@ import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
 import GROUP_SUMMARY_FRAGMENT from "../../client/groups/fragments/group-summary.fragment";
-import { uploadGroupCoverPhoto } from "../../client/groups/group.rest";
+import { uploadGroupCoverPhoto } from "../../client/groups/mutations/create-group.mutation";
 import GROUPS_QUERY from "../../client/groups/queries/groups.query";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";

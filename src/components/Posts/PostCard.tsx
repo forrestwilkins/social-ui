@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
-import { removePost } from "../../client/posts/post.cache";
+import { removePost } from "../../client/posts/mutations/delete-post.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

@@ -10,8 +10,8 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import GROUP_PROFILE_FRAGMENT from "../../client/groups/fragments/group-profile.fragment";
+import { uploadPostImages } from "../../client/posts/mutations/create-post.mutation";
 import { POST_SUMMARY_FRAGMENT } from "../../client/posts/post.fragments";
-import { uploadPostImages } from "../../client/posts/post.rest";
 import POSTS_QUERY from "../../client/posts/queries/posts.query";
 import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
 import {

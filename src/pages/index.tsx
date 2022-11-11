@@ -1,6 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
-import { isLoggedInVar } from "../client/cache";
+import { isLoggedInVar } from "../apollo/cache";
 import PostForm from "../components/Posts/PostForm";
 import PostList from "../components/Posts/PostList";
 import ProgressBar from "../components/Shared/ProgressBar";

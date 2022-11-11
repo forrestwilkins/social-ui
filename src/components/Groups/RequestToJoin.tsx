@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import produce from "immer";
-import GROUP_QUERY from "../../client/groups/queries/group.query";
-import MEMBER_REQUESTS_QUERY from "../../client/groups/queries/member-requests.query";
+import GROUP_QUERY from "../../apollo/groups/queries/group.query";
+import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/member-requests.query";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
   GroupQuery,

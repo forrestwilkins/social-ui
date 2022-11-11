@@ -1,7 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
-import { isLoggedInVar } from "../../client/cache";
+import { isLoggedInVar } from "../../apollo/cache";
 import GroupCard from "../../components/Groups/GroupCard";
 import GroupForm from "../../components/Groups/GroupForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";

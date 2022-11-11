@@ -8,7 +8,7 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { breadcrumbsVar } from "../../../client/cache";
+import { breadcrumbsVar } from "../../../apollo/cache";
 import RequestToJoin from "../../../components/Groups/RequestToJoin";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";

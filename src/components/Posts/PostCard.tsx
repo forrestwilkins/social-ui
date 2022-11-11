@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
-import { removePost } from "../../client/posts/mutations/delete-post.mutation";
+import { isLoggedInVar } from "../../apollo/cache";
+import { removePost } from "../../apollo/posts/mutations/delete-post.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

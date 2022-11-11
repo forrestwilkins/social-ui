@@ -4,7 +4,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { breadcrumbsVar } from "../../client/cache";
+import { breadcrumbsVar } from "../../apollo/cache";
 import Link from "./Link";
 
 const Breadcrumbs = () => {

@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
-import { removeGroup } from "../../client/groups/mutations/delete-group.mutation";
+import { isLoggedInVar } from "../../apollo/cache";
+import { removeGroup } from "../../apollo/groups/mutations/delete-group.mutation";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,

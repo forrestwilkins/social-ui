@@ -1,6 +1,6 @@
 import { ApolloClient, createHttpLink, from } from "@apollo/client";
 import { API_ROOT, Environments } from "../constants/common.constants";
-import refreshTokenLink from "./auth/links/refreshTokenLink";
+import refreshTokenLink from "./auth/links/refresh-token.link";
 import cache from "./cache";
 
 const httpLink = createHttpLink({

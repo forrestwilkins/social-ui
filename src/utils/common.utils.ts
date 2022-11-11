@@ -5,7 +5,7 @@ import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../client/auth/links/refreshTokenLink";
+import { refreshToken } from "../client/auth/links/refresh-token.link";
 import { isRefreshingTokenVar, toastVar } from "../client/cache";
 import {
   API_ROOT,

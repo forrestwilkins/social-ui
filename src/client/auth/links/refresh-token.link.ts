@@ -4,7 +4,7 @@ import client from "../..";
 import { MutationNames } from "../../../constants/common.constants";
 import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
-import { REFRESH_TOKEN_MUTATION } from "../auth.mutations";
+import REFRESH_TOKEN_MUTATION from "../mutations/refresh-token.mutation";
 
 type Callback = (arg: unknown) => void;
 

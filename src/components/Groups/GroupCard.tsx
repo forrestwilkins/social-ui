@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../client/cache";
-import { removeGroup } from "../../client/groups/group.cache";
+import { removeGroup } from "../../client/groups/mutations/delete-group.mutation";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,

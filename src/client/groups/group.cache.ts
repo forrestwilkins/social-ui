@@ -1,7 +1,7 @@
 import { ApolloCache } from "@apollo/client";
 import produce from "immer";
 import { GroupsQuery } from "../../types/generated.types";
-import { GROUPS_QUERY } from "./group.queries";
+import GROUPS_QUERY from "./queries/groups.query";
 
 export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
   cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>

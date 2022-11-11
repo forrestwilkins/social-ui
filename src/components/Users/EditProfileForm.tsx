@@ -3,11 +3,11 @@ import { Form, Formik } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../client/cache";
-import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
 import {
   uploadProfilePicture,
   uploadUserCoverPhoto,
-} from "../../client/users/user.rest";
+} from "../../client/users/mutations/update-user.mutation";
+import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {

@@ -18,7 +18,7 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/user.queries";
+import ME_QUERY from "../../client/users/queries/me.query";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {

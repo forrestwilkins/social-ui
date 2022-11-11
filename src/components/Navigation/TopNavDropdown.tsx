@@ -5,7 +5,7 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/user.queries";
+import ME_QUERY from "../../client/users/queries/me.query";
 import {
   NavigationPaths,
   ResourceNames,

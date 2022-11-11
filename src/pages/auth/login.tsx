@@ -9,7 +9,7 @@ import {
   isNavDrawerOpenVar,
   toastVar,
 } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/user.queries";
+import ME_QUERY from "../../client/users/queries/me.query";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";

@@ -20,7 +20,10 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Group, useDeleteGroupMutation } from "../../types/generated.types";
+import {
+  GroupProfileFragment,
+  useDeleteGroupMutation,
+} from "../../types/generated.types";
 import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
@@ -42,7 +45,7 @@ const CardHeader = styled(MuiCardHeader)(() => ({
 }));
 
 interface Props extends CardProps {
-  group: Group;
+  group: GroupProfileFragment;
 }
 
 const GroupProfileCard = ({

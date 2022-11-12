@@ -107,7 +107,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         if (imageData) {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
-        const postWithImages = { ...data.createPost, images } as Post;
+        const postWithImages = { ...data.createPost, images };
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
           produce(postsData, (draft) => {
             draft?.posts.unshift(postWithImages);

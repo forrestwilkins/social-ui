@@ -12,7 +12,6 @@ import { useState } from "react";
 import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/post-card.fragment";
 import { uploadPostImages } from "../../apollo/posts/mutations/create-post.mutation";
 import POSTS_QUERY from "../../apollo/posts/queries/posts.query";
-import USER_PROFILE_FRAGMENT from "../../apollo/users/fragments/user-profile.fragment";
 import {
   FieldNames,
   NavigationPaths,
@@ -27,7 +26,6 @@ import {
   PostsQuery,
   useCreatePostMutation,
   useDeleteImageMutation,
-  UserProfileFragment,
   useUpdatePostMutation,
 } from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
@@ -111,17 +109,14 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
             draft?.posts.unshift(postWithImages);
           })
         );
-        cache.updateFragment<UserProfileFragment>(
-          {
-            id: cache.identify(data.createPost.user),
-            fragment: USER_PROFILE_FRAGMENT,
-            fragmentName: "UserProfile",
+        cache.modify({
+          id: cache.identify(data.createPost.user),
+          fields: {
+            posts(existingPostRefs, { toReference }) {
+              return [toReference(postWithImages), ...existingPostRefs];
+            },
           },
-          (data) =>
-            produce(data, (draft) => {
-              draft?.posts.unshift(postWithImages);
-            })
-        );
+        });
         if (!data.createPost.group) {
           return;
         }
@@ -129,7 +124,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           id: cache.identify(data.createPost.group),
           fields: {
             posts(existingPostRefs, { toReference }) {
-              return [...existingPostRefs, toReference(postWithImages)];
+              return [toReference(postWithImages), ...existingPostRefs];
             },
           },
         });

@@ -1,10 +1,8 @@
 import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
-import client from "../..";
 import { MutationNames } from "../../../constants/common.constants";
-import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
-import REFRESH_TOKEN_MUTATION from "../mutations/refresh-token.mutation";
+import { refreshToken } from "../mutations/refresh-token.mutation";
 
 type Callback = (arg: unknown) => void;
 
@@ -81,17 +79,5 @@ const refreshTokenLink = onError(
       }
     })
 );
-
-export const refreshToken = async () => {
-  try {
-    isRefreshingTokenVar(true);
-    await client.mutate({ mutation: REFRESH_TOKEN_MUTATION });
-  } catch (err) {
-    await logOutUser();
-    throw err;
-  } finally {
-    isRefreshingTokenVar(false);
-  }
-};
 
 export default refreshTokenLink;

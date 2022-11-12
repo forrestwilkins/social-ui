@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import IMAGE_SUMMARY_FRAGMENT from "../../images/fragments/image-summary.fragment";
 
 const GROUP_SUMMARY_FRAGMENT = gql`
   fragment GroupSummary on Group {
@@ -7,12 +6,12 @@ const GROUP_SUMMARY_FRAGMENT = gql`
     name
     description
     coverPhoto {
-      ...ImageSummary
+      filename
+      id
     }
     memberCount
     memberRequestCount
   }
-  ${IMAGE_SUMMARY_FRAGMENT}
 `;
 
 export default GROUP_SUMMARY_FRAGMENT;

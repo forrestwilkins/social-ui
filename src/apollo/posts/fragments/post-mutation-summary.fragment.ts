@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import IMAGE_SUMMARY_FRAGMENT from "../../images/fragments/image-summary.fragment";
 
 const POST_MUTATION_SUMMARY_FRAGMENT = gql`
   fragment PostMutationSummary on Post {
@@ -9,20 +8,21 @@ const POST_MUTATION_SUMMARY_FRAGMENT = gql`
       id
       name
       profilePicture {
-        ...ImageSummary
+        filename
+        id
       }
     }
     group {
       id
       name
       coverPhoto {
-        ...ImageSummary
+        filename
+        id
       }
     }
     createdAt
     updatedAt
   }
-  ${IMAGE_SUMMARY_FRAGMENT}
 `;
 
 export default POST_MUTATION_SUMMARY_FRAGMENT;

@@ -557,12 +557,6 @@ export type MemberRequestsQuery = {
   }>;
 };
 
-export type ImageSummaryFragment = {
-  __typename?: "Image";
-  filename: string;
-  id: number;
-};
-
 export type DeleteImageMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -752,13 +746,6 @@ export type UserAvatarFragment = {
   id: number;
   name: string;
   profilePicture: { __typename?: "Image"; filename: string; id: number };
-};
-
-export type UserMutationSummaryFragment = {
-  __typename?: "User";
-  id: number;
-  name: string;
-  bio?: string | null;
 };
 
 export type UserProfileLiteFragment = {
@@ -962,12 +949,6 @@ export const GroupProfileFragmentDoc = gql`
   ${PostSummaryFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-export const ImageSummaryFragmentDoc = gql`
-  fragment ImageSummary on Image {
-    filename
-    id
-  }
-`;
 export const PostMutationSummaryFragmentDoc = gql`
   fragment PostMutationSummary on Post {
     id
@@ -990,13 +971,6 @@ export const PostMutationSummaryFragmentDoc = gql`
     }
     createdAt
     updatedAt
-  }
-`;
-export const UserMutationSummaryFragmentDoc = gql`
-  fragment UserMutationSummary on User {
-    id
-    name
-    bio
   }
 `;
 export const UserSummaryFragmentDoc = gql`
@@ -2154,10 +2128,11 @@ export type PostsQueryResult = Apollo.QueryResult<
 export const UpdateUserDocument = gql`
   mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
-      ...UserMutationSummary
+      id
+      name
+      bio
     }
   }
-  ${UserMutationSummaryFragmentDoc}
 `;
 export type UpdateUserMutationFn = Apollo.MutationFunction<
   UpdateUserMutation,

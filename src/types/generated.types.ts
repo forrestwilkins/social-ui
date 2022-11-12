@@ -322,6 +322,7 @@ export type GroupProfileFragment = {
   description: string;
   memberCount: number;
   memberRequestCount: number;
+  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   posts: Array<{
     __typename?: "Post";
     id: number;
@@ -355,17 +356,6 @@ export type GroupProfileFragment = {
       profilePicture: { __typename?: "Image"; filename: string; id: number };
     };
   }>;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-};
-
-export type GroupSummaryFragment = {
-  __typename?: "Group";
-  id: number;
-  name: string;
-  description: string;
-  memberCount: number;
-  memberRequestCount: number;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
 export type ApproveMemberRequestMutationVariables = Exact<{
@@ -478,6 +468,7 @@ export type GroupQuery = {
     description: string;
     memberCount: number;
     memberRequestCount: number;
+    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
     posts: Array<{
       __typename?: "Post";
       id: number;
@@ -511,7 +502,6 @@ export type GroupQuery = {
         profilePicture: { __typename?: "Image"; filename: string; id: number };
       };
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -860,19 +850,6 @@ export const GroupAvatarFragmentDoc = gql`
     }
   }
 `;
-export const GroupSummaryFragmentDoc = gql`
-  fragment GroupSummary on Group {
-    id
-    name
-    description
-    coverPhoto {
-      filename
-      id
-    }
-    memberCount
-    memberRequestCount
-  }
-`;
 export const PostCardFragmentDoc = gql`
   fragment PostCard on Post {
     id
@@ -912,7 +889,15 @@ export const UserAvatarFragmentDoc = gql`
 `;
 export const GroupProfileFragmentDoc = gql`
   fragment GroupProfile on Group {
-    ...GroupSummary
+    id
+    name
+    description
+    coverPhoto {
+      filename
+      id
+    }
+    memberCount
+    memberRequestCount
     posts {
       ...PostCard
     }
@@ -923,7 +908,6 @@ export const GroupProfileFragmentDoc = gql`
       }
     }
   }
-  ${GroupSummaryFragmentDoc}
   ${PostCardFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
@@ -1318,10 +1302,17 @@ export type CancelMemberRequestMutationOptions = Apollo.BaseMutationOptions<
 export const CreateGroupDocument = gql`
   mutation CreateGroup($groupData: GroupInput!) {
     createGroup(groupData: $groupData) {
-      ...GroupSummary
+      id
+      name
+      description
+      coverPhoto {
+        filename
+        id
+      }
+      memberCount
+      memberRequestCount
     }
   }
-  ${GroupSummaryFragmentDoc}
 `;
 export type CreateGroupMutationFn = Apollo.MutationFunction<
   CreateGroupMutation,
@@ -1624,10 +1615,17 @@ export type GroupQueryResult = Apollo.QueryResult<
 export const GroupsDocument = gql`
   query Groups {
     groups {
-      ...GroupSummary
+      id
+      name
+      description
+      coverPhoto {
+        filename
+        id
+      }
+      memberCount
+      memberRequestCount
     }
   }
-  ${GroupSummaryFragmentDoc}
 `;
 
 /**

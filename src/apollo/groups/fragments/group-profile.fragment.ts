@@ -1,11 +1,18 @@
 import { gql } from "@apollo/client";
 import POST_CARD_FRAGMENT from "../../posts/fragments/post-card.fragment";
 import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
-import GROUP_SUMMARY_FRAGMENT from "./group-summary.fragment";
 
 export const GROUP_PROFILE_FRAGMENT = gql`
   fragment GroupProfile on Group {
-    ...GroupSummary
+    id
+    name
+    description
+    coverPhoto {
+      filename
+      id
+    }
+    memberCount
+    memberRequestCount
     posts {
       ...PostCard
     }
@@ -16,7 +23,6 @@ export const GROUP_PROFILE_FRAGMENT = gql`
       }
     }
   }
-  ${GROUP_SUMMARY_FRAGMENT}
   ${POST_CARD_FRAGMENT}
   ${USER_AVATAR_FRAGMENT}
 `;

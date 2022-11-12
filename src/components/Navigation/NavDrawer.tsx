@@ -21,11 +21,7 @@ import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
 import ME_QUERY from "../../apollo/users/queries/me.query";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  useLogOutMutation,
-  useMeQuery,
-  User,
-} from "../../types/generated.types";
+import { useLogOutMutation, useMeQuery } from "../../types/generated.types";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -87,7 +83,7 @@ const NavDrawer = () => {
         <>
           <ListItemButton onClick={redirectTo(userProfilePath)}>
             <ListItemIcon>
-              <UserAvatar user={me as User} sx={USER_AVATAR_STYLES} />
+              <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
             </ListItemIcon>
             <ListItemText primary={me.name} />
           </ListItemButton>

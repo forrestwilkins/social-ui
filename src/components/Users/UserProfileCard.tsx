@@ -18,7 +18,7 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery, User } from "../../types/generated.types";
+import { useMeQuery, UserProfileFragment } from "../../types/generated.types";
 import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -48,7 +48,7 @@ const JOIN_DATE_ICON_STYLES: SxProps = {
 };
 
 interface Props extends CardProps {
-  user: User;
+  user: UserProfileFragment;
 }
 
 const UserProfileCard = ({ user, ...cardProps }: Props) => {

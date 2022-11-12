@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import EditProfileForm from "../../../components/Users/EditProfileForm";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { User, useUserQuery } from "../../../types/generated.types";
+import { useUserQuery } from "../../../types/generated.types";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();
@@ -32,7 +32,7 @@ const EditUser: NextPage = () => {
     <Card>
       <CardContent>
         <EditProfileForm
-          editUser={data.user as User}
+          editUser={data.user}
           submitButtonText={t("actions.save")}
         />
       </CardContent>

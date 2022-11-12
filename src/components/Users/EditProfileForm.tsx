@@ -13,7 +13,6 @@ import { useTranslate } from "../../hooks/common.hooks";
 import {
   Image,
   UpdateUserInput,
-  User,
   UserProfileFragment,
   useUpdateUserMutation,
 } from "../../types/generated.types";
@@ -30,11 +29,7 @@ import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
 
 interface Props {
-  /**
-   * TODO: This is a good example of a place that makes sense for a
-   * fragment and using it's generated type here instead of User
-   */
-  editUser: User;
+  editUser: UserProfileFragment;
   submitButtonText: string;
 }
 

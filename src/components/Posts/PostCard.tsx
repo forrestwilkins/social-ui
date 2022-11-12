@@ -21,7 +21,6 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  Group,
   PostCardFragment,
   useDeletePostMutation,
   useMeQuery,
@@ -101,8 +100,7 @@ const PostCard = ({
 
   const renderAvatar = () => {
     if (group && !isGroupPage) {
-      // TODO: Refactor to remove need for type assertion
-      return <GroupItemAvatar user={user} group={group as Group} />;
+      return <GroupItemAvatar user={user} group={group} />;
     }
     return <UserAvatar user={user} withLink />;
   };

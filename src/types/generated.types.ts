@@ -308,6 +308,13 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
+export type GroupAvatarFragment = {
+  __typename?: "Group";
+  id: number;
+  name: string;
+  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+};
+
 export type GroupProfileFragment = {
   __typename?: "Group";
   id: number;
@@ -555,6 +562,12 @@ export type MemberRequestsQuery = {
   }>;
 };
 
+export type AttachedImageFragment = {
+  __typename?: "Image";
+  id: number;
+  filename: string;
+};
+
 export type DeleteImageMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -562,12 +575,6 @@ export type DeleteImageMutationVariables = Exact<{
 export type DeleteImageMutation = {
   __typename?: "Mutation";
   deleteImage: boolean;
-};
-
-export type AttachedImageFragment = {
-  __typename?: "Image";
-  id: number;
-  filename: string;
 };
 
 export type PostCardFragment = {
@@ -843,6 +850,16 @@ export type UsersQuery = {
   }>;
 };
 
+export const GroupAvatarFragmentDoc = gql`
+  fragment GroupAvatar on Group {
+    id
+    name
+    coverPhoto {
+      filename
+      id
+    }
+  }
+`;
 export const GroupSummaryFragmentDoc = gql`
   fragment GroupSummary on Group {
     id

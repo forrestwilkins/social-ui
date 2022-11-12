@@ -11,7 +11,6 @@ import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
-import GROUP_SUMMARY_FRAGMENT from "../../apollo/groups/fragments/group-summary.fragment";
 import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/create-group.mutation";
 import GROUPS_QUERY from "../../apollo/groups/queries/groups.query";
 import Flex from "../../components/Shared/Flex";
@@ -22,7 +21,6 @@ import {
   Group,
   GroupInput,
   GroupsQuery,
-  GroupSummaryFragment,
   Image,
   useCreateGroupMutation,
   useUpdateGroupMutation,
@@ -81,19 +79,10 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                 coverPhotoData
               );
             }
-            cache.updateFragment<GroupSummaryFragment>(
-              {
-                id: cache.identify(editGroup),
-                fragment: GROUP_SUMMARY_FRAGMENT,
-              },
-              (data) =>
-                produce(data, (draft) => {
-                  if (!draft || !coverPhoto) {
-                    return;
-                  }
-                  draft.coverPhoto = coverPhoto;
-                })
-            );
+            cache.modify({
+              id: cache.identify(editGroup),
+              fields: { coverPhoto: () => coverPhoto },
+            });
           },
         });
         if (!data?.updateGroup) {

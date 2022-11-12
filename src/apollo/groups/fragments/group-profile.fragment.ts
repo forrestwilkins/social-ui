@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import POST_CARD_FRAGMENT from "../../posts/fragments/post-summary.fragment";
+import POST_CARD_FRAGMENT from "../../posts/fragments/post-card.fragment";
 import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
 import GROUP_SUMMARY_FRAGMENT from "./group-summary.fragment";
 

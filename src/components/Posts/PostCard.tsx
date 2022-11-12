@@ -25,7 +25,6 @@ import {
   PostCardFragment,
   useDeletePostMutation,
   useMeQuery,
-  User,
 } from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
@@ -103,7 +102,7 @@ const PostCard = ({
   const renderAvatar = () => {
     if (group && !isGroupPage) {
       // TODO: Refactor to remove need for type assertion
-      return <GroupItemAvatar user={user as User} group={group as Group} />;
+      return <GroupItemAvatar user={user} group={group as Group} />;
     }
     return <UserAvatar user={user} withLink />;
   };

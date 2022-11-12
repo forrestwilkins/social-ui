@@ -5,7 +5,7 @@ import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Post, User, useUserQuery } from "../../types/generated.types";
+import { User, useUserQuery } from "../../types/generated.types";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
@@ -34,7 +34,7 @@ const UserProfile: NextPage = () => {
   return (
     <>
       <UserProfileCard user={user as User} />
-      {user.posts && <PostList posts={user.posts as Post[]} />}
+      {user.posts && <PostList posts={user.posts} />}
     </>
   );
 };

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PostCard from "../../components/Posts/PostCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Post, usePostQuery } from "../../types/generated.types";
+import { usePostQuery } from "../../types/generated.types";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
@@ -28,7 +28,7 @@ const EditPostPage: NextPage = () => {
     return null;
   }
 
-  return <PostCard post={data.post as Post} />;
+  return <PostCard post={data.post} />;
 };
 
 export default EditPostPage;

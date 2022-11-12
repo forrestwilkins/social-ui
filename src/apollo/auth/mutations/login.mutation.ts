@@ -1,11 +1,13 @@
 import { gql } from "@apollo/client";
-import USER_SUMMARY_FRAGMENT from "../../users/fragments/user-summary.fragment";
 
 const LOGIN_MUTATION = gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
       user {
-        ...UserSummary
+        id
+        bio
+        name
+        createdAt
         profilePicture {
           filename
           id
@@ -13,7 +15,6 @@ const LOGIN_MUTATION = gql`
       }
     }
   }
-  ${USER_SUMMARY_FRAGMENT}
 `;
 
 export default LOGIN_MUTATION;

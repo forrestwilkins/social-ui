@@ -728,15 +728,6 @@ export type UserAvatarFragment = {
   profilePicture: { __typename?: "Image"; filename: string; id: number };
 };
 
-export type UserProfileLiteFragment = {
-  __typename?: "User";
-  id: number;
-  bio?: string | null;
-  name: string;
-  createdAt: any;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
-};
-
 export type UserProfileFragment = {
   __typename?: "User";
   id: number;
@@ -769,14 +760,6 @@ export type UserProfileFragment = {
       } | null;
     } | null;
   }>;
-};
-
-export type UserSummaryFragment = {
-  __typename?: "User";
-  id: number;
-  bio?: string | null;
-  name: string;
-  createdAt: any;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -929,27 +912,12 @@ export const GroupProfileFragmentDoc = gql`
   ${PostSummaryFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-export const UserSummaryFragmentDoc = gql`
-  fragment UserSummary on User {
+export const UserProfileFragmentDoc = gql`
+  fragment UserProfile on User {
     id
     bio
     name
     createdAt
-  }
-`;
-export const UserProfileLiteFragmentDoc = gql`
-  fragment UserProfileLite on User {
-    ...UserSummary
-    profilePicture {
-      filename
-      id
-    }
-  }
-  ${UserSummaryFragmentDoc}
-`;
-export const UserProfileFragmentDoc = gql`
-  fragment UserProfile on User {
-    ...UserSummary
     profilePicture {
       filename
       id
@@ -962,7 +930,6 @@ export const UserProfileFragmentDoc = gql`
       ...PostSummary
     }
   }
-  ${UserSummaryFragmentDoc}
   ${PostSummaryFragmentDoc}
 `;
 export const LogOutDocument = gql`
@@ -1013,11 +980,17 @@ export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
       user {
-        ...UserProfileLite
+        id
+        bio
+        name
+        createdAt
+        profilePicture {
+          filename
+          id
+        }
       }
     }
   }
-  ${UserProfileLiteFragmentDoc}
 `;
 export type LoginMutationFn = Apollo.MutationFunction<
   LoginMutation,
@@ -1110,11 +1083,17 @@ export const SignUpDocument = gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       user {
-        ...UserProfileLite
+        id
+        bio
+        name
+        createdAt
+        profilePicture {
+          filename
+          id
+        }
       }
     }
   }
-  ${UserProfileLiteFragmentDoc}
 `;
 export type SignUpMutationFn = Apollo.MutationFunction<
   SignUpMutation,
@@ -2172,10 +2151,16 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
 export const MeDocument = gql`
   query Me {
     me {
-      ...UserProfileLite
+      id
+      bio
+      name
+      createdAt
+      profilePicture {
+        filename
+        id
+      }
     }
   }
-  ${UserProfileLiteFragmentDoc}
 `;
 
 /**
@@ -2254,10 +2239,12 @@ export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UsersDocument = gql`
   query Users {
     users {
-      ...UserSummary
+      id
+      bio
+      name
+      createdAt
     }
   }
-  ${UserSummaryFragmentDoc}
 `;
 
 /**

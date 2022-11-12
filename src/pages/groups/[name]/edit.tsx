@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import GroupForm from "../../../components/Groups/GroupForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { Group, useGroupQuery } from "../../../types/generated.types";
+import { useGroupQuery } from "../../../types/generated.types";
 
 const EditGroup: NextPage = () => {
   const { query } = useRouter();
@@ -30,7 +30,7 @@ const EditGroup: NextPage = () => {
     return null;
   }
 
-  return <GroupForm editGroup={data.group as Group} />;
+  return <GroupForm editGroup={data.group} />;
 };
 
 export default EditGroup;

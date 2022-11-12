@@ -1,13 +1,32 @@
 import { gql } from "@apollo/client";
-import GROUP_PROFILE_FRAGMENT from "../fragments/group-profile.fragment";
+import POST_CARD_FRAGMENT from "../../posts/fragments/post-card.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
 
 const GROUP_QUERY = gql`
   query Group($name: String!) {
     group(name: $name) {
-      ...GroupProfile
+      id
+      name
+      description
+      coverPhoto {
+        filename
+        id
+      }
+      memberCount
+      memberRequestCount
+      posts {
+        ...PostCard
+      }
+      members {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
     }
   }
-  ${GROUP_PROFILE_FRAGMENT}
+  ${POST_CARD_FRAGMENT}
+  ${USER_AVATAR_FRAGMENT}
 `;
 
 export default GROUP_QUERY;

@@ -18,8 +18,8 @@ import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
+  GroupFormFragment,
   GroupInput,
-  GroupProfileFragment,
   GroupsQuery,
   Image,
   useCreateGroupMutation,
@@ -40,7 +40,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  editGroup?: GroupProfileFragment;
+  editGroup?: GroupFormFragment;
 }
 
 const GroupForm = ({ editGroup, ...cardProps }: Props) => {

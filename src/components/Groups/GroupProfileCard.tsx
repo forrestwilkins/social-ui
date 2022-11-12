@@ -21,7 +21,7 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  GroupProfileFragment,
+  GroupProfileCardFragment,
   useDeleteGroupMutation,
 } from "../../types/generated.types";
 import { getMemberRequestsPath } from "../../utils/group.utils";
@@ -45,7 +45,7 @@ const CardHeader = styled(MuiCardHeader)(() => ({
 }));
 
 interface Props extends CardProps {
-  group: GroupProfileFragment;
+  group: GroupProfileCardFragment;
 }
 
 const GroupProfileCard = ({

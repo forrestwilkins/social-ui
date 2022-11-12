@@ -325,7 +325,14 @@ export type GroupCardFragment = {
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
-export type GroupProfileFragment = {
+export type GroupFormFragment = {
+  __typename?: "Group";
+  id: number;
+  name: string;
+  description: string;
+};
+
+export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
@@ -333,39 +340,6 @@ export type GroupProfileFragment = {
   memberCount: number;
   memberRequestCount: number;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-  posts: Array<{
-    __typename?: "Post";
-    id: number;
-    body: string;
-    createdAt: any;
-    images: Array<{ __typename?: "Image"; filename: string; id: number }>;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
-    } | null;
-  }>;
-  members: Array<{
-    __typename?: "GroupMember";
-    id: number;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-  }>;
 };
 
 export type RequestToJoinFragment = {
@@ -891,6 +865,61 @@ export const GroupCardFragmentDoc = gql`
     memberRequestCount
   }
 `;
+export const GroupFormFragmentDoc = gql`
+  fragment GroupForm on Group {
+    id
+    name
+    description
+  }
+`;
+export const GroupProfileCardFragmentDoc = gql`
+  fragment GroupProfileCard on Group {
+    id
+    name
+    description
+    coverPhoto {
+      filename
+      id
+    }
+    memberCount
+    memberRequestCount
+  }
+`;
+export const UserAvatarFragmentDoc = gql`
+  fragment UserAvatar on User {
+    id
+    name
+    profilePicture {
+      filename
+      id
+    }
+  }
+`;
+export const RequestToJoinFragmentDoc = gql`
+  fragment RequestToJoin on MemberRequest {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export const AttachedImageFragmentDoc = gql`
+  fragment AttachedImage on Image {
+    id
+    filename
+  }
+`;
+export const PostFormFragmentDoc = gql`
+  fragment PostForm on Post {
+    id
+    body
+    images {
+      filename
+      id
+    }
+  }
+`;
 export const PostCardFragmentDoc = gql`
   fragment PostCard on Post {
     id
@@ -916,65 +945,6 @@ export const PostCardFragmentDoc = gql`
       }
     }
     createdAt
-  }
-`;
-export const UserAvatarFragmentDoc = gql`
-  fragment UserAvatar on User {
-    id
-    name
-    profilePicture {
-      filename
-      id
-    }
-  }
-`;
-export const GroupProfileFragmentDoc = gql`
-  fragment GroupProfile on Group {
-    id
-    name
-    description
-    coverPhoto {
-      filename
-      id
-    }
-    memberCount
-    memberRequestCount
-    posts {
-      ...PostCard
-    }
-    members {
-      id
-      user {
-        ...UserAvatar
-      }
-    }
-  }
-  ${PostCardFragmentDoc}
-  ${UserAvatarFragmentDoc}
-`;
-export const RequestToJoinFragmentDoc = gql`
-  fragment RequestToJoin on MemberRequest {
-    id
-    user {
-      ...UserAvatar
-    }
-  }
-  ${UserAvatarFragmentDoc}
-`;
-export const AttachedImageFragmentDoc = gql`
-  fragment AttachedImage on Image {
-    id
-    filename
-  }
-`;
-export const PostFormFragmentDoc = gql`
-  fragment PostForm on Post {
-    id
-    body
-    images {
-      filename
-      id
-    }
   }
 `;
 export const UserProfileFragmentDoc = gql`
@@ -1626,10 +1596,28 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
 export const GroupDocument = gql`
   query Group($name: String!) {
     group(name: $name) {
-      ...GroupProfile
+      id
+      name
+      description
+      coverPhoto {
+        filename
+        id
+      }
+      memberCount
+      memberRequestCount
+      posts {
+        ...PostCard
+      }
+      members {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
     }
   }
-  ${GroupProfileFragmentDoc}
+  ${PostCardFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
 
 /**

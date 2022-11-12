@@ -2,7 +2,7 @@ import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { isLoggedInVar } from "../../client/cache";
+import { isLoggedInVar } from "../../apollo/cache";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import PostForm from "../../components/Posts/PostForm";
 import PostList from "../../components/Posts/PostList";

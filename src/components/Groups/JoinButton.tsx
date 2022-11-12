@@ -1,10 +1,8 @@
 import { Reference } from "@apollo/client";
 import produce from "immer";
 import { useState } from "react";
-import {
-  MEMBER_REQUESTS_QUERY,
-  MEMBER_REQUEST_QUERY,
-} from "../../client/groups/group.queries";
+import MEMBER_REQUEST_QUERY from "../../apollo/groups/queries/member-request.query";
+import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/member-requests.query";
 import { TypeNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {

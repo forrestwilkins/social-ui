@@ -9,11 +9,11 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import { GROUP_PROFILE_FRAGMENT } from "../../client/groups/group.fragments";
-import { POST_SUMMARY_FRAGMENT } from "../../client/posts/post.fragments";
-import { POSTS_QUERY } from "../../client/posts/post.queries";
-import { uploadPostImages } from "../../client/posts/post.rest";
-import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
+import GROUP_PROFILE_FRAGMENT from "../../apollo/groups/fragments/group-profile.fragment";
+import POST_SUMMARY_FRAGMENT from "../../apollo/posts/fragments/post-summary.fragment";
+import { uploadPostImages } from "../../apollo/posts/mutations/create-post.mutation";
+import POSTS_QUERY from "../../apollo/posts/queries/posts.query";
+import USER_PROFILE_FRAGMENT from "../../apollo/users/fragments/user-profile.fragment";
 import {
   FieldNames,
   NavigationPaths,
@@ -26,10 +26,10 @@ import {
   Post,
   PostInput,
   PostsQuery,
+  PostSummaryFragment,
   useCreatePostMutation,
   useDeleteImageMutation,
   UserProfileFragment,
-  PostSummaryFragment,
   useUpdatePostMutation,
 } from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";

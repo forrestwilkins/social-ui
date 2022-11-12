@@ -8,8 +8,8 @@ import {
   isLoggedInVar,
   isNavDrawerOpenVar,
   toastVar,
-} from "../../client/cache";
-import { ME_QUERY } from "../../client/users/user.queries";
+} from "../../apollo/cache";
+import ME_QUERY from "../../apollo/users/queries/me.query";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";

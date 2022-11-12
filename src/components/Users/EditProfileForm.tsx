@@ -2,12 +2,12 @@ import { Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import { toastVar } from "../../client/cache";
-import { USER_PROFILE_FRAGMENT } from "../../client/users/user.fragments";
+import { toastVar } from "../../apollo/cache";
+import USER_PROFILE_FRAGMENT from "../../apollo/users/fragments/user-profile.fragment";
 import {
   uploadProfilePicture,
   uploadUserCoverPhoto,
-} from "../../client/users/user.rest";
+} from "../../apollo/users/mutations/update-user.mutation";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {

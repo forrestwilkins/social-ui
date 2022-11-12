@@ -10,10 +10,10 @@ import {
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import { toastVar } from "../../client/cache";
-import { GROUP_SUMMARY_FRAGMENT } from "../../client/groups/group.fragments";
-import { GROUPS_QUERY } from "../../client/groups/group.queries";
-import { uploadGroupCoverPhoto } from "../../client/groups/group.rest";
+import { toastVar } from "../../apollo/cache";
+import GROUP_SUMMARY_FRAGMENT from "../../apollo/groups/fragments/group-summary.fragment";
+import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/create-group.mutation";
+import GROUPS_QUERY from "../../apollo/groups/queries/groups.query";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";

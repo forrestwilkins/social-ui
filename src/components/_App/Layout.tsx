@@ -1,7 +1,7 @@
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { ReactNode, useEffect } from "react";
-import { isAuthLoadingVar, isLoggedInVar } from "../../client/cache";
+import { isAuthLoadingVar, isLoggedInVar } from "../../apollo/cache";
 import {
   useAboveBreakpoint,
   useIsDesktop,

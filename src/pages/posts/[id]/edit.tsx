@@ -1,8 +1,8 @@
 import { Button, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { toastVar } from "../../../client/cache";
-import { removePost } from "../../../client/posts/post.cache";
+import { toastVar } from "../../../apollo/cache";
+import { removePost } from "../../../apollo/posts/mutations/delete-post.mutation";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";

@@ -6,7 +6,7 @@ import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
-} from "../../client/cache";
+} from "../../apollo/cache";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { useMeQuery, User } from "../../types/generated.types";

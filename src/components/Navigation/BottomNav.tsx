@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Router, { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
+import { isNavDrawerOpenVar } from "../../apollo/cache";
 import {
   NavigationPaths,
   ResourceNames,

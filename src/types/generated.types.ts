@@ -358,6 +358,17 @@ export type GroupProfileFragment = {
   }>;
 };
 
+export type RequestToJoinFragment = {
+  __typename?: "MemberRequest";
+  id: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; filename: string; id: number };
+  };
+};
+
 export type ApproveMemberRequestMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -909,6 +920,15 @@ export const GroupProfileFragmentDoc = gql`
     }
   }
   ${PostCardFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+export const RequestToJoinFragmentDoc = gql`
+  fragment RequestToJoin on MemberRequest {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
   ${UserAvatarFragmentDoc}
 `;
 export const AttachedImageFragmentDoc = gql`

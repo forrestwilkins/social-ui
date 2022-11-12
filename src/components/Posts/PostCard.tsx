@@ -22,7 +22,6 @@ import {
 import { useTranslate } from "../../hooks/common.hooks";
 import {
   Group,
-  Image,
   PostCardFragment,
   useDeletePostMutation,
   useMeQuery,
@@ -33,7 +32,7 @@ import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
-import ImageList from "../Images/ImageList";
+import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
@@ -167,8 +166,7 @@ const PostCard = ({
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            {/* // TODO: Refactor to remove need for type assertion */}
-            <ImageList images={images as Image[]} sx={imageListStyles} />
+            <AttachedImageList images={images} sx={imageListStyles} />
           </Link>
         )}
 

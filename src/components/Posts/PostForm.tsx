@@ -34,7 +34,7 @@ import {
 } from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
-import AttachedImages from "../Images/AttachedImages";
+import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -186,7 +186,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
                   autoComplete="off"
                 />
 
-                <AttachedImages
+                <AttachedImagePreview
                   deleteSavedImage={deleteSavedImageHandler}
                   removeSelectedImage={removeSelectedImageHandler}
                   savedImages={editPost?.images || []}

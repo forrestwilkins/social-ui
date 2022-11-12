@@ -564,6 +564,12 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
+export type AttachedImageFragment = {
+  __typename?: "Image";
+  id: number;
+  filename: string;
+};
+
 export type PostCardFragment = {
   __typename?: "Post";
   id: number;
@@ -903,6 +909,12 @@ export const GroupProfileFragmentDoc = gql`
   ${GroupSummaryFragmentDoc}
   ${PostCardFragmentDoc}
   ${UserAvatarFragmentDoc}
+`;
+export const AttachedImageFragmentDoc = gql`
+  fragment AttachedImage on Image {
+    id
+    filename
+  }
 `;
 export const UserProfileFragmentDoc = gql`
   fragment UserProfile on User {

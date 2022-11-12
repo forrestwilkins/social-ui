@@ -30,7 +30,7 @@ import {
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";
-import AttachedImages from "../Images/AttachedImages";
+import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -167,7 +167,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                 />
 
                 {coverPhoto && (
-                  <AttachedImages
+                  <AttachedImagePreview
                     removeSelectedImage={removeSelectedImageHandler}
                     selectedImages={[coverPhoto]}
                   />

@@ -18,18 +18,7 @@ const REMOVE_BUTTON: SxProps = {
   top: -21,
 };
 
-interface AttachedImagesProps {
-  deleteSavedImage?: (id: number) => void;
-  removeSelectedImage?: (imageName: string) => void;
-  savedImages?: ImageType[];
-  selectedImages: File[];
-}
-
-interface RemoveButtonProps {
-  onClick(): void;
-}
-
-const RemoveButton = ({ onClick }: RemoveButtonProps) => {
+const RemoveButton = ({ onClick }: { onClick(): void }) => {
   const t = useTranslate();
   return (
     <IconButton
@@ -42,12 +31,23 @@ const RemoveButton = ({ onClick }: RemoveButtonProps) => {
   );
 };
 
-const AttachedImages = ({
+interface Props {
+  deleteSavedImage?: (id: number) => void;
+  removeSelectedImage?: (imageName: string) => void;
+  savedImages?: ImageType[];
+  selectedImages: File[];
+}
+
+/**
+ * Used in forms with attached images. Enables users to easily
+ * remove images from the associated item
+ */
+const AttachedImagePreview = ({
   deleteSavedImage,
   removeSelectedImage,
   savedImages,
   selectedImages,
-}: AttachedImagesProps) => (
+}: Props) => (
   <Box sx={{ marginTop: 2, display: "flex", flexWrap: "wrap" }}>
     {savedImages &&
       savedImages.map(({ id, filename }) => (
@@ -84,4 +84,4 @@ const AttachedImages = ({
   </Box>
 );
 
-export default AttachedImages;
+export default AttachedImagePreview;

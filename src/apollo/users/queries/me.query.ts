@@ -1,13 +1,17 @@
 import { gql } from "@apollo/client";
-import USER_PROFILE_LITE_FRAGMENT from "../fragments/user-profile-lite.fragment";
+import USER_SUMMARY_FRAGMENT from "../fragments/user-summary.fragment";
 
 const ME_QUERY = gql`
   query Me {
     me {
-      ...UserProfileLite
+      ...UserSummary
+      profilePicture {
+        filename
+        id
+      }
     }
   }
-  ${USER_PROFILE_LITE_FRAGMENT}
+  ${USER_SUMMARY_FRAGMENT}
 `;
 
 export default ME_QUERY;

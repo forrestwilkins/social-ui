@@ -608,6 +608,13 @@ export type PostCardFragment = {
   } | null;
 };
 
+export type PostFormFragment = {
+  __typename?: "Post";
+  id: number;
+  body: string;
+  images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+};
+
 export type CreatePostMutationVariables = Exact<{
   postData: PostInput;
 }>;
@@ -958,6 +965,16 @@ export const AttachedImageFragmentDoc = gql`
   fragment AttachedImage on Image {
     id
     filename
+  }
+`;
+export const PostFormFragmentDoc = gql`
+  fragment PostForm on Post {
+    id
+    body
+    images {
+      filename
+      id
+    }
   }
 `;
 export const UserProfileFragmentDoc = gql`

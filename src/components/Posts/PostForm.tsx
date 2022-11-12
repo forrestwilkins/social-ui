@@ -23,8 +23,8 @@ import { useTranslate } from "../../hooks/common.hooks";
 import {
   GroupProfileFragment,
   Image,
-  Post,
   PostCardFragment,
+  PostFormFragment,
   PostInput,
   PostsQuery,
   useCreatePostMutation,
@@ -48,7 +48,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  editPost?: Post;
+  editPost?: PostFormFragment;
   groupId?: number;
 }
 

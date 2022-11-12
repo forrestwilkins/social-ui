@@ -9,7 +9,6 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import GROUP_PROFILE_FRAGMENT from "../../apollo/groups/fragments/group-profile.fragment";
 import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/post-card.fragment";
 import { uploadPostImages } from "../../apollo/posts/mutations/create-post.mutation";
 import POSTS_QUERY from "../../apollo/posts/queries/posts.query";
@@ -21,7 +20,6 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  GroupProfileFragment,
   Image,
   PostCardFragment,
   PostFormFragment,
@@ -127,17 +125,14 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         if (!data.createPost.group) {
           return;
         }
-        cache.updateFragment<GroupProfileFragment>(
-          {
-            id: cache.identify(data.createPost.group),
-            fragment: GROUP_PROFILE_FRAGMENT,
-            fragmentName: "GroupProfile",
+        cache.modify({
+          id: cache.identify(data.createPost.group),
+          fields: {
+            posts(existingPostRefs, { toReference }) {
+              return [...existingPostRefs, toReference(postWithImages)];
+            },
           },
-          (data) =>
-            produce(data, (draft) => {
-              draft?.posts.unshift(postWithImages);
-            })
-        );
+        });
       },
     });
 

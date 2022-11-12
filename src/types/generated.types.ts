@@ -315,6 +315,16 @@ export type GroupAvatarFragment = {
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
+export type GroupCardFragment = {
+  __typename?: "Group";
+  id: number;
+  name: string;
+  description: string;
+  memberCount: number;
+  memberRequestCount: number;
+  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+};
+
 export type GroupProfileFragment = {
   __typename?: "Group";
   id: number;
@@ -859,6 +869,19 @@ export const GroupAvatarFragmentDoc = gql`
       filename
       id
     }
+  }
+`;
+export const GroupCardFragmentDoc = gql`
+  fragment GroupCard on Group {
+    id
+    name
+    description
+    coverPhoto {
+      filename
+      id
+    }
+    memberCount
+    memberRequestCount
   }
 `;
 export const PostCardFragmentDoc = gql`

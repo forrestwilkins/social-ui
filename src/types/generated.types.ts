@@ -566,26 +566,6 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
-export type PostMutationSummaryFragment = {
-  __typename?: "Post";
-  id: number;
-  body: string;
-  createdAt: any;
-  updatedAt: any;
-  user: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
-  };
-  group?: {
-    __typename?: "Group";
-    id: number;
-    name: string;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-  } | null;
-};
-
 export type PostSummaryFragment = {
   __typename?: "Post";
   id: number;
@@ -948,30 +928,6 @@ export const GroupProfileFragmentDoc = gql`
   ${GroupSummaryFragmentDoc}
   ${PostSummaryFragmentDoc}
   ${UserAvatarFragmentDoc}
-`;
-export const PostMutationSummaryFragmentDoc = gql`
-  fragment PostMutationSummary on Post {
-    id
-    body
-    user {
-      id
-      name
-      profilePicture {
-        filename
-        id
-      }
-    }
-    group {
-      id
-      name
-      coverPhoto {
-        filename
-        id
-      }
-    }
-    createdAt
-    updatedAt
-  }
 `;
 export const UserSummaryFragmentDoc = gql`
   fragment UserSummary on User {
@@ -1886,10 +1842,28 @@ export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<
 export const CreatePostDocument = gql`
   mutation CreatePost($postData: PostInput!) {
     createPost(postData: $postData) {
-      ...PostMutationSummary
+      id
+      body
+      user {
+        id
+        name
+        profilePicture {
+          filename
+          id
+        }
+      }
+      group {
+        id
+        name
+        coverPhoto {
+          filename
+          id
+        }
+      }
+      createdAt
+      updatedAt
     }
   }
-  ${PostMutationSummaryFragmentDoc}
 `;
 export type CreatePostMutationFn = Apollo.MutationFunction<
   CreatePostMutation,
@@ -1985,10 +1959,28 @@ export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
 export const UpdatePostDocument = gql`
   mutation UpdatePost($id: Int!, $postData: PostInput!) {
     updatePost(id: $id, postData: $postData) {
-      ...PostMutationSummary
+      id
+      body
+      user {
+        id
+        name
+        profilePicture {
+          filename
+          id
+        }
+      }
+      group {
+        id
+        name
+        coverPhoto {
+          filename
+          id
+        }
+      }
+      createdAt
+      updatedAt
     }
   }
-  ${PostMutationSummaryFragmentDoc}
 `;
 export type UpdatePostMutationFn = Apollo.MutationFunction<
   UpdatePostMutation,

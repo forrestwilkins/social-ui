@@ -85,7 +85,6 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
               {
                 id: cache.identify(editGroup),
                 fragment: GROUP_SUMMARY_FRAGMENT,
-                fragmentName: "GroupSummary",
               },
               (data) =>
                 produce(data, (draft) => {

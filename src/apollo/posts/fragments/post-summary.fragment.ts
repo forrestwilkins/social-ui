@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-const POST_SUMMARY_FRAGMENT = gql`
-  fragment PostSummary on Post {
+const POST_CARD_FRAGMENT = gql`
+  fragment PostCard on Post {
     id
     body
     images {
@@ -25,8 +25,7 @@ const POST_SUMMARY_FRAGMENT = gql`
       }
     }
     createdAt
-    updatedAt
   }
 `;
 
-export default POST_SUMMARY_FRAGMENT;
+export default POST_CARD_FRAGMENT;

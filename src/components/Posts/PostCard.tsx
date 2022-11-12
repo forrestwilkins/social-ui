@@ -21,9 +21,12 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  Post,
+  Group,
+  Image,
+  PostCardFragment,
   useDeletePostMutation,
   useMeQuery,
+  User,
 } from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
@@ -54,7 +57,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  post: Post;
+  post: PostCardFragment;
 }
 
 const PostCard = ({
@@ -100,7 +103,8 @@ const PostCard = ({
 
   const renderAvatar = () => {
     if (group && !isGroupPage) {
-      return <GroupItemAvatar user={user} group={group} />;
+      // TODO: Refactor to remove need for type assertion
+      return <GroupItemAvatar user={user as User} group={group as Group} />;
     }
     return <UserAvatar user={user} withLink />;
   };
@@ -163,7 +167,8 @@ const PostCard = ({
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            <ImageList images={images} sx={imageListStyles} />
+            {/* // TODO: Refactor to remove need for type assertion */}
+            <ImageList images={images as Image[]} sx={imageListStyles} />
           </Link>
         )}
 

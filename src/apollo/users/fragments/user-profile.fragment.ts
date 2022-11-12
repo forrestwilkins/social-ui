@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import POST_SUMMARY_FRAGMENT from "../../posts/fragments/post-summary.fragment";
+import POST_CARD_FRAGMENT from "../../posts/fragments/post-summary.fragment";
 
 const USER_PROFILE_FRAGMENT = gql`
   fragment UserProfile on User {
@@ -16,10 +16,10 @@ const USER_PROFILE_FRAGMENT = gql`
       id
     }
     posts {
-      ...PostSummary
+      ...PostCard
     }
   }
-  ${POST_SUMMARY_FRAGMENT}
+  ${POST_CARD_FRAGMENT}
 `;
 
 export default USER_PROFILE_FRAGMENT;

@@ -320,7 +320,6 @@ export type GroupProfileFragment = {
     id: number;
     body: string;
     createdAt: any;
-    updatedAt: any;
     images: Array<{ __typename?: "Image"; filename: string; id: number }>;
     user: {
       __typename?: "User";
@@ -477,7 +476,6 @@ export type GroupQuery = {
       id: number;
       body: string;
       createdAt: any;
-      updatedAt: any;
       images: Array<{ __typename?: "Image"; filename: string; id: number }>;
       user: {
         __typename?: "User";
@@ -566,12 +564,11 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
-export type PostSummaryFragment = {
+export type PostCardFragment = {
   __typename?: "Post";
   id: number;
   body: string;
   createdAt: any;
-  updatedAt: any;
   images: Array<{ __typename?: "Image"; filename: string; id: number }>;
   user: {
     __typename?: "User";
@@ -670,7 +667,6 @@ export type PostQuery = {
     id: number;
     body: string;
     createdAt: any;
-    updatedAt: any;
     images: Array<{ __typename?: "Image"; filename: string; id: number }>;
     user: {
       __typename?: "User";
@@ -700,7 +696,6 @@ export type PostsQuery = {
     id: number;
     body: string;
     createdAt: any;
-    updatedAt: any;
     images: Array<{ __typename?: "Image"; filename: string; id: number }>;
     user: {
       __typename?: "User";
@@ -741,7 +736,6 @@ export type UserProfileFragment = {
     id: number;
     body: string;
     createdAt: any;
-    updatedAt: any;
     images: Array<{ __typename?: "Image"; filename: string; id: number }>;
     user: {
       __typename?: "User";
@@ -809,7 +803,6 @@ export type UserQuery = {
       id: number;
       body: string;
       createdAt: any;
-      updatedAt: any;
       images: Array<{ __typename?: "Image"; filename: string; id: number }>;
       user: {
         __typename?: "User";
@@ -857,8 +850,8 @@ export const GroupSummaryFragmentDoc = gql`
     memberRequestCount
   }
 `;
-export const PostSummaryFragmentDoc = gql`
-  fragment PostSummary on Post {
+export const PostCardFragmentDoc = gql`
+  fragment PostCard on Post {
     id
     body
     images {
@@ -882,7 +875,6 @@ export const PostSummaryFragmentDoc = gql`
       }
     }
     createdAt
-    updatedAt
   }
 `;
 export const UserAvatarFragmentDoc = gql`
@@ -899,7 +891,7 @@ export const GroupProfileFragmentDoc = gql`
   fragment GroupProfile on Group {
     ...GroupSummary
     posts {
-      ...PostSummary
+      ...PostCard
     }
     members {
       id
@@ -909,7 +901,7 @@ export const GroupProfileFragmentDoc = gql`
     }
   }
   ${GroupSummaryFragmentDoc}
-  ${PostSummaryFragmentDoc}
+  ${PostCardFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const UserProfileFragmentDoc = gql`
@@ -927,10 +919,10 @@ export const UserProfileFragmentDoc = gql`
       id
     }
     posts {
-      ...PostSummary
+      ...PostCard
     }
   }
-  ${PostSummaryFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 export const LogOutDocument = gql`
   mutation LogOut {
@@ -2008,10 +2000,10 @@ export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<
 export const PostDocument = gql`
   query Post($id: Int!) {
     post(id: $id) {
-      ...PostSummary
+      ...PostCard
     }
   }
-  ${PostSummaryFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 
 /**
@@ -2051,10 +2043,10 @@ export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
   query Posts {
     posts {
-      ...PostSummary
+      ...PostCard
     }
   }
-  ${PostSummaryFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 
 /**

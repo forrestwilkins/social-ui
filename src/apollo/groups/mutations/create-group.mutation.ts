@@ -9,12 +9,6 @@ const CREATE_GROUP_MUTATION = gql`
       id
       name
       description
-      coverPhoto {
-        filename
-        id
-      }
-      memberCount
-      memberRequestCount
     }
   }
 `;

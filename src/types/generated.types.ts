@@ -392,9 +392,6 @@ export type CreateGroupMutation = {
     id: number;
     name: string;
     description: string;
-    memberCount: number;
-    memberRequestCount: number;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -1332,12 +1329,6 @@ export const CreateGroupDocument = gql`
       id
       name
       description
-      coverPhoto {
-        filename
-        id
-      }
-      memberCount
-      memberRequestCount
     }
   }
 `;

@@ -38,10 +38,6 @@ interface Props {
   selectedImages: File[];
 }
 
-/**
- * Used in forms with attached images. Enables users to easily
- * remove images from the associated item
- */
 const AttachedImagePreview = ({
   deleteSavedImage,
   removeSelectedImage,

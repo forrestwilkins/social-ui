@@ -19,8 +19,8 @@ const CREATE_POST_MUTATION = gql`
       createdAt
     }
   }
-  ${USER_AVATAR_FRAGMENT}
   ${GROUP_AVATAR_FRAGMENT}
+  ${USER_AVATAR_FRAGMENT}
 `;
 
 export const uploadPostImages = (postId: number, data: FormData) => {

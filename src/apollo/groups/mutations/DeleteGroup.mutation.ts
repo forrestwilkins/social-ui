@@ -1,7 +1,7 @@
 import { ApolloCache, gql } from "@apollo/client";
 import produce from "immer";
 import { GroupsQuery } from "../../../types/generated.types";
-import GROUPS_QUERY from "../queries/groups.query";
+import GROUPS_QUERY from "../queries/Groups.query";
 
 const DELETE_GROUP_MUTATION = gql`
   mutation DeleteGroup($id: Int!) {

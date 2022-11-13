@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
 
 const APPROVE_MEMBER_REQUEST_MUTATION = gql`
   mutation ApproveMemberRequest($id: Int!) {

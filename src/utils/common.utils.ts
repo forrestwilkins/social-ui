@@ -5,7 +5,7 @@ import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../apollo/auth/mutations/refresh-token.mutation";
+import { refreshToken } from "../apollo/auth/mutations/RefreshToken.mutation";
 import { isRefreshingTokenVar, toastVar } from "../apollo/cache";
 import {
   API_ROOT,

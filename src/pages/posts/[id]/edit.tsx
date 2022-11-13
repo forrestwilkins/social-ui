@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { toastVar } from "../../../apollo/cache";
-import { removePost } from "../../../apollo/posts/mutations/delete-post.mutation";
+import { removePost } from "../../../apollo/posts/mutations/DeletePost.mutation";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";

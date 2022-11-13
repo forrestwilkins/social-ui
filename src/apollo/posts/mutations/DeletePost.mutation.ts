@@ -2,7 +2,7 @@ import { ApolloCache, gql, Reference } from "@apollo/client";
 import produce from "immer";
 import { TypeNames } from "../../../constants/common.constants";
 import { PostsQuery } from "../../../types/generated.types";
-import POSTS_QUERY from "../queries/posts.query";
+import POSTS_QUERY from "../queries/Posts.query";
 
 const DELETE_POST_MUTATION = gql`
   mutation DeletePost($id: Int!) {

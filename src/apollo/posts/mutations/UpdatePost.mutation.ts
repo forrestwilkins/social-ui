@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
-import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/group-avatar.fragment";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
+import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/GroupAvatar.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
 
 export const UPDATE_POST_MUTATION = gql`
   mutation UpdatePost($id: Int!, $postData: PostInput!) {

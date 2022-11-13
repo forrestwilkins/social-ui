@@ -2,6 +2,8 @@ import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
 import { Image } from "../../../types/generated.types";
 import { multiPartRequest } from "../../../utils/common.utils";
+import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/group-avatar.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
 
 const CREATE_POST_MUTATION = gql`
   mutation CreatePost($postData: PostInput!) {
@@ -9,25 +11,16 @@ const CREATE_POST_MUTATION = gql`
       id
       body
       user {
-        id
-        name
-        profilePicture {
-          filename
-          id
-        }
+        ...UserAvatar
       }
       group {
-        id
-        name
-        coverPhoto {
-          filename
-          id
-        }
+        ...GroupAvatar
       }
       createdAt
-      updatedAt
     }
   }
+  ${USER_AVATAR_FRAGMENT}
+  ${GROUP_AVATAR_FRAGMENT}
 `;
 
 export const uploadPostImages = (postId: number, data: FormData) => {

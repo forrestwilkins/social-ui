@@ -597,7 +597,6 @@ export type CreatePostMutation = {
     id: number;
     body: string;
     createdAt: any;
-    updatedAt: any;
     user: {
       __typename?: "User";
       id: number;
@@ -1847,25 +1846,16 @@ export const CreatePostDocument = gql`
       id
       body
       user {
-        id
-        name
-        profilePicture {
-          filename
-          id
-        }
+        ...UserAvatar
       }
       group {
-        id
-        name
-        coverPhoto {
-          filename
-          id
-        }
+        ...GroupAvatar
       }
       createdAt
-      updatedAt
     }
   }
+  ${UserAvatarFragmentDoc}
+  ${GroupAvatarFragmentDoc}
 `;
 export type CreatePostMutationFn = Apollo.MutationFunction<
   CreatePostMutation,

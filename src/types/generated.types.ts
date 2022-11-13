@@ -503,11 +503,11 @@ export type GroupsQuery = {
   __typename?: "Query";
   groups: Array<{
     __typename?: "Group";
-    id: number;
-    name: string;
     description: string;
     memberCount: number;
     memberRequestCount: number;
+    id: number;
+    name: string;
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   }>;
 };
@@ -1632,17 +1632,10 @@ export type GroupQueryResult = Apollo.QueryResult<
 export const GroupsDocument = gql`
   query Groups {
     groups {
-      id
-      name
-      description
-      coverPhoto {
-        filename
-        id
-      }
-      memberCount
-      memberRequestCount
+      ...GroupCard
     }
   }
+  ${GroupCardFragmentDoc}
 `;
 
 /**

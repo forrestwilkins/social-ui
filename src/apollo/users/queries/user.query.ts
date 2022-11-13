@@ -1,13 +1,27 @@
 import { gql } from "@apollo/client";
-import USER_PROFILE_FRAGMENT from "../fragments/user-profile.fragment";
+import POST_CARD_FRAGMENT from "../../posts/fragments/post-card.fragment";
 
 const USER_QUERY = gql`
   query User($name: String) {
     user(name: $name) {
-      ...UserProfile
+      id
+      bio
+      name
+      createdAt
+      profilePicture {
+        filename
+        id
+      }
+      coverPhoto {
+        filename
+        id
+      }
+      posts {
+        ...PostCard
+      }
     }
   }
-  ${USER_PROFILE_FRAGMENT}
+  ${POST_CARD_FRAGMENT}
 `;
 
 export default USER_QUERY;

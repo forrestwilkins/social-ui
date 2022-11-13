@@ -721,6 +721,15 @@ export type PostsQuery = {
   }>;
 };
 
+export type EditProfileFormFragment = {
+  __typename?: "User";
+  id: number;
+  bio?: string | null;
+  name: string;
+  profilePicture: { __typename?: "Image"; filename: string; id: number };
+  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+};
+
 export type UserAvatarFragment = {
   __typename?: "User";
   id: number;
@@ -728,7 +737,7 @@ export type UserAvatarFragment = {
   profilePicture: { __typename?: "Image"; filename: string; id: number };
 };
 
-export type UserProfileFragment = {
+export type UserProfileCardFragment = {
   __typename?: "User";
   id: number;
   bio?: string | null;
@@ -736,29 +745,6 @@ export type UserProfileFragment = {
   createdAt: any;
   profilePicture: { __typename?: "Image"; filename: string; id: number };
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-  posts: Array<{
-    __typename?: "Post";
-    id: number;
-    body: string;
-    createdAt: any;
-    images: Array<{ __typename?: "Image"; filename: string; id: number }>;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
-    } | null;
-  }>;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -910,16 +896,6 @@ export const AttachedImageFragmentDoc = gql`
     filename
   }
 `;
-export const PostFormFragmentDoc = gql`
-  fragment PostForm on Post {
-    id
-    body
-    images {
-      filename
-      id
-    }
-  }
-`;
 export const PostCardFragmentDoc = gql`
   fragment PostCard on Post {
     id
@@ -947,12 +923,21 @@ export const PostCardFragmentDoc = gql`
     createdAt
   }
 `;
-export const UserProfileFragmentDoc = gql`
-  fragment UserProfile on User {
+export const PostFormFragmentDoc = gql`
+  fragment PostForm on Post {
+    id
+    body
+    images {
+      filename
+      id
+    }
+  }
+`;
+export const EditProfileFormFragmentDoc = gql`
+  fragment EditProfileForm on User {
     id
     bio
     name
-    createdAt
     profilePicture {
       filename
       id
@@ -961,11 +946,23 @@ export const UserProfileFragmentDoc = gql`
       filename
       id
     }
-    posts {
-      ...PostCard
-    }
   }
-  ${PostCardFragmentDoc}
+`;
+export const UserProfileCardFragmentDoc = gql`
+  fragment UserProfileCard on User {
+    id
+    bio
+    name
+    profilePicture {
+      filename
+      id
+    }
+    coverPhoto {
+      filename
+      id
+    }
+    createdAt
+  }
 `;
 export const LogOutDocument = gql`
   mutation LogOut {
@@ -2263,10 +2260,24 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UserDocument = gql`
   query User($name: String) {
     user(name: $name) {
-      ...UserProfile
+      id
+      bio
+      name
+      createdAt
+      profilePicture {
+        filename
+        id
+      }
+      coverPhoto {
+        filename
+        id
+      }
+      posts {
+        ...PostCard
+      }
     }
   }
-  ${UserProfileFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 
 /**

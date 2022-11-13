@@ -10,9 +10,9 @@ import {
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
+  EditProfileFormFragment,
   Image,
   UpdateUserInput,
-  UserProfileFragment,
   useUpdateUserMutation,
 } from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
@@ -28,7 +28,7 @@ import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
 
 interface Props {
-  editUser: UserProfileFragment;
+  editUser: EditProfileFormFragment;
   submitButtonText: string;
 }
 

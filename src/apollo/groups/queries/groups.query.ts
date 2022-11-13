@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
-import GROUP_SUMMARY_FRAGMENT from "../fragments/group-summary.fragment";
+import GROUP_CARD_FRAGMENT from "../fragments/group-card.fragment";
 
 const GROUPS_QUERY = gql`
   query Groups {
     groups {
-      ...GroupSummary
+      ...GroupCard
     }
   }
-  ${GROUP_SUMMARY_FRAGMENT}
+  ${GROUP_CARD_FRAGMENT}
 `;
 
 export default GROUPS_QUERY;

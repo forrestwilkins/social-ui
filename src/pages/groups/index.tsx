@@ -7,7 +7,7 @@ import GroupForm from "../../components/Groups/GroupForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Group, useGroupsQuery } from "../../types/generated.types";
+import { useGroupsQuery } from "../../types/generated.types";
 
 const GroupsIndex: NextPage = () => {
   const { data, loading, error } = useGroupsQuery();
@@ -32,7 +32,7 @@ const GroupsIndex: NextPage = () => {
       {isLoggedIn && <GroupForm />}
 
       {data?.groups.map((group) => (
-        <GroupCard group={group as Group} key={group.id} />
+        <GroupCard group={group} key={group.id} />
       ))}
     </>
   );

@@ -16,7 +16,10 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Group, useDeleteGroupMutation } from "../../types/generated.types";
+import {
+  GroupCardFragment,
+  useDeleteGroupMutation,
+} from "../../types/generated.types";
 import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -28,7 +31,7 @@ const CardHeader = styled(MuiCardHeader)(() => ({
 }));
 
 interface Props extends CardProps {
-  group: Group;
+  group: GroupCardFragment;
 }
 
 // TODO: Add remaining layout and functionality

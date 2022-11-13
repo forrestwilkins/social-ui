@@ -1,9 +1,9 @@
 import { Box, BoxProps } from "@mui/material";
-import { Post } from "../../types/generated.types";
+import { PostCardFragment } from "../../types/generated.types";
 import PostCard from "./PostCard";
 
 interface Props extends BoxProps {
-  posts: Post[];
+  posts: PostCardFragment[];
 }
 
 const PostList = ({ posts, ...boxProps }: Props) => (

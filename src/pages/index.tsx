@@ -4,7 +4,7 @@ import { isLoggedInVar } from "../apollo/cache";
 import PostForm from "../components/Posts/PostForm";
 import PostList from "../components/Posts/PostList";
 import ProgressBar from "../components/Shared/ProgressBar";
-import { Post, usePostsQuery } from "../types/generated.types";
+import { usePostsQuery } from "../types/generated.types";
 
 const Home: NextPage = () => {
   const { data, loading } = usePostsQuery();
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     <>
       {isLoggedIn && <PostForm />}
 
-      <PostList posts={data?.posts as Post[]} />
+      <PostList posts={data?.posts} />
     </>
   );
 };

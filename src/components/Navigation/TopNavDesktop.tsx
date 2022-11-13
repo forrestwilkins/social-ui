@@ -9,7 +9,7 @@ import {
 } from "../../apollo/cache";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery, User } from "../../types/generated.types";
+import { useMeQuery } from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -69,7 +69,7 @@ const TopNavDesktop = () => {
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <UserAvatar user={data.me as User} sx={USER_AVATAR_STYLES} />
+              <UserAvatar user={data.me} sx={USER_AVATAR_STYLES} />
               {data.me.name}
             </Button>
           </Link>
@@ -85,7 +85,7 @@ const TopNavDesktop = () => {
           <TopNavDropdown
             anchorEl={menuAnchorEl}
             handleClose={handleClose}
-            user={data.me as User}
+            userName={data.me.name}
           />
         </Flex>
       )}

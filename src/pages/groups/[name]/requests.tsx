@@ -14,7 +14,6 @@ import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
 import {
-  MemberRequest,
   useGroupQuery,
   useMemberRequestsQuery,
 } from "../../../types/generated.types";
@@ -85,10 +84,7 @@ const MemberRequests: NextPage = () => {
     <Card>
       <CardContent>
         {data.memberRequests.map((memberRequest) => (
-          <RequestToJoin
-            key={memberRequest.id}
-            memberRequest={memberRequest as MemberRequest}
-          />
+          <RequestToJoin key={memberRequest.id} memberRequest={memberRequest} />
         ))}
       </CardContent>
     </Card>

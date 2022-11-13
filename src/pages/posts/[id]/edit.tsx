@@ -8,7 +8,6 @@ import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useTranslate } from "../../../hooks/common.hooks";
 import {
-  Post,
   useDeletePostMutation,
   usePostQuery,
 } from "../../../types/generated.types";
@@ -58,7 +57,7 @@ const EditPostPage: NextPage = () => {
 
   return (
     <>
-      <PostForm editPost={data.post as Post} sx={{ marginBottom: 2.5 }} />
+      <PostForm editPost={data.post} sx={{ marginBottom: 2.5 }} />
 
       <Button
         color="error"

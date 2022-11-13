@@ -1,9 +1,8 @@
+import { Reference } from "@apollo/client";
 import { Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
-import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
-import USER_PROFILE_FRAGMENT from "../../apollo/users/fragments/user-profile.fragment";
 import {
   uploadProfilePicture,
   uploadUserCoverPhoto,
@@ -11,10 +10,9 @@ import {
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
+  EditProfileFormFragment,
   Image,
   UpdateUserInput,
-  User,
-  UserProfileFragment,
   useUpdateUserMutation,
 } from "../../types/generated.types";
 import { redirectTo } from "../../utils/common.utils";
@@ -30,11 +28,7 @@ import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
 
 interface Props {
-  /**
-   * TODO: This is a good example of a place that makes sense for a
-   * fragment and using it's generated type here instead of User
-   */
-  editUser: User;
+  editUser: EditProfileFormFragment;
   submitButtonText: string;
 }
 
@@ -79,28 +73,17 @@ const EditProfileForm = ({ editUser, submitButtonText }: Props) => {
                 coverPhotoData
               );
             }
-            cache.updateFragment<UserProfileFragment>(
-              {
-                id: cache.identify(editUser),
-                fragment: USER_PROFILE_FRAGMENT,
-                fragmentName: "UserProfile",
+            cache.modify({
+              id: cache.identify(editUser),
+              fields: {
+                profilePicture(existingRef: Reference) {
+                  return profilePicture || existingRef;
+                },
+                coverPhoto(existingRef: Reference) {
+                  return coverPhoto || existingRef;
+                },
               },
-              (data) =>
-                produce(data, (draft) => {
-                  if (!draft) {
-                    return;
-                  }
-                  if (profilePicture) {
-                    draft.profilePicture = profilePicture;
-                    for (const post of draft.posts) {
-                      post.user.profilePicture = profilePicture;
-                    }
-                  }
-                  if (coverPhoto) {
-                    draft.coverPhoto = coverPhoto;
-                  }
-                })
-            );
+            });
           },
         });
         if (!data?.updateUser) {

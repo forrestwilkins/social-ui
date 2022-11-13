@@ -11,7 +11,7 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useLogOutMutation, User } from "../../types/generated.types";
+import { useLogOutMutation } from "../../types/generated.types";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 export const handleLogOutComplete = () => {
@@ -31,10 +31,10 @@ const ICON_PROPS: SvgIconProps = {
 interface Props {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
-  user: User;
+  userName: string;
 }
 
-const TopNavDropdown = ({ user, anchorEl, handleClose }: Props) => {
+const TopNavDropdown = ({ userName, anchorEl, handleClose }: Props) => {
   const [logOut] = useLogOutMutation();
   const t = useTranslate();
 
@@ -51,7 +51,7 @@ const TopNavDropdown = ({ user, anchorEl, handleClose }: Props) => {
     });
 
   const handleEditProfileButtonClick = () => {
-    const path = `/${ResourceNames.User}/${user.name}/edit`;
+    const path = `/${ResourceNames.User}/${userName}/edit`;
     redirectTo(path);
   };
 

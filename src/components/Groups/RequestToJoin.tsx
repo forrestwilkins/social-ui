@@ -6,9 +6,9 @@ import { useTranslate } from "../../hooks/common.hooks";
 import {
   GroupQuery,
   GroupQueryVariables,
-  MemberRequest,
   MemberRequestsQuery,
   MemberRequestsQueryVariables,
+  RequestToJoinFragment,
   useApproveMemberRequestMutation,
 } from "../../types/generated.types";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -17,7 +17,7 @@ import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
 interface Props {
-  memberRequest: MemberRequest;
+  memberRequest: RequestToJoinFragment;
 }
 
 const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {

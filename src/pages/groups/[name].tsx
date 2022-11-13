@@ -8,7 +8,7 @@ import PostForm from "../../components/Posts/PostForm";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Group, Post, useGroupQuery } from "../../types/generated.types";
+import { useGroupQuery } from "../../types/generated.types";
 
 // TODO: Add remaining layout and functionality - below is a WIP
 const GroupPage: NextPage = () => {
@@ -39,13 +39,9 @@ const GroupPage: NextPage = () => {
 
   return (
     <>
-      {/* TODO: Refactor to avoid need for type assertion */}
-      <GroupProfileCard group={group as Group} />
-
+      <GroupProfileCard group={group} />
       {isLoggedIn && <PostForm groupId={group.id} />}
-
-      {/* TODO: Refactor to avoid need for type assertion */}
-      <PostList posts={group.posts as Post[]} />
+      <PostList posts={group.posts} />
     </>
   );
 };

@@ -21,7 +21,7 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  Post,
+  PostCardFragment,
   useDeletePostMutation,
   useMeQuery,
 } from "../../types/generated.types";
@@ -30,7 +30,7 @@ import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
-import ImageList from "../Images/ImageList";
+import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
@@ -54,7 +54,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  post: Post;
+  post: PostCardFragment;
 }
 
 const PostCard = ({
@@ -163,7 +163,7 @@ const PostCard = ({
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            <ImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} sx={imageListStyles} />
           </Link>
         )}
 

@@ -2,7 +2,7 @@ import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
 import Image from "next/image";
 import { useTranslate } from "../../hooks/common.hooks";
-import { Image as ImageType } from "../../types/generated.types";
+import { AttachedImageFragment } from "../../types/generated.types";
 import { getImagePath } from "../../utils/image.utils";
 
 const IMAGE_CONTAINER: SxProps = {
@@ -18,18 +18,7 @@ const REMOVE_BUTTON: SxProps = {
   top: -21,
 };
 
-interface AttachedImagesProps {
-  deleteSavedImage?: (id: number) => void;
-  removeSelectedImage?: (imageName: string) => void;
-  savedImages?: ImageType[];
-  selectedImages: File[];
-}
-
-interface RemoveButtonProps {
-  onClick(): void;
-}
-
-const RemoveButton = ({ onClick }: RemoveButtonProps) => {
+const RemoveButton = ({ onClick }: { onClick(): void }) => {
   const t = useTranslate();
   return (
     <IconButton
@@ -42,12 +31,19 @@ const RemoveButton = ({ onClick }: RemoveButtonProps) => {
   );
 };
 
-const AttachedImages = ({
+interface Props {
+  deleteSavedImage?: (id: number) => void;
+  removeSelectedImage?: (imageName: string) => void;
+  savedImages?: AttachedImageFragment[];
+  selectedImages: File[];
+}
+
+const AttachedImagePreview = ({
   deleteSavedImage,
   removeSelectedImage,
   savedImages,
   selectedImages,
-}: AttachedImagesProps) => (
+}: Props) => (
   <Box sx={{ marginTop: 2, display: "flex", flexWrap: "wrap" }}>
     {savedImages &&
       savedImages.map(({ id, filename }) => (
@@ -84,4 +80,4 @@ const AttachedImages = ({
   </Box>
 );
 
-export default AttachedImages;
+export default AttachedImagePreview;

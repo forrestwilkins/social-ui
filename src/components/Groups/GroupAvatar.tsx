@@ -1,11 +1,11 @@
 import { Avatar, AvatarProps } from "@mui/material";
-import { Group } from "../../types/generated.types";
+import { GroupAvatarFragment } from "../../types/generated.types";
 import { getGroupPath } from "../../utils/group.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
-  group: Group;
+  group: GroupAvatarFragment;
 }
 
 const GroupAvatar = ({ group }: Props) => {

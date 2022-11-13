@@ -9,11 +9,9 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import GROUP_PROFILE_FRAGMENT from "../../apollo/groups/fragments/group-profile.fragment";
-import POST_SUMMARY_FRAGMENT from "../../apollo/posts/fragments/post-summary.fragment";
+import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/post-card.fragment";
 import { uploadPostImages } from "../../apollo/posts/mutations/create-post.mutation";
 import POSTS_QUERY from "../../apollo/posts/queries/posts.query";
-import USER_PROFILE_FRAGMENT from "../../apollo/users/fragments/user-profile.fragment";
 import {
   FieldNames,
   NavigationPaths,
@@ -21,20 +19,18 @@ import {
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
-  GroupProfileFragment,
   Image,
-  Post,
+  PostCardFragment,
+  PostFormFragment,
   PostInput,
   PostsQuery,
-  PostSummaryFragment,
   useCreatePostMutation,
   useDeleteImageMutation,
-  UserProfileFragment,
   useUpdatePostMutation,
 } from "../../types/generated.types";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
-import AttachedImages from "../Images/AttachedImages";
+import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -48,7 +44,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  editPost?: Post;
+  editPost?: PostFormFragment;
   groupId?: number;
 }
 
@@ -81,11 +77,11 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
             return;
           }
           const images = await uploadPostImages(editPost.id, imageData);
-          cache.updateFragment<PostSummaryFragment>(
+          cache.updateFragment<PostCardFragment>(
             {
               id: cache.identify(editPost),
-              fragment: POST_SUMMARY_FRAGMENT,
-              fragmentName: "PostSummary",
+              fragment: POST_CARD_FRAGMENT,
+              fragmentName: "PostCard",
             },
             (data) =>
               produce(data, (draft) => {
@@ -108,37 +104,31 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         if (imageData) {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
-        const postWithImages = { ...data.createPost, images } as Post;
+        const postWithImages = { ...data.createPost, images };
         cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
           produce(postsData, (draft) => {
             draft?.posts.unshift(postWithImages);
           })
         );
-        cache.updateFragment<UserProfileFragment>(
-          {
-            id: cache.identify(data.createPost.user),
-            fragment: USER_PROFILE_FRAGMENT,
-            fragmentName: "UserProfile",
+        cache.modify({
+          id: cache.identify(data.createPost.user),
+          fields: {
+            posts(existingPostRefs, { toReference }) {
+              return [toReference(postWithImages), ...existingPostRefs];
+            },
           },
-          (data) =>
-            produce(data, (draft) => {
-              draft?.posts.unshift(postWithImages);
-            })
-        );
+        });
         if (!data.createPost.group) {
           return;
         }
-        cache.updateFragment<GroupProfileFragment>(
-          {
-            id: cache.identify(data.createPost.group),
-            fragment: GROUP_PROFILE_FRAGMENT,
-            fragmentName: "GroupProfile",
+        cache.modify({
+          id: cache.identify(data.createPost.group),
+          fields: {
+            posts(existingPostRefs, { toReference }) {
+              return [toReference(postWithImages), ...existingPostRefs];
+            },
           },
-          (data) =>
-            produce(data, (draft) => {
-              draft?.posts.unshift(postWithImages);
-            })
-        );
+        });
       },
     });
 
@@ -187,7 +177,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
                   autoComplete="off"
                 />
 
-                <AttachedImages
+                <AttachedImagePreview
                   deleteSavedImage={deleteSavedImageHandler}
                   removeSelectedImage={removeSelectedImageHandler}
                   savedImages={editPost?.images || []}

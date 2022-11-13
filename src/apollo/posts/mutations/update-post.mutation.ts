@@ -1,4 +1,6 @@
 import { gql } from "@apollo/client";
+import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/group-avatar.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
 
 export const UPDATE_POST_MUTATION = gql`
   mutation UpdatePost($id: Int!, $postData: PostInput!) {
@@ -6,23 +8,14 @@ export const UPDATE_POST_MUTATION = gql`
       id
       body
       user {
-        id
-        name
-        profilePicture {
-          filename
-          id
-        }
+        ...UserAvatar
       }
       group {
-        id
-        name
-        coverPhoto {
-          filename
-          id
-        }
+        ...GroupAvatar
       }
       createdAt
-      updatedAt
     }
   }
+  ${GROUP_AVATAR_FRAGMENT}
+  ${USER_AVATAR_FRAGMENT}
 `;

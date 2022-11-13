@@ -81,6 +81,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
             {
               id: cache.identify(editPost),
               fragment: POST_CARD_FRAGMENT,
+              fragmentName: "PostCard",
             },
             (data) =>
               produce(data, (draft) => {

@@ -4,7 +4,7 @@ import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/Me.query";
+import ME_QUERY from "../../apollo/users/queries/MeFix.query";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";

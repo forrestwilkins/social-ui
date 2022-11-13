@@ -5,7 +5,7 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/Me.query";
+import ME_QUERY from "../../apollo/users/queries/MeFix.query";
 import {
   NavigationPaths,
   ResourceNames,

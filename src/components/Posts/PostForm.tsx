@@ -11,7 +11,7 @@ import produce from "immer";
 import { useState } from "react";
 import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/PostCard.fragment";
 import { uploadPostImages } from "../../apollo/posts/mutations/CreatePost.mutation";
-import POSTS_QUERY from "../../apollo/posts/queries/Posts.query";
+import POSTS_QUERY from "../../apollo/posts/queries/PostsFix.query";
 import {
   FieldNames,
   NavigationPaths,

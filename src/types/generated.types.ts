@@ -317,11 +317,11 @@ export type GroupAvatarFragment = {
 
 export type GroupCardFragment = {
   __typename?: "Group";
-  id: number;
-  name: string;
   description: string;
   memberCount: number;
   memberRequestCount: number;
+  id: number;
+  name: string;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
@@ -825,18 +825,24 @@ export type UsersQuery = {
   }>;
 };
 
-export const GroupCardFragmentDoc = gql`
-  fragment GroupCard on Group {
+export const GroupAvatarFragmentDoc = gql`
+  fragment GroupAvatar on Group {
     id
     name
-    description
     coverPhoto {
       filename
       id
     }
+  }
+`;
+export const GroupCardFragmentDoc = gql`
+  fragment GroupCard on Group {
+    ...GroupAvatar
+    description
     memberCount
     memberRequestCount
   }
+  ${GroupAvatarFragmentDoc}
 `;
 export const GroupFormFragmentDoc = gql`
   fragment GroupForm on Group {
@@ -881,16 +887,6 @@ export const AttachedImageFragmentDoc = gql`
   fragment AttachedImage on Image {
     id
     filename
-  }
-`;
-export const GroupAvatarFragmentDoc = gql`
-  fragment GroupAvatar on Group {
-    id
-    name
-    coverPhoto {
-      filename
-      id
-    }
   }
 `;
 export const PostCardFragmentDoc = gql`

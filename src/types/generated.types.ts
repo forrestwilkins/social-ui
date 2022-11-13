@@ -466,7 +466,7 @@ export type GroupQuery = {
       id: number;
       body: string;
       createdAt: any;
-      images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -564,7 +564,7 @@ export type PostCardFragment = {
   id: number;
   body: string;
   createdAt: any;
-  images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
     id: number;
@@ -669,7 +669,7 @@ export type PostQuery = {
     id: number;
     body: string;
     createdAt: any;
-    images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+    images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
       id: number;
@@ -698,7 +698,7 @@ export type PostsQuery = {
     id: number;
     body: string;
     createdAt: any;
-    images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+    images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
       id: number;
@@ -791,7 +791,7 @@ export type UserQuery = {
       id: number;
       body: string;
       createdAt: any;
-      images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -825,16 +825,6 @@ export type UsersQuery = {
   }>;
 };
 
-export const GroupAvatarFragmentDoc = gql`
-  fragment GroupAvatar on Group {
-    id
-    name
-    coverPhoto {
-      filename
-      id
-    }
-  }
-`;
 export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     id
@@ -893,32 +883,34 @@ export const AttachedImageFragmentDoc = gql`
     filename
   }
 `;
+export const GroupAvatarFragmentDoc = gql`
+  fragment GroupAvatar on Group {
+    id
+    name
+    coverPhoto {
+      filename
+      id
+    }
+  }
+`;
 export const PostCardFragmentDoc = gql`
   fragment PostCard on Post {
     id
     body
     images {
-      filename
-      id
+      ...AttachedImage
     }
     user {
-      id
-      name
-      profilePicture {
-        filename
-        id
-      }
+      ...UserAvatar
     }
     group {
-      id
-      name
-      coverPhoto {
-        filename
-        id
-      }
+      ...GroupAvatar
     }
     createdAt
   }
+  ${AttachedImageFragmentDoc}
+  ${UserAvatarFragmentDoc}
+  ${GroupAvatarFragmentDoc}
 `;
 export const PostFormFragmentDoc = gql`
   fragment PostForm on Post {

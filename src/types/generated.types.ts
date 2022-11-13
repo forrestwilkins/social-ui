@@ -784,8 +784,6 @@ export type UserQuery = {
     bio?: string | null;
     name: string;
     createdAt: any;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
     posts: Array<{
       __typename?: "Post";
       id: number;
@@ -809,6 +807,8 @@ export type UserQuery = {
         } | null;
       } | null;
     }>;
+    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -2219,23 +2219,13 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UserDocument = gql`
   query User($name: String) {
     user(name: $name) {
-      id
-      bio
-      name
-      createdAt
-      profilePicture {
-        filename
-        id
-      }
-      coverPhoto {
-        filename
-        id
-      }
+      ...UserProfileCard
       posts {
         ...PostCard
       }
     }
   }
+  ${UserProfileCardFragmentDoc}
   ${PostCardFragmentDoc}
 `;
 

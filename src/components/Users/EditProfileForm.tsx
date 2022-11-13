@@ -1,9 +1,8 @@
+import { Reference } from "@apollo/client";
 import { Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
-import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
-import USER_PROFILE_FRAGMENT from "../../apollo/users/fragments/user-profile.fragment";
 import {
   uploadProfilePicture,
   uploadUserCoverPhoto,
@@ -74,28 +73,17 @@ const EditProfileForm = ({ editUser, submitButtonText }: Props) => {
                 coverPhotoData
               );
             }
-            cache.updateFragment<UserProfileFragment>(
-              {
-                id: cache.identify(editUser),
-                fragment: USER_PROFILE_FRAGMENT,
-                fragmentName: "UserProfile",
+            cache.modify({
+              id: cache.identify(editUser),
+              fields: {
+                profilePicture(existingRef: Reference) {
+                  return profilePicture || existingRef;
+                },
+                coverPhoto(existingRef: Reference) {
+                  return coverPhoto || existingRef;
+                },
               },
-              (data) =>
-                produce(data, (draft) => {
-                  if (!draft) {
-                    return;
-                  }
-                  if (profilePicture) {
-                    draft.profilePicture = profilePicture;
-                    for (const post of draft.posts) {
-                      post.user.profilePicture = profilePicture;
-                    }
-                  }
-                  if (coverPhoto) {
-                    draft.coverPhoto = coverPhoto;
-                  }
-                })
-            );
+            });
           },
         });
         if (!data?.updateUser) {

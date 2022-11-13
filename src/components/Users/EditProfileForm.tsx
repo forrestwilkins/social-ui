@@ -6,7 +6,7 @@ import { toastVar } from "../../apollo/cache";
 import {
   uploadProfilePicture,
   uploadUserCoverPhoto,
-} from "../../apollo/users/mutations/update-user.mutation";
+} from "../../apollo/users/mutations/UpdateUser.mutation";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {

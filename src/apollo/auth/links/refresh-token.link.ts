@@ -2,7 +2,7 @@ import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { MutationNames } from "../../../constants/common.constants";
 import { isRefreshingTokenVar } from "../../cache";
-import { refreshToken } from "../mutations/refresh-token.mutation";
+import { refreshToken } from "../mutations/RefreshToken.mutation";
 
 type Callback = (arg: unknown) => void;
 

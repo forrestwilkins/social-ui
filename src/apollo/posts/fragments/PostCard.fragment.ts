@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
-import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/group-avatar.fragment";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
-import ATTACHED_IMAGE_FRAGMENT from "../../images/fragments/attached-image.fragment";
+import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/GroupAvatar.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
+import ATTACHED_IMAGE_FRAGMENT from "../../images/fragments/AttachedImage.fragment";
 
 const POST_CARD_FRAGMENT = gql`
   fragment PostCard on Post {

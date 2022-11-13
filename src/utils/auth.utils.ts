@@ -1,5 +1,5 @@
 import client from "../apollo";
-import LOG_OUT_MUTATION from "../apollo/auth/mutations/log-out.mutation";
+import LOG_OUT_MUTATION from "../apollo/auth/mutations/LogOut.mutation";
 import {
   isAuthLoadingVar,
   isLoggedInVar,

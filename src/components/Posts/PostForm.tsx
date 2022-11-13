@@ -9,9 +9,9 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/post-card.fragment";
-import { uploadPostImages } from "../../apollo/posts/mutations/create-post.mutation";
-import POSTS_QUERY from "../../apollo/posts/queries/posts.query";
+import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/PostCard.fragment";
+import { uploadPostImages } from "../../apollo/posts/mutations/CreatePost.mutation";
+import POSTS_QUERY from "../../apollo/posts/queries/Posts.query";
 import {
   FieldNames,
   NavigationPaths,

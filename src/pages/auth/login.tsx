@@ -9,7 +9,7 @@ import {
   isNavDrawerOpenVar,
   toastVar,
 } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/me.query";
+import ME_QUERY from "../../apollo/users/queries/Me.query";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";

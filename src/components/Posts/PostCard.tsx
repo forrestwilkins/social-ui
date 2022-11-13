@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
-import { removePost } from "../../apollo/posts/mutations/delete-post.mutation";
+import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

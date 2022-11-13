@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
-import { removeGroup } from "../../apollo/groups/mutations/delete-group.mutation";
+import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,

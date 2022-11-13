@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/user-avatar.fragment";
+import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
 
 const REQUEST_TO_JOIN_FRAGMENT = gql`
   fragment RequestToJoin on MemberRequest {

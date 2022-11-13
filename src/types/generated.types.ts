@@ -460,7 +460,6 @@ export type GroupQuery = {
     description: string;
     memberCount: number;
     memberRequestCount: number;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
     posts: Array<{
       __typename?: "Post";
       id: number;
@@ -494,6 +493,7 @@ export type GroupQuery = {
         profilePicture: { __typename?: "Image"; filename: string; id: number };
       };
     }>;
+    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -1572,15 +1572,7 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
 export const GroupDocument = gql`
   query Group($name: String!) {
     group(name: $name) {
-      id
-      name
-      description
-      coverPhoto {
-        filename
-        id
-      }
-      memberCount
-      memberRequestCount
+      ...GroupProfileCard
       posts {
         ...PostCard
       }
@@ -1592,6 +1584,7 @@ export const GroupDocument = gql`
       }
     }
   }
+  ${GroupProfileCardFragmentDoc}
   ${PostCardFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;

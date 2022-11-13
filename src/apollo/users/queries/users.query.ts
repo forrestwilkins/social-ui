@@ -4,9 +4,7 @@ const USERS_QUERY = gql`
   query Users {
     users {
       id
-      bio
       name
-      createdAt
     }
   }
 `;

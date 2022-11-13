@@ -816,13 +816,7 @@ export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UsersQuery = {
   __typename?: "Query";
-  users: Array<{
-    __typename?: "User";
-    id: number;
-    bio?: string | null;
-    name: string;
-    createdAt: any;
-  }>;
+  users: Array<{ __typename?: "User"; id: number; name: string }>;
 };
 
 export const GroupAvatarFragmentDoc = gql`
@@ -2283,9 +2277,7 @@ export const UsersDocument = gql`
   query Users {
     users {
       id
-      bio
       name
-      createdAt
     }
   }
 `;

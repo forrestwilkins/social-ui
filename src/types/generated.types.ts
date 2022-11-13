@@ -1,6 +1,10 @@
-/* eslint-disable */
 import { gql } from "@apollo/client";
 import * as Apollo from "@apollo/client";
+
+// THIS FILE IS GENERATED, DO NOT EDIT
+
+/* eslint-disable */
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -259,25 +263,6 @@ export type LogOutMutationVariables = Exact<{ [key: string]: never }>;
 
 export type LogOutMutation = { __typename?: "Mutation"; logOut: boolean };
 
-export type LoginMutationVariables = Exact<{
-  input: LoginInput;
-}>;
-
-export type LoginMutation = {
-  __typename?: "Mutation";
-  login: {
-    __typename?: "AuthPayload";
-    user: {
-      __typename?: "User";
-      id: number;
-      bio?: string | null;
-      name: string;
-      createdAt: any;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-  };
-};
-
 export type RefreshTokenMutationVariables = Exact<{ [key: string]: never }>;
 
 export type RefreshTokenMutation = {
@@ -292,6 +277,25 @@ export type SignUpMutationVariables = Exact<{
 export type SignUpMutation = {
   __typename?: "Mutation";
   signUp: {
+    __typename?: "AuthPayload";
+    user: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      name: string;
+      createdAt: any;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
+  };
+};
+
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+export type LoginMutation = {
+  __typename?: "Mutation";
+  login: {
     __typename?: "AuthPayload";
     user: {
       __typename?: "User";
@@ -447,6 +451,38 @@ export type UpdateGroupMutation = {
   };
 };
 
+export type MemberRequestQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type MemberRequestQuery = {
+  __typename?: "Query";
+  memberRequest?: {
+    __typename?: "MemberRequest";
+    id: number;
+    status: string;
+  } | null;
+};
+
+export type MemberRequestsQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type MemberRequestsQuery = {
+  __typename?: "Query";
+  memberRequests: Array<{
+    __typename?: "MemberRequest";
+    id: number;
+    status: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
+  }>;
+};
+
 export type GroupQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
@@ -509,38 +545,6 @@ export type GroupsQuery = {
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-  }>;
-};
-
-export type MemberRequestQueryVariables = Exact<{
-  groupId: Scalars["Int"];
-}>;
-
-export type MemberRequestQuery = {
-  __typename?: "Query";
-  memberRequest?: {
-    __typename?: "MemberRequest";
-    id: number;
-    status: string;
-  } | null;
-};
-
-export type MemberRequestsQueryVariables = Exact<{
-  groupId: Scalars["Int"];
-}>;
-
-export type MemberRequestsQuery = {
-  __typename?: "Query";
-  memberRequests: Array<{
-    __typename?: "MemberRequest";
-    id: number;
-    status: string;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
   }>;
 };
 
@@ -981,62 +985,6 @@ export type LogOutMutationOptions = Apollo.BaseMutationOptions<
   LogOutMutation,
   LogOutMutationVariables
 >;
-export const LoginDocument = gql`
-  mutation Login($input: LoginInput!) {
-    login(input: $input) {
-      user {
-        id
-        bio
-        name
-        createdAt
-        profilePicture {
-          filename
-          id
-        }
-      }
-    }
-  }
-`;
-export type LoginMutationFn = Apollo.MutationFunction<
-  LoginMutation,
-  LoginMutationVariables
->;
-
-/**
- * __useLoginMutation__
- *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LoginMutation,
-    LoginMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
-    LoginDocument,
-    options
-  );
-}
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
 export const RefreshTokenDocument = gql`
   mutation RefreshToken {
     refreshToken
@@ -1139,6 +1087,62 @@ export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<
   SignUpMutation,
   SignUpMutationVariables
+>;
+export const LoginDocument = gql`
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      user {
+        id
+        bio
+        name
+        createdAt
+        profilePicture {
+          filename
+          id
+        }
+      }
+    }
+  }
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    options
+  );
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
 >;
 export const AuthCheckDocument = gql`
   query AuthCheck {
@@ -1557,114 +1561,6 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutation,
   UpdateGroupMutationVariables
 >;
-export const GroupDocument = gql`
-  query Group($name: String!) {
-    group(name: $name) {
-      ...GroupProfileCard
-      posts {
-        ...PostCard
-      }
-      members {
-        id
-        user {
-          ...UserAvatar
-        }
-      }
-    }
-  }
-  ${GroupProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
-  ${UserAvatarFragmentDoc}
-`;
-
-/**
- * __useGroupQuery__
- *
- * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGroupQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGroupQuery(
-  baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupQuery, GroupQueryVariables>(
-    GroupDocument,
-    options
-  );
-}
-export function useGroupLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(
-    GroupDocument,
-    options
-  );
-}
-export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
-export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
-export type GroupQueryResult = Apollo.QueryResult<
-  GroupQuery,
-  GroupQueryVariables
->;
-export const GroupsDocument = gql`
-  query Groups {
-    groups {
-      ...GroupCard
-    }
-  }
-  ${GroupCardFragmentDoc}
-`;
-
-/**
- * __useGroupsQuery__
- *
- * To run a query within a React component, call `useGroupsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGroupsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGroupsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GroupsQuery, GroupsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupsQuery, GroupsQueryVariables>(
-    GroupsDocument,
-    options
-  );
-}
-export function useGroupsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GroupsQuery, GroupsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupsQuery, GroupsQueryVariables>(
-    GroupsDocument,
-    options
-  );
-}
-export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
-export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
-export type GroupsQueryResult = Apollo.QueryResult<
-  GroupsQuery,
-  GroupsQueryVariables
->;
 export const MemberRequestDocument = gql`
   query MemberRequest($groupId: Int!) {
     memberRequest(groupId: $groupId) {
@@ -1786,6 +1682,114 @@ export type MemberRequestsLazyQueryHookResult = ReturnType<
 export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQuery,
   MemberRequestsQueryVariables
+>;
+export const GroupDocument = gql`
+  query Group($name: String!) {
+    group(name: $name) {
+      ...GroupProfileCard
+      posts {
+        ...PostCard
+      }
+      members {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${GroupProfileCardFragmentDoc}
+  ${PostCardFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useGroupQuery__
+ *
+ * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGroupQuery(
+  baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupQuery, GroupQueryVariables>(
+    GroupDocument,
+    options
+  );
+}
+export function useGroupLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(
+    GroupDocument,
+    options
+  );
+}
+export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
+export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
+export type GroupQueryResult = Apollo.QueryResult<
+  GroupQuery,
+  GroupQueryVariables
+>;
+export const GroupsDocument = gql`
+  query Groups {
+    groups {
+      ...GroupCard
+    }
+  }
+  ${GroupCardFragmentDoc}
+`;
+
+/**
+ * __useGroupsQuery__
+ *
+ * To run a query within a React component, call `useGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGroupsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GroupsQuery, GroupsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupsQuery, GroupsQueryVariables>(
+    GroupsDocument,
+    options
+  );
+}
+export function useGroupsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GroupsQuery, GroupsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupsQuery, GroupsQueryVariables>(
+    GroupsDocument,
+    options
+  );
+}
+export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
+export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
+export type GroupsQueryResult = Apollo.QueryResult<
+  GroupsQuery,
+  GroupsQueryVariables
 >;
 export const DeleteImageDocument = gql`
   mutation DeleteImage($id: Int!) {

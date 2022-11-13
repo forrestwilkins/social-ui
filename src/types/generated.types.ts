@@ -734,12 +734,12 @@ export type UserAvatarFragment = {
 
 export type UserProfileCardFragment = {
   __typename?: "User";
-  id: number;
   bio?: string | null;
-  name: string;
   createdAt: any;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
+  id: number;
+  name: string;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  profilePicture: { __typename?: "Image"; filename: string; id: number };
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -778,10 +778,10 @@ export type UserQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
-    id: number;
     bio?: string | null;
-    name: string;
     createdAt: any;
+    id: number;
+    name: string;
     posts: Array<{
       __typename?: "Post";
       id: number;
@@ -805,8 +805,8 @@ export type UserQuery = {
         } | null;
       } | null;
     }>;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    profilePicture: { __typename?: "Image"; filename: string; id: number };
   };
 };
 
@@ -927,19 +927,15 @@ export const EditProfileFormFragmentDoc = gql`
 `;
 export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
-    id
-    bio
-    name
-    profilePicture {
-      filename
-      id
-    }
+    ...UserAvatar
     coverPhoto {
       filename
       id
     }
+    bio
     createdAt
   }
+  ${UserAvatarFragmentDoc}
 `;
 export const LogOutDocument = gql`
   mutation LogOut {

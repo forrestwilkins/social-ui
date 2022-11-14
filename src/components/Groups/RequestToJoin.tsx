@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import produce from "immer";
-import GROUP_QUERY from "../../apollo/groups/queries/GroupFix.query";
+import GROUP_QUERY from "../../apollo/groups/queries/Group.query";
 import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
 import { useTranslate } from "../../hooks/common.hooks";
 import {

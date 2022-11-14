@@ -12,7 +12,7 @@ import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/CreateGroup.mutation";
-import GROUPS_QUERY from "../../apollo/groups/queries/GroupsFix.query";
+import GROUPS_QUERY from "../../apollo/groups/queries/Groups.query";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";

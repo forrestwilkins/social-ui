@@ -50,7 +50,7 @@ Social UI takes advantage of code generation based on the current GraphQL schema
 
 ```bash
 # Keep generated types and hooks in sync with the current schema
-$ yarn codegen
+$ yarn generate
 ```
 
 Read more about [GraphQL Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started).

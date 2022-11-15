@@ -451,38 +451,6 @@ export type UpdateGroupMutation = {
   };
 };
 
-export type MemberRequestQueryVariables = Exact<{
-  groupId: Scalars["Int"];
-}>;
-
-export type MemberRequestQuery = {
-  __typename?: "Query";
-  memberRequest?: {
-    __typename?: "MemberRequest";
-    id: number;
-    status: string;
-  } | null;
-};
-
-export type MemberRequestsQueryVariables = Exact<{
-  groupId: Scalars["Int"];
-}>;
-
-export type MemberRequestsQuery = {
-  __typename?: "Query";
-  memberRequests: Array<{
-    __typename?: "MemberRequest";
-    id: number;
-    status: string;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-  }>;
-};
-
 export type GroupQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
@@ -545,6 +513,38 @@ export type GroupsQuery = {
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  }>;
+};
+
+export type MemberRequestQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type MemberRequestQuery = {
+  __typename?: "Query";
+  memberRequest?: {
+    __typename?: "MemberRequest";
+    id: number;
+    status: string;
+  } | null;
+};
+
+export type MemberRequestsQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type MemberRequestsQuery = {
+  __typename?: "Query";
+  memberRequests: Array<{
+    __typename?: "MemberRequest";
+    id: number;
+    status: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
   }>;
 };
 
@@ -1561,6 +1561,114 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutation,
   UpdateGroupMutationVariables
 >;
+export const GroupDocument = gql`
+  query Group($name: String!) {
+    group(name: $name) {
+      ...GroupProfileCard
+      posts {
+        ...PostCard
+      }
+      members {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${GroupProfileCardFragmentDoc}
+  ${PostCardFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useGroupQuery__
+ *
+ * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGroupQuery(
+  baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupQuery, GroupQueryVariables>(
+    GroupDocument,
+    options
+  );
+}
+export function useGroupLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(
+    GroupDocument,
+    options
+  );
+}
+export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
+export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
+export type GroupQueryResult = Apollo.QueryResult<
+  GroupQuery,
+  GroupQueryVariables
+>;
+export const GroupsDocument = gql`
+  query Groups {
+    groups {
+      ...GroupCard
+    }
+  }
+  ${GroupCardFragmentDoc}
+`;
+
+/**
+ * __useGroupsQuery__
+ *
+ * To run a query within a React component, call `useGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGroupsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GroupsQuery, GroupsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupsQuery, GroupsQueryVariables>(
+    GroupsDocument,
+    options
+  );
+}
+export function useGroupsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GroupsQuery, GroupsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupsQuery, GroupsQueryVariables>(
+    GroupsDocument,
+    options
+  );
+}
+export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
+export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
+export type GroupsQueryResult = Apollo.QueryResult<
+  GroupsQuery,
+  GroupsQueryVariables
+>;
 export const MemberRequestDocument = gql`
   query MemberRequest($groupId: Int!) {
     memberRequest(groupId: $groupId) {
@@ -1682,114 +1790,6 @@ export type MemberRequestsLazyQueryHookResult = ReturnType<
 export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQuery,
   MemberRequestsQueryVariables
->;
-export const GroupDocument = gql`
-  query Group($name: String!) {
-    group(name: $name) {
-      ...GroupProfileCard
-      posts {
-        ...PostCard
-      }
-      members {
-        id
-        user {
-          ...UserAvatar
-        }
-      }
-    }
-  }
-  ${GroupProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
-  ${UserAvatarFragmentDoc}
-`;
-
-/**
- * __useGroupQuery__
- *
- * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGroupQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGroupQuery(
-  baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupQuery, GroupQueryVariables>(
-    GroupDocument,
-    options
-  );
-}
-export function useGroupLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(
-    GroupDocument,
-    options
-  );
-}
-export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
-export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
-export type GroupQueryResult = Apollo.QueryResult<
-  GroupQuery,
-  GroupQueryVariables
->;
-export const GroupsDocument = gql`
-  query Groups {
-    groups {
-      ...GroupCard
-    }
-  }
-  ${GroupCardFragmentDoc}
-`;
-
-/**
- * __useGroupsQuery__
- *
- * To run a query within a React component, call `useGroupsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGroupsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGroupsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GroupsQuery, GroupsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupsQuery, GroupsQueryVariables>(
-    GroupsDocument,
-    options
-  );
-}
-export function useGroupsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GroupsQuery, GroupsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupsQuery, GroupsQueryVariables>(
-    GroupsDocument,
-    options
-  );
-}
-export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
-export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
-export type GroupsQueryResult = Apollo.QueryResult<
-  GroupsQuery,
-  GroupsQueryVariables
 >;
 export const DeleteImageDocument = gql`
   mutation DeleteImage($id: Int!) {

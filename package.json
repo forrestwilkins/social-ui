@@ -6,8 +6,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "next build",
-    "codegen": "graphql-codegen && yarn prettier --loglevel silent",
     "dev": "next dev",
+    "generate": "graphql-codegen && yarn prettier --loglevel silent",
     "lint:fix": "yarn lint --fix",
     "lint": "eslint src --ext .ts,.tsx",
     "prettier:base": "prettier \"**/*.{ts,tsx,js}\"",

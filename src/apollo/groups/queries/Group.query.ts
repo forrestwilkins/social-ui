@@ -1,3 +1,5 @@
+// TODO: Consider adding another query for group members page
+
 import { gql } from "@apollo/client";
 import POST_CARD_FRAGMENT from "../../posts/fragments/PostCard.fragment";
 import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";

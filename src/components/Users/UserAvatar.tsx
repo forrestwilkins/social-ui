@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps, useTheme } from "@mui/material";
 import { CSSProperties } from "react";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery, UserAvatarFragment } from "../../types/generated.types";
+import { useMeQuery, UserAvatarFragment } from "../../apollo/gen";
 import { getImagePath } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Link from "../Shared/Link";

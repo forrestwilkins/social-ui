@@ -1,8 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import {
-  GroupAvatarFragment,
-  UserAvatarFragment,
-} from "../../types/generated.types";
+import { GroupAvatarFragment, UserAvatarFragment } from "../../apollo/gen";
 import UserAvatar from "../Users/UserAvatar";
 import GroupAvatar from "./GroupAvatar";
 

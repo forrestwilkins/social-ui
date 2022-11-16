@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
-import { Image } from "../../../types/generated.types";
+import { Image } from "../../gen";
 import { multiPartRequest } from "../../../utils/common.utils";
 
 const UPDATE_USER_MUTATION = gql`

@@ -16,10 +16,7 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  GroupCardFragment,
-  useDeleteGroupMutation,
-} from "../../types/generated.types";
+import { GroupCardFragment, useDeleteGroupMutation } from "../../apollo/gen";
 import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";

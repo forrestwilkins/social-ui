@@ -8,7 +8,7 @@ import {
   useTranslate,
 } from "../../hooks/common.hooks";
 import theme from "../../styles/theme";
-import { useAuthCheckQuery } from "../../types/generated.types";
+import { useAuthCheckQuery } from "../../apollo/gen";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";

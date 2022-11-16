@@ -23,7 +23,7 @@ import { useTranslate } from "../../hooks/common.hooks";
 import {
   GroupProfileCardFragment,
   useDeleteGroupMutation,
-} from "../../types/generated.types";
+} from "../../apollo/gen";
 import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";

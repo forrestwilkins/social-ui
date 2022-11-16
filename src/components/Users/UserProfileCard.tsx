@@ -18,10 +18,7 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
-import {
-  useMeQuery,
-  UserProfileCardFragment,
-} from "../../types/generated.types";
+import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
 import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";

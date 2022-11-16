@@ -7,13 +7,12 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
 
   generates: {
-    "./src/types/generated.types.ts": {
+    "./src/apollo/generated.ts": {
       plugins: [
         {
           add: {
             content: `
               // THIS FILE IS GENERATED, DO NOT EDIT
-
               /* eslint-disable */
             `,
           },

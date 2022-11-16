@@ -7,7 +7,7 @@ import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useDeletePostMutation, usePostQuery } from "../../../apollo/generated";
+import { useDeletePostMutation, usePostQuery } from "../../../apollo/gen";
 import { redirectTo } from "../../../utils/common.utils";
 
 const EditPostPage: NextPage = () => {

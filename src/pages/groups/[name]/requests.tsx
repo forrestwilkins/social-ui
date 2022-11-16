@@ -13,10 +13,7 @@ import RequestToJoin from "../../../components/Groups/RequestToJoin";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
-import {
-  useGroupQuery,
-  useMemberRequestsQuery,
-} from "../../../apollo/generated";
+import { useGroupQuery, useMemberRequestsQuery } from "../../../apollo/gen";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
-import { Image } from "../../../apollo/generated";
+import { Image } from "../../gen";
 import { multiPartRequest } from "../../../utils/common.utils";
 
 const CREATE_GROUP_MUTATION = gql`

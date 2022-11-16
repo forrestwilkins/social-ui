@@ -2,7 +2,7 @@ import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
 import Image from "next/image";
 import { useTranslate } from "../../hooks/common.hooks";
-import { AttachedImageFragment } from "../../apollo/generated";
+import { AttachedImageFragment } from "../../apollo/gen";
 import { getImagePath } from "../../utils/image.utils";
 
 const IMAGE_CONTAINER: SxProps = {

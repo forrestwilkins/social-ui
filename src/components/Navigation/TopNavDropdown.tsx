@@ -11,7 +11,7 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useLogOutMutation } from "../../apollo/generated";
+import { useLogOutMutation } from "../../apollo/gen";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 export const handleLogOutComplete = () => {

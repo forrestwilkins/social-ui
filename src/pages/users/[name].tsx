@@ -5,7 +5,7 @@ import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useUserQuery } from "../../apollo/generated";
+import { useUserQuery } from "../../apollo/gen";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();

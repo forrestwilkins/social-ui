@@ -12,7 +12,7 @@ import {
   useCreateMemberRequestMutation,
   useLeaveGroupMutation,
   useMemberRequestQuery,
-} from "../../apollo/generated";
+} from "../../apollo/gen";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {

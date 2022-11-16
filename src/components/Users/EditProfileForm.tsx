@@ -14,7 +14,7 @@ import {
   Image,
   UpdateUserInput,
   useUpdateUserMutation,
-} from "../../apollo/generated";
+} from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";

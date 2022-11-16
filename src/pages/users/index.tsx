@@ -5,7 +5,7 @@ import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useUsersQuery } from "../../apollo/generated";
+import { useUsersQuery } from "../../apollo/gen";
 
 const UsersIndex: NextPage = () => {
   const { data, error, loading } = useUsersQuery();

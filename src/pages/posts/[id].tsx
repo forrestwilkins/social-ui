@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PostCard from "../../components/Posts/PostCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { usePostQuery } from "../../apollo/generated";
+import { usePostQuery } from "../../apollo/gen";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();

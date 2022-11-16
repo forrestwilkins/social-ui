@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import EditProfileForm from "../../../components/Users/EditProfileForm";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useUserQuery } from "../../../types/generated.types";
+import { useUserQuery } from "../../../apollo/gen";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();

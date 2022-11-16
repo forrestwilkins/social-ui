@@ -21,7 +21,7 @@ import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
 import ME_QUERY from "../../apollo/users/queries/Me.query";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useLogOutMutation, useMeQuery } from "../../types/generated.types";
+import { useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";

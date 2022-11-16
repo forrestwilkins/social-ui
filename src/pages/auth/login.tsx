@@ -18,11 +18,7 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  LoginInput,
-  MeQuery,
-  useLoginMutation,
-} from "../../types/generated.types";
+import { LoginInput, MeQuery, useLoginMutation } from "../../apollo/gen";
 
 const Login: NextPage = () => {
   const [login] = useLoginMutation();

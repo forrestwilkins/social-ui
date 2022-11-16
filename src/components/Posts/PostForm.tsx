@@ -27,7 +27,7 @@ import {
   useCreatePostMutation,
   useDeleteImageMutation,
   useUpdatePostMutation,
-} from "../../types/generated.types";
+} from "../../apollo/gen";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";

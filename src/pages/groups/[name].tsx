@@ -8,7 +8,7 @@ import PostForm from "../../components/Posts/PostForm";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useGroupQuery } from "../../types/generated.types";
+import { useGroupQuery } from "../../apollo/gen";
 
 // TODO: Add remaining layout and functionality - below is a WIP
 const GroupPage: NextPage = () => {

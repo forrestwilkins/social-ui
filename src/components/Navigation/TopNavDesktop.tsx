@@ -9,7 +9,7 @@ import {
 } from "../../apollo/cache";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery } from "../../types/generated.types";
+import { useMeQuery } from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";

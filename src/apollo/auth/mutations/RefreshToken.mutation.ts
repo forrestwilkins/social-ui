@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import client from "../..";
+import client from "../../client";
 import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
 

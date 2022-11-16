@@ -13,11 +13,7 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  MeQuery,
-  SignUpInput,
-  useSignUpMutation,
-} from "../../types/generated.types";
+import { MeQuery, SignUpInput, useSignUpMutation } from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {

@@ -7,7 +7,7 @@ import GroupForm from "../../components/Groups/GroupForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useGroupsQuery } from "../../types/generated.types";
+import { useGroupsQuery } from "../../apollo/gen";
 
 const GroupsIndex: NextPage = () => {
   const { data, loading, error } = useGroupsQuery();

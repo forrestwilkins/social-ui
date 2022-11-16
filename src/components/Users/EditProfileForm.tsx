@@ -67,11 +67,15 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
         cache.modify({
           id: cache.identify(user),
           fields: {
-            coverPhoto(existingRef: Reference) {
-              return coverPhotoResult || existingRef;
+            coverPhoto(existingRef: Reference, { toReference }) {
+              return coverPhotoResult
+                ? toReference(coverPhotoResult)
+                : existingRef;
             },
-            profilePicture(existingRef: Reference) {
-              return profilePictureResult || existingRef;
+            profilePicture(existingRef: Reference, { toReference }) {
+              return profilePictureResult
+                ? toReference(profilePictureResult)
+                : existingRef;
             },
           },
         });

@@ -39,8 +39,9 @@ const SEARCH_ICON_STYLES: SxProps = {
 };
 
 /**
- * TODO: Resolve styling issue with search bar on page refresh
- * Was resolved but seems to have been reintroduced somehow
+ * TODO: Resolve styling issue with search bar on page refresh.
+ * It happens for a split second before fully refreshing - can
+ * be seen with the Performance tab in Chrome
  */
 const SearchBar = () => {
   const [focused, setFocused] = useState<boolean>(false);

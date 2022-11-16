@@ -4,17 +4,17 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
-  uploadProfilePicture,
-  uploadUserCoverPhoto,
-} from "../../apollo/users/mutations/UpdateUser.mutation";
-import { UserFieldNames } from "../../constants/user.constants";
-import { useTranslate } from "../../hooks/common.hooks";
-import {
   EditProfileFormFragment,
   Image,
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
+import {
+  uploadProfilePicture,
+  uploadUserCoverPhoto,
+} from "../../apollo/users/mutations/UpdateUser.mutation";
+import { UserFieldNames } from "../../constants/user.constants";
+import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -28,74 +28,66 @@ import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
 
 interface Props {
-  editUser: EditProfileFormFragment;
+  user: EditProfileFormFragment;
   submitButtonText: string;
 }
 
-const EditProfileForm = ({ editUser, submitButtonText }: Props) => {
+const EditProfileForm = ({ user, submitButtonText }: Props) => {
   const [updateUser] = useUpdateUserMutation();
   const [profilePicture, setProfilePicture] = useState<File>();
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const t = useTranslate();
 
   const initialValues: Omit<UpdateUserInput, "id"> = {
-    bio: editUser.bio || "",
-    name: editUser.name || "",
+    bio: user.bio || "",
+    name: user.name || "",
   };
 
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) => {
-    try {
-      if (editUser) {
-        const profilePictureData = buildImageData(profilePicture);
-        const coverPhotoData = buildImageData(coverPhoto);
-        const { data } = await updateUser({
-          variables: {
-            userData: {
-              id: editUser.id,
-              ...formValues,
-            },
-          },
-          async update(cache, { data }) {
-            if (!data || (!coverPhotoData && !profilePictureData)) {
-              return;
-            }
-            let coverPhoto: Image | undefined;
-            let profilePicture: Image | undefined;
-            if (profilePictureData) {
-              profilePicture = await uploadProfilePicture(
-                editUser.id,
-                profilePictureData
-              );
-            }
-            if (coverPhotoData) {
-              coverPhoto = await uploadUserCoverPhoto(
-                editUser.id,
-                coverPhotoData
-              );
-            }
-            cache.modify({
-              id: cache.identify(editUser),
-              fields: {
-                profilePicture(existingRef: Reference) {
-                  return profilePicture || existingRef;
-                },
-                coverPhoto(existingRef: Reference) {
-                  return coverPhoto || existingRef;
-                },
-              },
-            });
-          },
-        });
-        if (!data?.updateUser) {
-          toastVar({ status: "error", title: t("errors.somethingWentWrong") });
+    const profilePictureData = buildImageData(profilePicture);
+    const coverPhotoData = buildImageData(coverPhoto);
+    await updateUser({
+      variables: {
+        userData: {
+          id: user.id,
+          ...formValues,
+        },
+      },
+      async update(cache, { data }) {
+        if (!data || (!coverPhotoData && !profilePictureData)) {
           return;
         }
+        let coverPhoto: Image | undefined;
+        let profilePicture: Image | undefined;
+        if (profilePictureData) {
+          profilePicture = await uploadProfilePicture(
+            user.id,
+            profilePictureData
+          );
+        }
+        if (coverPhotoData) {
+          coverPhoto = await uploadUserCoverPhoto(user.id, coverPhotoData);
+        }
+        cache.modify({
+          id: cache.identify(user),
+          fields: {
+            profilePicture(existingRef: Reference) {
+              return profilePicture || existingRef;
+            },
+            coverPhoto(existingRef: Reference) {
+              return coverPhoto || existingRef;
+            },
+          },
+        });
+      },
+      onError(error) {
+        toastVar({ status: "error", title: error.message });
+      },
+      onCompleted(data) {
         const path = getUserProfilePath(data.updateUser.name);
         redirectTo(path);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+      },
+    });
   };
 
   return (
@@ -115,7 +107,7 @@ const EditProfileForm = ({ editUser, submitButtonText }: Props) => {
 
           <Center sx={{ marginBottom: 3 }}>
             <UserAvatar
-              user={editUser}
+              user={user}
               imageFile={profilePicture}
               sx={{ width: 140, height: 140 }}
             />
@@ -136,7 +128,7 @@ const EditProfileForm = ({ editUser, submitButtonText }: Props) => {
 
           <CoverPhoto
             imageFile={coverPhoto}
-            imageId={editUser?.coverPhoto?.id}
+            imageId={user.coverPhoto?.id}
             rounded
             sx={{ marginBottom: 3 }}
           />

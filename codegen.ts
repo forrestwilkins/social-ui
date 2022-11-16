@@ -7,7 +7,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
 
   generates: {
-    "./src/apollo/generated.ts": {
+    "./src/apollo/gen.ts": {
       plugins: [
         {
           add: {

@@ -72,16 +72,17 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
             if (!coverPhotoData || !data) {
               return;
             }
-            let coverPhoto: Image | undefined;
-            if (coverPhotoData) {
-              coverPhoto = await uploadGroupCoverPhoto(
-                data.updateGroup.id,
-                coverPhotoData
-              );
-            }
+            const coverPhotoResult = await uploadGroupCoverPhoto(
+              data.updateGroup.id,
+              coverPhotoData
+            );
             cache.modify({
               id: cache.identify(editGroup),
-              fields: { coverPhoto: () => coverPhoto },
+              fields: {
+                coverPhoto(_, { toReference }) {
+                  return toReference(coverPhotoResult);
+                },
+              },
             });
           },
         });

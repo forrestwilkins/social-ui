@@ -5,7 +5,6 @@ import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
   EditProfileFormFragment,
-  Image,
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
@@ -34,8 +33,8 @@ interface Props {
 
 const EditProfileForm = ({ user, submitButtonText }: Props) => {
   const [updateUser] = useUpdateUserMutation();
-  const [profilePicture, setProfilePicture] = useState<File>();
   const [coverPhoto, setCoverPhoto] = useState<File>();
+  const [profilePicture, setProfilePicture] = useState<File>();
   const t = useTranslate();
 
   const initialValues: Omit<UpdateUserInput, "id"> = {
@@ -43,9 +42,7 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
     name: user.name || "",
   };
 
-  const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) => {
-    const profilePictureData = buildImageData(profilePicture);
-    const coverPhotoData = buildImageData(coverPhoto);
+  const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>
     await updateUser({
       variables: {
         userData: {
@@ -54,28 +51,27 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
         },
       },
       async update(cache, { data }) {
-        if (!data || (!coverPhotoData && !profilePictureData)) {
+        if (!data || (!coverPhoto && !profilePicture)) {
           return;
         }
-        let coverPhoto: Image | undefined;
-        let profilePicture: Image | undefined;
-        if (profilePictureData) {
-          profilePicture = await uploadProfilePicture(
-            user.id,
-            profilePictureData
-          );
-        }
-        if (coverPhotoData) {
-          coverPhoto = await uploadUserCoverPhoto(user.id, coverPhotoData);
-        }
+        const coverPhotoData = buildImageData(coverPhoto);
+        const profilePictureData = buildImageData(profilePicture);
+
+        const coverPhotoResult =
+          coverPhotoData &&
+          (await uploadUserCoverPhoto(user.id, coverPhotoData));
+        const profilePictureResult =
+          profilePictureData &&
+          (await uploadProfilePicture(user.id, profilePictureData));
+
         cache.modify({
           id: cache.identify(user),
           fields: {
-            profilePicture(existingRef: Reference) {
-              return profilePicture || existingRef;
-            },
             coverPhoto(existingRef: Reference) {
-              return coverPhoto || existingRef;
+              return coverPhotoResult || existingRef;
+            },
+            profilePicture(existingRef: Reference) {
+              return profilePictureResult || existingRef;
             },
           },
         });
@@ -88,7 +84,6 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
         redirectTo(path);
       },
     });
-  };
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>

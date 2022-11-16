@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
-import { Image } from "../../../types/generated.types";
+import { Image } from "../../../apollo/generated";
 import { multiPartRequest } from "../../../utils/common.utils";
 import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/GroupAvatar.fragment";
 import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";

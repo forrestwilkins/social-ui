@@ -24,7 +24,7 @@ import {
   PostCardFragment,
   useDeletePostMutation,
   useMeQuery,
-} from "../../types/generated.types";
+} from "../../apollo/generated";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";

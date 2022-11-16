@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@mui/material";
-import { PostCardFragment } from "../../types/generated.types";
+import { PostCardFragment } from "../../apollo/generated";
 import PostCard from "./PostCard";
 
 interface Props extends BoxProps {

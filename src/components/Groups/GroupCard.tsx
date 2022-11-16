@@ -19,7 +19,7 @@ import { useTranslate } from "../../hooks/common.hooks";
 import {
   GroupCardFragment,
   useDeleteGroupMutation,
-} from "../../types/generated.types";
+} from "../../apollo/generated";
 import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";

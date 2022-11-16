@@ -10,7 +10,7 @@ import {
   MemberRequestsQueryVariables,
   RequestToJoinFragment,
   useApproveMemberRequestMutation,
-} from "../../types/generated.types";
+} from "../../apollo/generated";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";

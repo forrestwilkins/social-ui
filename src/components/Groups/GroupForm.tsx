@@ -24,7 +24,7 @@ import {
   Image,
   useCreateGroupMutation,
   useUpdateGroupMutation,
-} from "../../types/generated.types";
+} from "../../apollo/generated";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";

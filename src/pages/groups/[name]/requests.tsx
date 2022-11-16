@@ -16,7 +16,7 @@ import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
 import {
   useGroupQuery,
   useMemberRequestsQuery,
-} from "../../../types/generated.types";
+} from "../../../apollo/generated";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({

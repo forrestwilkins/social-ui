@@ -17,7 +17,7 @@ import {
   MeQuery,
   SignUpInput,
   useSignUpMutation,
-} from "../../types/generated.types";
+} from "../../apollo/generated";
 import { redirectTo } from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {

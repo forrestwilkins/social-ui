@@ -18,8 +18,7 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery } from "../../hooks/user.hooks";
-import { User } from "../../types/user.types";
+import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
 import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -49,19 +48,20 @@ const JOIN_DATE_ICON_STYLES: SxProps = {
 };
 
 interface Props extends CardProps {
-  user: User;
+  user: UserProfileCardFragment;
 }
 
 const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const [me] = useMeQuery();
+  const { data } = useMeQuery();
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
   const theme = useTheme();
 
-  const joinDate = formatDate(user.createdAt);
+  const me = data && data.me;
   const isMe = me?.id === user.id;
+  const joinDate = formatDate(user.createdAt);
 
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,

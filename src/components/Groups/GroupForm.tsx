@@ -1,3 +1,5 @@
+// TODO: Ensure that update group and create group have separate input types
+
 import {
   Card,
   CardContent as MuiCardContent,
@@ -6,21 +8,27 @@ import {
   styled,
 } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
+import produce from "immer";
 import { useState } from "react";
-import { toastVar } from "../../client/cache";
+import { toastVar } from "../../apollo/cache";
+import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/CreateGroup.mutation";
+import GROUPS_QUERY from "../../apollo/groups/queries/Groups.query";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
+  GroupFormFragment,
+  GroupInput,
+  GroupsQuery,
+  Image,
   useCreateGroupMutation,
   useUpdateGroupMutation,
-} from "../../hooks/group.hooks";
-import { Group, GroupFormValues } from "../../types/group.types";
+} from "../../apollo/gen";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";
-import AttachedImages from "../Images/AttachedImages";
+import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -32,46 +40,100 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  editGroup?: Group;
+  editGroup?: GroupFormFragment;
 }
 
 const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
-  const createGroup = useCreateGroupMutation();
-  const updateGroup = useUpdateGroupMutation();
+  const [createGroup] = useCreateGroupMutation();
+  const [updateGroup] = useUpdateGroupMutation();
 
   const t = useTranslate();
 
-  const initialValues = {
+  const initialValues: GroupInput = {
     name: editGroup ? editGroup.name : "",
     description: editGroup ? editGroup.description : "",
   };
 
   const handleSubmit = async (
-    formValues: GroupFormValues,
-    { resetForm, setSubmitting }: FormikHelpers<GroupFormValues>
+    formValues: GroupInput,
+    { resetForm, setSubmitting }: FormikHelpers<GroupInput>
   ) => {
     try {
-      const imageData = buildImageData(coverPhoto);
+      const coverPhotoData = buildImageData(coverPhoto);
 
       if (editGroup) {
-        const group = await updateGroup(editGroup.id, formValues, imageData);
-        if (!group) {
+        const { data } = await updateGroup({
+          variables: {
+            groupData: { id: editGroup.id, ...formValues },
+          },
+          async update(cache, { data }) {
+            if (!coverPhotoData || !data) {
+              return;
+            }
+            const coverPhotoResult = await uploadGroupCoverPhoto(
+              data.updateGroup.id,
+              coverPhotoData
+            );
+            cache.modify({
+              id: cache.identify(editGroup),
+              fields: {
+                coverPhoto(_, { toReference }) {
+                  return toReference(coverPhotoResult);
+                },
+              },
+            });
+          },
+        });
+        if (!data?.updateGroup) {
           throw new Error(t("groups.errors.couldNotUpdate"));
         }
-        const groupPagePath = getGroupPath(group.name);
+        const groupPagePath = getGroupPath(data.updateGroup.name);
         redirectTo(groupPagePath);
         return;
       }
 
-      await createGroup(formValues, imageData);
+      await createGroup({
+        variables: { groupData: formValues },
+        async update(cache, { data }) {
+          if (!data) {
+            return;
+          }
+          let coverPhoto: Image | undefined;
+          if (coverPhotoData) {
+            coverPhoto = await uploadGroupCoverPhoto(
+              data.createGroup.id,
+              coverPhotoData
+            );
+          }
+          cache.updateQuery<GroupsQuery>(
+            { query: GROUPS_QUERY },
+            (groupsData) =>
+              produce(groupsData, (draft) => {
+                draft?.groups.unshift({
+                  ...data.createGroup,
+                  ...(coverPhoto && { coverPhoto }),
+                  memberRequestCount: 0,
+
+                  // TODO: Set to 1 after updating group creation
+                  // to automatically create first group member
+                  memberCount: 0,
+                });
+              })
+          );
+        },
+      });
+
       setImageInputKey(generateRandom());
       setCoverPhoto(undefined);
       setSubmitting(false);
       resetForm();
     } catch (err) {
-      toastVar({ status: "error", title: String(err) });
+      toastVar({
+        status: "error",
+        title: String(err),
+      });
     }
   };
 
@@ -100,7 +162,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                 />
 
                 {coverPhoto && (
-                  <AttachedImages
+                  <AttachedImagePreview
                     removeSelectedImage={removeSelectedImageHandler}
                     selectedImages={[coverPhoto]}
                   />

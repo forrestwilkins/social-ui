@@ -1,14 +1,13 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
-import { isLoggedInVar } from "../client/cache";
-import { POSTS_QUERY } from "../client/posts/post.queries";
+import { isLoggedInVar } from "../apollo/cache";
 import PostForm from "../components/Posts/PostForm";
 import PostList from "../components/Posts/PostList";
 import ProgressBar from "../components/Shared/ProgressBar";
-import { PostsQuery } from "../types/post.types";
+import { usePostsQuery } from "../apollo/gen";
 
 const Home: NextPage = () => {
-  const { data, loading } = useQuery<PostsQuery>(POSTS_QUERY);
+  const { data, loading } = usePostsQuery();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   if (loading) {

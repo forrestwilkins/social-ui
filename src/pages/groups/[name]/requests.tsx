@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -9,14 +8,12 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { breadcrumbsVar } from "../../../client/cache";
-import { MEMBER_REQUESTS_QUERY } from "../../../client/groups/group.queries";
-import MemberRequest from "../../../components/Groups/MemberRequest";
+import { breadcrumbsVar } from "../../../apollo/cache";
+import RequestToJoin from "../../../components/Groups/RequestToJoin";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
-import { useGroupQuery } from "../../../hooks/group.hooks";
-import { MemberRequestsQuery } from "../../../types/group.types";
+import { useGroupQuery, useMemberRequestsQuery } from "../../../apollo/gen";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -29,21 +26,23 @@ const CardContent = styled(MuiCardContent)(() => ({
 const MemberRequests: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [group, _, groupError] = useGroupQuery(name);
 
-  const { data, loading, error } = useQuery<MemberRequestsQuery>(
-    MEMBER_REQUESTS_QUERY,
-    {
-      variables: { groupId: group?.id },
-      skip: !group,
-    }
-  );
+  const { data: groupData, error: groupError } = useGroupQuery({
+    variables: { name },
+    skip: !name,
+  });
+
+  const { data, loading, error } = useMemberRequestsQuery({
+    variables: { groupId: groupData?.group.id as number },
+    skip: !groupData?.group,
+  });
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
 
   useEffect(() => {
-    if (group) {
+    if (groupData?.group) {
+      const { group } = groupData;
       breadcrumbsVar([
         {
           label: truncate(group.name, {
@@ -64,7 +63,7 @@ const MemberRequests: NextPage = () => {
     return () => {
       breadcrumbsVar([]);
     };
-  }, [group, t, isDesktop, data?.memberRequests]);
+  }, [groupData, t, isDesktop, data?.memberRequests]);
 
   if (error || groupError) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
@@ -82,7 +81,7 @@ const MemberRequests: NextPage = () => {
     <Card>
       <CardContent>
         {data.memberRequests.map((memberRequest) => (
-          <MemberRequest memberRequest={memberRequest} key={memberRequest.id} />
+          <RequestToJoin key={memberRequest.id} memberRequest={memberRequest} />
         ))}
       </CardContent>
     </Card>

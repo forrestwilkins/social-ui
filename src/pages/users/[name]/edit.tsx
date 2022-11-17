@@ -1,37 +1,39 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useUserQuery } from "../../../apollo/gen";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import UserForm from "../../../components/Users/UserForm";
+import EditProfileForm from "../../../components/Users/EditProfileForm";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useUserQuery } from "../../../hooks/user.hooks";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [user, userLoading, error] = useUserQuery(name);
-
   const t = useTranslate();
+
+  const { data, loading, error } = useUserQuery({
+    variables: { name },
+    skip: !name,
+  });
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
-  if (userLoading) {
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!user) {
+  if (!data?.user) {
     return null;
   }
 
   return (
     <Card>
       <CardContent>
-        <UserForm
-          editUser={user}
+        <EditProfileForm
           submitButtonText={t("actions.save")}
-          isEditing
+          user={data.user}
         />
       </CardContent>
     </Card>

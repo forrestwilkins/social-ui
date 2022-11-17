@@ -1,42 +1,60 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { toastVar } from "../../../client/cache";
+import { toastVar } from "../../../apollo/cache";
+import { removePost } from "../../../apollo/posts/mutations/DeletePost.mutation";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useDeletePostMutation, usePostQuery } from "../../../hooks/post.hooks";
+import { useDeletePostMutation, usePostQuery } from "../../../apollo/gen";
 import { redirectTo } from "../../../utils/common.utils";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
-  const editPostId = parseInt(String(query?.id));
-  const [post, isPostLoading] = usePostQuery(editPostId);
-  const deletePost = useDeletePostMutation();
+  const id = parseInt(String(query?.id));
+  const { data, loading, error } = usePostQuery({
+    variables: { id },
+    skip: !id,
+  });
+
+  const [deletePost] = useDeletePostMutation();
 
   const t = useTranslate();
 
-  if (isPostLoading) {
+  if (error) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!post) {
+  if (!data) {
     return null;
   }
 
   const handleDeleteButtonClick = async () => {
+    const {
+      post: { group, user },
+    } = data;
     try {
-      await deletePost(editPostId);
+      await deletePost({
+        variables: { id },
+        update: removePost(id, user.id, group?.id),
+      });
       redirectTo(NavigationPaths.Home);
     } catch {
-      toastVar({ status: "error", title: t("errors.somethingWentWrong") });
+      toastVar({
+        status: "error",
+        title: t("errors.somethingWentWrong"),
+      });
     }
   };
 
   return (
     <>
-      <PostForm editPost={post} sx={{ marginBottom: 2.5 }} />
+      <PostForm editPost={data.post} sx={{ marginBottom: 2.5 }} />
 
       <Button
         color="error"

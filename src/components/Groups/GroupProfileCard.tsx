@@ -13,14 +13,17 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
+import { isLoggedInVar } from "../../apollo/cache";
+import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useDeleteGroupMutation } from "../../hooks/group.hooks";
-import { Group } from "../../types/group.types";
+import {
+  GroupProfileCardFragment,
+  useDeleteGroupMutation,
+} from "../../apollo/gen";
 import { getMemberRequestsPath } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
@@ -42,7 +45,7 @@ const CardHeader = styled(MuiCardHeader)(() => ({
 }));
 
 interface Props extends CardProps {
-  group: Group;
+  group: GroupProfileCardFragment;
 }
 
 const GroupProfileCard = ({
@@ -51,7 +54,7 @@ const GroupProfileCard = ({
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const deleteGroup = useDeleteGroupMutation();
+  const [deleteGroup] = useDeleteGroupMutation();
   const t = useTranslate();
 
   const memberRequestsPath = getMemberRequestsPath(name);
@@ -64,7 +67,11 @@ const GroupProfileCard = ({
     marginRight: "0.2ch",
   };
 
-  const handleDelete = async (id: number) => await deleteGroup(id);
+  const handleDelete = async (id: number) =>
+    await deleteGroup({
+      variables: { id },
+      update: removeGroup(id),
+    });
 
   return (
     <Card {...cardProps}>

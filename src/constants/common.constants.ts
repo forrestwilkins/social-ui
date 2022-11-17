@@ -31,6 +31,10 @@ export enum TypeNames {
   User = "User",
 }
 
+export enum MutationNames {
+  RefreshToken = "RefreshToken",
+}
+
 export enum ApiRoutes {
   Groups = "/groups",
   Images = "/images",

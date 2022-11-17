@@ -1,11 +1,10 @@
-import { useMutation, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { Card, CardContent, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useEffect } from "react";
-import { SIGN_UP_MUTATION } from "../../client/auth/auth.mutations";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/user.queries";
+import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
+import ME_QUERY from "../../apollo/users/queries/Me.query";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
@@ -14,31 +13,36 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { AuthResult } from "../../types/auth.types";
-import { UserFormValues } from "../../types/user.types";
+import { MeQuery, SignUpInput, useSignUpMutation } from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {
-  const [signUp] = useMutation<AuthResult>(SIGN_UP_MUTATION, {
-    refetchQueries: [ME_QUERY],
-  });
-
+  const [signUp] = useSignUpMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
   const t = useTranslate();
 
-  const initialValues: UserFormValues = {
+  const initialValues: SignUpInput = {
     email: "",
     name: "",
     password: "",
   };
 
-  const handleSubmit = async (formValues: UserFormValues) => {
-    const result = await signUp({ variables: { input: formValues } });
-    if (result.data?.signUp) {
-      isLoggedInVar(true);
-    }
+  const handleSubmit = async (formValues: SignUpInput) => {
+    await signUp({
+      variables: { input: formValues },
+      update(cache, { data }) {
+        if (!data?.signUp.user) {
+          return;
+        }
+        cache.writeQuery<MeQuery>({
+          data: { me: data.signUp.user },
+          query: ME_QUERY,
+        });
+        isLoggedInVar(true);
+      },
+    });
   };
 
   useEffect(() => {

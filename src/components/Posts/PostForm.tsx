@@ -7,18 +7,30 @@ import {
   styled,
 } from "@mui/material";
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import produce from "immer";
 import { useState } from "react";
-import { FieldNames, NavigationPaths } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
-import { useDeleteImageMutation } from "../../hooks/image.hooks";
+import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/PostCard.fragment";
+import { uploadPostImages } from "../../apollo/posts/mutations/CreatePost.mutation";
+import POSTS_QUERY from "../../apollo/posts/queries/Posts.query";
 import {
+  FieldNames,
+  NavigationPaths,
+  TypeNames,
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import {
+  Image,
+  PostCardFragment,
+  PostFormFragment,
+  PostInput,
+  PostsQuery,
   useCreatePostMutation,
+  useDeleteImageMutation,
   useUpdatePostMutation,
-} from "../../hooks/post.hooks";
-import { Post, PostsFormValues } from "../../types/post.types";
+} from "../../apollo/gen";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
-import AttachedImages from "../Images/AttachedImages";
+import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -32,7 +44,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  editPost?: Post;
+  editPost?: PostFormFragment;
   groupId?: number;
 }
 
@@ -40,29 +52,85 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
 
-  const createPost = useCreatePostMutation();
-  const updatePost = useUpdatePostMutation();
-  const deleteImage = useDeleteImageMutation();
+  const [deleteImage] = useDeleteImageMutation();
+  const [createPost] = useCreatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
 
   const t = useTranslate();
 
-  const initialValues: PostsFormValues = {
+  const initialValues: PostInput = {
     body: editPost ? editPost.body : "",
     groupId,
   };
 
   const handleSubmit = async (
-    formValues: PostsFormValues,
-    { resetForm, setSubmitting }: FormikHelpers<PostsFormValues>
+    formValues: PostInput,
+    { resetForm, setSubmitting }: FormikHelpers<PostInput>
   ) => {
     const imageData = buildImageData(selectedImages);
 
     if (editPost) {
-      await updatePost(editPost.id, formValues, imageData);
+      await updatePost({
+        variables: { id: editPost.id, postData: formValues },
+        async update(cache) {
+          if (!imageData) {
+            return;
+          }
+          const images = await uploadPostImages(editPost.id, imageData);
+          cache.updateFragment<PostCardFragment>(
+            {
+              id: cache.identify(editPost),
+              fragment: POST_CARD_FRAGMENT,
+              fragmentName: "PostCard",
+            },
+            (data) =>
+              produce(data, (draft) => {
+                draft?.images.push(...images);
+              })
+          );
+        },
+      });
       redirectTo(NavigationPaths.Home);
       return;
     }
-    await createPost(formValues, imageData);
+
+    await createPost({
+      variables: { postData: formValues },
+      async update(cache, { data }) {
+        if (!data?.createPost) {
+          return;
+        }
+        let images: Image[] = [];
+        if (imageData) {
+          images = await uploadPostImages(data.createPost.id, imageData);
+        }
+        const postWithImages = { ...data.createPost, images };
+        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
+          produce(postsData, (draft) => {
+            draft?.posts.unshift(postWithImages);
+          })
+        );
+        cache.modify({
+          id: cache.identify(data.createPost.user),
+          fields: {
+            posts(existingPostRefs, { toReference }) {
+              return [toReference(postWithImages), ...existingPostRefs];
+            },
+          },
+        });
+        if (!data.createPost.group) {
+          return;
+        }
+        cache.modify({
+          id: cache.identify(data.createPost.group),
+          fields: {
+            posts(existingPostRefs, { toReference }) {
+              return [toReference(postWithImages), ...existingPostRefs];
+            },
+          },
+        });
+      },
+    });
 
     setImagesInputKey(generateRandom());
     setSelctedImages([]);
@@ -72,7 +140,14 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
 
   const deleteSavedImageHandler = async (id: number) => {
     if (editPost) {
-      await deleteImage(id);
+      await deleteImage({
+        variables: { id },
+        update(cache) {
+          const cacheId = cache.identify({ __typename: TypeNames.Image, id });
+          cache.evict({ id: cacheId });
+          cache.gc();
+        },
+      });
       setImagesInputKey(generateRandom());
     }
   };
@@ -102,7 +177,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
                   autoComplete="off"
                 />
 
-                <AttachedImages
+                <AttachedImagePreview
                   deleteSavedImage={deleteSavedImageHandler}
                   removeSelectedImage={removeSelectedImageHandler}
                   savedImages={editPost?.images || []}

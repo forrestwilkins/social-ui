@@ -12,22 +12,25 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
+import { isLoggedInVar } from "../../apollo/cache";
+import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useDeletePostMutation } from "../../hooks/post.hooks";
-import { useMeQuery } from "../../hooks/user.hooks";
-import { Post } from "../../types/post.types";
+import {
+  PostCardFragment,
+  useDeletePostMutation,
+  useMeQuery,
+} from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
-import ImageList from "../Images/ImageList";
+import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
@@ -51,21 +54,22 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  post: Post;
+  post: PostCardFragment;
 }
 
 const PostCard = ({
   post: { id, body, images, user, group, createdAt },
   ...cardProps
 }: Props) => {
-  const [me] = useMeQuery();
-  const deletePost = useDeletePostMutation();
+  const { data } = useMeQuery();
+  const [deletePost] = useDeletePostMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const { asPath } = useRouter();
   const t = useTranslate();
 
+  const me = data && data.me;
   const isMe = me?.id === user.id;
   const isPostPage = asPath.includes(NavigationPaths.Posts);
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
@@ -85,7 +89,10 @@ const PostCard = ({
   };
 
   const handleDelete = async (id: number) => {
-    await deletePost(id);
+    await deletePost({
+      variables: { id },
+      update: removePost(id, user.id, group?.id),
+    });
     if (isPostPage) {
       redirectTo(NavigationPaths.Home);
     }
@@ -156,7 +163,7 @@ const PostCard = ({
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            <ImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} sx={imageListStyles} />
           </Link>
         )}
 

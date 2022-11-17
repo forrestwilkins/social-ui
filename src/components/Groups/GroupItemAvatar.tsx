@@ -1,12 +1,11 @@
 import { Box, useTheme } from "@mui/material";
-import { Group } from "../../types/group.types";
-import { User } from "../../types/user.types";
+import { GroupAvatarFragment, UserAvatarFragment } from "../../apollo/gen";
 import UserAvatar from "../Users/UserAvatar";
 import GroupAvatar from "./GroupAvatar";
 
 interface Props {
-  group: Group;
-  user: User;
+  group: GroupAvatarFragment;
+  user: UserAvatarFragment;
 }
 
 const GroupItemAvatar = ({ user, group }: Props) => {

@@ -1,10 +1,10 @@
-import client from "../client";
-import { LOG_OUT_MUTATION } from "../client/auth/auth.mutations";
+import client from "../apollo/client";
+import LOG_OUT_MUTATION from "../apollo/auth/mutations/LogOut.mutation";
 import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
-} from "../client/cache";
+} from "../apollo/cache";
 
 /**
  * Alternative function for signing out user outside of component logic.

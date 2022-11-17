@@ -5,26 +5,31 @@ import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useUserQuery } from "../../hooks/user.hooks";
+import { useUserQuery } from "../../apollo/gen";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [user, userLoading, userError] = useUserQuery(name);
-
   const t = useTranslate();
 
-  if (userError) {
+  const { data, loading, error } = useUserQuery({
+    variables: { name },
+    skip: !name,
+  });
+
+  if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
-  if (userLoading) {
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!user) {
+  if (!data) {
     return null;
   }
+
+  const { user } = data;
 
   return (
     <>

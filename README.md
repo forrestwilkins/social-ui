@@ -44,6 +44,17 @@ $ docker-compose up
 $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 ```
 
+## GraphQL Code Generator
+
+Social UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to the schema, along with changes to queries, mutations, or fragments.
+
+```bash
+# Keep generated types and hooks in sync with the current schema
+$ yarn generate
+```
+
+Read more about [GraphQL Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started).
+
 ## Testing for accessibility
 
 Install the following Chrome extension provided by Deque Systems: [axe DevTools - Web Accessibility Testing](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd?hl=en-US)

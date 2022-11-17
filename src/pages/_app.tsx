@@ -1,7 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import type { AppProps } from "next/app";
-import client from "../client";
+import client from "../apollo/client";
 import Layout from "../components/_App/Layout";
 import "../i18n/config";
 import "../styles/globals.css";

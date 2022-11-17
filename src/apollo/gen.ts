@@ -345,6 +345,17 @@ export type GroupProfileCardFragment = {
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
+export type JoinedMemberFragment = {
+  __typename?: "GroupMember";
+  id: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; filename: string; id: number };
+  };
+};
+
 export type RequestToJoinFragment = {
   __typename?: "MemberRequest";
   id: number;
@@ -868,6 +879,15 @@ export const UserAvatarFragmentDoc = gql`
       id
     }
   }
+`;
+export const JoinedMemberFragmentDoc = gql`
+  fragment JoinedMember on GroupMember {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
 `;
 export const RequestToJoinFragmentDoc = gql`
   fragment RequestToJoin on MemberRequest {

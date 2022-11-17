@@ -17,6 +17,7 @@ import { isLoggedInVar } from "../../apollo/cache";
 import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
+  NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
@@ -57,6 +58,7 @@ const GroupProfileCard = ({
   const [deleteGroup] = useDeleteGroupMutation();
   const t = useTranslate();
 
+  const groupMembersPath = `${NavigationPaths.Groups}/${name}/members`;
   const memberRequestsPath = getMemberRequestsPath(name);
 
   const nameTextStyles: SxProps = {
@@ -109,7 +111,7 @@ const GroupProfileCard = ({
             {t("groups.labels.majority")}
           </Link>
           {MIDDOT_WITH_SPACES}
-          <Link href={"/"} disabled>
+          <Link href={groupMembersPath}>
             {t("groups.members", { count: memberCount })}
           </Link>
 

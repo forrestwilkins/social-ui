@@ -130,7 +130,7 @@
     },
     "labels": {
       "consensus": "Consensus",
-      "groupMembers": "Group Members",
+      "groupMembers": "{{count}} Group Members",
       "joined": "Joined",
       "majority": "Majority Vote",
       "memberRequests": "{{count}} Member Requests",

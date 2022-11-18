@@ -61,16 +61,18 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
         title={<Link href={groupPath}>{name}</Link>}
         action={
           // TODO: Add permission logic for edit and delete
-          <ItemMenu
-            anchorEl={menuAnchorEl}
-            deleteItem={handleDelete}
-            itemId={id}
-            itemType={ResourceNames.Group}
-            name={name}
-            setAnchorEl={setMenuAnchorEl}
-            canDelete
-            canEdit
-          />
+          isLoggedIn && (
+            <ItemMenu
+              anchorEl={menuAnchorEl}
+              deleteItem={handleDelete}
+              itemId={id}
+              itemType={ResourceNames.Group}
+              name={name}
+              setAnchorEl={setMenuAnchorEl}
+              canDelete
+              canEdit
+            />
+          )
         }
       />
       <CardContent>

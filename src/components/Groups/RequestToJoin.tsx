@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, styled, Typography } from "@mui/material";
 import produce from "immer";
 import GROUP_QUERY from "../../apollo/groups/queries/Group.query";
 import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
@@ -12,9 +12,16 @@ import {
   useApproveMemberRequestMutation,
 } from "../../apollo/gen";
 import { getUserProfilePath } from "../../utils/user.utils";
-import Flex from "../Shared/Flex";
+import SharedFlex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
+
+const Flex = styled(SharedFlex)(() => ({
+  marginBottom: 15,
+  "&:last-child": {
+    marginBottom: 0,
+  },
+}));
 
 interface Props {
   memberRequest: RequestToJoinFragment;

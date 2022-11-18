@@ -137,9 +137,10 @@ const JoinButton = ({ groupId }: Props) => {
             id: cache.identify({ __typename: TypeNames.Group, id: groupId }),
             fields: {
               members(existingMemberRefs: Reference[], { readField }) {
-                return existingMemberRefs.filter(
-                  (memberRef) => memberRequest.id !== readField("id", memberRef)
-                );
+                return existingMemberRefs.filter((memberRef) => {
+                  const userRef = readField("user", memberRef) as Reference;
+                  return memberRequest.user.id !== readField("id", userRef);
+                });
               },
               memberCount(existingCount: number) {
                 return existingCount - 1;

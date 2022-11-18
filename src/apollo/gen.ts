@@ -536,6 +536,7 @@ export type MemberRequestQuery = {
     __typename?: "MemberRequest";
     id: number;
     status: string;
+    user: { __typename?: "User"; id: number };
   } | null;
 };
 
@@ -1692,6 +1693,9 @@ export const MemberRequestDocument = gql`
   query MemberRequest($groupId: Int!) {
     memberRequest(groupId: $groupId) {
       id
+      user {
+        id
+      }
       status
     }
   }

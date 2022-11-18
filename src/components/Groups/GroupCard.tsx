@@ -10,14 +10,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
+import { GroupCardFragment, useDeleteGroupMutation } from "../../apollo/gen";
 import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { GroupCardFragment, useDeleteGroupMutation } from "../../apollo/gen";
-import { getGroupPath, getMemberRequestsPath } from "../../utils/group.utils";
+import {
+  getGroupMembersPath,
+  getGroupPath,
+  getMemberRequestsPath,
+} from "../../utils/group.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
@@ -40,8 +44,9 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
   const t = useTranslate();
 
   const { id, name, description } = group;
-  const groupPath = getGroupPath(name);
+  const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
+  const groupPath = getGroupPath(name);
 
   const handleDelete = async (id: number) =>
     await deleteGroup({
@@ -71,9 +76,8 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
       <CardContent>
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
 
-        {/* TODO: Add functionality for members and member requests */}
         <Box sx={{ marginBottom: 1.75 }}>
-          <Link href={"/"} disabled>
+          <Link href={groupMembersPath}>
             {t("groups.members", { count: group.memberCount })}
           </Link>
           {isLoggedIn && (

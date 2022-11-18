@@ -14,18 +14,20 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
-import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
-import {
-  MIDDOT_WITH_SPACES,
-  NavigationPaths,
-  ResourceNames,
-} from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
   GroupProfileCardFragment,
   useDeleteGroupMutation,
 } from "../../apollo/gen";
-import { getMemberRequestsPath } from "../../utils/group.utils";
+import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
+import {
+  MIDDOT_WITH_SPACES,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import {
+  getGroupMembersPath,
+  getMemberRequestsPath,
+} from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -58,7 +60,7 @@ const GroupProfileCard = ({
   const [deleteGroup] = useDeleteGroupMutation();
   const t = useTranslate();
 
-  const groupMembersPath = `${NavigationPaths.Groups}/${name}/members`;
+  const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
 
   const nameTextStyles: SxProps = {

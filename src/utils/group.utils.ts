@@ -5,3 +5,6 @@ export const getGroupPath = (groupName: string) =>
 
 export const getMemberRequestsPath = (groupName: string) =>
   `${NavigationPaths.Groups}/${groupName}/requests`;
+
+export const getGroupMembersPath = (groupName: string) =>
+  `${NavigationPaths.Groups}/${groupName}/members`;

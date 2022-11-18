@@ -74,12 +74,8 @@ const GroupMembers: NextPage = () => {
   return (
     <Card>
       <CardContent>
-        {group.members.map((member, index) => (
-          <JoinedMember
-            key={member.id}
-            marginBottom={index + 1 === group.members.length ? undefined : 1.5}
-            member={member}
-          />
+        {group.members.map((member) => (
+          <JoinedMember key={member.id} member={member} />
         ))}
       </CardContent>
     </Card>

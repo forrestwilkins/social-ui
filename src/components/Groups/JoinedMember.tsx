@@ -1,17 +1,23 @@
-import { Typography } from "@mui/material";
+import { styled, Typography } from "@mui/material";
 import { JoinedMemberFragment } from "../../apollo/gen";
 import { getUserProfilePath } from "../../utils/user.utils";
-import Flex from "../Shared/Flex";
+import SharedFlex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
+const Flex = styled(SharedFlex)(() => ({
+  marginBottom: 15,
+  "&:last-child": {
+    marginBottom: 0,
+  },
+}));
+
 interface Props {
   member: JoinedMemberFragment;
-  marginBottom?: number;
 }
 
-const JoinedMember = ({ member: { user }, marginBottom }: Props) => (
-  <Flex sx={{ justifyContent: "space-between", marginBottom }}>
+const JoinedMember = ({ member: { user } }: Props) => (
+  <Flex sx={{ justifyContent: "space-between" }}>
     <Link href={getUserProfilePath(user.name)}>
       <Flex>
         <UserAvatar user={user} sx={{ marginRight: 1.5 }} />

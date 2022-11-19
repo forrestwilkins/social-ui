@@ -14,6 +14,12 @@ import {
   useMemberRequestQuery,
 } from "../../apollo/gen";
 import GhostButton from "../Shared/GhostButton";
+import { styled } from "@mui/material";
+
+const Button = styled(GhostButton)(() => ({
+  marginRight: 8,
+  minWidth: 80,
+}));
 
 interface Props {
   groupId: number;
@@ -30,11 +36,16 @@ const JoinButton = ({ groupId }: Props) => {
 
   const t = useTranslate();
 
+  if (!data) {
+    return <Button disabled>{t("groups.actions.join")}</Button>;
+  }
+
+  const { memberRequest } = data;
+
   const getButtonText = () => {
-    if (!data?.memberRequest) {
+    if (!memberRequest) {
       return t("groups.actions.join");
     }
-    const { memberRequest } = data;
     if (memberRequest.status === "approved") {
       if (isHovering) {
         return t("groups.actions.leave");
@@ -47,7 +58,7 @@ const JoinButton = ({ groupId }: Props) => {
   };
 
   const handleButtonClick = async () => {
-    if (!data?.memberRequest) {
+    if (!memberRequest) {
       return await createMemberRequest({
         variables: { groupId },
         update(cache, { data }) {
@@ -79,7 +90,6 @@ const JoinButton = ({ groupId }: Props) => {
         },
       });
     }
-    const { memberRequest } = data;
     if (memberRequest.status === "pending") {
       return await cancelMemberRequest({
         variables: {
@@ -156,7 +166,7 @@ const JoinButton = ({ groupId }: Props) => {
     window.confirm(t("groups.promps.confirmLeave")) && handleButtonClick();
 
   return (
-    <GhostButton
+    <Button
       disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
       onClick={
         data?.memberRequest?.status === "approved"
@@ -165,10 +175,9 @@ const JoinButton = ({ groupId }: Props) => {
       }
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      sx={{ marginRight: 1, minWidth: 80 }}
     >
       {getButtonText()}
-    </GhostButton>
+    </Button>
   );
 };
 

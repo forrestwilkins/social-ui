@@ -136,6 +136,9 @@
       "memberRequests": "{{count}} Member Requests",
       "xToPass": "X to Pass"
     },
+    "promps": {
+      "confirmLeave": "Are you sure you want to leave the group?"
+    },
     "members": "{{count}} Members",
     "requests": "{{count}} Requests"
   },

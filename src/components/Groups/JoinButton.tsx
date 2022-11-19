@@ -152,10 +152,17 @@ const JoinButton = ({ groupId }: Props) => {
     }
   };
 
+  const handleButtonClickWithConfirm = () =>
+    window.confirm(t("groups.promps.confirmLeave")) && handleButtonClick();
+
   return (
     <GhostButton
       disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
-      onClick={handleButtonClick}
+      onClick={
+        data?.memberRequest?.status === "approved"
+          ? handleButtonClickWithConfirm
+          : handleButtonClick
+      }
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       sx={{ marginRight: 1, minWidth: 80 }}

@@ -57,108 +57,116 @@ const JoinButton = ({ groupId }: Props) => {
     }
   };
 
+  const handleJoin = async () =>
+    await createMemberRequest({
+      variables: { groupId },
+      update(cache, { data }) {
+        if (!data?.createMemberRequest) {
+          return;
+        }
+        const { createMemberRequest } = data;
+        const variables = { groupId: createMemberRequest.group.id };
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          data: { memberRequest: createMemberRequest },
+          variables,
+        });
+        cache.updateQuery<MemberRequestsQuery>(
+          { query: MEMBER_REQUESTS_QUERY, variables },
+          (memberRequestsData) =>
+            produce(memberRequestsData, (draft) => {
+              draft?.memberRequests.unshift(createMemberRequest);
+            })
+        );
+        cache.modify({
+          id: cache.identify(createMemberRequest.group),
+          fields: {
+            memberRequestCount(existingCount: number) {
+              return existingCount + 1;
+            },
+          },
+        });
+      },
+    });
+
+  const handleCancelRequest = async (id: number) =>
+    await cancelMemberRequest({
+      variables: {
+        id,
+      },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        const variables = {
+          groupId: data.cancelMemberRequest.id,
+        };
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          data: { memberRequest: null },
+          variables,
+        });
+        cache.updateQuery<MemberRequestsQuery>(
+          { query: MEMBER_REQUESTS_QUERY, variables },
+          (memberRequestsData) =>
+            produce(memberRequestsData, (draft) => {
+              if (!draft) {
+                return;
+              }
+              const index = draft.memberRequests.findIndex((p) => p.id === id);
+              draft.memberRequests.splice(index, 1);
+            })
+        );
+        cache.modify({
+          id: cache.identify(data.cancelMemberRequest),
+          fields: {
+            memberRequestCount(existingCount: number) {
+              return existingCount - 1;
+            },
+          },
+        });
+      },
+    });
+
+  const handleLeave = async (userId: number) =>
+    await leaveGroup({
+      variables: {
+        id: groupId,
+      },
+      update(cache) {
+        cache.writeQuery<MemberRequestQuery>({
+          query: MEMBER_REQUEST_QUERY,
+          variables: { groupId },
+          data: { memberRequest: null },
+        });
+        cache.modify({
+          id: cache.identify({ __typename: TypeNames.Group, id: groupId }),
+          fields: {
+            members(existingMemberRefs: Reference[], { readField }) {
+              return existingMemberRefs.filter((memberRef) => {
+                const userRef = readField("user", memberRef) as Reference;
+                return readField("id", userRef) !== userId;
+              });
+            },
+            memberCount(existingCount: number) {
+              return existingCount - 1;
+            },
+          },
+        });
+      },
+    });
+
   const handleButtonClick = async () => {
     if (!memberRequest) {
-      return await createMemberRequest({
-        variables: { groupId },
-        update(cache, { data }) {
-          if (!data?.createMemberRequest) {
-            return;
-          }
-          const { createMemberRequest } = data;
-          const variables = { groupId: createMemberRequest.group.id };
-          cache.writeQuery<MemberRequestQuery>({
-            query: MEMBER_REQUEST_QUERY,
-            data: { memberRequest: createMemberRequest },
-            variables,
-          });
-          cache.updateQuery<MemberRequestsQuery>(
-            { query: MEMBER_REQUESTS_QUERY, variables },
-            (memberRequestsData) =>
-              produce(memberRequestsData, (draft) => {
-                draft?.memberRequests.unshift(createMemberRequest);
-              })
-          );
-          cache.modify({
-            id: cache.identify(createMemberRequest.group),
-            fields: {
-              memberRequestCount(existingCount: number) {
-                return existingCount + 1;
-              },
-            },
-          });
-        },
-      });
+      await handleJoin();
+      return;
     }
     if (memberRequest.status === "pending") {
-      return await cancelMemberRequest({
-        variables: {
-          id: memberRequest.id,
-        },
-        update(cache, { data }) {
-          if (!data) {
-            return;
-          }
-          const variables = {
-            groupId: data.cancelMemberRequest.id,
-          };
-          cache.writeQuery<MemberRequestQuery>({
-            query: MEMBER_REQUEST_QUERY,
-            data: { memberRequest: null },
-            variables,
-          });
-          cache.updateQuery<MemberRequestsQuery>(
-            { query: MEMBER_REQUESTS_QUERY, variables },
-            (memberRequestsData) =>
-              produce(memberRequestsData, (draft) => {
-                if (!draft) {
-                  return;
-                }
-                const index = draft.memberRequests.findIndex(
-                  (p) => p.id === memberRequest.id
-                );
-                draft.memberRequests.splice(index, 1);
-              })
-          );
-          cache.modify({
-            id: cache.identify(data.cancelMemberRequest),
-            fields: {
-              memberRequestCount(existingCount: number) {
-                return existingCount - 1;
-              },
-            },
-          });
-        },
-      });
+      await handleCancelRequest(memberRequest.id);
+      return;
     }
-    // TODO: Add confirmation dialog for leaving group
     if (memberRequest.status === "approved") {
-      await leaveGroup({
-        variables: {
-          id: groupId,
-        },
-        update(cache) {
-          cache.writeQuery<MemberRequestQuery>({
-            query: MEMBER_REQUEST_QUERY,
-            variables: { groupId },
-            data: { memberRequest: null },
-          });
-          cache.modify({
-            id: cache.identify({ __typename: TypeNames.Group, id: groupId }),
-            fields: {
-              members(existingMemberRefs: Reference[], { readField }) {
-                return existingMemberRefs.filter((memberRef) => {
-                  const userRef = readField("user", memberRef) as Reference;
-                  return memberRequest.user.id !== readField("id", userRef);
-                });
-              },
-              memberCount(existingCount: number) {
-                return existingCount - 1;
-              },
-            },
-          });
-        },
-      });
+      await handleLeave(memberRequest.user.id);
     }
   };
 

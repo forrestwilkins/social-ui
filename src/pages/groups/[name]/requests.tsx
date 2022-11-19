@@ -38,29 +38,33 @@ const MemberRequests: NextPage = () => {
     skip: !groupData?.group,
   });
 
+  const { asPath } = useRouter();
   const isDesktop = useIsDesktop();
   const t = useTranslate();
 
   useEffect(() => {
     if (groupData?.group) {
       const { group } = groupData;
-      breadcrumbsVar([
-        {
-          label: truncate(group.name, {
-            length: isDesktop
-              ? TruncationSizes.Small
-              : TruncationSizes.ExtraSmall,
-          }),
-          href: getGroupPath(group.name),
-        },
-        {
-          label: t("groups.labels.memberRequests", {
-            count: data?.memberRequests.length || 0,
-          }),
-        },
-      ]);
+      breadcrumbsVar({
+        path: asPath,
+        breadcrumbs: [
+          {
+            label: truncate(group.name, {
+              length: isDesktop
+                ? TruncationSizes.Small
+                : TruncationSizes.ExtraSmall,
+            }),
+            href: getGroupPath(group.name),
+          },
+          {
+            label: t("groups.labels.memberRequests", {
+              count: data?.memberRequests.length || 0,
+            }),
+          },
+        ],
+      });
     }
-  }, [groupData, t, isDesktop, data?.memberRequests]);
+  }, [groupData, t, isDesktop, data?.memberRequests, asPath]);
 
   if (error || groupError) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

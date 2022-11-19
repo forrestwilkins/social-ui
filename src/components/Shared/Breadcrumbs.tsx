@@ -1,5 +1,3 @@
-// FIXME: Breadcrumbs are showing briefly on the next page when redirecting
-
 import { useReactiveVar } from "@apollo/client";
 import {
   Breadcrumbs as MuiBreadcrumbs,
@@ -12,15 +10,16 @@ import { breadcrumbsVar } from "../../apollo/cache";
 import Link from "./Link";
 
 const Breadcrumbs = () => {
-  const breadcrumbs = useReactiveVar(breadcrumbsVar);
-  const theme = useTheme();
+  const { path, breadcrumbs } = useReactiveVar(breadcrumbsVar);
+
   const { asPath } = useRouter();
+  const theme = useTheme();
 
   useEffect(() => {
-    breadcrumbsVar([]);
+    breadcrumbsVar({ path: null, breadcrumbs: [] });
   }, [asPath]);
 
-  if (!breadcrumbs.length) {
+  if (path !== asPath || !breadcrumbs.length) {
     return null;
   }
 

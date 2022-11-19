@@ -33,28 +33,32 @@ const GroupMembers: NextPage = () => {
   });
   const group = data?.group;
 
+  const { asPath } = useRouter();
   const isDesktop = useIsDesktop();
   const t = useTranslate();
 
   useEffect(() => {
     if (group) {
-      breadcrumbsVar([
-        {
-          label: truncate(group.name, {
-            length: isDesktop
-              ? TruncationSizes.Small
-              : TruncationSizes.ExtraSmall,
-          }),
-          href: getGroupPath(group.name),
-        },
-        {
-          label: t("groups.labels.groupMembers", {
-            count: group.members.length || 0,
-          }),
-        },
-      ]);
+      breadcrumbsVar({
+        path: asPath,
+        breadcrumbs: [
+          {
+            label: truncate(group.name, {
+              length: isDesktop
+                ? TruncationSizes.Small
+                : TruncationSizes.ExtraSmall,
+            }),
+            href: getGroupPath(group.name),
+          },
+          {
+            label: t("groups.labels.groupMembers", {
+              count: group.members.length || 0,
+            }),
+          },
+        ],
+      });
     }
-  }, [group, t, isDesktop]);
+  }, [group, t, isDesktop, asPath]);
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

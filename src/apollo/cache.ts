@@ -2,8 +2,11 @@ import { InMemoryCache, makeVar } from "@apollo/client";
 import { Breadcrumb, ToastNotification } from "../types/common.types";
 
 // App state
+export const breadcrumbsVar = makeVar<{
+  path: string | null;
+  breadcrumbs: Breadcrumb[];
+}>({ path: null, breadcrumbs: [] });
 export const toastVar = makeVar<ToastNotification | null>(null);
-export const breadcrumbsVar = makeVar<Breadcrumb[]>([]);
 export const isNavDrawerOpenVar = makeVar(false);
 
 // TODO: Remove reactive vars for authentication loading states,

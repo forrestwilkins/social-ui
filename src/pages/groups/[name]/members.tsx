@@ -54,9 +54,6 @@ const GroupMembers: NextPage = () => {
         },
       ]);
     }
-    return () => {
-      breadcrumbsVar([]);
-    };
   }, [group, t, isDesktop]);
 
   if (error) {

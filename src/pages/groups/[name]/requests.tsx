@@ -60,10 +60,6 @@ const MemberRequests: NextPage = () => {
         },
       ]);
     }
-
-    return () => {
-      breadcrumbsVar([]);
-    };
   }, [groupData, t, isDesktop, data?.memberRequests]);
 
   if (error || groupError) {

@@ -64,16 +64,28 @@ const GroupProfileCard = ({
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
 
-  const isAboveMedium = useAboveBreakpoint("sm");
+  const isAboveMedium = useAboveBreakpoint("md");
+  const isAboveSmall = useAboveBreakpoint("sm");
   const t = useTranslate();
 
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
-  const showCardHeader = isLoggedIn && isAboveMedium;
+  const showCardHeader = isLoggedIn && isAboveSmall;
+
+  const getNameTextWidth = () => {
+    if (isAboveMedium) {
+      return "75%";
+    }
+    if (isAboveSmall) {
+      return "70%";
+    }
+    return "100%";
+  };
 
   const nameTextStyles: SxProps = {
+    fontSize: isAboveSmall ? 25 : 23,
     marginTop: showCardHeader ? -7 : -0.3,
-    fontSize: isAboveMedium ? 25 : 24,
+    width: getNameTextWidth(),
   };
   const voteIconStyles: SxProps = {
     marginBottom: -0.5,
@@ -114,7 +126,7 @@ const GroupProfileCard = ({
           {name}
         </NameText>
 
-        <DetailsBox fontSize={isAboveMedium ? undefined : 15}>
+        <DetailsBox fontSize={isAboveSmall ? undefined : 15}>
           <Link href={"/"} disabled>
             <HowToVote sx={voteIconStyles} />
             {t("groups.labels.majority")}
@@ -134,7 +146,7 @@ const GroupProfileCard = ({
           )}
         </DetailsBox>
 
-        {isLoggedIn && !isAboveMedium && (
+        {isLoggedIn && !isAboveSmall && (
           <Flex sx={{ justifyContent: "right", marginTop: 2 }}>
             {renderCardActions()}
           </Flex>

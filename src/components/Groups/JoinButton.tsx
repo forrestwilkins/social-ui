@@ -183,7 +183,7 @@ const JoinButton = ({ groupId }: Props) => {
     <Button
       disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
       onClick={
-        data?.memberRequest?.status === "approved"
+        memberRequest?.status === "approved"
           ? handleButtonClickWithConfirm
           : handleButtonClick
       }

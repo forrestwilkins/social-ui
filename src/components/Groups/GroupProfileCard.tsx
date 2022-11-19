@@ -5,7 +5,7 @@ import { HowToVote } from "@mui/icons-material";
 import {
   Box,
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
   styled,
@@ -23,20 +23,20 @@ import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
 } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useAboveBreakpoint, useTranslate } from "../../hooks/common.hooks";
 import {
   getGroupMembersPath,
   getMemberRequestsPath,
 } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
+import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({
   fontFamily: "Inter Bold",
-  marginBottom: 5,
-  fontSize: 25,
+  marginBottom: 7.5,
 }));
 const DetailsBox = styled(Box)(({ theme }) => ({
   color: theme.palette.primary.main,
@@ -45,6 +45,11 @@ const CardHeader = styled(MuiCardHeader)(() => ({
   marginTop: 7.5,
   paddingBottom: 0,
   paddingRight: 22,
+}));
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 16,
+  },
 }));
 
 interface Props extends CardProps {
@@ -58,13 +63,17 @@ const GroupProfileCard = ({
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
+
+  const isAboveMedium = useAboveBreakpoint("sm");
   const t = useTranslate();
 
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
+  const showCardHeader = isLoggedIn && isAboveMedium;
 
   const nameTextStyles: SxProps = {
-    marginTop: isLoggedIn ? -7 : -0.3,
+    marginTop: showCardHeader ? -7 : -0.3,
+    fontSize: isAboveMedium ? 25 : 24,
   };
   const voteIconStyles: SxProps = {
     marginBottom: -0.5,
@@ -77,37 +86,35 @@ const GroupProfileCard = ({
       update: removeGroup(id),
     });
 
+  const renderCardActions = () => (
+    <>
+      <JoinButton groupId={id} />
+
+      <ItemMenu
+        anchorEl={menuAnchorEl}
+        buttonStyles={{ paddingX: 0, minWidth: 38 }}
+        deleteItem={handleDelete}
+        itemId={id}
+        itemType={ResourceNames.Group}
+        name={name}
+        setAnchorEl={setMenuAnchorEl}
+        variant="ghost"
+        canDelete
+        canEdit
+      />
+    </>
+  );
+
   return (
     <Card {...cardProps}>
       <CoverPhoto imageId={coverPhoto?.id} />
-      {isLoggedIn && (
-        <CardHeader
-          action={
-            <>
-              <JoinButton groupId={id} />
-
-              <ItemMenu
-                anchorEl={menuAnchorEl}
-                buttonStyles={{ paddingX: 0, minWidth: 38 }}
-                deleteItem={handleDelete}
-                itemId={id}
-                itemType={ResourceNames.Group}
-                name={name}
-                setAnchorEl={setMenuAnchorEl}
-                variant="ghost"
-                canDelete
-                canEdit
-              />
-            </>
-          }
-        />
-      )}
+      {showCardHeader && <CardHeader action={renderCardActions()} />}
       <CardContent>
         <NameText color="primary" variant="h2" sx={nameTextStyles}>
           {name}
         </NameText>
 
-        <DetailsBox>
+        <DetailsBox fontSize={isAboveMedium ? undefined : 15}>
           <Link href={"/"} disabled>
             <HowToVote sx={voteIconStyles} />
             {t("groups.labels.majority")}
@@ -126,6 +133,12 @@ const GroupProfileCard = ({
             </>
           )}
         </DetailsBox>
+
+        {isLoggedIn && !isAboveMedium && (
+          <Flex sx={{ justifyContent: "right", marginTop: 2 }}>
+            {renderCardActions()}
+          </Flex>
+        )}
       </CardContent>
     </Card>
   );

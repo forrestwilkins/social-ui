@@ -1,3 +1,5 @@
+// TODO: Add remaining functionality - below is a WIP
+
 import {
   Card,
   CardContent as MuiCardContent,
@@ -22,7 +24,6 @@ const CardContent = styled(MuiCardContent)(() => ({
   },
 }));
 
-// TODO: Add remaining functionality - below is a WIP
 const MemberRequests: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");

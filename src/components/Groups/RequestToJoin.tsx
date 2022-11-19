@@ -1,16 +1,14 @@
+import { Reference } from "@apollo/client";
 import { Button, styled, Typography } from "@mui/material";
 import produce from "immer";
-import GROUP_QUERY from "../../apollo/groups/queries/Group.query";
-import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
-  GroupQuery,
-  GroupQueryVariables,
   MemberRequestsQuery,
   MemberRequestsQueryVariables,
   RequestToJoinFragment,
   useApproveMemberRequestMutation,
 } from "../../apollo/gen";
+import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
+import { useTranslate } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -42,11 +40,28 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
           id: cache.identify({ id, __typename }),
           fields: { status: () => "approved" },
         });
+        cache.modify({
+          id: cache.identify(data.approveMemberRequest.group),
+          fields: {
+            members(existingMemberRefs: Reference[], { toReference }) {
+              return [
+                toReference(data.approveMemberRequest),
+                ...existingMemberRefs,
+              ];
+            },
+            memberRequestCount(existingCount: number) {
+              return existingCount - 1;
+            },
+            memberCount(existingCount: number) {
+              return existingCount + 1;
+            },
+          },
+        });
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
             query: MEMBER_REQUESTS_QUERY,
             variables: {
-              groupId: data.approveMemberRequest.group.id,
+              groupName: data.approveMemberRequest.group.name,
             },
           },
           (memberRequestsData) =>
@@ -56,21 +71,6 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
               }
               const index = draft.memberRequests.findIndex((p) => p.id === id);
               draft.memberRequests.splice(index, 1);
-            })
-        );
-        cache.updateQuery<GroupQuery, GroupQueryVariables>(
-          {
-            query: GROUP_QUERY,
-            variables: { name: data.approveMemberRequest.group.name },
-          },
-          (groupData) =>
-            produce(groupData, (draft) => {
-              if (!draft) {
-                return;
-              }
-              draft.group.members.unshift(data.approveMemberRequest);
-              draft.group.memberRequestCount -= 1;
-              draft.group.memberCount += 1;
             })
         );
       },

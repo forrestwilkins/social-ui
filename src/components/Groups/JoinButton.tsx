@@ -1,20 +1,22 @@
 import { Reference } from "@apollo/client";
+import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
-import MEMBER_REQUEST_QUERY from "../../apollo/groups/queries/MemberRequest.query";
-import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
-import { TypeNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
   MemberRequestQuery,
+  MemberRequestQueryVariables,
   MemberRequestsQuery,
+  MemberRequestsQueryVariables,
   useCancelMemberRequestMutation,
   useCreateMemberRequestMutation,
   useLeaveGroupMutation,
   useMemberRequestQuery,
 } from "../../apollo/gen";
+import MEMBER_REQUEST_QUERY from "../../apollo/groups/queries/MemberRequest.query";
+import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
+import { TypeNames } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
 import GhostButton from "../Shared/GhostButton";
-import { styled } from "@mui/material";
 
 const Button = styled(GhostButton)(() => ({
   marginRight: 8,
@@ -65,14 +67,18 @@ const JoinButton = ({ groupId }: Props) => {
           return;
         }
         const { createMemberRequest } = data;
-        const variables = { groupId: createMemberRequest.group.id };
-        cache.writeQuery<MemberRequestQuery>({
+        cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MEMBER_REQUEST_QUERY,
           data: { memberRequest: createMemberRequest },
-          variables,
+          variables: { groupId },
         });
-        cache.updateQuery<MemberRequestsQuery>(
-          { query: MEMBER_REQUESTS_QUERY, variables },
+        cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+          {
+            query: MEMBER_REQUESTS_QUERY,
+            variables: {
+              groupName: createMemberRequest.group.name,
+            },
+          },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
               draft?.memberRequests.unshift(createMemberRequest);
@@ -98,16 +104,16 @@ const JoinButton = ({ groupId }: Props) => {
         if (!data) {
           return;
         }
-        const variables = {
-          groupId: data.cancelMemberRequest.id,
-        };
-        cache.writeQuery<MemberRequestQuery>({
+        cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MEMBER_REQUEST_QUERY,
           data: { memberRequest: null },
-          variables,
+          variables: { groupId },
         });
-        cache.updateQuery<MemberRequestsQuery>(
-          { query: MEMBER_REQUESTS_QUERY, variables },
+        cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+          {
+            query: MEMBER_REQUESTS_QUERY,
+            variables: { groupName: data.cancelMemberRequest.name },
+          },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
               if (!draft) {
@@ -134,7 +140,7 @@ const JoinButton = ({ groupId }: Props) => {
         id: groupId,
       },
       update(cache) {
-        cache.writeQuery<MemberRequestQuery>({
+        cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MEMBER_REQUEST_QUERY,
           variables: { groupId },
           data: { memberRequest: null },

@@ -221,7 +221,7 @@ export type QueryMemberRequestArgs = {
 };
 
 export type QueryMemberRequestsArgs = {
-  groupId: Scalars["Int"];
+  groupName: Scalars["String"];
 };
 
 export type QueryPostArgs = {
@@ -419,7 +419,7 @@ export type CreateMemberRequestMutation = {
     __typename?: "MemberRequest";
     id: number;
     status: string;
-    group: { __typename?: "Group"; id: number };
+    group: { __typename?: "Group"; id: number; name: string };
     user: {
       __typename?: "User";
       id: number;
@@ -586,7 +586,7 @@ export type MemberRequestQuery = {
 };
 
 export type MemberRequestsQueryVariables = Exact<{
-  groupId: Scalars["Int"];
+  groupName: Scalars["String"];
 }>;
 
 export type MemberRequestsQuery = {
@@ -1427,6 +1427,7 @@ export const CreateMemberRequestDocument = gql`
       status
       group {
         id
+        name
       }
       user {
         ...UserAvatar
@@ -1868,8 +1869,8 @@ export type MemberRequestQueryResult = Apollo.QueryResult<
   MemberRequestQueryVariables
 >;
 export const MemberRequestsDocument = gql`
-  query MemberRequests($groupId: Int!) {
-    memberRequests(groupId: $groupId) {
+  query MemberRequests($groupName: String!) {
+    memberRequests(groupName: $groupName) {
       id
       status
       user {
@@ -1892,7 +1893,7 @@ export const MemberRequestsDocument = gql`
  * @example
  * const { data, loading, error } = useMemberRequestsQuery({
  *   variables: {
- *      groupId: // value for 'groupId'
+ *      groupName: // value for 'groupName'
  *   },
  * });
  */

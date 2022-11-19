@@ -8,6 +8,7 @@ const CREATE_MEMBER_REQUEST_MUTATION = gql`
       status
       group {
         id
+        name
       }
       user {
         ...UserAvatar

@@ -1,3 +1,5 @@
+// FIXME: Breadcrumbs are showing briefly on the next page when redirecting
+
 import { useReactiveVar } from "@apollo/client";
 import {
   Breadcrumbs as MuiBreadcrumbs,

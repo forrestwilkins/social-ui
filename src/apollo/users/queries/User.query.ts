@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { PostCardFragmentDoc, UserProfileCardFragmentDoc } from "../../gen";
 
-const USER_QUERY = gql`
+export default gql`
   query User($name: String) {
     user(name: $name) {
       ...UserProfileCard
@@ -13,5 +13,3 @@ const USER_QUERY = gql`
   ${PostCardFragmentDoc}
   ${UserProfileCardFragmentDoc}
 `;
-
-export default USER_QUERY;

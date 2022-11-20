@@ -12,6 +12,7 @@ import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
+  CreateGroupInput,
   GroupFormFragment,
   GroupInput,
   GroupsQuery,
@@ -50,7 +51,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
 
   const t = useTranslate();
 
-  const initialValues: Omit<GroupInput, "id"> = {
+  const initialValues = {
     name: editGroup ? editGroup.name : "",
     description: editGroup ? editGroup.description : "",
   };
@@ -94,8 +95,8 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     });
 
   const handleCreate = async (
-    formValues: GroupInput,
-    { setSubmitting, resetForm }: FormikHelpers<GroupInput>,
+    formValues: CreateGroupInput,
+    { setSubmitting, resetForm }: FormikHelpers<CreateGroupInput>,
     coverPhotoData?: FormData
   ) =>
     await createGroup({

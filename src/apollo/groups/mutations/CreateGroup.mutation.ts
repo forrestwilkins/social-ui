@@ -5,7 +5,7 @@ import { multiPartRequest } from "../../../utils/common.utils";
 import GROUP_AVATAR_FRAGMENT from "../fragments/GroupAvatar.fragment";
 
 const CREATE_GROUP_MUTATION = gql`
-  mutation CreateGroup($groupData: GroupInput!) {
+  mutation CreateGroup($groupData: CreateGroupInput!) {
     createGroup(groupData: $groupData) {
       group {
         ...GroupAvatar

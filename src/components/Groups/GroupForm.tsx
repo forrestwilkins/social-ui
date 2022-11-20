@@ -113,12 +113,8 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
               produce(groupsData, (draft) => {
                 draft?.groups.unshift({
                   ...data.createGroup,
-                  ...(coverPhoto && { coverPhoto }),
+                  coverPhoto: coverPhoto || null,
                   memberRequestCount: 0,
-
-                  // TODO: Set to 1 after updating group creation
-                  // to automatically create first group member
-                  memberCount: 0,
                 });
               })
           );

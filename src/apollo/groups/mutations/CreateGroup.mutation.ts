@@ -9,6 +9,11 @@ const CREATE_GROUP_MUTATION = gql`
       id
       name
       description
+      members {
+        user {
+          id
+        }
+      }
     }
   }
 `;

@@ -409,6 +409,10 @@ export type CreateGroupMutation = {
     id: number;
     name: string;
     description: string;
+    members: Array<{
+      __typename?: "GroupMember";
+      user: { __typename?: "User"; id: number };
+    }>;
   };
 };
 
@@ -1385,6 +1389,11 @@ export const CreateGroupDocument = gql`
       id
       name
       description
+      members {
+        user {
+          id
+        }
+      }
     }
   }
 `;

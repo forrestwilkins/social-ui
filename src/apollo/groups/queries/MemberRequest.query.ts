@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const MEMBER_REQUEST_QUERY = gql`
+export default gql`
   query MemberRequest($groupId: Int!) {
     memberRequest(groupId: $groupId) {
       id
@@ -11,5 +11,3 @@ const MEMBER_REQUEST_QUERY = gql`
     }
   }
 `;
-
-export default MEMBER_REQUEST_QUERY;

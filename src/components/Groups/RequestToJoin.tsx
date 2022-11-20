@@ -2,12 +2,12 @@ import { Reference } from "@apollo/client";
 import { Button, styled, Typography } from "@mui/material";
 import produce from "immer";
 import {
+  MemberRequestsDocument,
   MemberRequestsQuery,
   MemberRequestsQueryVariables,
   RequestToJoinFragment,
   useApproveMemberRequestMutation,
 } from "../../apollo/gen";
-import MEMBER_REQUESTS_QUERY from "../../apollo/groups/queries/MemberRequests.query";
 import { useTranslate } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
@@ -59,7 +59,7 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
         });
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
-            query: MEMBER_REQUESTS_QUERY,
+            query: MemberRequestsDocument,
             variables: {
               groupName: groupMember.group.name,
             },

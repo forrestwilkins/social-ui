@@ -14,6 +14,10 @@ const subscribeTokenRefresh = (cb: Callback) => {
 const onTokenRefreshed = (err: unknown) => {
   tokenSubscribers.map((cb: Callback) => cb(err));
 };
+const prepareExit = () => {
+  onTokenRefreshed(null);
+  tokenSubscribers = [];
+};
 
 const refreshTokenLink = onError(
   ({ graphQLErrors, networkError, operation, response, forward }) =>
@@ -47,12 +51,10 @@ const refreshTokenLink = onError(
                 if (!isRefreshingTokenVar()) {
                   try {
                     await refreshToken();
-
-                    onTokenRefreshed(null);
-                    tokenSubscribers = [];
-
+                    prepareExit();
                     return retryRequest();
-                  } catch (e) {
+                  } catch {
+                    prepareExit();
                     return observer.error(graphQLErrors[index]);
                   }
                 }

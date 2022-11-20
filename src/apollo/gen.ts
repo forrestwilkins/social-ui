@@ -36,6 +36,11 @@ export type AuthPayload = {
   user: User;
 };
 
+export type CancelMemberRequestPayload = {
+  __typename?: "CancelMemberRequestPayload";
+  group: Group;
+};
+
 export type CreateGroupPayload = {
   __typename?: "CreateGroupPayload";
   group: Group;
@@ -110,7 +115,7 @@ export type MemberRequest = {
 export type Mutation = {
   __typename?: "Mutation";
   approveMemberRequest: ApproveMemberRequestPayload;
-  cancelMemberRequest: Group;
+  cancelMemberRequest: CancelMemberRequestPayload;
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
   createPost: Post;
@@ -418,7 +423,10 @@ export type CancelMemberRequestMutationVariables = Exact<{
 
 export type CancelMemberRequestMutation = {
   __typename?: "Mutation";
-  cancelMemberRequest: { __typename?: "Group"; id: number; name: string };
+  cancelMemberRequest: {
+    __typename?: "CancelMemberRequestPayload";
+    group: { __typename?: "Group"; id: number; name: string };
+  };
 };
 
 export type CreateGroupMutationVariables = Exact<{
@@ -1374,8 +1382,10 @@ export type ApproveMemberRequestMutationOptions = Apollo.BaseMutationOptions<
 export const CancelMemberRequestDocument = gql`
   mutation CancelMemberRequest($id: Int!) {
     cancelMemberRequest(id: $id) {
-      id
-      name
+      group {
+        id
+        name
+      }
     }
   }
 `;

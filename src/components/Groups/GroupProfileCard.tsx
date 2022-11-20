@@ -57,11 +57,7 @@ interface Props extends CardProps {
   isMember: boolean;
 }
 
-const GroupProfileCard = ({
-  group: { id, name, coverPhoto, memberCount, memberRequestCount },
-  isMember,
-  ...cardProps
-}: Props) => {
+const GroupProfileCard = ({ group, isMember, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
@@ -70,6 +66,7 @@ const GroupProfileCard = ({
   const isAboveSmall = useAboveBreakpoint("sm");
   const t = useTranslate();
 
+  const { id, name, coverPhoto, memberCount, memberRequestCount } = group;
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
   const showCardHeader = isLoggedIn && isAboveSmall;
@@ -102,7 +99,7 @@ const GroupProfileCard = ({
 
   const renderCardActions = () => (
     <>
-      <JoinButton groupId={id} isMember={isMember} />
+      <JoinButton group={group} isMember={isMember} />
 
       {isMember && (
         <ItemMenu

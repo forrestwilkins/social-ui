@@ -3,6 +3,8 @@ import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
 import {
+  GroupCardFragment,
+  GroupProfileCardFragment,
   MemberRequestQuery,
   MemberRequestQueryVariables,
   MemberRequestsQuery,
@@ -24,12 +26,14 @@ const Button = styled(GhostButton)(() => ({
 }));
 
 interface Props {
-  groupId: number;
+  group: GroupCardFragment | GroupProfileCardFragment;
   isMember: boolean;
 }
 
-const JoinButton = ({ groupId, isMember }: Props) => {
-  const { data, loading } = useMemberRequestQuery({ variables: { groupId } });
+const JoinButton = ({ group: { id: groupId, name }, isMember }: Props) => {
+  const { data, loading } = useMemberRequestQuery({
+    variables: { groupId },
+  });
   const [createMemberRequest, { loading: createLoading }] =
     useCreateMemberRequestMutation();
   const [cancelMemberRequest, { loading: cancelLoading }] =
@@ -52,12 +56,10 @@ const JoinButton = ({ groupId, isMember }: Props) => {
       }
       return t("groups.labels.joined");
     }
-    if (!memberRequest) {
-      return t("groups.actions.join");
-    }
-    if (memberRequest.status === "pending") {
+    if (memberRequest?.status === "pending") {
       return t("groups.actions.cancelRequest");
     }
+    return t("groups.actions.join");
   };
 
   const handleJoin = async () =>
@@ -100,13 +102,8 @@ const JoinButton = ({ groupId, isMember }: Props) => {
 
   const handleCancelRequest = async (id: number) =>
     await cancelMemberRequest({
-      variables: {
-        id,
-      },
-      update(cache, { data }) {
-        if (!data) {
-          return;
-        }
+      variables: { id },
+      update(cache) {
         cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MEMBER_REQUEST_QUERY,
           data: { memberRequest: null },
@@ -115,7 +112,7 @@ const JoinButton = ({ groupId, isMember }: Props) => {
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
             query: MEMBER_REQUESTS_QUERY,
-            variables: { groupName: data.cancelMemberRequest.name },
+            variables: { groupName: name },
           },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
@@ -127,7 +124,7 @@ const JoinButton = ({ groupId, isMember }: Props) => {
             })
         );
         cache.modify({
-          id: cache.identify(data.cancelMemberRequest),
+          id: cache.identify({ __typename: TypeNames.Group, id }),
           fields: {
             memberRequestCount(existingCount: number) {
               return existingCount - 1;
@@ -139,9 +136,7 @@ const JoinButton = ({ groupId, isMember }: Props) => {
 
   const handleLeave = async (userId: number) =>
     await leaveGroup({
-      variables: {
-        id: groupId,
-      },
+      variables: { id: groupId },
       update(cache) {
         cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MEMBER_REQUEST_QUERY,

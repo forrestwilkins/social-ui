@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const UPDATE_GROUP_MUTATION = gql`
+export default gql`
   mutation UpdateGroup($groupData: UpdateGroupInput!) {
     updateGroup(groupData: $groupData) {
       group {
@@ -11,5 +11,3 @@ const UPDATE_GROUP_MUTATION = gql`
     }
   }
 `;
-
-export default UPDATE_GROUP_MUTATION;

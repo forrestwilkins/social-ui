@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
+import { UserAvatarFragmentDoc } from "../../gen";
 
-const CREATE_MEMBER_REQUEST_MUTATION = gql`
+export default gql`
   mutation CreateMemberRequest($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
       memberRequest {
@@ -17,7 +17,5 @@ const CREATE_MEMBER_REQUEST_MUTATION = gql`
       }
     }
   }
-  ${USER_AVATAR_FRAGMENT}
+  ${UserAvatarFragmentDoc}
 `;
-
-export default CREATE_MEMBER_REQUEST_MUTATION;

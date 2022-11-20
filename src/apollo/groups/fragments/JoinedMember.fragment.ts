@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
 
-const JOINED_MEMBER_FRAGMENT = gql`
+export default gql`
   fragment JoinedMember on GroupMember {
     id
     user {
@@ -10,5 +10,3 @@ const JOINED_MEMBER_FRAGMENT = gql`
   }
   ${USER_AVATAR_FRAGMENT}
 `;
-
-export default JOINED_MEMBER_FRAGMENT;

@@ -1,4 +1,4 @@
-// TODO: Ensure that update group and create group have separate input types
+// TODO: Ensure that update group and create group have separate input types ⭐️
 
 import {
   Card,
@@ -11,20 +11,19 @@ import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
+import {
+  GroupFormFragment,
+  GroupInput,
+  GroupsQuery,
+  useCreateGroupMutation,
+  useUpdateGroupMutation,
+} from "../../apollo/gen";
 import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/CreateGroup.mutation";
 import GROUPS_QUERY from "../../apollo/groups/queries/Groups.query";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  GroupFormFragment,
-  GroupInput,
-  GroupsQuery,
-  Image,
-  useCreateGroupMutation,
-  useUpdateGroupMutation,
-} from "../../apollo/gen";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";
@@ -51,80 +50,93 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
 
   const t = useTranslate();
 
-  const initialValues: GroupInput = {
+  const initialValues: Omit<GroupInput, "id"> = {
     name: editGroup ? editGroup.name : "",
     description: editGroup ? editGroup.description : "",
   };
 
+  const handleUpdate = async (
+    editGroup: GroupFormFragment,
+    formValues: GroupInput,
+    coverPhotoData?: FormData
+  ) =>
+    await updateGroup({
+      variables: {
+        groupData: { id: editGroup.id, ...formValues },
+      },
+      async update(cache, { data }) {
+        if (!coverPhotoData || !data) {
+          return;
+        }
+        const coverPhotoResult = await uploadGroupCoverPhoto(
+          data.updateGroup.id,
+          coverPhotoData
+        );
+        cache.modify({
+          id: cache.identify(editGroup),
+          fields: {
+            coverPhoto(_, { toReference }) {
+              return toReference(coverPhotoResult);
+            },
+          },
+        });
+      },
+      onCompleted(data) {
+        const groupPagePath = getGroupPath(data.updateGroup.name);
+        redirectTo(groupPagePath);
+      },
+      onError() {
+        throw new Error(t("groups.errors.couldNotUpdate"));
+      },
+    });
+
+  const handleCreate = async (
+    formValues: GroupInput,
+    { setSubmitting, resetForm }: FormikHelpers<GroupInput>,
+    coverPhotoData?: FormData
+  ) =>
+    await createGroup({
+      variables: { groupData: formValues },
+      async update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        const coverPhoto = coverPhotoData
+          ? await uploadGroupCoverPhoto(data.createGroup.id, coverPhotoData)
+          : data.createGroup.coverPhoto;
+
+        cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
+          produce(groupsData, (draft) => {
+            draft?.groups.unshift({
+              ...data.createGroup,
+              memberRequestCount: 0,
+              coverPhoto,
+            });
+          })
+        );
+      },
+      onCompleted() {
+        setImageInputKey(generateRandom());
+        setCoverPhoto(undefined);
+        setSubmitting(false);
+        resetForm();
+      },
+      onError() {
+        throw new Error(t("groups.errors.couldNotCreate"));
+      },
+    });
+
   const handleSubmit = async (
     formValues: GroupInput,
-    { resetForm, setSubmitting }: FormikHelpers<GroupInput>
+    formikHelpers: FormikHelpers<GroupInput>
   ) => {
     try {
       const coverPhotoData = buildImageData(coverPhoto);
-
       if (editGroup) {
-        const { data } = await updateGroup({
-          variables: {
-            groupData: { id: editGroup.id, ...formValues },
-          },
-          async update(cache, { data }) {
-            if (!coverPhotoData || !data) {
-              return;
-            }
-            const coverPhotoResult = await uploadGroupCoverPhoto(
-              data.updateGroup.id,
-              coverPhotoData
-            );
-            cache.modify({
-              id: cache.identify(editGroup),
-              fields: {
-                coverPhoto(_, { toReference }) {
-                  return toReference(coverPhotoResult);
-                },
-              },
-            });
-          },
-        });
-        if (!data?.updateGroup) {
-          throw new Error(t("groups.errors.couldNotUpdate"));
-        }
-        const groupPagePath = getGroupPath(data.updateGroup.name);
-        redirectTo(groupPagePath);
+        await handleUpdate(editGroup, formValues, coverPhotoData);
         return;
       }
-
-      await createGroup({
-        variables: { groupData: formValues },
-        async update(cache, { data }) {
-          if (!data) {
-            return;
-          }
-          let coverPhoto: Image | undefined;
-          if (coverPhotoData) {
-            coverPhoto = await uploadGroupCoverPhoto(
-              data.createGroup.id,
-              coverPhotoData
-            );
-          }
-          cache.updateQuery<GroupsQuery>(
-            { query: GROUPS_QUERY },
-            (groupsData) =>
-              produce(groupsData, (draft) => {
-                draft?.groups.unshift({
-                  ...data.createGroup,
-                  coverPhoto: coverPhoto || null,
-                  memberRequestCount: 0,
-                });
-              })
-          );
-        },
-      });
-
-      setImageInputKey(generateRandom());
-      setCoverPhoto(undefined);
-      setSubmitting(false);
-      resetForm();
+      await handleCreate(formValues, formikHelpers, coverPhotoData);
     } catch (err) {
       toastVar({
         status: "error",

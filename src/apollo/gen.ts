@@ -406,13 +406,14 @@ export type CreateGroupMutation = {
   __typename?: "Mutation";
   createGroup: {
     __typename?: "Group";
+    description: string;
     id: number;
     name: string;
-    description: string;
     members: Array<{
       __typename?: "GroupMember";
       user: { __typename?: "User"; id: number };
     }>;
+    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -1386,8 +1387,7 @@ export type CancelMemberRequestMutationOptions = Apollo.BaseMutationOptions<
 export const CreateGroupDocument = gql`
   mutation CreateGroup($groupData: GroupInput!) {
     createGroup(groupData: $groupData) {
-      id
-      name
+      ...GroupAvatar
       description
       members {
         user {
@@ -1396,6 +1396,7 @@ export const CreateGroupDocument = gql`
       }
     }
   }
+  ${GroupAvatarFragmentDoc}
 `;
 export type CreateGroupMutationFn = Apollo.MutationFunction<
   CreateGroupMutation,

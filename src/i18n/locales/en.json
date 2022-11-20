@@ -126,6 +126,7 @@
       "discoverGroups": "Discover Groups"
     },
     "errors": {
+      "couldNotCreate": "Group could not be created",
       "couldNotUpdate": "Group could not be updated"
     },
     "labels": {

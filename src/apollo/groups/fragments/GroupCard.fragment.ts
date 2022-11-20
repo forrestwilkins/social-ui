@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { GroupAvatarFragmentDoc } from "../../gen";
 
-const GROUP_CARD_FRAGMENT = gql`
+export default gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
@@ -14,5 +14,3 @@ const GROUP_CARD_FRAGMENT = gql`
   }
   ${GroupAvatarFragmentDoc}
 `;
-
-export default GROUP_CARD_FRAGMENT;

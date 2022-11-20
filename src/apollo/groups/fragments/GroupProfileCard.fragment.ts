@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GROUP_PROFILE_CARD_FRAGMENT = gql`
+export default gql`
   fragment GroupProfileCard on Group {
     id
     name
@@ -13,5 +13,3 @@ export const GROUP_PROFILE_CARD_FRAGMENT = gql`
     memberRequestCount
   }
 `;
-
-export default GROUP_PROFILE_CARD_FRAGMENT;

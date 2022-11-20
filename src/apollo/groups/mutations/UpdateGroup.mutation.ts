@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const UPDATE_GROUP_MUTATION = gql`
-  mutation UpdateGroup($groupData: GroupInput!) {
+  mutation UpdateGroup($groupData: UpdateGroupInput!) {
     updateGroup(groupData: $groupData) {
       group {
         id

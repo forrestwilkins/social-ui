@@ -14,8 +14,8 @@ import { toastVar } from "../../apollo/cache";
 import {
   CreateGroupInput,
   GroupFormFragment,
-  GroupInput,
   GroupsQuery,
+  UpdateGroupInput,
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../apollo/gen";
@@ -56,44 +56,6 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     description: editGroup ? editGroup.description : "",
   };
 
-  const handleUpdate = async (
-    editGroup: GroupFormFragment,
-    formValues: GroupInput,
-    coverPhotoData?: FormData
-  ) =>
-    await updateGroup({
-      variables: {
-        groupData: { id: editGroup.id, ...formValues },
-      },
-      async update(cache, { data }) {
-        if (!coverPhotoData || !data) {
-          return;
-        }
-        const {
-          updateGroup: { group },
-        } = data;
-        const coverPhotoResult = await uploadGroupCoverPhoto(
-          group.id,
-          coverPhotoData
-        );
-        cache.modify({
-          id: cache.identify(editGroup),
-          fields: {
-            coverPhoto(_, { toReference }) {
-              return toReference(coverPhotoResult);
-            },
-          },
-        });
-      },
-      onCompleted({ updateGroup: { group } }) {
-        const groupPagePath = getGroupPath(group.name);
-        redirectTo(groupPagePath);
-      },
-      onError() {
-        throw new Error(t("groups.errors.couldNotUpdate"));
-      },
-    });
-
   const handleCreate = async (
     formValues: CreateGroupInput,
     { setSubmitting, resetForm }: FormikHelpers<CreateGroupInput>,
@@ -133,9 +95,47 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
       },
     });
 
+  const handleUpdate = async (
+    editGroup: GroupFormFragment,
+    formValues: Omit<UpdateGroupInput, "id">,
+    coverPhotoData?: FormData
+  ) =>
+    await updateGroup({
+      variables: {
+        groupData: { id: editGroup.id, ...formValues },
+      },
+      async update(cache, { data }) {
+        if (!coverPhotoData || !data) {
+          return;
+        }
+        const {
+          updateGroup: { group },
+        } = data;
+        const coverPhotoResult = await uploadGroupCoverPhoto(
+          group.id,
+          coverPhotoData
+        );
+        cache.modify({
+          id: cache.identify(editGroup),
+          fields: {
+            coverPhoto(_, { toReference }) {
+              return toReference(coverPhotoResult);
+            },
+          },
+        });
+      },
+      onCompleted({ updateGroup: { group } }) {
+        const groupPagePath = getGroupPath(group.name);
+        redirectTo(groupPagePath);
+      },
+      onError() {
+        throw new Error(t("groups.errors.couldNotUpdate"));
+      },
+    });
+
   const handleSubmit = async (
-    formValues: GroupInput,
-    formikHelpers: FormikHelpers<GroupInput>
+    formValues: CreateGroupInput | UpdateGroupInput,
+    formikHelpers: FormikHelpers<CreateGroupInput | UpdateGroupInput>
   ) => {
     try {
       const coverPhotoData = buildImageData(coverPhoto);
@@ -169,13 +169,11 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                   label={t("groups.form.name")}
                   name={FieldNames.Name}
                 />
-
                 <TextField
                   autoComplete="off"
                   label={t("groups.form.description")}
                   name={FieldNames.Description}
                 />
-
                 {coverPhoto && (
                   <AttachedImagePreview
                     removeSelectedImage={removeSelectedImageHandler}
@@ -189,7 +187,6 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                   refreshKey={imageInputKey}
                   setImage={setCoverPhoto}
                 />
-
                 <PrimaryActionButton
                   disabled={
                     formik.isSubmitting || (!formik.dirty && !coverPhoto)

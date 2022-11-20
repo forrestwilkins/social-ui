@@ -102,7 +102,7 @@ const GroupProfileCard = ({
 
   const renderCardActions = () => (
     <>
-      <JoinButton groupId={id} />
+      <JoinButton groupId={id} isMember={isMember} />
 
       {isMember && (
         <ItemMenu

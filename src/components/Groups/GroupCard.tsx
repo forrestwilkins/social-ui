@@ -46,7 +46,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
   const { id, name, description, members, memberRequestCount } = group;
   const isMember =
-    isLoggedIn && members.find(({ user }) => currentUserId === user.id);
+    isLoggedIn && !!members.find(({ user }) => currentUserId === user.id);
 
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
@@ -96,7 +96,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
           )}
         </Box>
 
-        {isLoggedIn && <JoinButton groupId={id} />}
+        {isLoggedIn && <JoinButton groupId={id} isMember={isMember} />}
       </CardContent>
     </Card>
   );

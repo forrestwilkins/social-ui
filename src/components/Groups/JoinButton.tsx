@@ -25,9 +25,10 @@ const Button = styled(GhostButton)(() => ({
 
 interface Props {
   groupId: number;
+  isMember: boolean;
 }
 
-const JoinButton = ({ groupId }: Props) => {
+const JoinButton = ({ groupId, isMember }: Props) => {
   const { data, loading } = useMemberRequestQuery({ variables: { groupId } });
   const [createMemberRequest, { loading: createLoading }] =
     useCreateMemberRequestMutation();
@@ -45,14 +46,14 @@ const JoinButton = ({ groupId }: Props) => {
   const { memberRequest } = data;
 
   const getButtonText = () => {
-    if (!memberRequest) {
-      return t("groups.actions.join");
-    }
-    if (memberRequest.status === "approved") {
+    if (isMember) {
       if (isHovering) {
         return t("groups.actions.leave");
       }
       return t("groups.labels.joined");
+    }
+    if (!memberRequest) {
+      return t("groups.actions.join");
     }
     if (memberRequest.status === "pending") {
       return t("groups.actions.cancelRequest");

@@ -54,10 +54,12 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   group: GroupProfileCardFragment;
+  isMember: boolean;
 }
 
 const GroupProfileCard = ({
   group: { id, name, coverPhoto, memberCount, memberRequestCount },
+  isMember,
   ...cardProps
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -102,18 +104,20 @@ const GroupProfileCard = ({
     <>
       <JoinButton groupId={id} />
 
-      <ItemMenu
-        anchorEl={menuAnchorEl}
-        buttonStyles={{ paddingX: 0, minWidth: 38 }}
-        deleteItem={handleDelete}
-        itemId={id}
-        itemType={ResourceNames.Group}
-        name={name}
-        setAnchorEl={setMenuAnchorEl}
-        variant="ghost"
-        canDelete
-        canEdit
-      />
+      {isMember && (
+        <ItemMenu
+          anchorEl={menuAnchorEl}
+          buttonStyles={{ paddingX: 0, minWidth: 38 }}
+          deleteItem={handleDelete}
+          itemId={id}
+          itemType={ResourceNames.Group}
+          name={name}
+          setAnchorEl={setMenuAnchorEl}
+          variant="ghost"
+          canDelete
+          canEdit
+        />
+      )}
     </>
   );
 
@@ -136,7 +140,7 @@ const GroupProfileCard = ({
             {t("groups.members", { count: memberCount })}
           </Link>
 
-          {isLoggedIn && (
+          {isMember && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>

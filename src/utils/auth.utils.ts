@@ -1,16 +1,16 @@
 import client from "../apollo/client";
-import LOG_OUT_MUTATION from "../apollo/auth/mutations/LogOut.mutation";
 import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../apollo/cache";
+import { LogOutDocument } from "../apollo/gen";
 
 /**
  * Alternative function for signing out user outside of component logic.
  */
 export const logOutUser = async () => {
-  await client.mutate({ mutation: LOG_OUT_MUTATION });
+  await client.mutate({ mutation: LogOutDocument });
   isLoggedInVar(false);
   isAuthLoadingVar(false);
   isRefreshingTokenVar(false);

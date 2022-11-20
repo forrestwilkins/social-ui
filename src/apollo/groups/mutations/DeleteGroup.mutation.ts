@@ -1,16 +1,9 @@
 import { ApolloCache, gql } from "@apollo/client";
 import produce from "immer";
-import { GroupsQuery } from "../../gen";
-import GROUPS_QUERY from "../queries/Groups.query";
-
-const DELETE_GROUP_MUTATION = gql`
-  mutation DeleteGroup($id: Int!) {
-    deleteGroup(id: $id)
-  }
-`;
+import { GroupsDocument, GroupsQuery } from "../../gen";
 
 export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
-  cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
+  cache.updateQuery<GroupsQuery>({ query: GroupsDocument }, (groupsData) =>
     produce(groupsData, (draft) => {
       if (!draft) {
         return;
@@ -21,4 +14,8 @@ export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
   );
 };
 
-export default DELETE_GROUP_MUTATION;
+export default gql`
+  mutation DeleteGroup($id: Int!) {
+    deleteGroup(id: $id)
+  }
+`;

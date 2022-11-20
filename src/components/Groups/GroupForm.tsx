@@ -14,13 +14,13 @@ import { toastVar } from "../../apollo/cache";
 import {
   CreateGroupInput,
   GroupFormFragment,
+  GroupsDocument,
   GroupsQuery,
   UpdateGroupInput,
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../apollo/gen";
 import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/CreateGroup.mutation";
-import GROUPS_QUERY from "../../apollo/groups/queries/Groups.query";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
@@ -74,14 +74,16 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
           ? await uploadGroupCoverPhoto(group.id, coverPhotoData)
           : group.coverPhoto;
 
-        cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
-          produce(groupsData, (draft) => {
-            draft?.groups.unshift({
-              ...group,
-              memberRequestCount: 0,
-              coverPhoto,
-            });
-          })
+        cache.updateQuery<GroupsQuery>(
+          { query: GroupsDocument },
+          (groupsData) =>
+            produce(groupsData, (draft) => {
+              draft?.groups.unshift({
+                ...group,
+                memberRequestCount: 0,
+                coverPhoto,
+              });
+            })
         );
       },
       onCompleted() {

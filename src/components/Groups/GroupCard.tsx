@@ -45,7 +45,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   const t = useTranslate();
 
   const { id, name, description, members, memberRequestCount } = group;
-  const showMemberRequests =
+  const isMember =
     isLoggedIn && members.find(({ user }) => currentUserId === user.id);
 
   const groupMembersPath = getGroupMembersPath(name);
@@ -65,7 +65,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         title={<Link href={groupPath}>{name}</Link>}
         action={
           // TODO: Add permission logic for edit and delete
-          isLoggedIn && (
+          isMember && (
             <ItemMenu
               anchorEl={menuAnchorEl}
               deleteItem={handleDelete}
@@ -86,7 +86,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
           <Link href={groupMembersPath}>
             {t("groups.members", { count: members.length })}
           </Link>
-          {showMemberRequests && (
+          {isMember && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>

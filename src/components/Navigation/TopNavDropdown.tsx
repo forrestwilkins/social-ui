@@ -5,13 +5,12 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/Me.query";
+import { MeDocument, useLogOutMutation } from "../../apollo/gen";
 import {
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useLogOutMutation } from "../../apollo/gen";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 export const handleLogOutComplete = () => {
@@ -44,7 +43,7 @@ const TopNavDropdown = ({ userName, anchorEl, handleClose }: Props) => {
       onCompleted: handleLogOutComplete,
       update(cache) {
         cache.writeQuery({
-          query: ME_QUERY,
+          query: MeDocument,
           data: { me: null },
         });
       },

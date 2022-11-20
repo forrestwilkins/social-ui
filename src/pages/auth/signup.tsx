@@ -4,7 +4,12 @@ import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/Me.query";
+import {
+  MeDocument,
+  MeQuery,
+  SignUpInput,
+  useSignUpMutation,
+} from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
@@ -13,7 +18,6 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { MeQuery, SignUpInput, useSignUpMutation } from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {
@@ -38,7 +42,7 @@ const SignUp: NextPage = () => {
         }
         cache.writeQuery<MeQuery>({
           data: { me: data.signUp.user },
-          query: ME_QUERY,
+          query: MeDocument,
         });
         isLoggedInVar(true);
       },

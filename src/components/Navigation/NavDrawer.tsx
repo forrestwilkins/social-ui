@@ -18,10 +18,9 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/Me.query";
+import { MeDocument, useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -57,7 +56,7 @@ const NavDrawer = () => {
       onCompleted: handleLogOutComplete,
       update(cache) {
         cache.writeQuery({
-          query: ME_QUERY,
+          query: MeDocument,
           data: { me: null },
         });
       },

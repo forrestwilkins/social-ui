@@ -1,8 +1,7 @@
 import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
-import { Image } from "../../gen";
 import { multiPartRequest } from "../../../utils/common.utils";
-import GROUP_AVATAR_FRAGMENT from "../fragments/GroupAvatar.fragment";
+import { GroupAvatarFragmentDoc, Image } from "../../gen";
 
 const CREATE_GROUP_MUTATION = gql`
   mutation CreateGroup($groupData: CreateGroupInput!) {
@@ -18,7 +17,7 @@ const CREATE_GROUP_MUTATION = gql`
       }
     }
   }
-  ${GROUP_AVATAR_FRAGMENT}
+  ${GroupAvatarFragmentDoc}
 `;
 
 export const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const GROUP_AVATAR_FRAGMENT = gql`
+export default gql`
   fragment GroupAvatar on Group {
     id
     name
@@ -10,5 +10,3 @@ const GROUP_AVATAR_FRAGMENT = gql`
     }
   }
 `;
-
-export default GROUP_AVATAR_FRAGMENT;

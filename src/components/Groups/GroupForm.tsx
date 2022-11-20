@@ -68,8 +68,11 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         if (!coverPhotoData || !data) {
           return;
         }
+        const {
+          updateGroup: { group },
+        } = data;
         const coverPhotoResult = await uploadGroupCoverPhoto(
-          data.updateGroup.id,
+          group.id,
           coverPhotoData
         );
         cache.modify({
@@ -81,8 +84,8 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
           },
         });
       },
-      onCompleted(data) {
-        const groupPagePath = getGroupPath(data.updateGroup.name);
+      onCompleted({ updateGroup: { group } }) {
+        const groupPagePath = getGroupPath(group.name);
         redirectTo(groupPagePath);
       },
       onError() {

@@ -114,7 +114,7 @@ export type Mutation = {
   login: AuthPayload;
   refreshToken: Scalars["Boolean"];
   signUp: AuthPayload;
-  updateGroup: Group;
+  updateGroup: UpdateGroupPayload;
   updatePost: Post;
   updateUser: User;
 };
@@ -242,6 +242,11 @@ export type SignUpInput = {
   email: Scalars["String"];
   name: Scalars["String"];
   password: Scalars["String"];
+};
+
+export type UpdateGroupPayload = {
+  __typename?: "UpdateGroupPayload";
+  group: Group;
 };
 
 export type UpdateUserInput = {
@@ -474,10 +479,13 @@ export type UpdateGroupMutationVariables = Exact<{
 export type UpdateGroupMutation = {
   __typename?: "Mutation";
   updateGroup: {
-    __typename?: "Group";
-    id: number;
-    name: string;
-    description: string;
+    __typename?: "UpdateGroupPayload";
+    group: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      description: string;
+    };
   };
 };
 
@@ -1613,9 +1621,11 @@ export type LeaveGroupMutationOptions = Apollo.BaseMutationOptions<
 export const UpdateGroupDocument = gql`
   mutation UpdateGroup($groupData: GroupInput!) {
     updateGroup(groupData: $groupData) {
-      id
-      name
-      description
+      group {
+        id
+        name
+        description
+      }
     }
   }
 `;

@@ -33,21 +33,21 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
     await approve({
       variables: { id },
       update(cache, { data }) {
-        if (!data?.approveMemberRequest.group) {
+        if (!data) {
           return;
         }
+        const {
+          approveMemberRequest: { groupMember },
+        } = data;
         cache.modify({
           id: cache.identify({ id, __typename }),
           fields: { status: () => "approved" },
         });
         cache.modify({
-          id: cache.identify(data.approveMemberRequest.group),
+          id: cache.identify(groupMember.group),
           fields: {
             members(existingMemberRefs: Reference[], { toReference }) {
-              return [
-                toReference(data.approveMemberRequest),
-                ...existingMemberRefs,
-              ];
+              return [toReference(groupMember), ...existingMemberRefs];
             },
             memberRequestCount(existingCount: number) {
               return existingCount - 1;
@@ -61,7 +61,7 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
           {
             query: MEMBER_REQUESTS_QUERY,
             variables: {
-              groupName: data.approveMemberRequest.group.name,
+              groupName: groupMember.group.name,
             },
           },
           (memberRequestsData) =>

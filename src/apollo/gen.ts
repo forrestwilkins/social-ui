@@ -26,6 +26,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type ApproveMemberRequestPayload = {
+  __typename?: "ApproveMemberRequestPayload";
+  groupMember: GroupMember;
+};
+
 export type AuthPayload = {
   __typename?: "AuthPayload";
   user: User;
@@ -64,7 +69,7 @@ export type GroupInput = {
 export type GroupMember = {
   __typename?: "GroupMember";
   createdAt: Scalars["DateTime"];
-  group?: Maybe<Group>;
+  group: Group;
   groupId?: Maybe<Scalars["Float"]>;
   id: Scalars["Int"];
   updatedAt: Scalars["DateTime"];
@@ -104,7 +109,7 @@ export type MemberRequest = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  approveMemberRequest: GroupMember;
+  approveMemberRequest: ApproveMemberRequestPayload;
   cancelMemberRequest: Group;
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
@@ -392,14 +397,17 @@ export type ApproveMemberRequestMutationVariables = Exact<{
 export type ApproveMemberRequestMutation = {
   __typename?: "Mutation";
   approveMemberRequest: {
-    __typename?: "GroupMember";
-    id: number;
-    group?: { __typename?: "Group"; id: number; name: string } | null;
-    user: {
-      __typename?: "User";
+    __typename?: "ApproveMemberRequestPayload";
+    groupMember: {
+      __typename?: "GroupMember";
       id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      group: { __typename?: "Group"; id: number; name: string };
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
+      };
     };
   };
 };
@@ -1306,13 +1314,15 @@ export type AuthCheckQueryResult = Apollo.QueryResult<
 export const ApproveMemberRequestDocument = gql`
   mutation ApproveMemberRequest($id: Int!) {
     approveMemberRequest(id: $id) {
-      id
-      group {
+      groupMember {
         id
-        name
-      }
-      user {
-        ...UserAvatar
+        group {
+          id
+          name
+        }
+        user {
+          ...UserAvatar
+        }
       }
     }
   }

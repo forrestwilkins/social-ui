@@ -4,13 +4,15 @@ import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
 const APPROVE_MEMBER_REQUEST_MUTATION = gql`
   mutation ApproveMemberRequest($id: Int!) {
     approveMemberRequest(id: $id) {
-      id
-      group {
+      groupMember {
         id
-        name
-      }
-      user {
-        ...UserAvatar
+        group {
+          id
+          name
+        }
+        user {
+          ...UserAvatar
+        }
       }
     }
   }

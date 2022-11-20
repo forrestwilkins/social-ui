@@ -32,7 +32,7 @@ const CardHeader = styled(MuiCardHeader)(() => ({
 }));
 
 interface Props extends CardProps {
-  currentUserId: number;
+  currentUserId?: number;
   group: GroupCardFragment;
 }
 

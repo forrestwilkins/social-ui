@@ -1,13 +1,11 @@
 import { gql } from "@apollo/client";
-import POST_CARD_FRAGMENT from "../fragments/PostCard.fragment";
+import { PostCardFragmentDoc } from "../../gen";
 
-const POSTS_QUERY = gql`
+export default gql`
   query Posts {
     posts {
       ...PostCard
     }
   }
-  ${POST_CARD_FRAGMENT}
+  ${PostCardFragmentDoc}
 `;
-
-export default POSTS_QUERY;

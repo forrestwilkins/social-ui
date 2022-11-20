@@ -1,9 +1,7 @@
 import { gql } from "@apollo/client";
 
-const DELETE_IMAGE_MUTATION = gql`
+export default gql`
   mutation DeleteImage($id: Int!) {
     deleteImage(id: $id)
   }
 `;
-
-export default DELETE_IMAGE_MUTATION;

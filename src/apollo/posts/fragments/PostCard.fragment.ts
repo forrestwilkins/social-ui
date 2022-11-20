@@ -5,7 +5,7 @@ import {
   UserAvatarFragmentDoc,
 } from "../../gen";
 
-const POST_CARD_FRAGMENT = gql`
+export default gql`
   fragment PostCard on Post {
     id
     body
@@ -24,5 +24,3 @@ const POST_CARD_FRAGMENT = gql`
   ${GroupAvatarFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-
-export default POST_CARD_FRAGMENT;

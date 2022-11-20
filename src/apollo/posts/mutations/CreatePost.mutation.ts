@@ -7,7 +7,12 @@ import {
   UserAvatarFragmentDoc,
 } from "../../gen";
 
-const CREATE_POST_MUTATION = gql`
+export const uploadPostImages = (postId: number, data: FormData) => {
+  const path = `${ApiRoutes.Posts}/${postId}/images`;
+  return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
+};
+
+export default gql`
   mutation CreatePost($postData: PostInput!) {
     createPost(postData: $postData) {
       id
@@ -24,10 +29,3 @@ const CREATE_POST_MUTATION = gql`
   ${GroupAvatarFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-
-export const uploadPostImages = (postId: number, data: FormData) => {
-  const path = `${ApiRoutes.Posts}/${postId}/images`;
-  return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
-};
-
-export default CREATE_POST_MUTATION;

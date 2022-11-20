@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const POST_FORM_FRAGMENT = gql`
+export default gql`
   fragment PostForm on Post {
     id
     body
@@ -10,5 +10,3 @@ const POST_FORM_FRAGMENT = gql`
     }
   }
 `;
-
-export default POST_FORM_FRAGMENT;

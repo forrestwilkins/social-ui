@@ -321,10 +321,13 @@ export type GroupAvatarFragment = {
 export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
-  memberCount: number;
   memberRequestCount: number;
   id: number;
   name: string;
+  members: Array<{
+    __typename?: "GroupMember";
+    user: { __typename?: "User"; id: number };
+  }>;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
@@ -563,12 +566,16 @@ export type GroupsQuery = {
   groups: Array<{
     __typename?: "Group";
     description: string;
-    memberCount: number;
     memberRequestCount: number;
     id: number;
     name: string;
+    members: Array<{
+      __typename?: "GroupMember";
+      user: { __typename?: "User"; id: number };
+    }>;
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   }>;
+  me: { __typename?: "User"; id: number };
 };
 
 export type MemberRequestQueryVariables = Exact<{
@@ -891,7 +898,11 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
-    memberCount
+    members {
+      user {
+        id
+      }
+    }
     memberRequestCount
   }
   ${GroupAvatarFragmentDoc}
@@ -1762,6 +1773,9 @@ export const GroupsDocument = gql`
   query Groups {
     groups {
       ...GroupCard
+    }
+    me {
+      id
     }
   }
   ${GroupCardFragmentDoc}

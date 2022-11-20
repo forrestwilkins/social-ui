@@ -5,7 +5,11 @@ const GROUP_CARD_FRAGMENT = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
-    memberCount
+    members {
+      user {
+        id
+      }
+    }
     memberRequestCount
   }
   ${GROUP_AVATAR_FRAGMENT}

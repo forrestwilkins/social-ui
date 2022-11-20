@@ -32,18 +32,22 @@ const CardHeader = styled(MuiCardHeader)(() => ({
 }));
 
 interface Props extends CardProps {
+  currentUserId: number;
   group: GroupCardFragment;
 }
 
 // TODO: Add remaining layout and functionality
-const GroupCard = ({ group, ...cardProps }: Props) => {
+const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
 
   const t = useTranslate();
 
-  const { id, name, description } = group;
+  const { id, name, description, members, memberRequestCount } = group;
+  const showMemberRequests =
+    isLoggedIn && members.find(({ user }) => currentUserId === user.id);
+
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
   const groupPath = getGroupPath(name);
@@ -80,19 +84,19 @@ const GroupCard = ({ group, ...cardProps }: Props) => {
 
         <Box sx={{ marginBottom: 1.75 }}>
           <Link href={groupMembersPath}>
-            {t("groups.members", { count: group.memberCount })}
+            {t("groups.members", { count: members.length })}
           </Link>
-          {isLoggedIn && (
+          {showMemberRequests && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>
-                {t("groups.requests", { count: group.memberRequestCount })}
+                {t("groups.requests", { count: memberRequestCount })}
               </Link>
             </>
           )}
         </Box>
 
-        {isLoggedIn && <JoinButton groupId={group.id} />}
+        {isLoggedIn && <JoinButton groupId={id} />}
       </CardContent>
     </Card>
   );

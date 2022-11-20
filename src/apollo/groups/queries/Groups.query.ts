@@ -6,6 +6,9 @@ const GROUPS_QUERY = gql`
     groups {
       ...GroupCard
     }
+    me {
+      id
+    }
   }
   ${GROUP_CARD_FRAGMENT}
 `;

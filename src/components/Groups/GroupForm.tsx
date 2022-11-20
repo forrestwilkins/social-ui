@@ -101,14 +101,17 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         if (!data) {
           return;
         }
+        const {
+          createGroup: { group },
+        } = data;
         const coverPhoto = coverPhotoData
-          ? await uploadGroupCoverPhoto(data.createGroup.id, coverPhotoData)
-          : data.createGroup.coverPhoto;
+          ? await uploadGroupCoverPhoto(group.id, coverPhotoData)
+          : group.coverPhoto;
 
         cache.updateQuery<GroupsQuery>({ query: GROUPS_QUERY }, (groupsData) =>
           produce(groupsData, (draft) => {
             draft?.groups.unshift({
-              ...data.createGroup,
+              ...group,
               memberRequestCount: 0,
               coverPhoto,
             });

@@ -7,11 +7,13 @@ import GROUP_AVATAR_FRAGMENT from "../fragments/GroupAvatar.fragment";
 const CREATE_GROUP_MUTATION = gql`
   mutation CreateGroup($groupData: GroupInput!) {
     createGroup(groupData: $groupData) {
-      ...GroupAvatar
-      description
-      members {
-        user {
-          id
+      group {
+        ...GroupAvatar
+        description
+        members {
+          user {
+            id
+          }
         }
       }
     }

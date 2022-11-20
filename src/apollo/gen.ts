@@ -36,6 +36,11 @@ export type CreateGroupPayload = {
   group: Group;
 };
 
+export type CreateMemberRequestPayload = {
+  __typename?: "CreateMemberRequestPayload";
+  memberRequest: MemberRequest;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -102,7 +107,7 @@ export type Mutation = {
   approveMemberRequest: GroupMember;
   cancelMemberRequest: Group;
   createGroup: CreateGroupPayload;
-  createMemberRequest: MemberRequest;
+  createMemberRequest: CreateMemberRequestPayload;
   createPost: Post;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
@@ -441,15 +446,18 @@ export type CreateMemberRequestMutationVariables = Exact<{
 export type CreateMemberRequestMutation = {
   __typename?: "Mutation";
   createMemberRequest: {
-    __typename?: "MemberRequest";
-    id: number;
-    status: string;
-    group: { __typename?: "Group"; id: number; name: string };
-    user: {
-      __typename?: "User";
+    __typename?: "CreateMemberRequestPayload";
+    memberRequest: {
+      __typename?: "MemberRequest";
       id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      status: string;
+      group: { __typename?: "Group"; id: number; name: string };
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
+      };
     };
   };
 };
@@ -1466,14 +1474,16 @@ export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<
 export const CreateMemberRequestDocument = gql`
   mutation CreateMemberRequest($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
-      id
-      status
-      group {
+      memberRequest {
         id
-        name
-      }
-      user {
-        ...UserAvatar
+        status
+        group {
+          id
+          name
+        }
+        user {
+          ...UserAvatar
+        }
       }
     }
   }

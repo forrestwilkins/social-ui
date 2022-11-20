@@ -4,14 +4,16 @@ import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
 const CREATE_MEMBER_REQUEST_MUTATION = gql`
   mutation CreateMemberRequest($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
-      id
-      status
-      group {
+      memberRequest {
         id
-        name
-      }
-      user {
-        ...UserAvatar
+        status
+        group {
+          id
+          name
+        }
+        user {
+          ...UserAvatar
+        }
       }
     }
   }

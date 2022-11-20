@@ -64,29 +64,31 @@ const JoinButton = ({ groupId, isMember }: Props) => {
     await createMemberRequest({
       variables: { groupId },
       update(cache, { data }) {
-        if (!data?.createMemberRequest) {
+        if (!data) {
           return;
         }
-        const { createMemberRequest } = data;
+        const {
+          createMemberRequest: { memberRequest },
+        } = data;
         cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MEMBER_REQUEST_QUERY,
-          data: { memberRequest: createMemberRequest },
+          data: { memberRequest },
           variables: { groupId },
         });
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
             query: MEMBER_REQUESTS_QUERY,
             variables: {
-              groupName: createMemberRequest.group.name,
+              groupName: memberRequest.group.name,
             },
           },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
-              draft?.memberRequests.unshift(createMemberRequest);
+              draft?.memberRequests.unshift(memberRequest);
             })
         );
         cache.modify({
-          id: cache.identify(createMemberRequest.group),
+          id: cache.identify(memberRequest.group),
           fields: {
             memberRequestCount(existingCount: number) {
               return existingCount + 1;

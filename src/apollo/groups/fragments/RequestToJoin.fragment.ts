@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
+import { UserAvatarFragmentDoc } from "../../gen";
 
 export default gql`
   fragment RequestToJoin on MemberRequest {
@@ -8,5 +8,5 @@ export default gql`
       ...UserAvatar
     }
   }
-  ${USER_AVATAR_FRAGMENT}
+  ${UserAvatarFragmentDoc}
 `;

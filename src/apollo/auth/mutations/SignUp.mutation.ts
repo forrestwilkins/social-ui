@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export default gql`
+gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       user {

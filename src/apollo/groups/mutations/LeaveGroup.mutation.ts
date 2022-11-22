@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export default gql`
+gql`
   mutation LeaveGroup($id: Int!) {
     leaveGroup(id: $id)
   }

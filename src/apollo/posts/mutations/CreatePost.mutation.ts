@@ -12,7 +12,7 @@ export const uploadPostImages = (postId: number, data: FormData) => {
   return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
 };
 
-export default gql`
+gql`
   mutation CreatePost($postData: PostInput!) {
     createPost(postData: $postData) {
       id

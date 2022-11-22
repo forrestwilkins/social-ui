@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { GroupCardFragmentDoc } from "../../gen";
 
-export default gql`
+gql`
   query Groups {
     groups {
       ...GroupCard

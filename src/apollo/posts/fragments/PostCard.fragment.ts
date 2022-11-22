@@ -5,7 +5,7 @@ import {
   UserAvatarFragmentDoc,
 } from "../../gen";
 
-export default gql`
+gql`
   fragment PostCard on Post {
     id
     body

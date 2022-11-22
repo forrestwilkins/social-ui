@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { UserAvatarFragmentDoc } from "../../gen";
 
-export default gql`
+gql`
   mutation ApproveMemberRequest($id: Int!) {
     approveMemberRequest(id: $id) {
       groupMember {

@@ -16,7 +16,7 @@ export const refreshToken = async () => {
   }
 };
 
-export default gql`
+gql`
   mutation RefreshToken {
     refreshToken
   }

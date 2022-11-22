@@ -36,7 +36,7 @@ export const removePost =
     });
   };
 
-export default gql`
+gql`
   mutation DeletePost($id: Int!) {
     deletePost(id: $id)
   }

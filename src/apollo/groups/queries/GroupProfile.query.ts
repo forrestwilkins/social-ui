@@ -7,7 +7,7 @@ import {
   UserAvatarFragmentDoc,
 } from "../../gen";
 
-export default gql`
+gql`
   query GroupProfile($name: String!) {
     group(name: $name) {
       ...GroupProfileCard

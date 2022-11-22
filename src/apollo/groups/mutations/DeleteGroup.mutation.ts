@@ -14,7 +14,7 @@ export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
   );
 };
 
-export default gql`
+gql`
   mutation DeleteGroup($id: Int!) {
     deleteGroup(id: $id)
   }

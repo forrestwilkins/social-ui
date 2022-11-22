@@ -13,7 +13,7 @@ export const uploadUserCoverPhoto = (userId: number, data: FormData) => {
   return multiPartRequest<Image>(HttpMethod.Post, path, data);
 };
 
-export default gql`
+gql`
   mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
       id

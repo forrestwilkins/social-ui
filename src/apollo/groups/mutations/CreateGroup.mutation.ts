@@ -8,7 +8,7 @@ export const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {
   return multiPartRequest<Image>(HttpMethod.Post, path, data);
 };
 
-export default gql`
+gql`
   mutation CreateGroup($groupData: CreateGroupInput!) {
     createGroup(groupData: $groupData) {
       group {

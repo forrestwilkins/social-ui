@@ -63,37 +63,11 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     groupId,
   };
 
-  const handleSubmit = async (
+  const handleCreate = async (
     formValues: PostInput,
-    { resetForm, setSubmitting }: FormikHelpers<PostInput>
-  ) => {
-    const imageData = buildImageData(selectedImages);
-
-    if (editPost) {
-      await updatePost({
-        variables: { id: editPost.id, postData: formValues },
-        async update(cache) {
-          if (!imageData) {
-            return;
-          }
-          const images = await uploadPostImages(editPost.id, imageData);
-          cache.updateFragment<PostCardFragment>(
-            {
-              id: cache.identify(editPost),
-              fragment: PostCardFragmentDoc,
-              fragmentName: "PostCard",
-            },
-            (data) =>
-              produce(data, (draft) => {
-                draft?.images.push(...images);
-              })
-          );
-        },
-      });
-      redirectTo(NavigationPaths.Home);
-      return;
-    }
-
+    { resetForm, setSubmitting }: FormikHelpers<PostInput>,
+    imageData?: FormData
+  ) =>
     await createPost({
       variables: { postData: formValues },
       async update(cache, { data }) {
@@ -130,12 +104,53 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           },
         });
       },
+      onCompleted() {
+        setImagesInputKey(generateRandom());
+        setSelctedImages([]);
+        setSubmitting(false);
+        resetForm();
+      },
     });
 
-    setImagesInputKey(generateRandom());
-    setSelctedImages([]);
-    setSubmitting(false);
-    resetForm();
+  const handleUpdate = async (
+    formValues: PostInput,
+    editPost: PostFormFragment,
+    imageData?: FormData
+  ) =>
+    await updatePost({
+      variables: { id: editPost.id, postData: formValues },
+      async update(cache) {
+        if (!imageData) {
+          return;
+        }
+        const images = await uploadPostImages(editPost.id, imageData);
+        cache.updateFragment<PostCardFragment>(
+          {
+            id: cache.identify(editPost),
+            fragment: PostCardFragmentDoc,
+            fragmentName: "PostCard",
+          },
+          (data) =>
+            produce(data, (draft) => {
+              draft?.images.push(...images);
+            })
+        );
+      },
+      onCompleted() {
+        redirectTo(NavigationPaths.Home);
+      },
+    });
+
+  const handleSubmit = async (
+    formValues: PostInput,
+    formikHelpers: FormikHelpers<PostInput>
+  ) => {
+    const imageData = buildImageData(selectedImages);
+    if (editPost) {
+      await handleUpdate(formValues, editPost, imageData);
+      return;
+    }
+    await handleCreate(formValues, formikHelpers, imageData);
   };
 
   const deleteSavedImageHandler = async (id: number) => {

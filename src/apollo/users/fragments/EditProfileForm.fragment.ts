@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const EDIT_PROFILE_FORM_FRAGMENT = gql`
+gql`
   fragment EditProfileForm on User {
     id
     bio
@@ -15,5 +15,3 @@ const EDIT_PROFILE_FORM_FRAGMENT = gql`
     }
   }
 `;
-
-export default EDIT_PROFILE_FORM_FRAGMENT;

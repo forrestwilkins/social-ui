@@ -1,11 +1,18 @@
 import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
-import { Image } from "../../gen";
 import { multiPartRequest } from "../../../utils/common.utils";
-import GROUP_AVATAR_FRAGMENT from "../../groups/fragments/GroupAvatar.fragment";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
+import {
+  GroupAvatarFragmentDoc,
+  Image,
+  UserAvatarFragmentDoc,
+} from "../../gen";
 
-const CREATE_POST_MUTATION = gql`
+export const uploadPostImages = (postId: number, data: FormData) => {
+  const path = `${ApiRoutes.Posts}/${postId}/images`;
+  return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
+};
+
+gql`
   mutation CreatePost($postData: PostInput!) {
     createPost(postData: $postData) {
       id
@@ -19,13 +26,6 @@ const CREATE_POST_MUTATION = gql`
       createdAt
     }
   }
-  ${GROUP_AVATAR_FRAGMENT}
-  ${USER_AVATAR_FRAGMENT}
+  ${GroupAvatarFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
-
-export const uploadPostImages = (postId: number, data: FormData) => {
-  const path = `${ApiRoutes.Posts}/${postId}/images`;
-  return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
-};
-
-export default CREATE_POST_MUTATION;

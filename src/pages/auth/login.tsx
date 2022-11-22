@@ -9,7 +9,12 @@ import {
   isNavDrawerOpenVar,
   toastVar,
 } from "../../apollo/cache";
-import ME_QUERY from "../../apollo/users/queries/Me.query";
+import {
+  LoginInput,
+  MeDocument,
+  MeQuery,
+  useLoginMutation,
+} from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
@@ -18,7 +23,6 @@ import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { LoginInput, MeQuery, useLoginMutation } from "../../apollo/gen";
 
 const Login: NextPage = () => {
   const [login] = useLoginMutation();
@@ -42,7 +46,7 @@ const Login: NextPage = () => {
           }
           cache.writeQuery<MeQuery>({
             data: { me: data.login.user },
-            query: ME_QUERY,
+            query: MeDocument,
           });
           isLoggedInVar(true);
         },

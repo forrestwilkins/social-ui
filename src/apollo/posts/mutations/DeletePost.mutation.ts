@@ -1,19 +1,12 @@
 import { ApolloCache, gql, Reference } from "@apollo/client";
 import produce from "immer";
 import { TypeNames } from "../../../constants/common.constants";
-import { PostsQuery } from "../../gen";
-import POSTS_QUERY from "../queries/Posts.query";
-
-const DELETE_POST_MUTATION = gql`
-  mutation DeletePost($id: Int!) {
-    deletePost(id: $id)
-  }
-`;
+import { PostsDocument, PostsQuery } from "../../gen";
 
 export const removePost =
   (id: number, userId: number, groupId?: number) =>
   (cache: ApolloCache<any>) => {
-    cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
+    cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
       produce(postsData, (draft) => {
         if (!draft) {
           return;
@@ -43,4 +36,8 @@ export const removePost =
     });
   };
 
-export default DELETE_POST_MUTATION;
+gql`
+  mutation DeletePost($id: Int!) {
+    deletePost(id: $id)
+  }
+`;

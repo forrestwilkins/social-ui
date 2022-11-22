@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
+import { UserAvatarFragmentDoc } from "../../gen";
 
-const MEMBER_REQUESTS_QUERY = gql`
+gql`
   query MemberRequests($groupName: String!) {
     memberRequests(groupName: $groupName) {
       id
@@ -11,7 +11,5 @@ const MEMBER_REQUESTS_QUERY = gql`
       }
     }
   }
-  ${USER_AVATAR_FRAGMENT}
+  ${UserAvatarFragmentDoc}
 `;
-
-export default MEMBER_REQUESTS_QUERY;

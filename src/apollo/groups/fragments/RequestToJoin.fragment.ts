@@ -1,14 +1,12 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "../../users/fragments/UserAvatar.fragment";
+import { UserAvatarFragmentDoc } from "../../gen";
 
-const REQUEST_TO_JOIN_FRAGMENT = gql`
+gql`
   fragment RequestToJoin on MemberRequest {
     id
     user {
       ...UserAvatar
     }
   }
-  ${USER_AVATAR_FRAGMENT}
+  ${UserAvatarFragmentDoc}
 `;
-
-export default REQUEST_TO_JOIN_FRAGMENT;

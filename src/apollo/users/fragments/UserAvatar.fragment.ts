@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const USER_AVATAR_FRAGMENT = gql`
+gql`
   fragment UserAvatar on User {
     id
     name
@@ -10,5 +10,3 @@ const USER_AVATAR_FRAGMENT = gql`
     }
   }
 `;
-
-export default USER_AVATAR_FRAGMENT;

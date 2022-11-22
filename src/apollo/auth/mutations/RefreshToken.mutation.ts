@@ -2,17 +2,12 @@ import { gql } from "@apollo/client";
 import client from "../../client";
 import { logOutUser } from "../../../utils/auth.utils";
 import { isRefreshingTokenVar } from "../../cache";
-
-const REFRESH_TOKEN_MUTATION = gql`
-  mutation RefreshToken {
-    refreshToken
-  }
-`;
+import { RefreshTokenDocument } from "../../gen";
 
 export const refreshToken = async () => {
   try {
     isRefreshingTokenVar(true);
-    await client.mutate({ mutation: REFRESH_TOKEN_MUTATION });
+    await client.mutate({ mutation: RefreshTokenDocument });
   } catch (err) {
     await logOutUser();
     throw err;
@@ -21,4 +16,8 @@ export const refreshToken = async () => {
   }
 };
 
-export default REFRESH_TOKEN_MUTATION;
+gql`
+  mutation RefreshToken {
+    refreshToken
+  }
+`;

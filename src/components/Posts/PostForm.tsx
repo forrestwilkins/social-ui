@@ -9,25 +9,25 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import POST_CARD_FRAGMENT from "../../apollo/posts/fragments/PostCard.fragment";
+import {
+  Image,
+  PostCardFragment,
+  PostCardFragmentDoc,
+  PostFormFragment,
+  PostInput,
+  PostsDocument,
+  PostsQuery,
+  useCreatePostMutation,
+  useDeleteImageMutation,
+  useUpdatePostMutation,
+} from "../../apollo/gen";
 import { uploadPostImages } from "../../apollo/posts/mutations/CreatePost.mutation";
-import POSTS_QUERY from "../../apollo/posts/queries/Posts.query";
 import {
   FieldNames,
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  Image,
-  PostCardFragment,
-  PostFormFragment,
-  PostInput,
-  PostsQuery,
-  useCreatePostMutation,
-  useDeleteImageMutation,
-  useUpdatePostMutation,
-} from "../../apollo/gen";
 import { generateRandom, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
@@ -80,7 +80,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           cache.updateFragment<PostCardFragment>(
             {
               id: cache.identify(editPost),
-              fragment: POST_CARD_FRAGMENT,
+              fragment: PostCardFragmentDoc,
               fragmentName: "PostCard",
             },
             (data) =>
@@ -105,7 +105,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           images = await uploadPostImages(data.createPost.id, imageData);
         }
         const postWithImages = { ...data.createPost, images };
-        cache.updateQuery<PostsQuery>({ query: POSTS_QUERY }, (postsData) =>
+        cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
           produce(postsData, (draft) => {
             draft?.posts.unshift(postWithImages);
           })

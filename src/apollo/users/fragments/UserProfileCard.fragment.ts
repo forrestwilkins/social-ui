@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
-import USER_AVATAR_FRAGMENT from "./UserAvatar.fragment";
+import { UserAvatarFragmentDoc } from "../../gen";
 
-const USER_PROFILE_CARD_FRAGMENT = gql`
+gql`
   fragment UserProfileCard on User {
     ...UserAvatar
     coverPhoto {
@@ -11,7 +11,5 @@ const USER_PROFILE_CARD_FRAGMENT = gql`
     bio
     createdAt
   }
-  ${USER_AVATAR_FRAGMENT}
+  ${UserAvatarFragmentDoc}
 `;
-
-export default USER_PROFILE_CARD_FRAGMENT;

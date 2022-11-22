@@ -1,5 +1,5 @@
-import { Reference } from "@apollo/client";
-import { Button, styled, Typography } from "@mui/material";
+import { ApolloCache, Reference } from "@apollo/client";
+import { Box, Button, styled, Typography } from "@mui/material";
 import produce from "immer";
 import {
   MemberRequestsDocument,
@@ -7,6 +7,7 @@ import {
   MemberRequestsQueryVariables,
   RequestToJoinFragment,
   useApproveMemberRequestMutation,
+  useDenyMemberRequestMutation,
 } from "../../apollo/gen";
 import { useTranslate } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -23,13 +24,18 @@ const Flex = styled(SharedFlex)(() => ({
 
 interface Props {
   memberRequest: RequestToJoinFragment;
+  groupName: string;
 }
 
-const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
+const RequestToJoin = ({
+  groupName,
+  memberRequest: { id, user, group, __typename },
+}: Props) => {
   const [approve] = useApproveMemberRequestMutation();
+  const [deny] = useDenyMemberRequestMutation();
   const t = useTranslate();
 
-  const handleButtonClick = async () =>
+  const handleApproveButtonClick = async () =>
     await approve({
       variables: { id },
       update(cache, { data }) {
@@ -44,7 +50,7 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
           fields: { status: () => "approved" },
         });
         cache.modify({
-          id: cache.identify(groupMember.group),
+          id: cache.identify(group),
           fields: {
             members(existingMemberRefs: Reference[], { toReference }) {
               return [toReference(groupMember), ...existingMemberRefs];
@@ -57,24 +63,41 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
             },
           },
         });
-        cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
-          {
-            query: MemberRequestsDocument,
-            variables: {
-              groupName: groupMember.group.name,
-            },
-          },
-          (memberRequestsData) =>
-            produce(memberRequestsData, (draft) => {
-              if (!draft) {
-                return;
-              }
-              const index = draft.memberRequests.findIndex((p) => p.id === id);
-              draft.memberRequests.splice(index, 1);
-            })
-        );
+        removeMemberRequest(cache);
       },
     });
+
+  const handleDenyButtonClick = async () =>
+    await deny({
+      variables: { id },
+      update(cache) {
+        cache.modify({
+          id: cache.identify(group),
+          fields: {
+            memberRequestCount(existingCount: number) {
+              return existingCount - 1;
+            },
+          },
+        });
+        removeMemberRequest(cache);
+      },
+    });
+
+  const removeMemberRequest = (cache: ApolloCache<any>) =>
+    cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+      {
+        query: MemberRequestsDocument,
+        variables: { groupName },
+      },
+      (memberRequestsData) =>
+        produce(memberRequestsData, (draft) => {
+          if (!draft) {
+            return;
+          }
+          const index = draft.memberRequests.findIndex((p) => p.id === id);
+          draft.memberRequests.splice(index, 1);
+        })
+    );
 
   return (
     <Flex sx={{ justifyContent: "space-between" }}>
@@ -85,7 +108,14 @@ const RequestToJoin = ({ memberRequest: { id, user, __typename } }: Props) => {
         </Flex>
       </Link>
 
-      <Button onClick={handleButtonClick}>{t("groups.actions.approve")}</Button>
+      <Box>
+        <Button onClick={handleApproveButtonClick}>
+          {t("groups.actions.approve")}
+        </Button>
+        <Button onClick={handleDenyButtonClick}>
+          {t("groups.actions.deny")}
+        </Button>
+      </Box>
     </Flex>
   );
 };

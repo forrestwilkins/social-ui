@@ -6,10 +6,6 @@ gql`
     approveMemberRequest(id: $id) {
       groupMember {
         id
-        group {
-          id
-          name
-        }
         user {
           ...UserAvatar
         }

@@ -1,15 +1,11 @@
 import { gql } from "@apollo/client";
-import { UserAvatarFragmentDoc } from "../../gen";
+import { RequestToJoinFragmentDoc } from "../../gen";
 
 gql`
   query MemberRequests($groupName: String!) {
     memberRequests(groupName: $groupName) {
-      id
-      status
-      user {
-        ...UserAvatar
-      }
+      ...RequestToJoin
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${RequestToJoinFragmentDoc}
 `;

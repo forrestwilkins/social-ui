@@ -393,6 +393,7 @@ export type RequestToJoinFragment = {
     name: string;
     profilePicture: { __typename?: "Image"; filename: string; id: number };
   };
+  group: { __typename?: "Group"; id: number };
 };
 
 export type ApproveMemberRequestMutationVariables = Exact<{
@@ -406,7 +407,6 @@ export type ApproveMemberRequestMutation = {
     groupMember: {
       __typename?: "GroupMember";
       id: number;
-      group: { __typename?: "Group"; id: number; name: string };
       user: {
         __typename?: "User";
         id: number;
@@ -482,6 +482,15 @@ export type DeleteGroupMutationVariables = Exact<{
 export type DeleteGroupMutation = {
   __typename?: "Mutation";
   deleteGroup: boolean;
+};
+
+export type DenyMemberRequestMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DenyMemberRequestMutation = {
+  __typename?: "Mutation";
+  denyMemberRequest: boolean;
 };
 
 export type LeaveGroupMutationVariables = Exact<{
@@ -646,14 +655,15 @@ export type MemberRequestsQuery = {
   __typename?: "Query";
   memberRequests: Array<{
     __typename?: "MemberRequest";
-    id: number;
     status: string;
+    id: number;
     user: {
       __typename?: "User";
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; filename: string; id: number };
     };
+    group: { __typename?: "Group"; id: number };
   }>;
 };
 
@@ -998,6 +1008,9 @@ export const RequestToJoinFragmentDoc = gql`
     user {
       ...UserAvatar
     }
+    group {
+      id
+    }
   }
   ${UserAvatarFragmentDoc}
 `;
@@ -1321,10 +1334,6 @@ export const ApproveMemberRequestDocument = gql`
     approveMemberRequest(id: $id) {
       groupMember {
         id
-        group {
-          id
-          name
-        }
         user {
           ...UserAvatar
         }
@@ -1591,6 +1600,54 @@ export type DeleteGroupMutationResult =
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<
   DeleteGroupMutation,
   DeleteGroupMutationVariables
+>;
+export const DenyMemberRequestDocument = gql`
+  mutation DenyMemberRequest($id: Int!) {
+    denyMemberRequest(id: $id)
+  }
+`;
+export type DenyMemberRequestMutationFn = Apollo.MutationFunction<
+  DenyMemberRequestMutation,
+  DenyMemberRequestMutationVariables
+>;
+
+/**
+ * __useDenyMemberRequestMutation__
+ *
+ * To run a mutation, you first call `useDenyMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDenyMemberRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [denyMemberRequestMutation, { data, loading, error }] = useDenyMemberRequestMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDenyMemberRequestMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DenyMemberRequestMutation,
+    DenyMemberRequestMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DenyMemberRequestMutation,
+    DenyMemberRequestMutationVariables
+  >(DenyMemberRequestDocument, options);
+}
+export type DenyMemberRequestMutationHookResult = ReturnType<
+  typeof useDenyMemberRequestMutation
+>;
+export type DenyMemberRequestMutationResult =
+  Apollo.MutationResult<DenyMemberRequestMutation>;
+export type DenyMemberRequestMutationOptions = Apollo.BaseMutationOptions<
+  DenyMemberRequestMutation,
+  DenyMemberRequestMutationVariables
 >;
 export const LeaveGroupDocument = gql`
   mutation LeaveGroup($id: Int!) {
@@ -1941,14 +1998,11 @@ export type MemberRequestQueryResult = Apollo.QueryResult<
 export const MemberRequestsDocument = gql`
   query MemberRequests($groupName: String!) {
     memberRequests(groupName: $groupName) {
-      id
+      ...RequestToJoin
       status
-      user {
-        ...UserAvatar
-      }
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${RequestToJoinFragmentDoc}
 `;
 
 /**

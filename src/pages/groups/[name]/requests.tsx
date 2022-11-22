@@ -75,7 +75,11 @@ const MemberRequests: NextPage = () => {
     <Card>
       <CardContent>
         {data.memberRequests.map((memberRequest) => (
-          <RequestToJoin key={memberRequest.id} memberRequest={memberRequest} />
+          <RequestToJoin
+            key={memberRequest.id}
+            groupName={groupName}
+            memberRequest={memberRequest}
+          />
         ))}
       </CardContent>
     </Card>

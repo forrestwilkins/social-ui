@@ -7,6 +7,9 @@ gql`
     user {
       ...UserAvatar
     }
+    group {
+      id
+    }
   }
   ${UserAvatarFragmentDoc}
 `;

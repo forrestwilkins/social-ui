@@ -46,7 +46,7 @@ $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 
 ## GraphQL Code Generator
 
-Social UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to the schema, along with changes to queries, mutations, or fragments.
+Social UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to the schema, along with changes on the FE to queries, mutations, or fragments.
 
 ```bash
 # Keep generated types and hooks in sync with the current schema

@@ -31,11 +31,6 @@ export type ApproveMemberRequestPayload = {
   groupMember: GroupMember;
 };
 
-export type AuthPayload = {
-  __typename?: "AuthPayload";
-  user: User;
-};
-
 export type CreateGroupInput = {
   description: Scalars["String"];
   name: Scalars["String"];
@@ -96,6 +91,11 @@ export type LoginInput = {
   password: Scalars["String"];
 };
 
+export type LoginPayload = {
+  __typename?: "LoginPayload";
+  user: User;
+};
+
 export type MemberRequest = {
   __typename?: "MemberRequest";
   createdAt: Scalars["DateTime"];
@@ -119,9 +119,9 @@ export type Mutation = {
   denyMemberRequest: Scalars["Boolean"];
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
-  login: AuthPayload;
+  login: LoginPayload;
   refreshToken: Scalars["Boolean"];
-  signUp: AuthPayload;
+  signUp: SignUpPayload;
   updateGroup: UpdateGroupPayload;
   updatePost: Post;
   updateUser: User;
@@ -252,6 +252,11 @@ export type SignUpInput = {
   password: Scalars["String"];
 };
 
+export type SignUpPayload = {
+  __typename?: "SignUpPayload";
+  user: User;
+};
+
 export type UpdateGroupInput = {
   description: Scalars["String"];
   id: Scalars["Int"];
@@ -300,7 +305,7 @@ export type SignUpMutationVariables = Exact<{
 export type SignUpMutation = {
   __typename?: "Mutation";
   signUp: {
-    __typename?: "AuthPayload";
+    __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
       id: number;
@@ -319,7 +324,7 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = {
   __typename?: "Mutation";
   login: {
-    __typename?: "AuthPayload";
+    __typename?: "LoginPayload";
     user: {
       __typename?: "User";
       id: number;
@@ -942,13 +947,6 @@ export type UsersQuery = {
   users: Array<{ __typename?: "User"; id: number; name: string }>;
 };
 
-export const CurrentMemberFragmentDoc = gql`
-  fragment CurrentMember on GroupMember {
-    user {
-      id
-    }
-  }
-`;
 export const GroupAvatarFragmentDoc = gql`
   fragment GroupAvatar on Group {
     id
@@ -979,6 +977,13 @@ export const GroupFormFragmentDoc = gql`
     description
   }
 `;
+export const CurrentMemberFragmentDoc = gql`
+  fragment CurrentMember on GroupMember {
+    user {
+      id
+    }
+  }
+`;
 export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
@@ -989,12 +994,11 @@ export const GroupProfileCardFragmentDoc = gql`
       id
     }
     members {
-      user {
-        id
-      }
+      ...CurrentMember
     }
     memberRequestCount
   }
+  ${CurrentMemberFragmentDoc}
 `;
 export const UserAvatarFragmentDoc = gql`
   fragment UserAvatar on User {

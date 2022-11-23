@@ -37,7 +37,7 @@ const MemberRequests: NextPage = () => {
   const t = useTranslate();
 
   useEffect(() => {
-    if (groupName) {
+    if (data) {
       breadcrumbsVar({
         path: asPath,
         breadcrumbs: [
@@ -51,13 +51,13 @@ const MemberRequests: NextPage = () => {
           },
           {
             label: t("groups.labels.memberRequests", {
-              count: data?.memberRequests.length || 0,
+              count: data.memberRequests.length || 0,
             }),
           },
         ],
       });
     }
-  }, [t, isDesktop, data?.memberRequests, asPath, groupName]);
+  }, [t, isDesktop, data, asPath, groupName]);
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

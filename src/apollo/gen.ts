@@ -214,7 +214,6 @@ export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
   group: Group;
-  groupMembers: Array<GroupMember>;
   groups: Array<Group>;
   me: User;
   memberRequest?: Maybe<MemberRequest>;

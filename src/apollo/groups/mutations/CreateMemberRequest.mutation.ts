@@ -6,7 +6,6 @@ gql`
     createMemberRequest(groupId: $groupId) {
       memberRequest {
         id
-        status
         group {
           id
           name

@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
 import {
+  CurrentMemberFragment,
   GroupProfileCardFragment,
   useDeleteGroupMutation,
 } from "../../apollo/gen";
@@ -54,10 +55,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   group: GroupProfileCardFragment;
-  isMember: boolean;
+  currentMember?: CurrentMemberFragment;
 }
 
-const GroupProfileCard = ({ group, isMember, ...cardProps }: Props) => {
+const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
@@ -66,7 +67,7 @@ const GroupProfileCard = ({ group, isMember, ...cardProps }: Props) => {
   const isAboveSmall = useAboveBreakpoint("sm");
   const t = useTranslate();
 
-  const { id, name, coverPhoto, memberCount, memberRequestCount } = group;
+  const { id, name, coverPhoto, members, memberRequestCount } = group;
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
   const showCardHeader = isLoggedIn && isAboveSmall;
@@ -99,9 +100,9 @@ const GroupProfileCard = ({ group, isMember, ...cardProps }: Props) => {
 
   const renderCardActions = () => (
     <>
-      <JoinButton group={group} isMember={isMember} />
+      <JoinButton group={group} currentMember={currentMember} />
 
-      {isMember && (
+      {currentMember && (
         <ItemMenu
           anchorEl={menuAnchorEl}
           buttonStyles={{ paddingX: 0, minWidth: 38 }}
@@ -134,10 +135,10 @@ const GroupProfileCard = ({ group, isMember, ...cardProps }: Props) => {
           </Link>
           {MIDDOT_WITH_SPACES}
           <Link href={groupMembersPath}>
-            {t("groups.members", { count: memberCount })}
+            {t("groups.members", { count: members.length })}
           </Link>
 
-          {isMember && (
+          {currentMember && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>

@@ -26,6 +26,8 @@ const GroupsIndex: NextPage = () => {
     return null;
   }
 
+  const { groups, me } = data;
+
   return (
     <>
       <LevelOneHeading header>
@@ -34,8 +36,8 @@ const GroupsIndex: NextPage = () => {
 
       {isLoggedIn && <GroupForm />}
 
-      {data.groups.map((group) => (
-        <GroupCard group={group} currentUserId={data.me?.id} key={group.id} />
+      {groups.map((group) => (
+        <GroupCard group={group} currentUserId={me?.id} key={group.id} />
       ))}
     </>
   );

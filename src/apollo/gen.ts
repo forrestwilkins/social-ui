@@ -101,7 +101,6 @@ export type MemberRequest = {
   createdAt: Scalars["DateTime"];
   group: Group;
   id: Scalars["Int"];
-  status: Scalars["String"];
   updatedAt: Scalars["DateTime"];
   user: User;
 };
@@ -336,6 +335,11 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
+export type CurrentMemberFragment = {
+  __typename?: "GroupMember";
+  user: { __typename?: "User"; id: number };
+};
+
 export type GroupAvatarFragment = {
   __typename?: "Group";
   id: number;
@@ -368,9 +372,12 @@ export type GroupProfileCardFragment = {
   id: number;
   name: string;
   description: string;
-  memberCount: number;
   memberRequestCount: number;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  members: Array<{
+    __typename?: "GroupMember";
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 export type JoinedMemberFragment = {
@@ -463,7 +470,6 @@ export type CreateMemberRequestMutation = {
     memberRequest: {
       __typename?: "MemberRequest";
       id: number;
-      status: string;
       group: { __typename?: "Group"; id: number; name: string };
       user: {
         __typename?: "User";
@@ -530,7 +536,6 @@ export type GroupQuery = {
     id: number;
     name: string;
     description: string;
-    memberCount: number;
     memberRequestCount: number;
     posts: Array<{
       __typename?: "Post";
@@ -580,7 +585,6 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     description: string;
-    memberCount: number;
     memberRequestCount: number;
     posts: Array<{
       __typename?: "Post";
@@ -605,11 +609,11 @@ export type GroupProfileQuery = {
         } | null;
       } | null;
     }>;
+    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
     members: Array<{
       __typename?: "GroupMember";
       user: { __typename?: "User"; id: number };
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
   me: { __typename?: "User"; id: number };
 };
@@ -642,7 +646,6 @@ export type MemberRequestQuery = {
   memberRequest?: {
     __typename?: "MemberRequest";
     id: number;
-    status: string;
     user: { __typename?: "User"; id: number };
   } | null;
 };
@@ -655,7 +658,6 @@ export type MemberRequestsQuery = {
   __typename?: "Query";
   memberRequests: Array<{
     __typename?: "MemberRequest";
-    status: string;
     id: number;
     user: {
       __typename?: "User";
@@ -940,6 +942,13 @@ export type UsersQuery = {
   users: Array<{ __typename?: "User"; id: number; name: string }>;
 };
 
+export const CurrentMemberFragmentDoc = gql`
+  fragment CurrentMember on GroupMember {
+    user {
+      id
+    }
+  }
+`;
 export const GroupAvatarFragmentDoc = gql`
   fragment GroupAvatar on Group {
     id
@@ -979,7 +988,11 @@ export const GroupProfileCardFragmentDoc = gql`
       filename
       id
     }
-    memberCount
+    members {
+      user {
+        id
+      }
+    }
     memberRequestCount
   }
 `;
@@ -1497,7 +1510,6 @@ export const CreateMemberRequestDocument = gql`
     createMemberRequest(groupId: $groupId) {
       memberRequest {
         id
-        status
         group {
           id
           name
@@ -1818,11 +1830,6 @@ export const GroupProfileDocument = gql`
       posts {
         ...PostCard
       }
-      members {
-        user {
-          id
-        }
-      }
     }
     me {
       id
@@ -1940,7 +1947,6 @@ export const MemberRequestDocument = gql`
       user {
         id
       }
-      status
     }
   }
 `;
@@ -1999,7 +2005,6 @@ export const MemberRequestsDocument = gql`
   query MemberRequests($groupName: String!) {
     memberRequests(groupName: $groupName) {
       ...RequestToJoin
-      status
     }
   }
   ${RequestToJoinFragmentDoc}

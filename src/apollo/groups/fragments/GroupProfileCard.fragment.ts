@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { CurrentMemberFragmentDoc } from "../../gen";
 
 gql`
   fragment GroupProfileCard on Group {
@@ -9,7 +10,10 @@ gql`
       filename
       id
     }
-    memberCount
+    members {
+      ...CurrentMember
+    }
     memberRequestCount
   }
+  ${CurrentMemberFragmentDoc}
 `;

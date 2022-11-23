@@ -14,11 +14,6 @@ gql`
       posts {
         ...PostCard
       }
-      members {
-        user {
-          id
-        }
-      }
     }
     me {
       id

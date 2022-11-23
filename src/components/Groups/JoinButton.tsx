@@ -3,6 +3,7 @@ import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
 import {
+  CurrentMemberFragment,
   GroupCardFragment,
   GroupProfileCardFragment,
   MemberRequestDocument,
@@ -27,10 +28,10 @@ const Button = styled(GhostButton)(() => ({
 
 interface Props {
   group: GroupCardFragment | GroupProfileCardFragment;
-  isMember: boolean;
+  currentMember?: CurrentMemberFragment;
 }
 
-const JoinButton = ({ group: { id: groupId, name }, isMember }: Props) => {
+const JoinButton = ({ group: { id: groupId, name }, currentMember }: Props) => {
   const { data, loading } = useMemberRequestQuery({
     variables: { groupId },
   });
@@ -50,16 +51,16 @@ const JoinButton = ({ group: { id: groupId, name }, isMember }: Props) => {
   const { memberRequest } = data;
 
   const getButtonText = () => {
-    if (isMember) {
+    if (currentMember) {
       if (isHovering) {
         return t("groups.actions.leave");
       }
       return t("groups.labels.joined");
     }
-    if (memberRequest?.status === "pending") {
-      return t("groups.actions.cancelRequest");
+    if (!memberRequest) {
+      return t("groups.actions.join");
     }
-    return t("groups.actions.join");
+    return t("groups.actions.cancelRequest");
   };
 
   const handleJoin = async () =>
@@ -109,6 +110,7 @@ const JoinButton = ({ group: { id: groupId, name }, isMember }: Props) => {
           data: { memberRequest: null },
           variables: { groupId },
         });
+        // TODO: This can be removed as the user would never actually see the requests
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
             query: MemberRequestsDocument,
@@ -123,6 +125,7 @@ const JoinButton = ({ group: { id: groupId, name }, isMember }: Props) => {
               draft.memberRequests.splice(index, 1);
             })
         );
+        // TODO: This can likely be removed as well
         cache.modify({
           id: cache.identify({ __typename: TypeNames.Group, id }),
           fields: {
@@ -161,30 +164,24 @@ const JoinButton = ({ group: { id: groupId, name }, isMember }: Props) => {
     });
 
   const handleButtonClick = async () => {
+    if (currentMember) {
+      await handleLeave(currentMember.user.id);
+      return;
+    }
     if (!memberRequest) {
       await handleJoin();
       return;
     }
-    if (memberRequest.status === "pending") {
-      await handleCancelRequest(memberRequest.id);
-      return;
-    }
-    if (memberRequest.status === "approved") {
-      await handleLeave(memberRequest.user.id);
-    }
+    await handleCancelRequest(memberRequest.id);
   };
 
   const handleButtonClickWithConfirm = () =>
-    window.confirm(t("groups.promps.confirmLeave")) && handleButtonClick();
+    window.confirm(t("groups.prompts.confirmLeave")) && handleButtonClick();
 
   return (
     <Button
       disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
-      onClick={
-        memberRequest?.status === "approved"
-          ? handleButtonClickWithConfirm
-          : handleButtonClick
-      }
+      onClick={currentMember ? handleButtonClickWithConfirm : handleButtonClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

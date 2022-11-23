@@ -37,13 +37,14 @@ const GroupPage: NextPage = () => {
   }
 
   const { group, me } = data;
-  const isMember =
-    isLoggedIn && !!group.members.find(({ user }) => user.id === me.id);
+  const currentMember = isLoggedIn
+    ? group.members.find(({ user }) => user.id === me.id)
+    : undefined;
 
   return (
     <>
-      <GroupProfileCard group={group} isMember={isMember} />
-      {isMember && <PostForm groupId={group.id} />}
+      <GroupProfileCard group={group} currentMember={currentMember} />
+      {currentMember && <PostForm groupId={group.id} />}
       <PostList posts={group.posts} />
     </>
   );

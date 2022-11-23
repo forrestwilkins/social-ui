@@ -7,7 +7,6 @@ gql`
       user {
         id
       }
-      status
     }
   }
 `;

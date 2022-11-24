@@ -158,6 +158,22 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     setImageInputKey(generateRandom());
   };
 
+  const renderImagePreview = () => {
+    if (!coverPhoto && !editGroup?.coverPhoto) {
+      return null;
+    }
+    const currentCoverPhoto = editGroup?.coverPhoto
+      ? [editGroup.coverPhoto]
+      : undefined;
+    return (
+      <AttachedImagePreview
+        removeSelectedImage={removeSelectedImageHandler}
+        selectedImages={coverPhoto ? [coverPhoto] : []}
+        savedImages={currentCoverPhoto}
+      />
+    );
+  };
+
   return (
     <Card {...cardProps}>
       <CardContent>
@@ -175,12 +191,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                   label={t("groups.form.description")}
                   name={FieldNames.Description}
                 />
-                {coverPhoto && (
-                  <AttachedImagePreview
-                    removeSelectedImage={removeSelectedImageHandler}
-                    selectedImages={[coverPhoto]}
-                  />
-                )}
+                {renderImagePreview()}
               </FormGroup>
 
               <Flex sx={{ justifyContent: "space-between" }}>

@@ -5,5 +5,9 @@ gql`
     id
     name
     description
+    coverPhoto {
+      filename
+      id
+    }
   }
 `;

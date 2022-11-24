@@ -33,7 +33,6 @@ import ImageInput from "../Images/ImageInput";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
 const CardContent = styled(MuiCardContent)(() => ({
-  paddingBottom: 12,
   "&:last-child": {
     paddingBottom: 12,
   },

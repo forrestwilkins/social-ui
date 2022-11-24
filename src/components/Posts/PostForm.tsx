@@ -9,6 +9,7 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
+import { toastVar } from "../../apollo/cache";
 import {
   Image,
   PostCardFragment,
@@ -145,12 +146,19 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     formValues: PostInput,
     formikHelpers: FormikHelpers<PostInput>
   ) => {
-    const imageData = buildImageData(selectedImages);
-    if (editPost) {
-      await handleUpdate(formValues, editPost, imageData);
-      return;
+    try {
+      const imageData = buildImageData(selectedImages);
+      if (editPost) {
+        await handleUpdate(formValues, editPost, imageData);
+        return;
+      }
+      await handleCreate(formValues, formikHelpers, imageData);
+    } catch (err) {
+      toastVar({
+        status: "error",
+        title: String(err),
+      });
     }
-    await handleCreate(formValues, formikHelpers, imageData);
   };
 
   const deleteSavedImageHandler = async (id: number) => {

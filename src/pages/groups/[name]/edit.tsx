@@ -3,15 +3,15 @@
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEditGroupQuery } from "../../../apollo/gen";
 import GroupForm from "../../../components/Groups/GroupForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useGroupQuery } from "../../../apollo/gen";
 
 const EditGroup: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const { data, loading, error } = useGroupQuery({
+  const { data, loading, error } = useEditGroupQuery({
     variables: { name },
     skip: !name,
   });

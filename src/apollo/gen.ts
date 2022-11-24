@@ -529,41 +529,29 @@ export type UpdateGroupMutation = {
   };
 };
 
-export type GroupQueryVariables = Exact<{
+export type EditGroupQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
 
-export type GroupQuery = {
+export type EditGroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
     id: number;
     name: string;
     description: string;
-    memberRequestCount: number;
-    posts: Array<{
-      __typename?: "Post";
-      id: number;
-      body: string;
-      createdAt: any;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
-      };
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
-      } | null;
-    }>;
+  };
+};
+
+export type GroupMembersQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type GroupMembersQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
     members: Array<{
       __typename?: "GroupMember";
       id: number;
@@ -574,7 +562,6 @@ export type GroupQuery = {
         profilePicture: { __typename?: "Image"; filename: string; id: number };
       };
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -1766,13 +1753,64 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutation,
   UpdateGroupMutationVariables
 >;
-export const GroupDocument = gql`
-  query Group($name: String!) {
+export const EditGroupDocument = gql`
+  query EditGroup($name: String!) {
     group(name: $name) {
-      ...GroupProfileCard
-      posts {
-        ...PostCard
-      }
+      ...GroupForm
+    }
+  }
+  ${GroupFormFragmentDoc}
+`;
+
+/**
+ * __useEditGroupQuery__
+ *
+ * To run a query within a React component, call `useEditGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditGroupQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useEditGroupQuery(
+  baseOptions: Apollo.QueryHookOptions<EditGroupQuery, EditGroupQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditGroupQuery, EditGroupQueryVariables>(
+    EditGroupDocument,
+    options
+  );
+}
+export function useEditGroupLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditGroupQuery,
+    EditGroupQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditGroupQuery, EditGroupQueryVariables>(
+    EditGroupDocument,
+    options
+  );
+}
+export type EditGroupQueryHookResult = ReturnType<typeof useEditGroupQuery>;
+export type EditGroupLazyQueryHookResult = ReturnType<
+  typeof useEditGroupLazyQuery
+>;
+export type EditGroupQueryResult = Apollo.QueryResult<
+  EditGroupQuery,
+  EditGroupQueryVariables
+>;
+export const GroupMembersDocument = gql`
+  query GroupMembers($name: String!) {
+    group(name: $name) {
+      id
       members {
         id
         user {
@@ -1781,50 +1819,58 @@ export const GroupDocument = gql`
       }
     }
   }
-  ${GroupProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 
 /**
- * __useGroupQuery__
+ * __useGroupMembersQuery__
  *
- * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
- * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGroupMembersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupMembersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGroupQuery({
+ * const { data, loading, error } = useGroupMembersQuery({
  *   variables: {
  *      name: // value for 'name'
  *   },
  * });
  */
-export function useGroupQuery(
-  baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>
+export function useGroupMembersQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupMembersQuery,
+    GroupMembersQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GroupQuery, GroupQueryVariables>(
-    GroupDocument,
+  return Apollo.useQuery<GroupMembersQuery, GroupMembersQueryVariables>(
+    GroupMembersDocument,
     options
   );
 }
-export function useGroupLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
+export function useGroupMembersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupMembersQuery,
+    GroupMembersQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(
-    GroupDocument,
+  return Apollo.useLazyQuery<GroupMembersQuery, GroupMembersQueryVariables>(
+    GroupMembersDocument,
     options
   );
 }
-export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
-export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
-export type GroupQueryResult = Apollo.QueryResult<
-  GroupQuery,
-  GroupQueryVariables
+export type GroupMembersQueryHookResult = ReturnType<
+  typeof useGroupMembersQuery
+>;
+export type GroupMembersLazyQueryHookResult = ReturnType<
+  typeof useGroupMembersLazyQuery
+>;
+export type GroupMembersQueryResult = Apollo.QueryResult<
+  GroupMembersQuery,
+  GroupMembersQueryVariables
 >;
 export const GroupProfileDocument = gql`
   query GroupProfile($name: String!) {

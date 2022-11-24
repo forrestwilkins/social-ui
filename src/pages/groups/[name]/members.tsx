@@ -11,7 +11,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { breadcrumbsVar } from "../../../apollo/cache";
-import { useGroupQuery } from "../../../apollo/gen";
+import { useGroupMembersQuery } from "../../../apollo/gen";
 import JoinedMember from "../../../components/Groups/JoinedMember";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
@@ -27,7 +27,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 const GroupMembers: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const { data, loading, error } = useGroupQuery({
+  const { data, loading, error } = useGroupMembersQuery({
     variables: { name },
     skip: !name,
   });
@@ -43,12 +43,12 @@ const GroupMembers: NextPage = () => {
         path: asPath,
         breadcrumbs: [
           {
-            label: truncate(group.name, {
+            label: truncate(name, {
               length: isDesktop
                 ? TruncationSizes.Small
                 : TruncationSizes.ExtraSmall,
             }),
-            href: getGroupPath(group.name),
+            href: getGroupPath(name),
           },
           {
             label: t("groups.labels.groupMembers", {
@@ -58,7 +58,7 @@ const GroupMembers: NextPage = () => {
         ],
       });
     }
-  }, [group, t, isDesktop, asPath]);
+  }, [group, t, isDesktop, asPath, name]);
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

@@ -1,7 +1,11 @@
 import { gql } from "@apollo/client";
 import { ApiRoutes, HttpMethod } from "../../../constants/common.constants";
 import { multiPartRequest } from "../../../utils/common.utils";
-import { GroupAvatarFragmentDoc, Image } from "../../gen";
+import {
+  CurrentMemberFragmentDoc,
+  GroupAvatarFragmentDoc,
+  Image,
+} from "../../gen";
 
 export const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {
   const path = `${ApiRoutes.Groups}/${groupId}/cover-photo`;
@@ -15,12 +19,11 @@ gql`
         ...GroupAvatar
         description
         members {
-          user {
-            id
-          }
+          ...CurrentMember
         }
       }
     }
   }
+  ${CurrentMemberFragmentDoc}
   ${GroupAvatarFragmentDoc}
 `;

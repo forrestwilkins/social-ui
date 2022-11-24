@@ -456,6 +456,7 @@ export type CreateGroupMutation = {
       name: string;
       members: Array<{
         __typename?: "GroupMember";
+        id: number;
         user: { __typename?: "User"; id: number };
       }>;
       coverPhoto?: {
@@ -1446,14 +1447,13 @@ export const CreateGroupDocument = gql`
         ...GroupAvatar
         description
         members {
-          user {
-            id
-          }
+          ...CurrentMember
         }
       }
     }
   }
   ${GroupAvatarFragmentDoc}
+  ${CurrentMemberFragmentDoc}
 `;
 export type CreateGroupMutationFn = Apollo.MutationFunction<
   CreateGroupMutation,

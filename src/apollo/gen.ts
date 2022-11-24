@@ -290,6 +290,25 @@ export type LogOutMutationVariables = Exact<{ [key: string]: never }>;
 
 export type LogOutMutation = { __typename?: "Mutation"; logOut: boolean };
 
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+export type LoginMutation = {
+  __typename?: "Mutation";
+  login: {
+    __typename?: "LoginPayload";
+    user: {
+      __typename?: "User";
+      bio?: string | null;
+      createdAt: any;
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
+  };
+};
+
 export type RefreshTokenMutationVariables = Exact<{ [key: string]: never }>;
 
 export type RefreshTokenMutation = {
@@ -307,29 +326,10 @@ export type SignUpMutation = {
     __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
-      id: number;
       bio?: string | null;
-      name: string;
       createdAt: any;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-  };
-};
-
-export type LoginMutationVariables = Exact<{
-  input: LoginInput;
-}>;
-
-export type LoginMutation = {
-  __typename?: "Mutation";
-  login: {
-    __typename?: "LoginPayload";
-    user: {
-      __typename?: "User";
       id: number;
-      bio?: string | null;
       name: string;
-      createdAt: any;
       profilePicture: { __typename?: "Image"; filename: string; id: number };
     };
   };
@@ -1123,6 +1123,58 @@ export type LogOutMutationOptions = Apollo.BaseMutationOptions<
   LogOutMutation,
   LogOutMutationVariables
 >;
+export const LoginDocument = gql`
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      user {
+        ...UserAvatar
+        bio
+        createdAt
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    options
+  );
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const RefreshTokenDocument = gql`
   mutation RefreshToken {
     refreshToken
@@ -1174,17 +1226,13 @@ export const SignUpDocument = gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       user {
-        id
+        ...UserAvatar
         bio
-        name
         createdAt
-        profilePicture {
-          filename
-          id
-        }
       }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;
 export type SignUpMutationFn = Apollo.MutationFunction<
   SignUpMutation,
@@ -1225,62 +1273,6 @@ export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<
   SignUpMutation,
   SignUpMutationVariables
->;
-export const LoginDocument = gql`
-  mutation Login($input: LoginInput!) {
-    login(input: $input) {
-      user {
-        id
-        bio
-        name
-        createdAt
-        profilePicture {
-          filename
-          id
-        }
-      }
-    }
-  }
-`;
-export type LoginMutationFn = Apollo.MutationFunction<
-  LoginMutation,
-  LoginMutationVariables
->;
-
-/**
- * __useLoginMutation__
- *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LoginMutation,
-    LoginMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
-    LoginDocument,
-    options
-  );
-}
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
 >;
 export const AuthCheckDocument = gql`
   query AuthCheck {

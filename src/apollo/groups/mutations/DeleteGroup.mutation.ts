@@ -1,6 +1,5 @@
 import { ApolloCache, gql } from "@apollo/client";
 import produce from "immer";
-import { TypeNames } from "../../../constants/common.constants";
 import { GroupsDocument, GroupsQuery } from "../../gen";
 
 export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
@@ -13,9 +12,6 @@ export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
       draft.groups.splice(index, 1);
     })
   );
-  const cacheId = cache.identify({ id, __typename: TypeNames.Group });
-  cache.evict({ id: cacheId });
-  cache.gc();
 };
 
 gql`

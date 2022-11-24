@@ -1,5 +1,3 @@
-// TODO: Rename back to normal - added "Test" for macos reasons...
-
 import { gql } from "@apollo/client";
 import { UserAvatarFragmentDoc } from "../../gen";
 

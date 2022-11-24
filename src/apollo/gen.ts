@@ -701,7 +701,7 @@ export type PostFormFragment = {
   __typename?: "Post";
   id: number;
   body: string;
-  images: Array<{ __typename?: "Image"; filename: string; id: number }>;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -1053,10 +1053,10 @@ export const PostFormFragmentDoc = gql`
     id
     body
     images {
-      filename
-      id
+      ...AttachedImage
     }
   }
+  ${AttachedImageFragmentDoc}
 `;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {

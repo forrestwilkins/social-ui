@@ -111,6 +111,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
         cache.evict({
           id: cache.identify({ id, __typename: TypeNames.MemberRequest }),
         });
+        cache.gc();
       },
     });
 
@@ -137,9 +138,9 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
             },
           },
         });
-        cache.evict({
-          id: cache.identify(member),
-        });
+        const cacheId = cache.identify(member);
+        cache.evict({ id: cacheId });
+        cache.gc();
       },
     });
 

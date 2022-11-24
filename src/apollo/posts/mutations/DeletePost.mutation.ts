@@ -31,9 +31,9 @@ export const removePost =
         },
       },
     });
-    cache.evict({
-      id: cache.identify({ id, __typename: TypeNames.Post }),
-    });
+    const cacheId = cache.identify({ id, __typename: TypeNames.Post });
+    cache.evict({ id: cacheId });
+    cache.gc();
   };
 
 gql`

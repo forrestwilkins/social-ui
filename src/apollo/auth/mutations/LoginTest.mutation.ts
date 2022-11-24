@@ -1,18 +1,17 @@
+// TODO: Rename back to normal - added "Test" for macos reasons...
+
 import { gql } from "@apollo/client";
+import { UserAvatarFragmentDoc } from "../../gen";
 
 gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
       user {
-        id
+        ...UserAvatar
         bio
-        name
         createdAt
-        profilePicture {
-          filename
-          id
-        }
       }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;

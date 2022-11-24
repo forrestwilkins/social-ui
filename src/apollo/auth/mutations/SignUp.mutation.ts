@@ -1,18 +1,15 @@
 import { gql } from "@apollo/client";
+import { UserAvatarFragmentDoc } from "../../gen";
 
 gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       user {
-        id
+        ...UserAvatar
         bio
-        name
         createdAt
-        profilePicture {
-          filename
-          id
-        }
       }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;

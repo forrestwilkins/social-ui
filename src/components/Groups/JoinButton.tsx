@@ -4,8 +4,6 @@ import produce from "immer";
 import { useState } from "react";
 import {
   CurrentMemberFragment,
-  GroupCardFragment,
-  GroupProfileCardFragment,
   MemberRequestDocument,
   MemberRequestQuery,
   MemberRequestQueryVariables,
@@ -27,11 +25,11 @@ const Button = styled(GhostButton)(() => ({
 }));
 
 interface Props {
-  group: GroupCardFragment | GroupProfileCardFragment;
+  groupId: number;
   currentMember?: CurrentMemberFragment;
 }
 
-const JoinButton = ({ group: { id: groupId, name }, currentMember }: Props) => {
+const JoinButton = ({ groupId, currentMember }: Props) => {
   const { data, loading } = useMemberRequestQuery({
     variables: { groupId },
   });
@@ -110,34 +108,13 @@ const JoinButton = ({ group: { id: groupId, name }, currentMember }: Props) => {
           data: { memberRequest: null },
           variables: { groupId },
         });
-        // TODO: This can be removed as the user would never actually see the requests
-        cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
-          {
-            query: MemberRequestsDocument,
-            variables: { groupName: name },
-          },
-          (memberRequestsData) =>
-            produce(memberRequestsData, (draft) => {
-              if (!draft) {
-                return;
-              }
-              const index = draft.memberRequests.findIndex((p) => p.id === id);
-              draft.memberRequests.splice(index, 1);
-            })
-        );
-        // TODO: This can likely be removed as well
-        cache.modify({
-          id: cache.identify({ __typename: TypeNames.Group, id }),
-          fields: {
-            memberRequestCount(existingCount: number) {
-              return existingCount - 1;
-            },
-          },
+        cache.evict({
+          id: cache.identify({ id, __typename: TypeNames.MemberRequest }),
         });
       },
     });
 
-  const handleLeave = async (userId: number) =>
+  const handleLeave = async ({ user, ...member }: CurrentMemberFragment) =>
     await leaveGroup({
       variables: { id: groupId },
       update(cache) {
@@ -147,12 +124,12 @@ const JoinButton = ({ group: { id: groupId, name }, currentMember }: Props) => {
           data: { memberRequest: null },
         });
         cache.modify({
-          id: cache.identify({ __typename: TypeNames.Group, id: groupId }),
+          id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
           fields: {
             members(existingMemberRefs: Reference[], { readField }) {
               return existingMemberRefs.filter((memberRef) => {
                 const userRef = readField("user", memberRef) as Reference;
-                return readField("id", userRef) !== userId;
+                return readField("id", userRef) !== user.id;
               });
             },
             memberCount(existingCount: number) {
@@ -160,12 +137,15 @@ const JoinButton = ({ group: { id: groupId, name }, currentMember }: Props) => {
             },
           },
         });
+        cache.evict({
+          id: cache.identify(member),
+        });
       },
     });
 
   const handleButtonClick = async () => {
     if (currentMember) {
-      await handleLeave(currentMember.user.id);
+      await handleLeave(currentMember);
       return;
     }
     if (!memberRequest) {

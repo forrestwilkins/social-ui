@@ -341,6 +341,7 @@ export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
 export type CurrentMemberFragment = {
   __typename?: "GroupMember";
+  id: number;
   user: { __typename?: "User"; id: number };
 };
 
@@ -359,6 +360,7 @@ export type GroupCardFragment = {
   name: string;
   members: Array<{
     __typename?: "GroupMember";
+    id: number;
     user: { __typename?: "User"; id: number };
   }>;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
@@ -381,6 +383,7 @@ export type GroupProfileCardFragment = {
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   members: Array<{
     __typename?: "GroupMember";
+    id: number;
     user: { __typename?: "User"; id: number };
   }>;
 };
@@ -605,6 +608,7 @@ export type GroupProfileQuery = {
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
     members: Array<{
       __typename?: "GroupMember";
+      id: number;
       user: { __typename?: "User"; id: number };
     }>;
   };
@@ -623,6 +627,7 @@ export type GroupsQuery = {
     name: string;
     members: Array<{
       __typename?: "GroupMember";
+      id: number;
       user: { __typename?: "User"; id: number };
     }>;
     coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
@@ -945,18 +950,25 @@ export const GroupAvatarFragmentDoc = gql`
     }
   }
 `;
+export const CurrentMemberFragmentDoc = gql`
+  fragment CurrentMember on GroupMember {
+    id
+    user {
+      id
+    }
+  }
+`;
 export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
     members {
-      user {
-        id
-      }
+      ...CurrentMember
     }
     memberRequestCount
   }
   ${GroupAvatarFragmentDoc}
+  ${CurrentMemberFragmentDoc}
 `;
 export const GroupFormFragmentDoc = gql`
   fragment GroupForm on Group {
@@ -965,13 +977,6 @@ export const GroupFormFragmentDoc = gql`
     description
     coverPhoto {
       filename
-      id
-    }
-  }
-`;
-export const CurrentMemberFragmentDoc = gql`
-  fragment CurrentMember on GroupMember {
-    user {
       id
     }
   }

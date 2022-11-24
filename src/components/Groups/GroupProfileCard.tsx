@@ -100,7 +100,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
 
   const renderCardActions = () => (
     <>
-      <JoinButton group={group} currentMember={currentMember} />
+      <JoinButton groupId={id} currentMember={currentMember} />
 
       {currentMember && (
         <ItemMenu

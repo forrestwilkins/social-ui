@@ -23,9 +23,6 @@ export const removePost =
         },
       },
     });
-    if (!groupId) {
-      return;
-    }
     cache.modify({
       id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
       fields: {
@@ -33,6 +30,9 @@ export const removePost =
           return existingPostRefs.filter((ref) => id !== readField("id", ref));
         },
       },
+    });
+    cache.evict({
+      id: cache.identify({ id, __typename: TypeNames.Post }),
     });
   };
 

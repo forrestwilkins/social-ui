@@ -1810,14 +1810,11 @@ export const GroupMembersDocument = gql`
     group(name: $name) {
       id
       members {
-        id
-        user {
-          ...UserAvatar
-        }
+        ...JoinedMember
       }
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${JoinedMemberFragmentDoc}
 `;
 
 /**

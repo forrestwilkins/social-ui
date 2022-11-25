@@ -24,7 +24,7 @@ const EditUser: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data?.user) {
+  if (!data) {
     return null;
   }
 

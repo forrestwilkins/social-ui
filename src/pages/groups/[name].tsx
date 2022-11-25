@@ -13,8 +13,6 @@ import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
 
 const GroupPage: NextPage = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-
   const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupProfileQuery({
@@ -22,6 +20,7 @@ const GroupPage: NextPage = () => {
     skip: !name,
   });
 
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const t = useTranslate();
 
   if (error) {

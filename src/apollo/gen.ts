@@ -300,8 +300,6 @@ export type LoginMutation = {
     __typename?: "LoginPayload";
     user: {
       __typename?: "User";
-      bio?: string | null;
-      createdAt: any;
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; filename: string; id: number };
@@ -326,8 +324,6 @@ export type SignUpMutation = {
     __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
-      bio?: string | null;
-      createdAt: any;
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; filename: string; id: number };
@@ -886,8 +882,6 @@ export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
-    bio?: string | null;
-    createdAt: any;
     id: number;
     name: string;
     profilePicture: { __typename?: "Image"; filename: string; id: number };
@@ -1140,8 +1134,6 @@ export const LoginDocument = gql`
     login(input: $input) {
       user {
         ...UserAvatar
-        bio
-        createdAt
       }
     }
   }
@@ -1239,8 +1231,6 @@ export const SignUpDocument = gql`
     signUp(input: $input) {
       user {
         ...UserAvatar
-        bio
-        createdAt
       }
     }
   }
@@ -2473,8 +2463,6 @@ export const MeDocument = gql`
   query Me {
     me {
       ...UserAvatar
-      bio
-      createdAt
     }
   }
   ${UserAvatarFragmentDoc}

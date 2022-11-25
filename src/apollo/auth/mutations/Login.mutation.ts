@@ -6,8 +6,6 @@ gql`
     login(input: $input) {
       user {
         ...UserAvatar
-        bio
-        createdAt
       }
     }
   }

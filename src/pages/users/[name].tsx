@@ -10,12 +10,12 @@ import { useUserQuery } from "../../apollo/gen";
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const t = useTranslate();
-
   const { data, loading, error } = useUserQuery({
     variables: { name },
     skip: !name,
   });
+
+  const t = useTranslate();
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

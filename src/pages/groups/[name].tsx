@@ -17,8 +17,6 @@ const GroupPage: NextPage = () => {
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupProfileQuery({
     variables: { name },
-    nextFetchPolicy: "cache-only",
-    returnPartialData: true,
     skip: !name,
   });
 
@@ -33,7 +31,7 @@ const GroupPage: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data?.group.members) {
+  if (!data) {
     return null;
   }
 

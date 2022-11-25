@@ -9,12 +9,12 @@ import { useTranslate } from "../../../hooks/common.hooks";
 const EditUser: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const t = useTranslate();
-
   const { data, loading, error } = useUserQuery({
     variables: { name },
     skip: !name,
   });
+
+  const t = useTranslate();
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

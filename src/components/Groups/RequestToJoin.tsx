@@ -28,8 +28,8 @@ interface Props {
 }
 
 const RequestToJoin = ({
-  groupName,
   memberRequest: { id, user, group, __typename },
+  groupName,
 }: Props) => {
   const [approve] = useApproveMemberRequestMutation();
   const [deny] = useDenyMemberRequestMutation();

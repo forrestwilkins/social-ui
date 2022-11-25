@@ -55,12 +55,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   post: PostCardFragment;
-  setIsDeleting?(isDeleting: boolean): void;
 }
 
 const PostCard = ({
   post: { id, body, images, user, group, createdAt },
-  setIsDeleting,
   ...cardProps
 }: Props) => {
   const { data } = useMeQuery();
@@ -91,16 +89,13 @@ const PostCard = ({
   };
 
   const handleDelete = async (id: number) => {
-    if (setIsDeleting) {
-      setIsDeleting(true);
+    if (isPostPage) {
+      await redirectTo(NavigationPaths.Home);
     }
     await deletePost({
       variables: { id },
       update: removePost(id, user.id, group?.id),
     });
-    if (isPostPage) {
-      redirectTo(NavigationPaths.Home);
-    }
   };
 
   const renderAvatar = () => {

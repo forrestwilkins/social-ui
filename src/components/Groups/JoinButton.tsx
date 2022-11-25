@@ -2,6 +2,7 @@ import { Reference } from "@apollo/client";
 import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
+import { toastVar } from "../../apollo/cache";
 import {
   CurrentMemberFragment,
   MemberRequestDocument,
@@ -145,15 +146,22 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
     });
 
   const handleButtonClick = async () => {
-    if (currentMember) {
-      await handleLeave(currentMember);
-      return;
+    try {
+      if (currentMember) {
+        await handleLeave(currentMember);
+        return;
+      }
+      if (!memberRequest) {
+        await handleJoin();
+        return;
+      }
+      await handleCancelRequest(memberRequest.id);
+    } catch (err) {
+      toastVar({
+        status: "error",
+        title: String(err),
+      });
     }
-    if (!memberRequest) {
-      await handleJoin();
-      return;
-    }
-    await handleCancelRequest(memberRequest.id);
   };
 
   const handleButtonClickWithConfirm = () =>

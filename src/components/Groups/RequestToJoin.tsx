@@ -9,6 +9,7 @@ import {
   useApproveMemberRequestMutation,
   useDenyMemberRequestMutation,
 } from "../../apollo/gen";
+import { TypeNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
@@ -83,7 +84,7 @@ const RequestToJoin = ({
       },
     });
 
-  const removeMemberRequest = (cache: ApolloCache<any>) =>
+  const removeMemberRequest = (cache: ApolloCache<any>) => {
     cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
       {
         query: MemberRequestsDocument,
@@ -98,6 +99,10 @@ const RequestToJoin = ({
           draft.memberRequests.splice(index, 1);
         })
     );
+    const cacheId = cache.identify({ id, __typename: TypeNames.MemberRequest });
+    cache.evict({ id: cacheId });
+    cache.gc();
+  };
 
   return (
     <Flex sx={{ justifyContent: "space-between" }}>

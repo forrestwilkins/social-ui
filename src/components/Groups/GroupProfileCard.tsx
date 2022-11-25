@@ -22,9 +22,11 @@ import {
 import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
+  NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
 import { useAboveBreakpoint, useTranslate } from "../../hooks/common.hooks";
+import { redirectTo } from "../../utils/common.utils";
 import {
   getGroupMembersPath,
   getMemberRequestsPath,
@@ -96,6 +98,9 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
     await deleteGroup({
       variables: { id },
       update: removeGroup(id),
+      onCompleted() {
+        redirectTo(NavigationPaths.Groups);
+      },
     });
 
   const renderCardActions = () => (

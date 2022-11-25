@@ -26,7 +26,7 @@ const EditGroup: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data?.group) {
+  if (!data) {
     return null;
   }
 

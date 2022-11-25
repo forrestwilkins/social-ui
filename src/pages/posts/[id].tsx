@@ -11,6 +11,8 @@ const EditPostPage: NextPage = () => {
   const postId = parseInt(String(query?.id));
   const { data, loading, error } = usePostQuery({
     variables: { id: postId },
+    nextFetchPolicy: "cache-only",
+    returnPartialData: true,
     skip: !postId,
   });
 
@@ -24,7 +26,7 @@ const EditPostPage: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!data?.post.user) {
     return null;
   }
 

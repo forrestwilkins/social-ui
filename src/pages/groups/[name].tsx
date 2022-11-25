@@ -4,6 +4,7 @@ import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupProfileQuery } from "../../apollo/gen";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
@@ -13,14 +14,16 @@ import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
 
 const GroupPage: NextPage = () => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupProfileQuery({
     variables: { name },
-    skip: !name,
+    skip: !name || isDeleting,
   });
 
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const t = useTranslate();
 
   if (error) {
@@ -42,7 +45,11 @@ const GroupPage: NextPage = () => {
 
   return (
     <>
-      <GroupProfileCard group={group} currentMember={currentMember} />
+      <GroupProfileCard
+        group={group}
+        currentMember={currentMember}
+        setIsDeleting={setIsDeleting}
+      />
       {currentMember && <PostForm groupId={group.id} />}
       <PostList posts={group.posts} />
     </>

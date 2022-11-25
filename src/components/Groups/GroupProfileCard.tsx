@@ -58,9 +58,15 @@ const CardContent = styled(MuiCardContent)(() => ({
 interface Props extends CardProps {
   group: GroupProfileCardFragment;
   currentMember?: CurrentMemberFragment;
+  setIsDeleting(isDeleting: boolean): void;
 }
 
-const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
+const GroupProfileCard = ({
+  group,
+  currentMember,
+  setIsDeleting,
+  ...cardProps
+}: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
@@ -94,7 +100,10 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
     marginRight: "0.2ch",
   };
 
-  const handleDelete = async (id: number) =>
+  const handleDelete = async (id: number) => {
+    // Prevent refetch after cache eviction
+    setIsDeleting(true);
+
     await deleteGroup({
       variables: { id },
       update: removeGroup(id),
@@ -102,6 +111,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
         redirectTo(NavigationPaths.Groups);
       },
     });
+  };
 
   const renderCardActions = () => (
     <>

@@ -60,7 +60,7 @@ const TopNavDesktop = () => {
 
   return (
     <Flex sx={TOP_NAV_STYLES}>
-      <SearchBar />
+      {!isAuthLoading && <SearchBar />}
 
       {data?.me && (
         <Flex>

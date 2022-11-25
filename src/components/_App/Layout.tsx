@@ -1,14 +1,11 @@
-import { Container, CssBaseline, ThemeProvider } from "@mui/material";
+import { Container } from "@mui/material";
 import Head from "next/head";
-import { ReactNode, useEffect } from "react";
-import { isAuthLoadingVar, isLoggedInVar } from "../../apollo/cache";
+import { ReactNode } from "react";
 import {
   useAboveBreakpoint,
   useIsDesktop,
   useTranslate,
 } from "../../hooks/common.hooks";
-import theme from "../../styles/theme";
-import { useAuthCheckQuery } from "../../apollo/gen";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
@@ -23,23 +20,9 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
-  const { data, loading } = useAuthCheckQuery();
-
   const isDesktop = useIsDesktop();
   const isLarge = useAboveBreakpoint("lg");
   const t = useTranslate();
-
-  // TODO: Refactor to avoid duplicating state
-  useEffect(() => {
-    if (data?.authCheck) {
-      isLoggedInVar(data.authCheck);
-    }
-  }, [data]);
-
-  // TODO: Refactor to avoid duplicating state
-  useEffect(() => {
-    isAuthLoadingVar(loading);
-  }, [loading]);
 
   return (
     <>
@@ -48,25 +31,21 @@ const Layout = ({ children }: Props) => {
         <title>{t("brand")}</title>
       </Head>
 
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <TopNav />
+      <NavDrawer />
+      {!isLarge && <BottomNav />}
+      {isLarge && <LeftNav />}
 
-        <TopNav />
-        <NavDrawer />
-        {!isLarge && <BottomNav />}
-        {isLarge && <LeftNav />}
+      <Container maxWidth="sm">
+        <main role="main">
+          <Breadcrumbs />
 
-        <Container maxWidth="sm">
-          <main role="main">
-            <Breadcrumbs />
+          {children}
 
-            {children}
-
-            <Toast />
-            {isDesktop && <ScrollToTop />}
-          </main>
-        </Container>
-      </ThemeProvider>
+          <Toast />
+          {isDesktop && <ScrollToTop />}
+        </main>
+      </Container>
     </>
   );
 };

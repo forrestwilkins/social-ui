@@ -1,16 +1,13 @@
 import { gql } from "@apollo/client";
+import { UserAvatarFragmentDoc } from "../../gen";
 
 gql`
   query Me {
     me {
-      id
+      ...UserAvatar
       bio
-      name
       createdAt
-      profilePicture {
-        filename
-        id
-      }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;

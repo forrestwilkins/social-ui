@@ -886,10 +886,10 @@ export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
-    id: number;
     bio?: string | null;
-    name: string;
     createdAt: any;
+    id: number;
+    name: string;
     profilePicture: { __typename?: "Image"; filename: string; id: number };
   };
 };
@@ -2472,16 +2472,12 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
 export const MeDocument = gql`
   query Me {
     me {
-      id
+      ...UserAvatar
       bio
-      name
       createdAt
-      profilePicture {
-        filename
-        id
-      }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;
 
 /**

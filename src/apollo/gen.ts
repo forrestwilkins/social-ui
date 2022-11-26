@@ -64,11 +64,9 @@ export type GroupMember = {
   __typename?: "GroupMember";
   createdAt: Scalars["DateTime"];
   group: Group;
-  groupId?: Maybe<Scalars["Float"]>;
   id: Scalars["Int"];
   updatedAt: Scalars["DateTime"];
   user: User;
-  userId: Scalars["Float"];
 };
 
 export type Image = {

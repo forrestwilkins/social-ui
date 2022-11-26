@@ -16,7 +16,7 @@ const GroupsIndex: NextPage = () => {
   const t = useTranslate();
 
   if (error?.message === UNAUTHORIZED) {
-    return <Typography>{t("groups.prompts.permissionDenied")}</Typography>;
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 
   if (error) {

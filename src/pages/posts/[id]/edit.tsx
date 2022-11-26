@@ -4,7 +4,7 @@ import { Button, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { toastVar } from "../../../apollo/cache";
-import { useDeletePostMutation, usePostQuery } from "../../../apollo/gen";
+import { useDeletePostMutation, useEditPostQuery } from "../../../apollo/gen";
 import { removePost } from "../../../apollo/posts/mutations/DeletePost.mutation";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
@@ -15,7 +15,7 @@ import { redirectTo } from "../../../utils/common.utils";
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
   const id = parseInt(String(query?.id));
-  const { data, loading, error } = usePostQuery({
+  const { data, loading, error } = useEditPostQuery({
     variables: { id },
     skip: !id,
   });
@@ -55,6 +55,7 @@ const EditPostPage: NextPage = () => {
     <>
       <PostForm editPost={data.post} sx={{ marginBottom: 2.5 }} />
 
+      {/* TODO: Consider adding RemovePost component that uses corresponding fragment */}
       <Button
         color="error"
         fullWidth

@@ -6,7 +6,7 @@ import PostCard from "../../components/Posts/PostCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
 
-const EditPostPage: NextPage = () => {
+const PostPage: NextPage = () => {
   const { query } = useRouter();
   const postId = parseInt(String(query?.id));
   const { data, loading, error } = usePostQuery({
@@ -31,4 +31,4 @@ const EditPostPage: NextPage = () => {
   return <PostCard post={data.post} />;
 };
 
-export default EditPostPage;
+export default PostPage;

@@ -1,10 +1,10 @@
 import { ApolloCache, gql, Reference } from "@apollo/client";
 import { Modifiers } from "@apollo/client/cache/core/types/common";
 import produce from "immer";
-import { PostCardFragment, PostsDocument, PostsQuery } from "../../gen";
+import { PostsDocument, PostsQuery, RemovePostFragment } from "../../gen";
 
 export const removePost =
-  (post: PostCardFragment) => (cache: ApolloCache<any>) => {
+  (post: RemovePostFragment) => (cache: ApolloCache<any>) => {
     cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
       produce(postsData, (draft) => {
         if (!draft) {

@@ -35,21 +35,21 @@ const EditPostPage: NextPage = () => {
   }
 
   const handleDeleteButtonClick = async () => {
+    await redirectTo(NavigationPaths.Home);
+
     const {
       post: { group, user },
     } = data;
-    try {
-      await deletePost({
-        variables: { id },
-        update: removePost(id, user.id, group?.id),
-      });
-      redirectTo(NavigationPaths.Home);
-    } catch {
-      toastVar({
-        status: "error",
-        title: t("errors.somethingWentWrong"),
-      });
-    }
+    await deletePost({
+      variables: { id },
+      update: removePost(id, user.id, group?.id),
+      onError() {
+        toastVar({
+          status: "error",
+          title: t("errors.somethingWentWrong"),
+        });
+      },
+    });
   };
 
   return (
@@ -60,7 +60,7 @@ const EditPostPage: NextPage = () => {
         color="error"
         fullWidth
         onClick={() =>
-          window.confirm(t("prompts.deleteItem", { item: "post" })) &&
+          window.confirm(t("prompts.deleteItem", { itemType: "post" })) &&
           handleDeleteButtonClick()
         }
         sx={{ marginTop: 1.5 }}

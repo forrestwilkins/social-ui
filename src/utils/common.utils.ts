@@ -85,6 +85,7 @@ export const scrollTop = () => {
   animateScroll.scrollToTop(options);
 };
 
+// TODO: Consider removing redirectTo
 export const redirectTo = (path: string) => Router.push(path);
 
 export const createEmotionCache = () => createCache({ key: "css" });

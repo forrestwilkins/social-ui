@@ -13,6 +13,7 @@ import {
   LoginInput,
   MeDocument,
   MeQuery,
+  MeQueryVariables,
   useLoginMutation,
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
@@ -36,28 +37,26 @@ const Login: NextPage = () => {
     password: "",
   };
 
-  const handleSubmit = async (formValues: LoginInput) => {
-    try {
-      await login({
-        variables: { input: formValues },
-        update(cache, { data }) {
-          if (!data?.login.user) {
-            return;
-          }
-          cache.writeQuery<MeQuery>({
-            data: { me: data.login.user },
-            query: MeDocument,
-          });
-          isLoggedInVar(true);
-        },
-      });
-    } catch (err) {
-      toastVar({
-        status: "error",
-        title: t("errors.somethingWentWrong"),
-      });
-    }
-  };
+  const handleSubmit = async (formValues: LoginInput) =>
+    await login({
+      variables: { input: formValues },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        cache.writeQuery<MeQuery, MeQueryVariables>({
+          data: { me: data.login.user },
+          query: MeDocument,
+        });
+        isLoggedInVar(true);
+      },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+      },
+    });
 
   useEffect(() => {
     if (isLoggedIn) {

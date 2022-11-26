@@ -45,10 +45,7 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>
     await updateUser({
       variables: {
-        userData: {
-          id: user.id,
-          ...formValues,
-        },
+        userData: { id: user.id, ...formValues },
       },
       async update(cache, { data }) {
         if (!data || (!coverPhoto && !profilePicture)) {

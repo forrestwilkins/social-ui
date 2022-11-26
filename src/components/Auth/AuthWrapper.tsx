@@ -1,4 +1,4 @@
-// TODO: Refactor to avoid duplicating authentication state
+// TODO: Refactor to avoid duplicating auth state
 
 import { Container } from "@mui/material";
 import { ReactNode, useEffect } from "react";

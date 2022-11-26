@@ -9,9 +9,6 @@ export const breadcrumbsVar = makeVar<{
 export const toastVar = makeVar<ToastNotification | null>(null);
 export const isNavDrawerOpenVar = makeVar(false);
 
-// TODO: Remove reactive vars for authentication loading states,
-// which are already tracked with Apollo Client
-
 // Authentication state
 export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);

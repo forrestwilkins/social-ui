@@ -1,6 +1,7 @@
 export const API_ROOT = "/api";
 export const SCROLL_DURATION = 250;
 export const MIDDOT_WITH_SPACES = " · ";
+export const UNAUTHORIZED = "Unauthorized";
 
 export enum NavigationPaths {
   About = "/about",

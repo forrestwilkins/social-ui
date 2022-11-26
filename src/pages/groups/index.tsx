@@ -7,12 +7,17 @@ import GroupCard from "../../components/Groups/GroupCard";
 import GroupForm from "../../components/Groups/GroupForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import { UNAUTHORIZED } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 
 const GroupsIndex: NextPage = () => {
   const { data, loading, error } = useGroupsQuery();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const t = useTranslate();
+
+  if (error?.message === UNAUTHORIZED) {
+    return <Typography>{t("groups.prompts.permissionDenied")}</Typography>;
+  }
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

@@ -12,22 +12,25 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
+import { isLoggedInVar } from "../../apollo/cache";
+import {
+  PostCardFragment,
+  useDeletePostMutation,
+  useMeQuery,
+} from "../../apollo/gen";
+import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
   ResourceNames,
-} from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeletePostMutation } from "../../hooks/post";
-import { useMeQuery } from "../../hooks/user";
-import { Post } from "../../types/post";
-import { redirectTo } from "../../utils/common";
-import { getGroupPagePath } from "../../utils/group";
-import { timeAgo } from "../../utils/time";
-import { getUserProfilePath } from "../../utils/user";
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { redirectTo } from "../../utils/common.utils";
+import { getGroupPath } from "../../utils/group.utils";
+import { timeAgo } from "../../utils/time.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
-import ImageList from "../Images/ImageList";
+import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
@@ -51,28 +54,28 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  post: Post;
+  post: PostCardFragment;
 }
 
-const PostCard = ({
-  post: { id, body, images, user, group, createdAt },
-  ...cardProps
-}: Props) => {
-  const [me] = useMeQuery();
-  const deletePost = useDeletePostMutation();
+const PostCard = ({ post, ...cardProps }: Props) => {
+  const { data } = useMeQuery();
+  const [deletePost] = useDeletePostMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const { asPath } = useRouter();
   const t = useTranslate();
 
+  const { id, body, images, user, group, createdAt } = post;
+  const me = data && data.me;
   const isMe = me?.id === user.id;
-  const isPostPage = asPath.includes(NavigationPaths.Posts);
+  const formattedDate = timeAgo(createdAt);
+
+  const groupPath = getGroupPath(group?.name || "");
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
+  const isPostPage = asPath.includes(NavigationPaths.Posts);
   const postPath = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
-  const groupPath = getGroupPagePath(group?.name || "");
-  const formattedDate = timeAgo(createdAt);
 
   const bodyStyles: SxProps = {
     marginBottom: images.length ? 2.5 : 3.5,
@@ -85,10 +88,13 @@ const PostCard = ({
   };
 
   const handleDelete = async (id: number) => {
-    await deletePost(id);
     if (isPostPage) {
-      redirectTo(NavigationPaths.Home);
+      await redirectTo(NavigationPaths.Home);
     }
+    await deletePost({
+      variables: { id },
+      update: removePost(post),
+    });
   };
 
   const renderAvatar = () => {
@@ -156,7 +162,7 @@ const PostCard = ({
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            <ImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} sx={imageListStyles} />
           </Link>
         )}
 

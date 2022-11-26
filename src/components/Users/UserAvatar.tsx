@@ -1,17 +1,16 @@
 import { Avatar, AvatarProps, useTheme } from "@mui/material";
 import { CSSProperties } from "react";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { User } from "../../types/user";
-import { getImagePath } from "../../utils/image";
-import { getUserProfilePath } from "../../utils/user";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery, UserAvatarFragment } from "../../apollo/gen";
+import { getImagePath } from "../../utils/image.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
   imageFile?: File;
   linkStyles?: CSSProperties;
   size?: number;
-  user?: User;
+  user?: UserAvatarFragment;
   withLink?: boolean;
 }
 
@@ -24,11 +23,12 @@ const UserAvatar = ({
   sx,
   ...avatarProps
 }: Props) => {
-  const [me] = useMeQuery({ skip: !!user });
+  const { data } = useMeQuery({ skip: !!user });
 
   const t = useTranslate();
   const theme = useTheme();
 
+  const me = data && data.me;
   const userName = user?.name || me?.name;
   const userProfilePath = getUserProfilePath(userName);
 

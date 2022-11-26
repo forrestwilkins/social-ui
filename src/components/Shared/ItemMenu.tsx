@@ -1,9 +1,11 @@
+// TODO: Resolve issue with Edit button only responsding to click on text
+
 import { Delete, Edit, MoreHoriz } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, SxProps } from "@mui/material";
 import { ReactNode } from "react";
-import { NavigationPaths } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { isRenderable } from "../../utils/common";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { isRenderable } from "../../utils/common.utils";
 import GhostButton from "./GhostButton";
 import Link from "./Link";
 

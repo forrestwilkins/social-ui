@@ -1,23 +1,34 @@
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { usePostQuery } from "../../apollo/gen";
 import PostCard from "../../components/Posts/PostCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { usePostQuery } from "../../hooks/post";
+import { useTranslate } from "../../hooks/common.hooks";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
   const postId = parseInt(String(query?.id));
-  const [post, isPostLoading] = usePostQuery(postId);
+  const { data, loading, error } = usePostQuery({
+    variables: { id: postId },
+    skip: !postId,
+  });
 
-  if (isPostLoading) {
+  const t = useTranslate();
+
+  if (error) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!post) {
+  if (!data) {
     return null;
   }
 
-  return <PostCard post={post} />;
+  return <PostCard post={data.post} />;
 };
 
 export default EditPostPage;

@@ -5,7 +5,7 @@ import { HowToVote } from "@mui/icons-material";
 import {
   Box,
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
   styled,
@@ -13,21 +13,33 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
-import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeleteGroupMutation } from "../../hooks/group";
-import { Group } from "../../types/group";
-import { inDevToast } from "../../utils/common";
+import { isLoggedInVar } from "../../apollo/cache";
+import {
+  CurrentMemberFragment,
+  GroupProfileCardFragment,
+  useDeleteGroupMutation,
+} from "../../apollo/gen";
+import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
+import {
+  MIDDOT_WITH_SPACES,
+  NavigationPaths,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useAboveBreakpoint, useTranslate } from "../../hooks/common.hooks";
+import { redirectTo } from "../../utils/common.utils";
+import {
+  getGroupMembersPath,
+  getMemberRequestsPath,
+} from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
-import GhostButton from "../Shared/GhostButton";
+import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({
   fontFamily: "Inter Bold",
-  marginBottom: 5,
-  fontSize: 25,
+  marginBottom: 7.5,
 }));
 const DetailsBox = styled(Box)(({ theme }) => ({
   color: theme.palette.primary.main,
@@ -37,82 +49,114 @@ const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
   paddingRight: 22,
 }));
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 16,
+  },
+}));
 
 interface Props extends CardProps {
-  group: Group;
+  group: GroupProfileCardFragment;
+  currentMember?: CurrentMemberFragment;
 }
 
-const GroupProfileCard = ({
-  group: { id, name, coverPhoto },
-  ...cardProps
-}: Props) => {
+const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const deleteGroup = useDeleteGroupMutation();
+  const [deleteGroup] = useDeleteGroupMutation();
 
+  const isAboveMedium = useAboveBreakpoint("md");
+  const isAboveSmall = useAboveBreakpoint("sm");
   const t = useTranslate();
 
+  const { id, name, coverPhoto, members, memberRequestCount } = group;
+  const groupMembersPath = getGroupMembersPath(name);
+  const memberRequestsPath = getMemberRequestsPath(name);
+  const showCardHeader = isLoggedIn && isAboveSmall;
+
+  const getNameTextWidth = () => {
+    if (isAboveMedium) {
+      return "75%";
+    }
+    if (isAboveSmall) {
+      return "70%";
+    }
+    return "100%";
+  };
+
   const nameTextStyles: SxProps = {
-    marginTop: isLoggedIn ? -7 : -0.3,
+    fontSize: isAboveSmall ? 25 : 23,
+    marginTop: showCardHeader ? -7 : -0.3,
+    width: getNameTextWidth(),
   };
   const voteIconStyles: SxProps = {
     marginBottom: -0.5,
     marginRight: "0.2ch",
   };
 
-  const handleDelete = async (id: number) => await deleteGroup(id);
+  const handleDelete = async (id: number) => {
+    await redirectTo(NavigationPaths.Groups);
+    await deleteGroup({
+      variables: { id },
+      update: removeGroup(id),
+    });
+  };
+
+  const renderCardActions = () => (
+    <>
+      <JoinButton groupId={id} currentMember={currentMember} />
+
+      {currentMember && (
+        <ItemMenu
+          anchorEl={menuAnchorEl}
+          buttonStyles={{ paddingX: 0, minWidth: 38 }}
+          deleteItem={handleDelete}
+          itemId={id}
+          itemType={ResourceNames.Group}
+          name={name}
+          setAnchorEl={setMenuAnchorEl}
+          variant="ghost"
+          canDelete
+          canEdit
+        />
+      )}
+    </>
+  );
 
   return (
     <Card {...cardProps}>
       <CoverPhoto imageId={coverPhoto?.id} />
-      {isLoggedIn && (
-        <CardHeader
-          action={
-            <>
-              <GhostButton onClick={inDevToast} sx={{ marginRight: 1 }}>
-                {t("groups.actions.join")}
-              </GhostButton>
-
-              <ItemMenu
-                anchorEl={menuAnchorEl}
-                buttonStyles={{ paddingX: 0, minWidth: 38 }}
-                deleteItem={handleDelete}
-                itemId={id}
-                itemType={ResourceNames.Group}
-                name={name}
-                setAnchorEl={setMenuAnchorEl}
-                variant="ghost"
-                canDelete
-                canEdit
-              />
-            </>
-          }
-        />
-      )}
+      {showCardHeader && <CardHeader action={renderCardActions()} />}
       <CardContent>
         <NameText color="primary" variant="h2" sx={nameTextStyles}>
           {name}
         </NameText>
 
-        <DetailsBox onClick={inDevToast}>
+        <DetailsBox fontSize={isAboveSmall ? undefined : 15}>
           <Link href={"/"} disabled>
             <HowToVote sx={voteIconStyles} />
             {t("groups.labels.majority")}
           </Link>
           {MIDDOT_WITH_SPACES}
-          <Link href={"/"} disabled>
-            {t("groups.members", { count: 0 })}
+          <Link href={groupMembersPath}>
+            {t("groups.members", { count: members.length })}
           </Link>
 
-          {isLoggedIn && (
+          {currentMember && (
             <>
               {MIDDOT_WITH_SPACES}
-              <Link href={"/"} disabled>
-                {t("groups.requests", { count: 0 })}
+              <Link href={memberRequestsPath}>
+                {t("groups.requests", { count: memberRequestCount })}
               </Link>
             </>
           )}
         </DetailsBox>
+
+        {isLoggedIn && !isAboveSmall && (
+          <Flex sx={{ justifyContent: "right", marginTop: 2 }}>
+            {renderCardActions()}
+          </Flex>
+        )}
       </CardContent>
     </Card>
   );

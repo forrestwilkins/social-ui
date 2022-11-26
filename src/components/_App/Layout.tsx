@@ -1,18 +1,17 @@
-import { Container, CssBaseline, ThemeProvider } from "@mui/material";
+import { Container } from "@mui/material";
 import Head from "next/head";
 import { ReactNode } from "react";
-import { useAuthCheckQuery } from "../../hooks/auth";
 import {
   useAboveBreakpoint,
   useIsDesktop,
   useTranslate,
-} from "../../hooks/common";
-import theme from "../../styles/theme";
+} from "../../hooks/common.hooks";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
 import ScrollToTop from "../Navigation/ScrollToTop";
 import TopNav from "../Navigation/TopNav";
+import Breadcrumbs from "../Shared/Breadcrumbs";
 import Toast from "../Shared/Toast";
 import HeadContent from "./HeadContent";
 
@@ -25,8 +24,6 @@ const Layout = ({ children }: Props) => {
   const isLarge = useAboveBreakpoint("lg");
   const t = useTranslate();
 
-  useAuthCheckQuery();
-
   return (
     <>
       <Head>
@@ -34,23 +31,21 @@ const Layout = ({ children }: Props) => {
         <title>{t("brand")}</title>
       </Head>
 
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <TopNav />
+      <NavDrawer />
+      {!isLarge && <BottomNav />}
+      {isLarge && <LeftNav />}
 
-        <TopNav />
-        <NavDrawer />
-        {!isLarge && <BottomNav />}
-        {isLarge && <LeftNav />}
+      <Container maxWidth="sm">
+        <main role="main">
+          <Breadcrumbs />
 
-        <Container maxWidth="sm">
-          <main role="main">
-            {children}
+          {children}
 
-            <Toast />
-            {isDesktop && <ScrollToTop />}
-          </main>
-        </Container>
-      </ThemeProvider>
+          <Toast />
+          {isDesktop && <ScrollToTop />}
+        </main>
+      </Container>
     </>
   );
 };

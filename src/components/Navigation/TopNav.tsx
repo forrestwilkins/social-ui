@@ -8,9 +8,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { CSSProperties } from "react";
-import { NavigationPaths } from "../../constants/common";
-import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { inDevToast } from "../../utils/common";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { inDevToast } from "../../utils/common.utils";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
 import TopNavDesktop from "./TopNavDesktop";

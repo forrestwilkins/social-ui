@@ -4,7 +4,12 @@ interface Props extends TypographyProps {
   header?: boolean;
 }
 
-const LevelOneHeading = ({ children, header, sx }: Props) => {
+const LevelOneHeading = ({
+  children,
+  header,
+  sx,
+  ...typographyProps
+}: Props) => {
   const theme = useTheme();
 
   const getStyles = () => {
@@ -26,7 +31,7 @@ const LevelOneHeading = ({ children, header, sx }: Props) => {
   };
 
   return (
-    <Typography variant="h1" sx={getStyles()}>
+    <Typography variant="h1" sx={getStyles()} {...typographyProps}>
       {children}
     </Typography>
   );

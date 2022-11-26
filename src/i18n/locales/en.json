@@ -112,6 +112,9 @@
 
   "groups": {
     "actions": {
+      "approve": "Approve",
+      "cancelRequest": "Cancel Request",
+      "deny": "Deny",
       "join": "Join",
       "leave": "Leave"
     },
@@ -123,12 +126,19 @@
       "discoverGroups": "Discover Groups"
     },
     "errors": {
+      "couldNotCreate": "Group could not be created",
       "couldNotUpdate": "Group could not be updated"
     },
     "labels": {
       "consensus": "Consensus",
+      "groupMembers": "{{count}} Group Members",
+      "joined": "Joined",
       "majority": "Majority Vote",
+      "memberRequests": "{{count}} Member Requests",
       "xToPass": "X to Pass"
+    },
+    "prompts": {
+      "confirmLeave": "Are you sure you want to leave the group?"
     },
     "members": "{{count}} Members",
     "requests": "{{count}} Requests"

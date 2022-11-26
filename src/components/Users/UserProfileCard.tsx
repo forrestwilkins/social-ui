@@ -13,12 +13,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { MIDDOT_WITH_SPACES, ResourceNames } from "../../constants/common";
-import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { User } from "../../types/user";
-import { inDevToast } from "../../utils/common";
-import { formatDate } from "../../utils/time";
+import {
+  MIDDOT_WITH_SPACES,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
+import { inDevToast } from "../../utils/common.utils";
+import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -46,19 +48,20 @@ const JOIN_DATE_ICON_STYLES: SxProps = {
 };
 
 interface Props extends CardProps {
-  user: User;
+  user: UserProfileCardFragment;
 }
 
 const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const [me] = useMeQuery();
+  const { data } = useMeQuery();
 
   const isDesktop = useIsDesktop();
   const t = useTranslate();
   const theme = useTheme();
 
-  const joinDate = formatDate(user.createdAt);
+  const me = data && data.me;
   const isMe = me?.id === user.id;
+  const joinDate = formatDate(user.createdAt);
 
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,

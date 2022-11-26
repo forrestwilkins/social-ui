@@ -1,15 +1,20 @@
+// TODO: Ensure EditGroup page is unreachable without role
+
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEditGroupQuery } from "../../../apollo/gen";
 import GroupForm from "../../../components/Groups/GroupForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import { useTranslate } from "../../../hooks/common";
-import { useGroupQuery } from "../../../hooks/group";
+import { useTranslate } from "../../../hooks/common.hooks";
 
 const EditGroup: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [group, loading, error] = useGroupQuery(name);
+  const { data, loading, error } = useEditGroupQuery({
+    variables: { name },
+    skip: !name,
+  });
 
   const t = useTranslate();
 
@@ -21,11 +26,11 @@ const EditGroup: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!group) {
+  if (!data) {
     return null;
   }
 
-  return <GroupForm editGroup={group} />;
+  return <GroupForm editGroup={data.group} />;
 };
 
 export default EditGroup;

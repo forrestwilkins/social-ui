@@ -1,48 +1,65 @@
-import { Button } from "@mui/material";
+// TODO: Add query specifically for edit post page
+
+import { Button, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { toastVar } from "../../../client/cache";
+import { toastVar } from "../../../apollo/cache";
+import { useDeletePostMutation, usePostQuery } from "../../../apollo/gen";
+import { removePost } from "../../../apollo/posts/mutations/DeletePost.mutation";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import { NavigationPaths } from "../../../constants/common";
-import { useTranslate } from "../../../hooks/common";
-import { useDeletePostMutation, usePostQuery } from "../../../hooks/post";
-import { redirectTo } from "../../../utils/common";
+import { NavigationPaths } from "../../../constants/common.constants";
+import { useTranslate } from "../../../hooks/common.hooks";
+import { redirectTo } from "../../../utils/common.utils";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
-  const editPostId = parseInt(String(query?.id));
-  const [post, isPostLoading] = usePostQuery(editPostId);
-  const deletePost = useDeletePostMutation();
+  const id = parseInt(String(query?.id));
+  const { data, loading, error } = usePostQuery({
+    variables: { id },
+    skip: !id,
+  });
+
+  const [deletePost] = useDeletePostMutation();
 
   const t = useTranslate();
 
-  if (isPostLoading) {
+  if (error) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!post) {
+  if (!data) {
     return null;
   }
 
   const handleDeleteButtonClick = async () => {
-    try {
-      await deletePost(editPostId);
-      redirectTo(NavigationPaths.Home);
-    } catch {
-      toastVar({ status: "error", title: t("errors.somethingWentWrong") });
-    }
+    await redirectTo(NavigationPaths.Home);
+
+    await deletePost({
+      variables: { id },
+      update: removePost(data.post),
+      onError() {
+        toastVar({
+          status: "error",
+          title: t("errors.somethingWentWrong"),
+        });
+      },
+    });
   };
 
   return (
     <>
-      <PostForm editPost={post} sx={{ marginBottom: 2.5 }} />
+      <PostForm editPost={data.post} sx={{ marginBottom: 2.5 }} />
 
       <Button
         color="error"
         fullWidth
         onClick={() =>
-          window.confirm(t("prompts.deleteItem", { item: "post" })) &&
+          window.confirm(t("prompts.deleteItem", { itemType: "post" })) &&
           handleDeleteButtonClick()
         }
         sx={{ marginTop: 1.5 }}

@@ -1,15 +1,15 @@
 import { Avatar, AvatarProps } from "@mui/material";
-import { Group } from "../../types/group";
-import { getGroupPagePath } from "../../utils/group";
-import { getImagePath } from "../../utils/image";
+import { GroupAvatarFragment } from "../../apollo/gen";
+import { getGroupPath } from "../../utils/group.utils";
+import { getImagePath } from "../../utils/image.utils";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
-  group: Group;
+  group: GroupAvatarFragment;
 }
 
 const GroupAvatar = ({ group }: Props) => {
-  const groupPagePath = getGroupPagePath(group.name);
+  const groupPagePath = getGroupPath(group.name);
   const imagePath = group.coverPhoto
     ? getImagePath(group.coverPhoto.id)
     : undefined;

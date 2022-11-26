@@ -13,6 +13,11 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
+import {
+  PostCardFragment,
+  useDeletePostMutation,
+  useMeQuery,
+} from "../../apollo/gen";
 import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import {
   MIDDOT_WITH_SPACES,
@@ -20,11 +25,6 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import {
-  PostCardFragment,
-  useDeletePostMutation,
-  useMeQuery,
-} from "../../apollo/gen";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -57,10 +57,7 @@ interface Props extends CardProps {
   post: PostCardFragment;
 }
 
-const PostCard = ({
-  post: { id, body, images, user, group, createdAt },
-  ...cardProps
-}: Props) => {
+const PostCard = ({ post, ...cardProps }: Props) => {
   const { data } = useMeQuery();
   const [deletePost] = useDeletePostMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -69,14 +66,16 @@ const PostCard = ({
   const { asPath } = useRouter();
   const t = useTranslate();
 
+  const { id, body, images, user, group, createdAt } = post;
   const me = data && data.me;
   const isMe = me?.id === user.id;
-  const isPostPage = asPath.includes(NavigationPaths.Posts);
+  const formattedDate = timeAgo(createdAt);
+
+  const groupPath = getGroupPath(group?.name || "");
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
+  const isPostPage = asPath.includes(NavigationPaths.Posts);
   const postPath = `${NavigationPaths.Posts}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
-  const groupPath = getGroupPath(group?.name || "");
-  const formattedDate = timeAgo(createdAt);
 
   const bodyStyles: SxProps = {
     marginBottom: images.length ? 2.5 : 3.5,
@@ -94,7 +93,7 @@ const PostCard = ({
     }
     await deletePost({
       variables: { id },
-      update: removePost(id, user.id, group?.id),
+      update: removePost(post),
     });
   };
 

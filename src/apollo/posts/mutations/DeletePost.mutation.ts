@@ -1,38 +1,38 @@
 import { ApolloCache, gql, Reference } from "@apollo/client";
+import { Modifiers } from "@apollo/client/cache/core/types/common";
 import produce from "immer";
-import { TypeNames } from "../../../constants/common.constants";
-import { PostsDocument, PostsQuery } from "../../gen";
+import { PostCardFragment, PostsDocument, PostsQuery } from "../../gen";
 
 export const removePost =
-  (id: number, userId: number, groupId?: number) =>
-  (cache: ApolloCache<any>) => {
+  (post: PostCardFragment) => (cache: ApolloCache<any>) => {
     cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
       produce(postsData, (draft) => {
         if (!draft) {
           return;
         }
-        const index = draft.posts.findIndex((p) => p.id === id);
+        const index = draft.posts.findIndex((p) => p.id === post.id);
         draft.posts.splice(index, 1);
       })
     );
-    cache.modify({
-      id: cache.identify({ id: userId, __typename: TypeNames.User }),
-      fields: {
-        posts(existingPostRefs: Reference[], { readField }) {
-          return existingPostRefs.filter((ref) => id !== readField("id", ref));
-        },
+    const fields: Modifiers = {
+      posts(existingPostRefs: Reference[], { readField }) {
+        return existingPostRefs.filter(
+          (ref) => readField("id", ref) !== post.id
+        );
       },
-    });
+    };
     cache.modify({
-      id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
-      fields: {
-        posts(existingPostRefs: Reference[], { readField }) {
-          return existingPostRefs.filter((ref) => id !== readField("id", ref));
-        },
-      },
+      id: cache.identify(post.user),
+      fields,
     });
-    const cacheId = cache.identify({ id, __typename: TypeNames.Post });
-    cache.evict({ id: cacheId });
+    if (post.group) {
+      cache.modify({
+        id: cache.identify(post.group),
+        fields,
+      });
+    }
+    const postCacheId = cache.identify(post);
+    cache.evict({ id: postCacheId });
     cache.gc();
   };
 

@@ -1,13 +1,15 @@
+// TODO: Add query specifically for edit post page
+
 import { Button, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { toastVar } from "../../../apollo/cache";
+import { useDeletePostMutation, usePostQuery } from "../../../apollo/gen";
 import { removePost } from "../../../apollo/posts/mutations/DeletePost.mutation";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useTranslate } from "../../../hooks/common.hooks";
-import { useDeletePostMutation, usePostQuery } from "../../../apollo/gen";
 import { redirectTo } from "../../../utils/common.utils";
 
 const EditPostPage: NextPage = () => {
@@ -37,12 +39,9 @@ const EditPostPage: NextPage = () => {
   const handleDeleteButtonClick = async () => {
     await redirectTo(NavigationPaths.Home);
 
-    const {
-      post: { group, user },
-    } = data;
     await deletePost({
       variables: { id },
-      update: removePost(id, user.id, group?.id),
+      update: removePost(data.post),
       onError() {
         toastVar({
           status: "error",

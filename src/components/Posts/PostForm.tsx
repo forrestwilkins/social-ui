@@ -11,13 +11,14 @@ import produce from "immer";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
+  CreatePostInput,
   Image,
   PostCardFragment,
   PostCardFragmentDoc,
   PostFormFragment,
-  PostInput,
   PostsDocument,
   PostsQuery,
+  UpdatePostInput,
   useCreatePostMutation,
   useDeleteImageMutation,
   useUpdatePostMutation,
@@ -59,14 +60,14 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
 
   const t = useTranslate();
 
-  const initialValues: PostInput = {
+  const initialValues: CreatePostInput = {
     body: editPost ? editPost.body : "",
     groupId,
   };
 
   const handleCreate = async (
-    formValues: PostInput,
-    { resetForm, setSubmitting }: FormikHelpers<PostInput>,
+    formValues: CreatePostInput,
+    { resetForm, setSubmitting }: FormikHelpers<CreatePostInput>,
     imageData?: FormData
   ) =>
     await createPost({
@@ -114,12 +115,12 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     });
 
   const handleUpdate = async (
-    formValues: PostInput,
+    formValues: Omit<UpdatePostInput, "id">,
     editPost: PostFormFragment,
     imageData?: FormData
   ) =>
     await updatePost({
-      variables: { id: editPost.id, postData: formValues },
+      variables: { postData: { id: editPost.id, ...formValues } },
       async update(cache) {
         if (!imageData) {
           return;
@@ -143,8 +144,8 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     });
 
   const handleSubmit = async (
-    formValues: PostInput,
-    formikHelpers: FormikHelpers<PostInput>
+    formValues: CreatePostInput | UpdatePostInput,
+    formikHelpers: FormikHelpers<CreatePostInput | UpdatePostInput>
   ) => {
     try {
       const imageData = buildImageData(selectedImages);

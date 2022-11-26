@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { GroupAvatarFragmentDoc, UserAvatarFragmentDoc } from "../../gen";
 
 gql`
-  mutation UpdatePost($id: Int!, $postData: PostInput!) {
-    updatePost(id: $id, postData: $postData) {
+  mutation UpdatePost($postData: UpdatePostInput!) {
+    updatePost(postData: $postData) {
       id
       body
       user {

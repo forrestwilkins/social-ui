@@ -13,7 +13,7 @@ export const uploadPostImages = (postId: number, data: FormData) => {
 };
 
 gql`
-  mutation CreatePost($postData: PostInput!) {
+  mutation CreatePost($postData: CreatePostInput!) {
     createPost(postData: $postData) {
       id
       body

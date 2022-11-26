@@ -46,6 +46,11 @@ export type CreateMemberRequestPayload = {
   memberRequest: MemberRequest;
 };
 
+export type CreatePostInput = {
+  body?: InputMaybe<Scalars["String"]>;
+  groupId?: InputMaybe<Scalars["Int"]>;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -142,7 +147,7 @@ export type MutationCreateMemberRequestArgs = {
 };
 
 export type MutationCreatePostArgs = {
-  postData: PostInput;
+  postData: CreatePostInput;
 };
 
 export type MutationDeleteGroupArgs = {
@@ -182,8 +187,7 @@ export type MutationUpdateGroupArgs = {
 };
 
 export type MutationUpdatePostArgs = {
-  id: Scalars["Int"];
-  postData: PostInput;
+  postData: UpdatePostInput;
 };
 
 export type MutationUpdateUserArgs = {
@@ -201,11 +205,6 @@ export type Post = {
   updatedAt: Scalars["DateTime"];
   user: User;
   userId: Scalars["Float"];
-};
-
-export type PostInput = {
-  body?: InputMaybe<Scalars["String"]>;
-  groupId?: InputMaybe<Scalars["Int"]>;
 };
 
 export type Query = {
@@ -263,6 +262,12 @@ export type UpdateGroupInput = {
 export type UpdateGroupPayload = {
   __typename?: "UpdateGroupPayload";
   group: Group;
+};
+
+export type UpdatePostInput = {
+  body?: InputMaybe<Scalars["String"]>;
+  groupId?: InputMaybe<Scalars["Int"]>;
+  id: Scalars["Int"];
 };
 
 export type UpdateUserInput = {
@@ -705,7 +710,7 @@ export type PostFormFragment = {
 };
 
 export type CreatePostMutationVariables = Exact<{
-  postData: PostInput;
+  postData: CreatePostInput;
 }>;
 
 export type CreatePostMutation = {
@@ -744,8 +749,7 @@ export type DeletePostMutation = {
 };
 
 export type UpdatePostMutationVariables = Exact<{
-  id: Scalars["Int"];
-  postData: PostInput;
+  postData: UpdatePostInput;
 }>;
 
 export type UpdatePostMutation = {
@@ -2146,7 +2150,7 @@ export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<
   DeleteImageMutationVariables
 >;
 export const CreatePostDocument = gql`
-  mutation CreatePost($postData: PostInput!) {
+  mutation CreatePost($postData: CreatePostInput!) {
     createPost(postData: $postData) {
       id
       body
@@ -2254,8 +2258,8 @@ export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
   DeletePostMutationVariables
 >;
 export const UpdatePostDocument = gql`
-  mutation UpdatePost($id: Int!, $postData: PostInput!) {
-    updatePost(id: $id, postData: $postData) {
+  mutation UpdatePost($postData: UpdatePostInput!) {
+    updatePost(postData: $postData) {
       id
       body
       user {
@@ -2288,7 +2292,6 @@ export type UpdatePostMutationFn = Apollo.MutationFunction<
  * @example
  * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
  *   variables: {
- *      id: // value for 'id'
  *      postData: // value for 'postData'
  *   },
  * });

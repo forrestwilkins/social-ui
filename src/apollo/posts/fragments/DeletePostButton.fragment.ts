@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 gql`
-  fragment RemovePost on Post {
+  fragment DeletePostButton on Post {
     id
     user {
       id

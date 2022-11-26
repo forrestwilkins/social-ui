@@ -682,6 +682,13 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
+export type DeletePostButtonFragment = {
+  __typename?: "Post";
+  id: number;
+  user: { __typename?: "User"; id: number };
+  group?: { __typename?: "Group"; id: number } | null;
+};
+
 export type PostCardFragment = {
   __typename?: "Post";
   id: number;
@@ -707,13 +714,6 @@ export type PostFormFragment = {
   id: number;
   body: string;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-};
-
-export type RemovePostFragment = {
-  __typename?: "Post";
-  id: number;
-  user: { __typename?: "User"; id: number };
-  group?: { __typename?: "Group"; id: number } | null;
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -1048,6 +1048,17 @@ export const RequestToJoinFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
+export const DeletePostButtonFragmentDoc = gql`
+  fragment DeletePostButton on Post {
+    id
+    user {
+      id
+    }
+    group {
+      id
+    }
+  }
+`;
 export const AttachedImageFragmentDoc = gql`
   fragment AttachedImage on Image {
     id
@@ -1082,17 +1093,6 @@ export const PostFormFragmentDoc = gql`
     }
   }
   ${AttachedImageFragmentDoc}
-`;
-export const RemovePostFragmentDoc = gql`
-  fragment RemovePost on Post {
-    id
-    user {
-      id
-    }
-    group {
-      id
-    }
-  }
 `;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
@@ -2355,11 +2355,11 @@ export const EditPostDocument = gql`
   query EditPost($id: Int!) {
     post(id: $id) {
       ...PostForm
-      ...RemovePost
+      ...DeletePostButton
     }
   }
   ${PostFormFragmentDoc}
-  ${RemovePostFragmentDoc}
+  ${DeletePostButtonFragmentDoc}
 `;
 
 /**

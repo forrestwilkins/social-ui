@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
-import { PostFormFragmentDoc, RemovePostFragmentDoc } from "../../gen";
+import { DeletePostButtonFragmentDoc, PostFormFragmentDoc } from "../../gen";
 
 gql`
   query EditPost($id: Int!) {
     post(id: $id) {
       ...PostForm
-      ...RemovePost
+      ...DeletePostButton
     }
   }
   ${PostFormFragmentDoc}
-  ${RemovePostFragmentDoc}
+  ${DeletePostButtonFragmentDoc}
 `;

@@ -12,7 +12,6 @@ import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
-  Image,
   PostCardFragment,
   PostCardFragmentDoc,
   PostFormFragment,
@@ -76,10 +75,9 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         if (!data?.createPost) {
           return;
         }
-        let images: Image[] = [];
-        if (imageData) {
-          images = await uploadPostImages(data.createPost.id, imageData);
-        }
+        const images = imageData
+          ? await uploadPostImages(data.createPost.id, imageData)
+          : [];
         const postWithImages = { ...data.createPost, images };
         cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
           produce(postsData, (draft) => {

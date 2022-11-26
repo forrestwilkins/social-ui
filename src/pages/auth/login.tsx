@@ -37,9 +37,9 @@ const Login: NextPage = () => {
     password: "",
   };
 
-  const handleSubmit = async (formValues: LoginInput) =>
+  const handleSubmit = async (input: LoginInput) =>
     await login({
-      variables: { input: formValues },
+      variables: { input },
       update(cache, { data }) {
         if (!data) {
           return;

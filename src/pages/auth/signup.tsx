@@ -3,7 +3,11 @@ import { Card, CardContent, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useEffect } from "react";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
+import {
+  isLoggedInVar,
+  isNavDrawerOpenVar,
+  toastVar,
+} from "../../apollo/cache";
 import {
   MeDocument,
   MeQuery,
@@ -33,9 +37,9 @@ const SignUp: NextPage = () => {
     password: "",
   };
 
-  const handleSubmit = async (formValues: SignUpInput) => {
+  const handleSubmit = async (input: SignUpInput) => {
     await signUp({
-      variables: { input: formValues },
+      variables: { input },
       update(cache, { data }) {
         if (!data?.signUp.user) {
           return;
@@ -45,6 +49,12 @@ const SignUp: NextPage = () => {
           query: MeDocument,
         });
         isLoggedInVar(true);
+      },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
       },
     });
   };

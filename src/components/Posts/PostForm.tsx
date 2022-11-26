@@ -1,3 +1,4 @@
+import { Modifiers } from "@apollo/client/cache/core/types/common";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -84,25 +85,18 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
             draft?.posts.unshift(postWithImages);
           })
         );
-        cache.modify({
-          id: cache.identify(data.createPost.user),
-          fields: {
-            posts(existingPostRefs, { toReference }) {
-              return [toReference(postWithImages), ...existingPostRefs];
-            },
+        const fields: Modifiers = {
+          posts(existingPostRefs, { toReference }) {
+            return [toReference(postWithImages), ...existingPostRefs];
           },
-        });
+        };
+        const userCacheId = cache.identify(data.createPost.user);
+        cache.modify({ id: userCacheId, fields });
         if (!data.createPost.group) {
           return;
         }
-        cache.modify({
-          id: cache.identify(data.createPost.group),
-          fields: {
-            posts(existingPostRefs, { toReference }) {
-              return [toReference(postWithImages), ...existingPostRefs];
-            },
-          },
-        });
+        const groupCacheId = cache.identify(data.createPost.group);
+        cache.modify({ id: groupCacheId, fields });
       },
       onCompleted() {
         setImagesInputKey(generateRandom());

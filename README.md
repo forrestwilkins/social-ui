@@ -2,6 +2,8 @@
 
 Social networking platform UI built with Next.js, Apollo Client, and Material UI
 
+Social API: https://github.com/forrestwilkins/social-api
+
 ## WIP
 
 You are entering a construction yard. Things are going to change and break regularly as the project is still getting off the ground.
@@ -46,7 +48,7 @@ $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 
 ## GraphQL Code Generator
 
-Social UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to the schema, along with changes on the FE to queries, mutations, or fragments.
+Social UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to GraphQL documents, as well as after any changes to the schema.
 
 ```bash
 # Keep generated types and hooks in sync with the current schema

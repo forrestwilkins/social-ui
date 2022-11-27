@@ -261,7 +261,6 @@ export type UpdateGroupPayload = {
 
 export type UpdatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
-  groupId?: InputMaybe<Scalars["Int"]>;
   id: Scalars["Int"];
 };
 

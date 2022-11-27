@@ -196,12 +196,10 @@ export type Post = {
   body: Scalars["String"];
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
-  groupId?: Maybe<Scalars["Float"]>;
   id: Scalars["Int"];
   images: Array<Image>;
   updatedAt: Scalars["DateTime"];
   user: User;
-  userId: Scalars["Float"];
 };
 
 export type Query = {

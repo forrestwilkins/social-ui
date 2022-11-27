@@ -36,7 +36,6 @@ interface Props extends CardProps {
   group: GroupCardFragment;
 }
 
-// TODO: Add remaining layout and functionality
 const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);

@@ -95,8 +95,8 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     });
 
   const handleUpdate = async (
-    editGroup: GroupFormFragment,
     formValues: Omit<UpdateGroupInput, "id">,
+    editGroup: GroupFormFragment,
     coverPhotoData?: FormData
   ) =>
     await updateGroup({
@@ -139,7 +139,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     try {
       const coverPhotoData = buildImageData(coverPhoto);
       if (editGroup) {
-        await handleUpdate(editGroup, formValues, coverPhotoData);
+        await handleUpdate(formValues, editGroup, coverPhotoData);
         return;
       }
       await handleCreate(formValues, formikHelpers, coverPhotoData);

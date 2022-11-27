@@ -1,11 +1,9 @@
 // TODO: Refactor to avoid duplicating auth state
 
-import { Container } from "@mui/material";
 import { ReactNode, useEffect } from "react";
 import { isAuthLoadingVar, isLoggedInVar } from "../../apollo/cache";
 import { useAuthCheckQuery } from "../../apollo/gen";
 import TopNav from "../Navigation/TopNav";
-import ProgressBar from "../Shared/ProgressBar";
 
 interface Props {
   children: ReactNode;
@@ -23,14 +21,7 @@ const AuthWrapper = ({ children }: Props) => {
   }, [loading]);
 
   if (loading) {
-    return (
-      <>
-        <TopNav />
-        <Container maxWidth="sm">
-          <ProgressBar />
-        </Container>
-      </>
-    );
+    return <TopNav />;
   }
 
   return <>{children}</>;

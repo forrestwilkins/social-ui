@@ -74,8 +74,8 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
         } = data;
         cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MemberRequestDocument,
-          data: { memberRequest },
           variables: { groupId },
+          data: { memberRequest },
         });
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
@@ -106,8 +106,8 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
       update(cache) {
         cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
           query: MemberRequestDocument,
-          data: { memberRequest: null },
           variables: { groupId },
+          data: { memberRequest: null },
         });
         cache.evict({
           id: cache.identify({ id, __typename: TypeNames.MemberRequest }),

@@ -1,4 +1,3 @@
-import { Reference } from "@apollo/client";
 import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
@@ -116,7 +115,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
       },
     });
 
-  const handleLeave = async ({ user, ...member }: CurrentMemberFragment) =>
+  const handleLeave = async (member: CurrentMemberFragment) =>
     await leaveGroup({
       variables: { id: groupId },
       update(cache) {
@@ -128,12 +127,6 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
         cache.modify({
           id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
           fields: {
-            members(existingMemberRefs: Reference[], { readField }) {
-              return existingMemberRefs.filter((memberRef) => {
-                const userRef = readField("user", memberRef) as Reference;
-                return readField("id", userRef) !== user.id;
-              });
-            },
             memberCount(existingCount: number) {
               return existingCount - 1;
             },

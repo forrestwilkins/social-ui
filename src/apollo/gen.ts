@@ -79,14 +79,11 @@ export type Image = {
   createdAt: Scalars["DateTime"];
   filename: Scalars["String"];
   group: Group;
-  groupId: Scalars["Float"];
   id: Scalars["Int"];
   imageType: Scalars["String"];
   post: Post;
-  postId: Scalars["Float"];
   updatedAt: Scalars["DateTime"];
   user: User;
-  userId: Scalars["Float"];
 };
 
 export type LoginInput = {

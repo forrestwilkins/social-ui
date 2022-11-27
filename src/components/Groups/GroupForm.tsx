@@ -1,5 +1,3 @@
-// TODO: Ensure that update group and create group have separate input types ⭐️
-
 import {
   Card,
   CardContent as MuiCardContent,

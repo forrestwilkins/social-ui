@@ -51,11 +51,11 @@ interface Props extends CardProps {
 }
 
 const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
-  const [selectedImages, setSelctedImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
+  const [selectedImages, setSelctedImages] = useState<File[]>([]);
 
-  const [deleteImage] = useDeleteImageMutation();
   const [createPost] = useCreatePostMutation();
+  const [deleteImage] = useDeleteImageMutation();
   const [updatePost] = useUpdatePostMutation();
 
   const t = useTranslate();
@@ -159,7 +159,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
       await deleteImage({
         variables: { id },
         update(cache) {
-          const cacheId = cache.identify({ __typename: TypeNames.Image, id });
+          const cacheId = cache.identify({ id, __typename: TypeNames.Image });
           cache.evict({ id: cacheId });
           cache.gc();
         },
@@ -187,10 +187,10 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
             <Form>
               <FormGroup>
                 <Field
-                  name={FieldNames.Body}
-                  component={TextFieldWithAvatar}
-                  placeholder={t("prompts.whatsHappening")}
                   autoComplete="off"
+                  component={TextFieldWithAvatar}
+                  name={FieldNames.Body}
+                  placeholder={t("prompts.whatsHappening")}
                 />
 
                 <AttachedImagePreview
@@ -205,9 +205,9 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
 
               <Flex sx={{ justifyContent: "space-between" }}>
                 <ImageInput
-                  multiple
                   refreshKey={imagesInputKey}
                   setImages={setSelctedImages}
+                  multiple
                 />
 
                 <PrimaryActionButton

@@ -51,6 +51,11 @@ export type CreatePostInput = {
   groupId?: InputMaybe<Scalars["Int"]>;
 };
 
+export type CreatePostPayload = {
+  __typename?: "CreatePostPayload";
+  post: Post;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -111,7 +116,7 @@ export type Mutation = {
   cancelMemberRequest: Scalars["Boolean"];
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
-  createPost: Post;
+  createPost: CreatePostPayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
@@ -123,7 +128,7 @@ export type Mutation = {
   refreshToken: Scalars["Boolean"];
   signUp: SignUpPayload;
   updateGroup: UpdateGroupPayload;
-  updatePost: Post;
+  updatePost: UpdatePostPayload;
   updateUser: UpdateUserPayload;
 };
 
@@ -262,6 +267,11 @@ export type UpdateGroupPayload = {
 export type UpdatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
+};
+
+export type UpdatePostPayload = {
+  __typename?: "UpdatePostPayload";
+  post: Post;
 };
 
 export type UpdateUserInput = {
@@ -722,26 +732,29 @@ export type CreatePostMutationVariables = Exact<{
 export type CreatePostMutation = {
   __typename?: "Mutation";
   createPost: {
-    __typename?: "Post";
-    id: number;
-    body: string;
-    createdAt: any;
-    user: {
-      __typename?: "User";
+    __typename?: "CreatePostPayload";
+    post: {
+      __typename?: "Post";
       id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
+      body: string;
+      createdAt: any;
+      user: {
+        __typename?: "User";
         id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        coverPhoto?: {
+          __typename?: "Image";
+          filename: string;
+          id: number;
+        } | null;
       } | null;
-    } | null;
+    };
   };
 };
 
@@ -761,26 +774,29 @@ export type UpdatePostMutationVariables = Exact<{
 export type UpdatePostMutation = {
   __typename?: "Mutation";
   updatePost: {
-    __typename?: "Post";
-    id: number;
-    body: string;
-    createdAt: any;
-    user: {
-      __typename?: "User";
+    __typename?: "UpdatePostPayload";
+    post: {
+      __typename?: "Post";
       id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
-    };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
+      body: string;
+      createdAt: any;
+      user: {
+        __typename?: "User";
         id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        coverPhoto?: {
+          __typename?: "Image";
+          filename: string;
+          id: number;
+        } | null;
       } | null;
-    } | null;
+    };
   };
 };
 
@@ -2188,15 +2204,17 @@ export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<
 export const CreatePostDocument = gql`
   mutation CreatePost($postData: CreatePostInput!) {
     createPost(postData: $postData) {
-      id
-      body
-      user {
-        ...UserAvatar
+      post {
+        id
+        body
+        user {
+          ...UserAvatar
+        }
+        group {
+          ...GroupAvatar
+        }
+        createdAt
       }
-      group {
-        ...GroupAvatar
-      }
-      createdAt
     }
   }
   ${UserAvatarFragmentDoc}
@@ -2296,15 +2314,17 @@ export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
 export const UpdatePostDocument = gql`
   mutation UpdatePost($postData: UpdatePostInput!) {
     updatePost(postData: $postData) {
-      id
-      body
-      user {
-        ...UserAvatar
+      post {
+        id
+        body
+        user {
+          ...UserAvatar
+        }
+        group {
+          ...GroupAvatar
+        }
+        createdAt
       }
-      group {
-        ...GroupAvatar
-      }
-      createdAt
     }
   }
   ${UserAvatarFragmentDoc}

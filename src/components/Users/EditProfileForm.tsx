@@ -35,6 +35,7 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
   const [updateUser] = useUpdateUserMutation();
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [profilePicture, setProfilePicture] = useState<File>();
+
   const t = useTranslate();
 
   const initialValues: Omit<UpdateUserInput, "id"> = {
@@ -77,12 +78,12 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
           },
         });
       },
-      onError(error) {
-        toastVar({ status: "error", title: error.message });
-      },
       onCompleted(data) {
         const path = getUserProfilePath(data.updateUser.name);
         redirectTo(path);
+      },
+      onError(error) {
+        toastVar({ status: "error", title: error.message });
       },
     });
 
@@ -103,9 +104,9 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
 
           <Center sx={{ marginBottom: 3 }}>
             <UserAvatar
-              user={user}
               imageFile={profilePicture}
               sx={{ width: 140, height: 140 }}
+              user={user}
             />
           </Center>
 
@@ -125,8 +126,8 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
           <CoverPhoto
             imageFile={coverPhoto}
             imageId={user.coverPhoto?.id}
-            rounded
             sx={{ marginBottom: 3 }}
+            rounded
           />
 
           <Divider sx={{ marginBottom: 3 }} />

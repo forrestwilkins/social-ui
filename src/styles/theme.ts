@@ -34,15 +34,23 @@ const theme: Theme = createTheme(initialTheme, {
     MuiContainer: {
       styleOverrides: {
         root: {
-          paddingBottom: 150,
-          paddingTop: 85,
+          // Mobile (first priority)
+          padding: "85px 10px 150px 10px",
+
+          // Tablet
+          [initialTheme.breakpoints.up("sm")]: {
+            padding: "105px 24px 150px 24px",
+          },
+
+          // Desktop
           [initialTheme.breakpoints.up("md")]: {
             paddingBottom: 130,
-            paddingTop: 135,
+            paddingTop: 115,
           },
-          [initialTheme.breakpoints.down("sm")]: {
-            paddingLeft: 10,
-            paddingRight: 10,
+
+          // Larger devices
+          [initialTheme.breakpoints.up("lg")]: {
+            paddingTop: 135,
           },
         },
         maxWidthSm: {
@@ -61,6 +69,14 @@ const theme: Theme = createTheme(initialTheme, {
         },
         rounded: {
           borderRadius: 8,
+        },
+      },
+    },
+
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          marginBottom: 12,
         },
       },
     },

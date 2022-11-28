@@ -8,9 +8,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { CSSProperties } from "react";
-import { NavigationPaths } from "../../constants/common";
-import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { inDevToast } from "../../utils/common";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { inDevToast } from "../../utils/common.utils";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
 import TopNavDesktop from "./TopNavDesktop";
@@ -56,7 +56,7 @@ const TopNav = ({ appBarProps }: Props) => {
     <AppBar role="banner" position="fixed" sx={appBarStyles} {...appBarProps}>
       <Toolbar sx={toolbarStyles}>
         <Link href={NavigationPaths.Home}>
-          <LevelOneHeading style={brandStyles}>{t("brand")}</LevelOneHeading>
+          <LevelOneHeading sx={brandStyles}>{t("brand")}</LevelOneHeading>
         </Link>
 
         {isDesktop ? (

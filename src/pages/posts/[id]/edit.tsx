@@ -1,55 +1,38 @@
-import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { toastVar } from "../../../client/cache";
+import { useEditPostQuery } from "../../../apollo/gen";
+import DeletePostButton from "../../../components/Posts/DeletePostButton";
 import PostForm from "../../../components/Posts/PostForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import { NavigationPaths } from "../../../constants/common";
-import { useTranslate } from "../../../hooks/common";
-import { useDeletePostMutation, usePostQuery } from "../../../hooks/post";
-import { redirectTo } from "../../../utils/common";
+import { useTranslate } from "../../../hooks/common.hooks";
 
 const EditPostPage: NextPage = () => {
   const { query } = useRouter();
-  const editPostId = parseInt(String(query?.id));
-  const [post, isPostLoading] = usePostQuery(editPostId);
-  const deletePost = useDeletePostMutation();
+  const id = parseInt(String(query?.id));
+  const { data, loading, error } = useEditPostQuery({
+    variables: { id },
+    skip: !id,
+  });
 
   const t = useTranslate();
 
-  if (isPostLoading) {
+  if (error) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!post) {
+  if (!data) {
     return null;
   }
 
-  const handleDeleteButtonClick = async () => {
-    try {
-      await deletePost(editPostId);
-      redirectTo(NavigationPaths.Home);
-    } catch {
-      toastVar({ status: "error", title: t("errors.somethingWentWrong") });
-    }
-  };
-
   return (
     <>
-      <PostForm editPost={post} sx={{ marginBottom: 2.5 }} />
-
-      <Button
-        color="error"
-        fullWidth
-        onClick={() =>
-          window.confirm(t("prompts.deleteItem", { item: "post" })) &&
-          handleDeleteButtonClick()
-        }
-        sx={{ marginTop: 1.5 }}
-        variant="outlined"
-      >
-        {t("actions.delete")}
-      </Button>
+      <PostForm editPost={data.post} sx={{ marginBottom: 2.5 }} />
+      <DeletePostButton post={data.post} />
     </>
   );
 };

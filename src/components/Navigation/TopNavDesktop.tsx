@@ -6,12 +6,12 @@ import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
-} from "../../client/cache";
-import { NavigationPaths } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { redirectTo } from "../../utils/common";
-import { getUserProfilePath } from "../../utils/user";
+} from "../../apollo/cache";
+import { NavigationPaths } from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useMeQuery } from "../../apollo/gen";
+import { redirectTo } from "../../utils/common.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";
@@ -40,14 +40,14 @@ const TopNavDesktop = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
-  const [me, loading] = useMeQuery({ skip: !isLoggedIn });
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+  const { data, loading } = useMeQuery({ skip: !isLoggedIn });
 
   const t = useTranslate();
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-  const userProfilePath = getUserProfilePath(me?.name);
+  const userProfilePath = getUserProfilePath(data?.me?.name);
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -60,17 +60,17 @@ const TopNavDesktop = () => {
 
   return (
     <Flex sx={TOP_NAV_STYLES}>
-      <SearchBar />
+      {!isAuthLoading && <SearchBar />}
 
-      {isLoggedIn && (
+      {data?.me && (
         <Flex>
           <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
-              {me?.name}
+              <UserAvatar user={data.me} sx={USER_AVATAR_STYLES} />
+              {data.me.name}
             </Button>
           </Link>
 
@@ -82,7 +82,11 @@ const TopNavDesktop = () => {
             <ArrowDropDown />
           </IconButton>
 
-          <TopNavDropdown anchorEl={menuAnchorEl} handleClose={handleClose} />
+          <TopNavDropdown
+            anchorEl={menuAnchorEl}
+            handleClose={handleClose}
+            userName={data.me.name}
+          />
         </Flex>
       )}
 

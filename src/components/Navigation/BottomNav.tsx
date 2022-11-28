@@ -8,10 +8,13 @@ import {
 } from "@mui/material";
 import Router, { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
-import { isNavDrawerOpenVar } from "../../client/cache";
-import { NavigationPaths, ResourceNames } from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { scrollTop } from "../../utils/common";
+import { isNavDrawerOpenVar } from "../../apollo/cache";
+import {
+  NavigationPaths,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { scrollTop } from "../../utils/common.utils";
 
 const PAPER_STYLES: SxProps = {
   position: "fixed",

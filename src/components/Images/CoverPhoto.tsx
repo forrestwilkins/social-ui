@@ -1,8 +1,8 @@
 import { Box, SxProps } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import Image from "next/image";
-import { useIsDesktop, useTranslate } from "../../hooks/common";
-import { getImagePath } from "../../utils/image";
+import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { getImagePath } from "../../utils/image.utils";
 
 interface Props {
   imageFile?: File;

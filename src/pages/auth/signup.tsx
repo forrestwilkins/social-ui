@@ -1,44 +1,62 @@
-import { useMutation, useReactiveVar } from "@apollo/client";
-import { Button, Card, CardContent, FormGroup } from "@mui/material";
+import { useReactiveVar } from "@apollo/client";
+import { Card, CardContent, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useEffect } from "react";
-import { SIGN_UP_MUTATION } from "../../client/auth/mutations";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../client/cache";
-import { ME_QUERY } from "../../client/users/queries";
+import {
+  isLoggedInVar,
+  isNavDrawerOpenVar,
+  toastVar,
+} from "../../apollo/cache";
+import {
+  MeDocument,
+  MeQuery,
+  SignUpInput,
+  useSignUpMutation,
+} from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
-import { NavigationPaths } from "../../constants/common";
-import { UserFieldNames } from "../../constants/user";
-import { useTranslate } from "../../hooks/common";
-import { AuthResult } from "../../types/auth";
-import { UserFormValues } from "../../types/user";
-import { redirectTo } from "../../utils/common";
+import { NavigationPaths } from "../../constants/common.constants";
+import { UserFieldNames } from "../../constants/user.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { redirectTo } from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {
-  const [signUp] = useMutation<AuthResult>(SIGN_UP_MUTATION, {
-    refetchQueries: [ME_QUERY],
-  });
-
+  const [signUp] = useSignUpMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
   const t = useTranslate();
 
-  const initialValues: UserFormValues = {
+  const initialValues: SignUpInput = {
     email: "",
     name: "",
     password: "",
   };
 
-  const handleSubmit = async (formValues: UserFormValues) => {
-    const result = await signUp({ variables: { input: formValues } });
-    if (result.data?.signUp) {
-      isLoggedInVar(true);
-    }
+  const handleSubmit = async (input: SignUpInput) => {
+    await signUp({
+      variables: { input },
+      update(cache, { data }) {
+        if (!data?.signUp.user) {
+          return;
+        }
+        cache.writeQuery<MeQuery>({
+          data: { me: data.signUp.user },
+          query: MeDocument,
+        });
+        isLoggedInVar(true);
+      },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+      },
+    });
   };
 
   useEffect(() => {
@@ -54,7 +72,7 @@ const SignUp: NextPage = () => {
   return (
     <Card>
       <CardContent>
-        <LevelOneHeading style={{ marginBottom: 12 }}>
+        <LevelOneHeading sx={{ marginBottom: 2 }}>
           {t("users.prompts.becomeAMember")}
         </LevelOneHeading>
 
@@ -79,15 +97,12 @@ const SignUp: NextPage = () => {
               </FormGroup>
 
               <Flex flexEnd>
-                <Button
-                  type="submit"
+                <PrimaryActionButton
                   disabled={formik.isSubmitting || !formik.dirty}
+                  type="submit"
                 >
                   {t("users.actions.signUp")}
-                  {formik.isSubmitting && (
-                    <Spinner size={10} sx={{ marginLeft: 1 }} />
-                  )}
-                </Button>
+                </PrimaryActionButton>
               </Flex>
             </Form>
           )}

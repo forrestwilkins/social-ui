@@ -1,36 +1,42 @@
 import { useReactiveVar } from "@apollo/client";
 import {
+  Box,
   Card,
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
-  CardHeaderProps,
   CardProps,
   Divider,
   styled,
   SxProps,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { isLoggedInVar } from "../../client/cache";
+import { isLoggedInVar } from "../../apollo/cache";
+import {
+  PostCardFragment,
+  useDeletePostMutation,
+  useMeQuery,
+} from "../../apollo/gen";
+import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
   ResourceNames,
-} from "../../constants/common";
-import { useTranslate } from "../../hooks/common";
-import { useDeletePostMutation } from "../../hooks/post";
-import { useMeQuery } from "../../hooks/user";
-import { Post } from "../../types/post";
-import { redirectTo } from "../../utils/common";
-import { timeAgo } from "../../utils/time";
-import { getUserProfilePath } from "../../utils/user";
-import ImageList from "../Images/ImageList";
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { redirectTo } from "../../utils/common.utils";
+import { getGroupPath } from "../../utils/group.utils";
+import { timeAgo } from "../../utils/time.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
+import GroupItemAvatar from "../Groups/GroupItemAvatar";
+import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 import PostCardFooter from "./PostCardFooter";
 
-const CardHeader = styled(MuiCardHeader)<CardHeaderProps>(() => ({
+const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
   "& .MuiCardHeader-avatar": {
     marginRight: 11,
@@ -48,25 +54,28 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  post: Post;
+  post: PostCardFragment;
 }
 
-const PostCard = ({
-  post: { id, body, images, user, createdAt },
-  sx,
-  ...cardProps
-}: Props) => {
-  const [me] = useMeQuery();
-  const deletePost = useDeletePostMutation();
+const PostCard = ({ post, ...cardProps }: Props) => {
+  const { data } = useMeQuery();
+  const [deletePost] = useDeletePostMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
+  const { asPath } = useRouter();
   const t = useTranslate();
 
-  const linkToPostPage = `${NavigationPaths.Posts}/${id}`;
-  const userProfilePath = getUserProfilePath(user?.name);
-  const formattedDate = timeAgo(createdAt);
+  const { id, body, images, user, group, createdAt } = post;
+  const me = data && data.me;
   const isMe = me?.id === user.id;
+  const formattedDate = timeAgo(createdAt);
+
+  const groupPath = getGroupPath(group?.name || "");
+  const isGroupPage = asPath.includes(NavigationPaths.Groups);
+  const isPostPage = asPath.includes(NavigationPaths.Posts);
+  const postPath = `${NavigationPaths.Posts}/${id}`;
+  const userProfilePath = getUserProfilePath(user?.name);
 
   const bodyStyles: SxProps = {
     marginBottom: images.length ? 2.5 : 3.5,
@@ -78,49 +87,82 @@ const PostCard = ({
     marginBottom: isLoggedIn ? 1.9 : 0,
   };
 
-  const handleDelete = (id: number) => {
-    deletePost(id);
-    redirectTo(NavigationPaths.Home);
+  const handleDelete = async (id: number) => {
+    if (isPostPage) {
+      await redirectTo(NavigationPaths.Home);
+    }
+    await deletePost({
+      variables: { id },
+      update: removePost(post),
+    });
+  };
+
+  const renderAvatar = () => {
+    if (group && !isGroupPage) {
+      return <GroupItemAvatar user={user} group={group} />;
+    }
+    return <UserAvatar user={user} withLink />;
+  };
+
+  const renderTitle = () => {
+    const showGroup = group && !isGroupPage;
+    return (
+      <Box marginBottom={showGroup ? -0.5 : 0}>
+        {showGroup && (
+          <Link href={groupPath}>
+            <Typography color="primary" lineHeight={1} fontSize={15}>
+              {group.name}
+            </Typography>
+          </Link>
+        )}
+        <Box fontSize={14}>
+          <Link
+            href={userProfilePath}
+            sx={showGroup ? { color: "inherit" } : undefined}
+          >
+            {user?.name}
+          </Link>
+          {MIDDOT_WITH_SPACES}
+          <Link href={postPath} sx={{ color: "inherit", fontSize: 13 }}>
+            {formattedDate}
+          </Link>
+        </Box>
+      </Box>
+    );
+  };
+
+  const renderMenu = () => {
+    if (!isMe) {
+      return null;
+    }
+    return (
+      // TODO: Add permission logic for edit and delete
+      <ItemMenu
+        anchorEl={menuAnchorEl}
+        deleteItem={handleDelete}
+        itemId={id}
+        itemType={ResourceNames.Post}
+        setAnchorEl={setMenuAnchorEl}
+        canDelete
+        canEdit
+      />
+    );
   };
 
   return (
-    <Card sx={{ marginBottom: 2, ...sx }} {...cardProps}>
+    <Card {...cardProps}>
       <CardHeader
-        action={
-          // TODO: Add permission logic for edit and delete
-          isMe && (
-            <ItemMenu
-              anchorEl={menuAnchorEl}
-              canDelete
-              canEdit
-              deleteItem={handleDelete}
-              itemId={id}
-              itemType={ResourceNames.Post}
-              setAnchorEl={setMenuAnchorEl}
-            />
-          )
-        }
-        avatar={<UserAvatar user={user} withLink />}
-        title={
-          <span style={{ fontSize: 14 }}>
-            <Link href={userProfilePath}>{user?.name}</Link>
-            {MIDDOT_WITH_SPACES}
-            <Link href={linkToPostPage} style={{ color: "inherit" }}>
-              {formattedDate}
-            </Link>
-          </span>
-        }
+        action={renderMenu()}
+        avatar={renderAvatar()}
+        title={renderTitle()}
       />
 
       <CardContent sx={cardContentStyles}>
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
         {!!images.length && (
-          <Link
-            aria-label={t("images.labels.attachedImages")}
-            href={linkToPostPage}
-          >
-            <ImageList images={images} sx={imageListStyles} />
+          <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
+            <AttachedImageList images={images} sx={imageListStyles} />
           </Link>
         )}
 

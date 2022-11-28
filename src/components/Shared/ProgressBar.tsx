@@ -1,5 +1,5 @@
 import { LinearProgress, LinearProgressProps } from "@mui/material";
-import { useTranslate } from "../../hooks/common";
+import { useTranslate } from "../../hooks/common.hooks";
 
 const ProgressBar = (props: LinearProgressProps) => {
   const t = useTranslate();

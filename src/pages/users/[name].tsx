@@ -3,32 +3,37 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import ProfileCard from "../../components/Users/ProfileCard";
-import { useTranslate } from "../../hooks/common";
-import { useUserQuery } from "../../hooks/user";
+import UserProfileCard from "../../components/Users/UserProfileCard";
+import { useTranslate } from "../../hooks/common.hooks";
+import { useUserQuery } from "../../apollo/gen";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [user, userLoading, userError] = useUserQuery({ name, profile: true });
+  const { data, loading, error } = useUserQuery({
+    variables: { name },
+    skip: !name,
+  });
 
   const t = useTranslate();
 
-  if (userError) {
+  if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
 
-  if (userLoading) {
+  if (loading) {
     return <ProgressBar />;
   }
 
-  if (!user) {
+  if (!data) {
     return null;
   }
 
+  const { user } = data;
+
   return (
     <>
-      <ProfileCard user={user} />
+      <UserProfileCard user={user} />
       {user.posts && <PostList posts={user.posts} />}
     </>
   );

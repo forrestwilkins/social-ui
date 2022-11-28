@@ -1,10 +1,24 @@
 import { ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
-import { ResourceNames } from "../../constants/common";
-import { useLogOutMutation } from "../../hooks/auth";
-import { useTranslate } from "../../hooks/common";
-import { useMeQuery } from "../../hooks/user";
-import { inDevToast, redirectTo } from "../../utils/common";
+import {
+  isAuthLoadingVar,
+  isLoggedInVar,
+  isRefreshingTokenVar,
+} from "../../apollo/cache";
+import { MeDocument, useLogOutMutation } from "../../apollo/gen";
+import {
+  NavigationPaths,
+  ResourceNames,
+} from "../../constants/common.constants";
+import { useTranslate } from "../../hooks/common.hooks";
+import { inDevToast, redirectTo } from "../../utils/common.utils";
+
+export const handleLogOutComplete = () => {
+  isLoggedInVar(false);
+  isAuthLoadingVar(false);
+  isRefreshingTokenVar(false);
+  redirectTo(NavigationPaths.LogIn);
+};
 
 const ICON_PROPS: SvgIconProps = {
   fontSize: "small",
@@ -16,21 +30,27 @@ const ICON_PROPS: SvgIconProps = {
 interface Props {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
+  userName: string;
 }
 
-const TopNavDropdown = ({ anchorEl, handleClose }: Props) => {
-  const [me] = useMeQuery();
-  const logOut = useLogOutMutation();
+const TopNavDropdown = ({ userName, anchorEl, handleClose }: Props) => {
+  const [logOut] = useLogOutMutation();
   const t = useTranslate();
 
   const handleLogOutButtonClick = () =>
-    window.confirm(t("users.prompts.logOut")) && logOut();
+    window.confirm(t("users.prompts.logOut")) &&
+    logOut({
+      onCompleted: handleLogOutComplete,
+      update(cache) {
+        cache.writeQuery({
+          query: MeDocument,
+          data: { me: null },
+        });
+      },
+    });
 
   const handleEditProfileButtonClick = () => {
-    if (!me) {
-      throw Error(t("errors.somethingWentWrong"));
-    }
-    const path = `/${ResourceNames.User}/${me.name}/edit`;
+    const path = `/${ResourceNames.User}/${userName}/edit`;
     redirectTo(path);
   };
 

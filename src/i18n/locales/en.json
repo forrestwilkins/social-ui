@@ -15,6 +15,7 @@
   "prompts": {
     "deleteItem": "Are you sure you want to delete this {{itemType}}?",
     "featureInDevelopment": "This feature has not been implemented yet.",
+    "permissionDenied": "Permission denied.",
     "welcomeToUI": "Welcome to Social UI",
     "whatsHappening": "What's happening?",
     "wip": "This page is still in construction."
@@ -38,7 +39,6 @@
 
   "navigation": {
     "accountSettings": "Account Settings",
-    "admin": "Admin",
     "events": "Events",
     "groups": "Groups",
     "home": "Home",
@@ -47,22 +47,6 @@
     "profile": "Profile",
     "roles": "Roles",
     "users": "Users"
-  },
-
-  "posts": {
-    "form": {
-      "body": "Body"
-    },
-    "labels": {
-      "posts": "Posts",
-      "addPost": "Add post",
-      "addImages": "Add images"
-    },
-    "actions": {
-      "comment": "Comment",
-      "like": "Like",
-      "share": "Share"
-    }
   },
 
   "users": {
@@ -111,6 +95,60 @@
     }
   },
 
+  "posts": {
+    "form": {
+      "body": "Body"
+    },
+    "labels": {
+      "addImages": "Add images",
+      "addPost": "Add post",
+      "posts": "Posts"
+    },
+    "actions": {
+      "comment": "Comment",
+      "like": "Like",
+      "share": "Share"
+    }
+  },
+
+  "groups": {
+    "actions": {
+      "approve": "Approve",
+      "cancelRequest": "Cancel Request",
+      "deny": "Deny",
+      "join": "Join",
+      "leave": "Leave"
+    },
+    "form": {
+      "name": "Name",
+      "description": "Description"
+    },
+    "headers": {
+      "discoverGroups": "Discover Groups"
+    },
+    "errors": {
+      "couldNotCreate": "Group could not be created",
+      "couldNotUpdate": "Group could not be updated"
+    },
+    "labels": {
+      "consensus": "Consensus",
+      "groupMembers_one": "{{count}} Group Member",
+      "groupMembers_other": "{{count}} Group Members",
+      "joined": "Joined",
+      "majority": "Majority Vote",
+      "memberRequests_one": "{{count}} Member Request",
+      "memberRequests_other": "{{count}} Member Requests",
+      "members_one": "{{count}} Member",
+      "members_other": "{{count}} Members",
+      "requests_one": "{{count}} Request",
+      "requests_other": "{{count}} Requests",
+      "xToPass": "X to Pass"
+    },
+    "prompts": {
+      "confirmLeave": "Are you sure you want to leave the group?"
+    }
+  },
+
   "images": {
     "labels": {
       "attachedImages": "Attached images",
@@ -121,12 +159,6 @@
     },
     "errors": {
       "unsupportedFormat": "Unsupported image format"
-    }
-  },
-
-  "admin": {
-    "labels": {
-      "admin": "Admin"
     }
   },
 

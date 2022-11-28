@@ -7,6 +7,7 @@ import {
   Toolbar,
   useTheme,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { CSSProperties } from "react";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const TopNav = ({ appBarProps }: Props) => {
+  const { asPath, reload } = useRouter();
   const isDesktop = useIsDesktop();
   const t = useTranslate();
   const theme = useTheme();
@@ -32,6 +34,7 @@ const TopNav = ({ appBarProps }: Props) => {
 
   const brandStyles: CSSProperties = {
     color: theme.palette.common.white,
+    cursor: "pointer",
     fontFamily: "Inter Extra Bold",
     fontSize: isDesktop ? 24 : 18,
     letterSpacing: 0.25,
@@ -52,12 +55,25 @@ const TopNav = ({ appBarProps }: Props) => {
     ...(isDesktop ? desktopToolbarStyles : {}),
   };
 
+  const renderBrand = () => {
+    if (asPath === NavigationPaths.Home) {
+      return (
+        <LevelOneHeading onClick={() => reload()} sx={brandStyles}>
+          {t("brand")}
+        </LevelOneHeading>
+      );
+    }
+    return (
+      <Link href={NavigationPaths.Home}>
+        <LevelOneHeading sx={brandStyles}>{t("brand")}</LevelOneHeading>
+      </Link>
+    );
+  };
+
   return (
     <AppBar role="banner" position="fixed" sx={appBarStyles} {...appBarProps}>
       <Toolbar sx={toolbarStyles}>
-        <Link href={NavigationPaths.Home}>
-          <LevelOneHeading sx={brandStyles}>{t("brand")}</LevelOneHeading>
-        </Link>
+        {renderBrand()}
 
         {isDesktop ? (
           <TopNavDesktop />

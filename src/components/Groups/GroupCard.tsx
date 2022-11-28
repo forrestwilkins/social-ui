@@ -84,13 +84,13 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
         <Box sx={{ marginBottom: 1.75 }}>
           <Link href={groupMembersPath}>
-            {t("groups.members", { count: members.length })}
+            {t("groups.labels.members", { count: members.length })}
           </Link>
           {currentMember && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>
-                {t("groups.requests", { count: memberRequestCount })}
+                {t("groups.labels.requests", { count: memberRequestCount })}
               </Link>
             </>
           )}

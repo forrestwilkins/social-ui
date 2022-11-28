@@ -132,17 +132,21 @@
     },
     "labels": {
       "consensus": "Consensus",
-      "groupMembers": "{{count}} Group Members",
+      "groupMembers_one": "{{count}} Group Member",
+      "groupMembers_other": "{{count}} Group Members",
       "joined": "Joined",
       "majority": "Majority Vote",
-      "memberRequests": "{{count}} Member Requests",
+      "memberRequests_one": "{{count}} Member Request",
+      "memberRequests_other": "{{count}} Member Requests",
+      "members_one": "{{count}} Member",
+      "members_other": "{{count}} Members",
+      "requests_one": "{{count}} Request",
+      "requests_other": "{{count}} Requests",
       "xToPass": "X to Pass"
     },
     "prompts": {
       "confirmLeave": "Are you sure you want to leave the group?"
-    },
-    "members": "{{count}} Members",
-    "requests": "{{count}} Requests"
+    }
   },
 
   "images": {

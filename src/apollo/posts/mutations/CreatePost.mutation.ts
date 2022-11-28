@@ -15,15 +15,17 @@ export const uploadPostImages = (postId: number, data: FormData) => {
 gql`
   mutation CreatePost($postData: CreatePostInput!) {
     createPost(postData: $postData) {
-      id
-      body
-      user {
-        ...UserAvatar
+      post {
+        id
+        body
+        user {
+          ...UserAvatar
+        }
+        group {
+          ...GroupAvatar
+        }
+        createdAt
       }
-      group {
-        ...GroupAvatar
-      }
-      createdAt
     }
   }
   ${GroupAvatarFragmentDoc}

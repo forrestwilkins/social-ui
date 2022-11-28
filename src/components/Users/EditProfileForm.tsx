@@ -78,8 +78,8 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
           },
         });
       },
-      onCompleted(data) {
-        const path = getUserProfilePath(data.updateUser.name);
+      onCompleted({ updateUser: { user } }) {
+        const path = getUserProfilePath(user.name);
         redirectTo(path);
       },
       onError(error) {

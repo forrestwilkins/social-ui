@@ -73,13 +73,16 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     await createPost({
       variables: { postData: formValues },
       async update(cache, { data }) {
-        if (!data?.createPost) {
+        if (!data) {
           return;
         }
+        const {
+          createPost: { post },
+        } = data;
         const images = imageData
-          ? await uploadPostImages(data.createPost.id, imageData)
+          ? await uploadPostImages(post.id, imageData)
           : [];
-        const postWithImages = { ...data.createPost, images };
+        const postWithImages = { ...post, images };
         cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
           produce(postsData, (draft) => {
             draft?.posts.unshift(postWithImages);
@@ -90,12 +93,12 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
             return [toReference(postWithImages), ...existingPostRefs];
           },
         };
-        const userCacheId = cache.identify(data.createPost.user);
+        const userCacheId = cache.identify(post.user);
         cache.modify({ id: userCacheId, fields });
-        if (!data.createPost.group) {
+        if (!post.group) {
           return;
         }
-        const groupCacheId = cache.identify(data.createPost.group);
+        const groupCacheId = cache.identify(post.group);
         cache.modify({ id: groupCacheId, fields });
       },
       onCompleted() {

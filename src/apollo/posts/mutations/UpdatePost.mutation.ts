@@ -4,15 +4,17 @@ import { GroupAvatarFragmentDoc, UserAvatarFragmentDoc } from "../../gen";
 gql`
   mutation UpdatePost($postData: UpdatePostInput!) {
     updatePost(postData: $postData) {
-      id
-      body
-      user {
-        ...UserAvatar
+      post {
+        id
+        body
+        user {
+          ...UserAvatar
+        }
+        group {
+          ...GroupAvatar
+        }
+        createdAt
       }
-      group {
-        ...GroupAvatar
-      }
-      createdAt
     }
   }
   ${GroupAvatarFragmentDoc}

@@ -16,9 +16,11 @@ export const uploadUserCoverPhoto = (userId: number, data: FormData) => {
 gql`
   mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
-      id
-      name
-      bio
+      user {
+        id
+        name
+        bio
+      }
     }
   }
 `;

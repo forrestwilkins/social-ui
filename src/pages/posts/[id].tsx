@@ -8,10 +8,10 @@ import { useTranslate } from "../../hooks/common.hooks";
 
 const PostPage: NextPage = () => {
   const { query } = useRouter();
-  const postId = parseInt(String(query?.id));
+  const id = parseInt(String(query?.id));
   const { data, loading, error } = usePostQuery({
-    variables: { id: postId },
-    skip: !postId,
+    variables: { id },
+    skip: !id,
   });
 
   const t = useTranslate();

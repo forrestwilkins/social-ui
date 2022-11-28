@@ -17,7 +17,7 @@ const DeletePostButton = ({ post }: Props) => {
   const [deletePost] = useDeletePostMutation();
   const t = useTranslate();
 
-  const handleDeleteButtonClick = async () => {
+  const handleClick = async () => {
     await redirectTo(NavigationPaths.Home);
 
     await deletePost({
@@ -32,16 +32,17 @@ const DeletePostButton = ({ post }: Props) => {
     });
   };
 
+  const handleClickWithConfirm = () =>
+    window.confirm(t("prompts.deleteItem", { itemType: "post" })) &&
+    handleClick();
+
   return (
     <Button
       color="error"
-      fullWidth
-      onClick={() =>
-        window.confirm(t("prompts.deleteItem", { itemType: "post" })) &&
-        handleDeleteButtonClick()
-      }
+      onClick={handleClickWithConfirm}
       sx={{ marginTop: 1.5 }}
       variant="outlined"
+      fullWidth
     >
       {t("actions.delete")}
     </Button>

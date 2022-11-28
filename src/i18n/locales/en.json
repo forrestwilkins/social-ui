@@ -100,9 +100,9 @@
       "body": "Body"
     },
     "labels": {
-      "posts": "Posts",
+      "addImages": "Add images",
       "addPost": "Add post",
-      "addImages": "Add images"
+      "posts": "Posts"
     },
     "actions": {
       "comment": "Comment",

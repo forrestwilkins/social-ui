@@ -124,7 +124,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   updateGroup: UpdateGroupPayload;
   updatePost: Post;
-  updateUser: User;
+  updateUser: UpdateUserPayload;
 };
 
 export type MutationApproveMemberRequestArgs = {
@@ -268,6 +268,11 @@ export type UpdateUserInput = {
   bio: Scalars["String"];
   id: Scalars["Int"];
   name: Scalars["String"];
+};
+
+export type UpdateUserPayload = {
+  __typename?: "UpdateUserPayload";
+  user: User;
 };
 
 export type User = {
@@ -888,10 +893,13 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = {
   __typename?: "Mutation";
   updateUser: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    bio?: string | null;
+    __typename?: "UpdateUserPayload";
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      bio?: string | null;
+    };
   };
 };
 
@@ -2495,9 +2503,11 @@ export type PostsQueryResult = Apollo.QueryResult<
 export const UpdateUserDocument = gql`
   mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
-      id
-      name
-      bio
+      user {
+        id
+        name
+        bio
+      }
     }
   }
 `;

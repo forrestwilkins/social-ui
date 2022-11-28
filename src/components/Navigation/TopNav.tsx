@@ -34,11 +34,11 @@ const TopNav = ({ appBarProps }: Props) => {
 
   const brandStyles: CSSProperties = {
     color: theme.palette.common.white,
+    cursor: "pointer",
     fontFamily: "Inter Extra Bold",
     fontSize: isDesktop ? 24 : 18,
     letterSpacing: 0.25,
     textTransform: "none",
-    cursor: "pointer",
   };
 
   const desktopToolbarStyles: SxProps = {

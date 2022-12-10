@@ -67,6 +67,7 @@ export type Group = {
   members: Array<GroupMember>;
   name: Scalars["String"];
   posts: Array<Post>;
+  roles: Array<Role>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -196,6 +197,14 @@ export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
 };
 
+export type Permission = {
+  __typename?: "Permission";
+  enabled: Scalars["Boolean"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+  role: Role;
+};
+
 export type Post = {
   __typename?: "Post";
   body: Scalars["String"];
@@ -240,6 +249,23 @@ export type QueryPostArgs = {
 export type QueryUserArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type Role = {
+  __typename?: "Role";
+  color: Scalars["String"];
+  group?: Maybe<Group>;
+  id: Scalars["Int"];
+  members: Array<RoleMember>;
+  name: Scalars["String"];
+  permissions: Array<Permission>;
+};
+
+export type RoleMember = {
+  __typename?: "RoleMember";
+  id: Scalars["Int"];
+  role: Role;
+  user: User;
 };
 
 export type SignUpInput = {
@@ -386,7 +412,6 @@ export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  description: string;
   memberRequestCount: number;
   coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   members: Array<{
@@ -589,7 +614,6 @@ export type GroupProfileQuery = {
     __typename?: "Group";
     id: number;
     name: string;
-    description: string;
     memberRequestCount: number;
     posts: Array<{
       __typename?: "Post";
@@ -1023,7 +1047,6 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
-    description
     coverPhoto {
       filename
       id

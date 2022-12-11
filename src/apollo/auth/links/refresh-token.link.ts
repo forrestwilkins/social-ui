@@ -37,7 +37,7 @@ const refreshTokenLink = onError(
           }
 
           if (message === UNAUTHORIZED) {
-            // Ignores 401 errors for refresh requests
+            // Ignore unauthroized errors for refreshToken mutations
             if (operation.operationName === MutationNames.RefreshToken) {
               return observer.error(graphQLErrors[index]);
             }

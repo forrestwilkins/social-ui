@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import {
+  AccountBox,
   Close,
   ExitToApp as SessionIcon,
   PersonAdd as SignUpIcon,
@@ -92,6 +93,13 @@ const NavDrawer = () => {
               <UsersIcon />
             </ListItemIcon>
             <ListItemText primary={t("navigation.users")} />
+          </ListItemButton>
+
+          <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
+            <ListItemIcon>
+              <AccountBox />
+            </ListItemIcon>
+            <ListItemText primary={t("navigation.roles")} />
           </ListItemButton>
 
           <ListItemButton

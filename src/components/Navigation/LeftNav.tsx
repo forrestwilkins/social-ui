@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import {
+  AccountBox,
   EventNote as EventsIcon,
   Group as GroupsIcon,
   Home as HomeIcon,
@@ -109,17 +110,31 @@ const LeftNav = () => {
       </Link>
 
       {isLoggedIn && (
-        <Link href={NavigationPaths.Users}>
-          <ListItemButton>
-            <ListItemIcon>
-              <UsersIcon sx={getIconStyle(NavigationPaths.Users)} />
-            </ListItemIcon>
-            <ListItemText
-              isActive={isActive(NavigationPaths.Users)}
-              primary={t("navigation.users")}
-            />
-          </ListItemButton>
-        </Link>
+        <>
+          <Link href={NavigationPaths.Roles}>
+            <ListItemButton>
+              <ListItemIcon>
+                <AccountBox sx={getIconStyle(NavigationPaths.Roles)} />
+              </ListItemIcon>
+              <ListItemText
+                isActive={isActive(NavigationPaths.Roles)}
+                primary={t("navigation.roles")}
+              />
+            </ListItemButton>
+          </Link>
+
+          <Link href={NavigationPaths.Users}>
+            <ListItemButton>
+              <ListItemIcon>
+                <UsersIcon sx={getIconStyle(NavigationPaths.Users)} />
+              </ListItemIcon>
+              <ListItemText
+                isActive={isActive(NavigationPaths.Users)}
+                primary={t("navigation.users")}
+              />
+            </ListItemButton>
+          </Link>
+        </>
       )}
     </List>
   );

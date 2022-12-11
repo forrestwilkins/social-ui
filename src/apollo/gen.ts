@@ -226,6 +226,8 @@ export type Query = {
   memberRequests: Array<MemberRequest>;
   post: Post;
   posts: Array<Post>;
+  role: Role;
+  serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
 };
@@ -243,6 +245,10 @@ export type QueryMemberRequestsArgs = {
 };
 
 export type QueryPostArgs = {
+  id: Scalars["Int"];
+};
+
+export type QueryRoleArgs = {
   id: Scalars["Int"];
 };
 

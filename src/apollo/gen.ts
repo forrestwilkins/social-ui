@@ -906,6 +906,13 @@ export type PostsQuery = {
   }>;
 };
 
+export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ServerRolesQuery = {
+  __typename?: "Query";
+  serverRoles: Array<{ __typename?: "Role"; id: number; name: string }>;
+};
+
 export type EditProfileFormFragment = {
   __typename?: "User";
   id: number;
@@ -2548,6 +2555,62 @@ export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<
   PostsQuery,
   PostsQueryVariables
+>;
+export const ServerRolesDocument = gql`
+  query ServerRoles {
+    serverRoles {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useServerRolesQuery__
+ *
+ * To run a query within a React component, call `useServerRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerRolesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useServerRolesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ServerRolesQuery,
+    ServerRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ServerRolesQuery, ServerRolesQueryVariables>(
+    ServerRolesDocument,
+    options
+  );
+}
+export function useServerRolesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ServerRolesQuery,
+    ServerRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ServerRolesQuery, ServerRolesQueryVariables>(
+    ServerRolesDocument,
+    options
+  );
+}
+export type ServerRolesQueryHookResult = ReturnType<typeof useServerRolesQuery>;
+export type ServerRolesLazyQueryHookResult = ReturnType<
+  typeof useServerRolesLazyQuery
+>;
+export type ServerRolesQueryResult = Apollo.QueryResult<
+  ServerRolesQuery,
+  ServerRolesQueryVariables
 >;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($userData: UpdateUserInput!) {

@@ -111,18 +111,6 @@ const LeftNav = () => {
 
       {isLoggedIn && (
         <>
-          <Link href={NavigationPaths.Roles}>
-            <ListItemButton>
-              <ListItemIcon>
-                <AccountBox sx={getIconStyle(NavigationPaths.Roles)} />
-              </ListItemIcon>
-              <ListItemText
-                isActive={isActive(NavigationPaths.Roles)}
-                primary={t("navigation.roles")}
-              />
-            </ListItemButton>
-          </Link>
-
           <Link href={NavigationPaths.Users}>
             <ListItemButton>
               <ListItemIcon>
@@ -131,6 +119,18 @@ const LeftNav = () => {
               <ListItemText
                 isActive={isActive(NavigationPaths.Users)}
                 primary={t("navigation.users")}
+              />
+            </ListItemButton>
+          </Link>
+
+          <Link href={NavigationPaths.Roles}>
+            <ListItemButton>
+              <ListItemIcon>
+                <AccountBox sx={getIconStyle(NavigationPaths.Roles)} />
+              </ListItemIcon>
+              <ListItemText
+                isActive={isActive(NavigationPaths.Roles)}
+                primary={t("navigation.roles")}
               />
             </ListItemButton>
           </Link>

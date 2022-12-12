@@ -1,10 +1,9 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
-import { Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEditRoleQuery } from "../../../apollo/gen";
-import Role from "../../../components/Roles/Role";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { useTranslate } from "../../../hooks/common.hooks";
 
@@ -30,7 +29,11 @@ const EditRole: NextPage = () => {
     return null;
   }
 
-  return <Role role={data.role} hideEdit />;
+  return (
+    <Card>
+      <CardContent>{JSON.stringify(data.role)}</CardContent>
+    </Card>
+  );
 };
 
 export default EditRole;

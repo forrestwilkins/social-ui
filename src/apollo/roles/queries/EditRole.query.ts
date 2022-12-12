@@ -5,6 +5,11 @@ gql`
   query EditRole($id: Int!) {
     role(id: $id) {
       ...Role
+      permissions {
+        id
+        name
+        enabled
+      }
     }
   }
   ${RoleFragmentDoc}

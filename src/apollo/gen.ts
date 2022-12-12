@@ -914,7 +914,17 @@ export type EditRoleQueryVariables = Exact<{
 
 export type EditRoleQuery = {
   __typename?: "Query";
-  role: { __typename?: "Role"; id: number; name: string };
+  role: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    permissions: Array<{
+      __typename?: "Permission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }>;
+  };
 };
 
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2577,6 +2587,11 @@ export const EditRoleDocument = gql`
   query EditRole($id: Int!) {
     role(id: $id) {
       ...Role
+      permissions {
+        id
+        name
+        enabled
+      }
     }
   }
   ${RoleFragmentDoc}

@@ -906,6 +906,8 @@ export type PostsQuery = {
   }>;
 };
 
+export type RoleFragment = { __typename?: "Role"; name: string };
+
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ServerRolesQuery = {
@@ -1147,6 +1149,11 @@ export const PostFormFragmentDoc = gql`
     }
   }
   ${AttachedImageFragmentDoc}
+`;
+export const RoleFragmentDoc = gql`
+  fragment Role on Role {
+    name
+  }
 `;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
@@ -2560,9 +2567,10 @@ export const ServerRolesDocument = gql`
   query ServerRoles {
     serverRoles {
       id
-      name
+      ...Role
     }
   }
+  ${RoleFragmentDoc}
 `;
 
 /**

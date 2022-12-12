@@ -38,7 +38,6 @@
   },
 
   "navigation": {
-    "accountSettings": "Account Settings",
     "events": "Events",
     "groups": "Groups",
     "home": "Home",
@@ -146,6 +145,12 @@
     },
     "prompts": {
       "confirmLeave": "Are you sure you want to leave the group?"
+    }
+  },
+
+  "roles": {
+    "headers": {
+      "serverRoles": "Server Roles"
     }
   },
 

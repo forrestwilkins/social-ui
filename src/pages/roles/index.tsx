@@ -21,7 +21,7 @@ const ServerRoles: NextPage = () => {
 
   return (
     <>
-      <LevelOneHeading header>{t("navigation.roles")}</LevelOneHeading>
+      <LevelOneHeading header>{t("roles.headers.serverRoles")}</LevelOneHeading>
 
       {data?.serverRoles.map((role) => (
         <Role role={role} key={role.id} />

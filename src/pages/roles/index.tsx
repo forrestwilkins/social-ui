@@ -1,3 +1,5 @@
+// TODO: Add basic functionality for roles - below is a WIP
+
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useServerRolesQuery } from "../../apollo/gen";
@@ -7,7 +9,6 @@ import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
 
-// TODO: Add basic functionality for roles - below is a WIP
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerRolesQuery();
   const t = useTranslate();

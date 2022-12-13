@@ -151,6 +151,10 @@
   "roles": {
     "headers": {
       "serverRoles": "Server Roles"
+    },
+    "form": {
+      "colorPickerLabel": "Role Color",
+      "pickColor": "Pick a Color"
     }
   },
 

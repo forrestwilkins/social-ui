@@ -1,10 +1,15 @@
 import { Card, CardContent, CardProps, FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useState } from "react";
+import { ColorResult } from "react-color";
 import { toastVar } from "../../apollo/cache";
 import { RoleFragment } from "../../apollo/gen";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
+import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
+import { generateRandom } from "../../utils/common.utils";
+import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -13,6 +18,10 @@ interface Props extends CardProps {
 }
 
 const RoleForm = ({ editRole, ...cardProps }: Props) => {
+  const [color, setColor] = useState(
+    editRole ? editRole.color : DEFAULT_ROLE_COLOR
+  );
+  const [colorPickerKey, setColorPickerKey] = useState("");
   const t = useTranslate();
 
   const initialValues = {
@@ -29,7 +38,14 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
         status: "error",
         title: String(err),
       });
+    } finally {
+      // TODO: Verify that this still gets hit on early return
+      setColorPickerKey(generateRandom());
     }
+  };
+
+  const handleChangeComplete = (color: ColorResult) => {
+    setColor(color.hex);
   };
 
   return (
@@ -43,6 +59,14 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
                   autoComplete="off"
                   label={t("groups.form.name")}
                   name={FieldNames.Name}
+                />
+
+                <ColorPicker
+                  color={color}
+                  key={colorPickerKey}
+                  label={"Role Color"}
+                  onChange={handleChangeComplete}
+                  sx={{ marginBottom: 1.25 }}
                 />
               </FormGroup>
 

@@ -4,5 +4,6 @@ gql`
   fragment Role on Role {
     id
     name
+    color
   }
 `;

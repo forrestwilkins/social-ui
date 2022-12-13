@@ -12,13 +12,15 @@ interface Props {
   hideEdit?: boolean;
 }
 
-const Role = ({ role: { id, name }, hideEdit }: Props) => {
+const Role = ({ role: { id, name, color }, hideEdit }: Props) => {
   const t = useTranslate();
   const editRolePath = `${NavigationPaths.Roles}/${id}/edit`;
 
   return (
     <Flex>
-      <Typography marginRight={1}>{name}</Typography>
+      <Typography marginRight={1} color={color}>
+        {name}
+      </Typography>
       {!hideEdit && <Link href={editRolePath}>{t("actions.edit")}</Link>}
     </Flex>
   );

@@ -906,7 +906,12 @@ export type PostsQuery = {
   }>;
 };
 
-export type RoleFragment = { __typename?: "Role"; id: number; name: string };
+export type RoleFragment = {
+  __typename?: "Role";
+  id: number;
+  name: string;
+  color: string;
+};
 
 export type EditRoleQueryVariables = Exact<{
   id: Scalars["Int"];
@@ -918,6 +923,7 @@ export type EditRoleQuery = {
     __typename?: "Role";
     id: number;
     name: string;
+    color: string;
     permissions: Array<{
       __typename?: "Permission";
       id: number;
@@ -931,7 +937,12 @@ export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ServerRolesQuery = {
   __typename?: "Query";
-  serverRoles: Array<{ __typename?: "Role"; id: number; name: string }>;
+  serverRoles: Array<{
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+  }>;
 };
 
 export type EditProfileFormFragment = {
@@ -1173,6 +1184,7 @@ export const RoleFragmentDoc = gql`
   fragment Role on Role {
     id
     name
+    color
   }
 `;
 export const EditProfileFormFragmentDoc = gql`

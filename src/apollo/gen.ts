@@ -56,6 +56,16 @@ export type CreatePostPayload = {
   post: Post;
 };
 
+export type CreateRoleInput = {
+  color: Scalars["String"];
+  name: Scalars["String"];
+};
+
+export type CreateRolePayload = {
+  __typename?: "CreateRolePayload";
+  role: Role;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -118,6 +128,7 @@ export type Mutation = {
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
   createPost: CreatePostPayload;
+  createRole: CreateRolePayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
@@ -151,6 +162,10 @@ export type MutationCreateMemberRequestArgs = {
 
 export type MutationCreatePostArgs = {
   postData: CreatePostInput;
+};
+
+export type MutationCreateRoleArgs = {
+  roleData: CreateRoleInput;
 };
 
 export type MutationDeleteGroupArgs = {
@@ -911,6 +926,18 @@ export type RoleFragment = {
   id: number;
   name: string;
   color: string;
+};
+
+export type CreateRoleMutationVariables = Exact<{
+  roleData: CreateRoleInput;
+}>;
+
+export type CreateRoleMutation = {
+  __typename?: "Mutation";
+  createRole: {
+    __typename?: "CreateRolePayload";
+    role: { __typename?: "Role"; id: number; name: string; color: string };
+  };
 };
 
 export type EditRoleQueryVariables = Exact<{
@@ -2594,6 +2621,59 @@ export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<
   PostsQuery,
   PostsQueryVariables
+>;
+export const CreateRoleDocument = gql`
+  mutation CreateRole($roleData: CreateRoleInput!) {
+    createRole(roleData: $roleData) {
+      role {
+        ...Role
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+export type CreateRoleMutationFn = Apollo.MutationFunction<
+  CreateRoleMutation,
+  CreateRoleMutationVariables
+>;
+
+/**
+ * __useCreateRoleMutation__
+ *
+ * To run a mutation, you first call `useCreateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoleMutation, { data, loading, error }] = useCreateRoleMutation({
+ *   variables: {
+ *      roleData: // value for 'roleData'
+ *   },
+ * });
+ */
+export function useCreateRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRoleMutation,
+    CreateRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateRoleMutation, CreateRoleMutationVariables>(
+    CreateRoleDocument,
+    options
+  );
+}
+export type CreateRoleMutationHookResult = ReturnType<
+  typeof useCreateRoleMutation
+>;
+export type CreateRoleMutationResult =
+  Apollo.MutationResult<CreateRoleMutation>;
+export type CreateRoleMutationOptions = Apollo.BaseMutationOptions<
+  CreateRoleMutation,
+  CreateRoleMutationVariables
 >;
 export const EditRoleDocument = gql`
   query EditRole($id: Int!) {

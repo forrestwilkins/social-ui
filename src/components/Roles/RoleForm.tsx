@@ -1,9 +1,13 @@
 import { Card, CardContent, CardProps, FormGroup } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { ColorResult } from "react-color";
 import { toastVar } from "../../apollo/cache";
-import { RoleFragment } from "../../apollo/gen";
+import {
+  CreateRoleInput,
+  RoleFragment,
+  useCreateRoleMutation,
+} from "../../apollo/gen";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
@@ -22,17 +26,33 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
     editRole ? editRole.color : DEFAULT_ROLE_COLOR
   );
   const [colorPickerKey, setColorPickerKey] = useState("");
+  const [createRole] = useCreateRoleMutation();
+
   const t = useTranslate();
 
   const initialValues = {
     name: editRole ? editRole.name : "",
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (
+    formValues: Omit<CreateRoleInput, "color">,
+    { setSubmitting, resetForm }: FormikHelpers<Omit<CreateRoleInput, "color">>
+  ) => {
     try {
       if (editRole) {
+        // TODO: Add update logic here
         return;
       }
+      await createRole({
+        variables: {
+          roleData: { color, ...formValues },
+        },
+        onCompleted() {
+          setColor(DEFAULT_ROLE_COLOR);
+          setSubmitting(false);
+          resetForm();
+        },
+      });
     } catch (err) {
       toastVar({
         status: "error",

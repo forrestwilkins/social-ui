@@ -6,6 +6,7 @@ import {
   MutationNames,
   UNAUTHORIZED,
 } from "../../../constants/common.constants";
+import { formatGQLError } from "../../../utils/common.utils";
 import { isRefreshingTokenVar } from "../../cache";
 import { refreshToken } from "../mutations/RefreshToken.mutation";
 
@@ -29,9 +30,8 @@ const refreshTokenLink = onError(
     new Observable((observer) => {
       if (graphQLErrors) {
         graphQLErrors.map(async ({ message, locations, path }, index) => {
-          console.error(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-          );
+          console.error(formatGQLError(message, path, locations));
+
           if (!response) {
             return observer.error(graphQLErrors[index]);
           }

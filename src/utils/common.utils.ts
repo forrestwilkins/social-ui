@@ -1,6 +1,7 @@
 import createCache from "@emotion/cache";
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
+import { SourceLocation } from "graphql";
 import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
@@ -99,4 +100,15 @@ export const initAxe = () => {
     const axe = require("@axe-core/react");
     axe(React, ReactDOM, 1000);
   }
+};
+
+export const formatGQLError = (
+  message: string,
+  path?: readonly (string | number)[],
+  locations?: readonly SourceLocation[]
+) => {
+  const locationsStr = JSON.stringify(locations);
+  console.error(
+    `[GraphQL error]: Message: ${message}, Locations: ${locationsStr}, Path: ${path}`
+  );
 };

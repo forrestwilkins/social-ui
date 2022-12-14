@@ -1,11 +1,14 @@
 import { Card, CardContent, CardProps, FormGroup } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
+import produce from "immer";
 import { useState } from "react";
 import { ColorResult } from "react-color";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateRoleInput,
   RoleFragment,
+  ServerRolesDocument,
+  ServerRolesQuery,
   useCreateRoleMutation,
 } from "../../apollo/gen";
 import { TextField } from "../../components/Shared/TextField";
@@ -46,6 +49,21 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
       await createRole({
         variables: {
           roleData: { color, ...formValues },
+        },
+        update(cache, { data }) {
+          if (!data) {
+            return;
+          }
+          const {
+            createRole: { role },
+          } = data;
+          cache.updateQuery<ServerRolesQuery>(
+            { query: ServerRolesDocument },
+            (postsData) =>
+              produce(postsData, (draft) => {
+                draft?.serverRoles.unshift(role);
+              })
+          );
         },
         onCompleted() {
           setColor(DEFAULT_ROLE_COLOR);

@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useEditRoleQuery } from "../../../apollo/gen";
+import DeleteRoleButton from "../../../components/Roles/DeleteRoleButton";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useTranslate } from "../../../hooks/common.hooks";
@@ -17,13 +18,12 @@ const EditRole: NextPage = () => {
     variables: { id },
     skip: !id,
   });
-  const role = data?.role;
 
   const { asPath } = useRouter();
   const t = useTranslate();
 
   useEffect(() => {
-    if (role) {
+    if (data) {
       breadcrumbsVar({
         path: asPath,
         breadcrumbs: [
@@ -32,12 +32,12 @@ const EditRole: NextPage = () => {
             href: NavigationPaths.Roles,
           },
           {
-            label: role.name,
+            label: data.role.name,
           },
         ],
       });
     }
-  }, [t, asPath, role]);
+  }, [t, asPath, data]);
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
@@ -52,9 +52,13 @@ const EditRole: NextPage = () => {
   }
 
   return (
-    <Card>
-      <CardContent>{JSON.stringify(data.role)}</CardContent>
-    </Card>
+    <>
+      <Card>
+        <CardContent>{JSON.stringify(data.role)}</CardContent>
+      </Card>
+
+      <DeleteRoleButton roleId={data.role.id} />
+    </>
   );
 };
 

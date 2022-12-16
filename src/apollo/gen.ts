@@ -132,6 +132,7 @@ export type Mutation = {
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
+  deleteRole: Scalars["Boolean"];
   deleteUser: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
   leaveGroup: Scalars["Boolean"];
@@ -177,6 +178,10 @@ export type MutationDeleteImageArgs = {
 };
 
 export type MutationDeletePostArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteRoleArgs = {
   id: Scalars["Int"];
 };
 
@@ -938,6 +943,15 @@ export type CreateRoleMutation = {
     __typename?: "CreateRolePayload";
     role: { __typename?: "Role"; id: number; name: string; color: string };
   };
+};
+
+export type DeleteRoleMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteRoleMutation = {
+  __typename?: "Mutation";
+  deleteRole: boolean;
 };
 
 export type EditRoleQueryVariables = Exact<{
@@ -2674,6 +2688,54 @@ export type CreateRoleMutationResult =
 export type CreateRoleMutationOptions = Apollo.BaseMutationOptions<
   CreateRoleMutation,
   CreateRoleMutationVariables
+>;
+export const DeleteRoleDocument = gql`
+  mutation DeleteRole($id: Int!) {
+    deleteRole(id: $id)
+  }
+`;
+export type DeleteRoleMutationFn = Apollo.MutationFunction<
+  DeleteRoleMutation,
+  DeleteRoleMutationVariables
+>;
+
+/**
+ * __useDeleteRoleMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoleMutation, { data, loading, error }] = useDeleteRoleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRoleMutation,
+    DeleteRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteRoleMutation, DeleteRoleMutationVariables>(
+    DeleteRoleDocument,
+    options
+  );
+}
+export type DeleteRoleMutationHookResult = ReturnType<
+  typeof useDeleteRoleMutation
+>;
+export type DeleteRoleMutationResult =
+  Apollo.MutationResult<DeleteRoleMutation>;
+export type DeleteRoleMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRoleMutation,
+  DeleteRoleMutationVariables
 >;
 export const EditRoleDocument = gql`
   query EditRole($id: Int!) {

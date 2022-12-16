@@ -149,6 +149,9 @@
   },
 
   "roles": {
+    "actions": {
+      "delete": "Delete Role"
+    },
     "headers": {
       "serverRoles": "Server Roles"
     },

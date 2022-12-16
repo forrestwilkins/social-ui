@@ -108,7 +108,5 @@ export const formatGQLError = (
   locations?: readonly SourceLocation[]
 ) => {
   const locationsStr = JSON.stringify(locations);
-  console.error(
-    `[GraphQL error]: Message: ${message}, Locations: ${locationsStr}, Path: ${path}`
-  );
+  return `[GraphQL error]: Message: ${message}, Locations: ${locationsStr}, Path: ${path}`;
 };

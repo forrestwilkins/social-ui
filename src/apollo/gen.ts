@@ -978,6 +978,24 @@ export type DeleteRoleMutation = {
   deleteRole: boolean;
 };
 
+export type UpdateRoleMutationVariables = Exact<{
+  roleData: UpdateRoleInput;
+}>;
+
+export type UpdateRoleMutation = {
+  __typename?: "Mutation";
+  updateRole: {
+    __typename?: "UpdateRolePayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+    };
+  };
+};
+
 export type EditRoleQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -2763,6 +2781,59 @@ export type DeleteRoleMutationResult =
 export type DeleteRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteRoleMutation,
   DeleteRoleMutationVariables
+>;
+export const UpdateRoleDocument = gql`
+  mutation UpdateRole($roleData: UpdateRoleInput!) {
+    updateRole(roleData: $roleData) {
+      role {
+        ...Role
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+export type UpdateRoleMutationFn = Apollo.MutationFunction<
+  UpdateRoleMutation,
+  UpdateRoleMutationVariables
+>;
+
+/**
+ * __useUpdateRoleMutation__
+ *
+ * To run a mutation, you first call `useUpdateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRoleMutation, { data, loading, error }] = useUpdateRoleMutation({
+ *   variables: {
+ *      roleData: // value for 'roleData'
+ *   },
+ * });
+ */
+export function useUpdateRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRoleMutation,
+    UpdateRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateRoleMutation, UpdateRoleMutationVariables>(
+    UpdateRoleDocument,
+    options
+  );
+}
+export type UpdateRoleMutationHookResult = ReturnType<
+  typeof useUpdateRoleMutation
+>;
+export type UpdateRoleMutationResult =
+  Apollo.MutationResult<UpdateRoleMutation>;
+export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRoleMutation,
+  UpdateRoleMutationVariables
 >;
 export const EditRoleDocument = gql`
   query EditRole($id: Int!) {

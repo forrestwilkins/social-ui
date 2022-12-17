@@ -5,7 +5,7 @@ import {
   FormGroup,
   styled,
 } from "@mui/material";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { ColorResult } from "react-color";
@@ -16,6 +16,7 @@ import {
   ServerRolesDocument,
   ServerRolesQuery,
   useCreateRoleMutation,
+  useUpdateRoleMutation,
 } from "../../apollo/gen";
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
@@ -42,6 +43,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
   );
   const [colorPickerKey, setColorPickerKey] = useState("");
   const [createRole] = useCreateRoleMutation();
+  const [updateRole] = useUpdateRoleMutation();
 
   const t = useTranslate();
 
@@ -79,15 +81,21 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
       },
     });
 
-  const handleUpdate = async () => console.log("TODO: Add update logic here");
-
   const handleSubmit = async (
     formValues: Omit<CreateRoleInput, "color">,
     formHelpers: FormikHelpers<Omit<CreateRoleInput, "color">>
   ) => {
     try {
       if (editRole) {
-        await handleUpdate();
+        await updateRole({
+          variables: {
+            roleData: {
+              id: editRole.id,
+              ...formValues,
+              color,
+            },
+          },
+        });
         return;
       }
       await handleCreate(formValues, formHelpers);
@@ -97,13 +105,32 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
         title: String(err),
       });
     } finally {
-      // TODO: Verify that this still gets hit on early return
       setColorPickerKey(generateRandom());
     }
   };
 
   const handleChangeComplete = (color: ColorResult) => {
     setColor(color.hex);
+  };
+
+  const unsavedColorChange = () => {
+    if (!editRole) {
+      return false;
+    }
+    return editRole.color !== color;
+  };
+
+  const isSubmitButtonDisabled = ({
+    dirty,
+    isSubmitting,
+  }: FormikProps<Omit<CreateRoleInput, "color">>) => {
+    if (isSubmitting) {
+      return true;
+    }
+    if (unsavedColorChange()) {
+      return false;
+    }
+    return !dirty;
   };
 
   return (
@@ -130,7 +157,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
 
               <Flex justifyContent="end">
                 <PrimaryActionButton
-                  disabled={formik.isSubmitting || !formik.dirty}
+                  disabled={isSubmitButtonDisabled(formik)}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
                 >

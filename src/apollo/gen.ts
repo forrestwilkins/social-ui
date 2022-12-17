@@ -142,6 +142,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   updateGroup: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
+  updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
 };
 
@@ -213,6 +214,10 @@ export type MutationUpdatePostArgs = {
   postData: UpdatePostInput;
 };
 
+export type MutationUpdateRoleArgs = {
+  roleData: UpdateRoleInput;
+};
+
 export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
 };
@@ -282,7 +287,7 @@ export type Role = {
   color: Scalars["String"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
-  memberCount: Scalars["Float"];
+  memberCount: Scalars["Int"];
   members: Array<RoleMember>;
   name: Scalars["String"];
   permissions: Array<Permission>;
@@ -325,6 +330,17 @@ export type UpdatePostInput = {
 export type UpdatePostPayload = {
   __typename?: "UpdatePostPayload";
   post: Post;
+};
+
+export type UpdateRoleInput = {
+  color: Scalars["String"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+};
+
+export type UpdateRolePayload = {
+  __typename?: "UpdateRolePayload";
+  role: Role;
 };
 
 export type UpdateUserInput = {

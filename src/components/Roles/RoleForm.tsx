@@ -37,40 +37,48 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
     name: editRole ? editRole.name : "",
   };
 
-  const handleSubmit = async (
+  const handleCreate = async (
     formValues: Omit<CreateRoleInput, "color">,
     { setSubmitting, resetForm }: FormikHelpers<Omit<CreateRoleInput, "color">>
+  ) =>
+    await createRole({
+      variables: {
+        roleData: { color, ...formValues },
+      },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        const {
+          createRole: { role },
+        } = data;
+        cache.updateQuery<ServerRolesQuery>(
+          { query: ServerRolesDocument },
+          (postsData) =>
+            produce(postsData, (draft) => {
+              draft?.serverRoles.unshift(role);
+            })
+        );
+      },
+      onCompleted() {
+        setColor(DEFAULT_ROLE_COLOR);
+        setSubmitting(false);
+        resetForm();
+      },
+    });
+
+  const handleUpdate = async () => console.log("TODO: Add update logic here");
+
+  const handleSubmit = async (
+    formValues: Omit<CreateRoleInput, "color">,
+    formHelpers: FormikHelpers<Omit<CreateRoleInput, "color">>
   ) => {
     try {
       if (editRole) {
-        // TODO: Add update logic here
+        await handleUpdate();
         return;
       }
-      await createRole({
-        variables: {
-          roleData: { color, ...formValues },
-        },
-        update(cache, { data }) {
-          if (!data) {
-            return;
-          }
-          const {
-            createRole: { role },
-          } = data;
-          cache.updateQuery<ServerRolesQuery>(
-            { query: ServerRolesDocument },
-            (postsData) =>
-              produce(postsData, (draft) => {
-                draft?.serverRoles.unshift(role);
-              })
-          );
-        },
-        onCompleted() {
-          setColor(DEFAULT_ROLE_COLOR);
-          setSubmitting(false);
-          resetForm();
-        },
-      });
+      await handleCreate(formValues, formHelpers);
     } catch (err) {
       toastVar({
         status: "error",

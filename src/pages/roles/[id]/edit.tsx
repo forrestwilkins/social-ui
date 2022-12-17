@@ -1,12 +1,13 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
-import { Card, CardContent, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useEditRoleQuery } from "../../../apollo/gen";
 import DeleteRoleButton from "../../../components/Roles/DeleteRoleButton";
+import RoleForm from "../../../components/Roles/RoleForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useTranslate } from "../../../hooks/common.hooks";
@@ -53,9 +54,7 @@ const EditRole: NextPage = () => {
 
   return (
     <>
-      <Card>
-        <CardContent>{JSON.stringify(data.role)}</CardContent>
-      </Card>
+      <RoleForm editRole={data.role} />
 
       <DeleteRoleButton roleId={data.role.id} />
     </>

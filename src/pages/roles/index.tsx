@@ -3,14 +3,16 @@
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useServerRolesQuery } from "../../apollo/gen";
-import Role from "../../components/Roles/Role";
 import RoleForm from "../../components/Roles/RoleForm";
+import RoleList from "../../components/Roles/RoleList";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
 
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerRolesQuery();
+  const roles = data?.serverRoles;
+
   const t = useTranslate();
 
   if (error) {
@@ -26,10 +28,7 @@ const ServerRoles: NextPage = () => {
       <LevelOneHeading header>{t("roles.headers.serverRoles")}</LevelOneHeading>
 
       <RoleForm />
-
-      {data?.serverRoles.map((role) => (
-        <Role role={role} key={role.id} />
-      ))}
+      {roles && <RoleList roles={roles} />}
     </>
   );
 };

@@ -158,6 +158,10 @@
     "form": {
       "colorPickerLabel": "Role Color",
       "pickColor": "Pick a Color"
+    },
+    "labels": {
+      "members_one": "{{count}} Member",
+      "members_other": "{{count}} Members"
     }
   },
 

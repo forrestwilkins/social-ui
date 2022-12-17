@@ -19,9 +19,9 @@ const ColorPicker = ({ label, color, onChange, sx }: Props) => {
   const colorBoxStyles = {
     backgroundColor: color,
     borderRadius: 1,
-    height: 21,
+    height: 24,
     marginRight: 1.5,
-    width: 21,
+    width: 24,
   };
   const pickColorStyles = {
     fontFamily: "Inter Bold",

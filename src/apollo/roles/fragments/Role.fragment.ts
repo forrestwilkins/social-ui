@@ -5,5 +5,6 @@ gql`
     id
     name
     color
+    memberCount
   }
 `;

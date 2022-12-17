@@ -11,7 +11,10 @@ interface Props {
   role: RoleFragment;
 }
 
-const Role = ({ role: { id, name, color }, marginBottom }: Props) => {
+const Role = ({
+  role: { id, name, color, memberCount },
+  marginBottom,
+}: Props) => {
   const t = useTranslate();
   const theme = useTheme();
 
@@ -42,7 +45,7 @@ const Role = ({ role: { id, name, color }, marginBottom }: Props) => {
             <Typography marginBottom={-0.2}>{name}</Typography>
             <Typography sx={memberCountStyles}>
               <Person sx={memberIconStyles} />
-              {t("roles.labels.members", { count: 0 })}
+              {t("roles.labels.members", { count: memberCount })}
             </Typography>
           </Box>
         </Flex>

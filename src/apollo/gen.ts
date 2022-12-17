@@ -282,6 +282,7 @@ export type Role = {
   color: Scalars["String"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
+  memberCount: Scalars["Float"];
   members: Array<RoleMember>;
   name: Scalars["String"];
   permissions: Array<Permission>;
@@ -931,6 +932,7 @@ export type RoleFragment = {
   id: number;
   name: string;
   color: string;
+  memberCount: number;
 };
 
 export type CreateRoleMutationVariables = Exact<{
@@ -941,7 +943,13 @@ export type CreateRoleMutation = {
   __typename?: "Mutation";
   createRole: {
     __typename?: "CreateRolePayload";
-    role: { __typename?: "Role"; id: number; name: string; color: string };
+    role: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+    };
   };
 };
 
@@ -965,6 +973,7 @@ export type EditRoleQuery = {
     id: number;
     name: string;
     color: string;
+    memberCount: number;
     permissions: Array<{
       __typename?: "Permission";
       id: number;
@@ -983,6 +992,7 @@ export type ServerRolesQuery = {
     id: number;
     name: string;
     color: string;
+    memberCount: number;
   }>;
 };
 
@@ -1226,6 +1236,7 @@ export const RoleFragmentDoc = gql`
     id
     name
     color
+    memberCount
   }
 `;
 export const EditProfileFormFragmentDoc = gql`

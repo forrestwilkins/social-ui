@@ -1,4 +1,10 @@
-import { Card, CardContent, CardProps, FormGroup } from "@mui/material";
+import {
+  Card,
+  CardContent as MuiCardContent,
+  CardProps,
+  FormGroup,
+  styled,
+} from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
@@ -19,6 +25,12 @@ import { generateRandom } from "../../utils/common.utils";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 18,
+  },
+}));
 
 interface Props extends CardProps {
   editRole?: RoleFragment;

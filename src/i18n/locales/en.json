@@ -162,6 +162,11 @@
     "labels": {
       "members_one": "{{count}} Member",
       "members_other": "{{count}} Members"
+    },
+    "tabs": {
+      "display": "Display",
+      "permissions": "Permissions",
+      "members": "Members"
     }
   },
 

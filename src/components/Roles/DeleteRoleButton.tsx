@@ -1,5 +1,10 @@
+import produce from "immer";
 import { toastVar } from "../../apollo/cache";
-import { useDeleteRoleMutation } from "../../apollo/gen";
+import {
+  ServerRolesDocument,
+  ServerRolesQuery,
+  useDeleteRoleMutation,
+} from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
@@ -14,10 +19,25 @@ const DeleteRoleButton = ({ roleId }: Props) => {
   const t = useTranslate();
 
   const handleClick = async () => {
-    await redirectTo(NavigationPaths.Home);
+    await redirectTo(NavigationPaths.Roles);
 
     await deleteRole({
       variables: { id: roleId },
+      update(cache) {
+        cache.updateQuery<ServerRolesQuery>(
+          { query: ServerRolesDocument },
+          (rolesData) =>
+            produce(rolesData, (draft) => {
+              if (!draft) {
+                return;
+              }
+              const index = draft.serverRoles.findIndex(
+                (role) => role.id === roleId
+              );
+              draft.serverRoles.splice(index, 1);
+            })
+        );
+      },
       onError() {
         toastVar({
           status: "error",

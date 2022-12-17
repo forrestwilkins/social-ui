@@ -37,6 +37,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        serverRoles: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
     User: {

@@ -10,19 +10,26 @@ import { AddMemberTabFragment } from "../../apollo/gen";
 import { useTranslate } from "../../hooks/common.hooks";
 import { inDevToast } from "../../utils/common.utils";
 import Flex from "../Shared/Flex";
+import RoleMember from "./RoleMember";
 
-const CardContent = styled(MuiCardContent)(() => ({
+const FlexCardContent = styled(MuiCardContent)(() => ({
   display: "flex",
   justifyContent: "space-between",
   paddingBottom: 12,
   paddingTop: 13,
 }));
 
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 16,
+  },
+}));
+
 interface Props {
   role: AddMemberTabFragment;
 }
 
-const AddMemberTab = ({ role }: Props) => {
+const AddMemberTab = ({ role: { members } }: Props) => {
   const t = useTranslate();
 
   const addCircleStyles = {
@@ -34,7 +41,7 @@ const AddMemberTab = ({ role }: Props) => {
     <>
       <Card sx={{ cursor: "pointer" }} onClick={() => inDevToast()}>
         <CardActionArea>
-          <CardContent>
+          <FlexCardContent>
             <Flex>
               <AddCircle color="primary" sx={addCircleStyles} />
               <Typography color="primary">
@@ -46,13 +53,16 @@ const AddMemberTab = ({ role }: Props) => {
               fontSize="small"
               sx={{ transform: "translateY(2px)" }}
             />
-          </CardContent>
+          </FlexCardContent>
         </CardActionArea>
       </Card>
 
       <Card>
-        {/* TODO: List role members here */}
-        <CardContent>{JSON.stringify(role.members)}</CardContent>
+        <CardContent>
+          {members.map((member) => (
+            <RoleMember roleMember={member} key={member.id} />
+          ))}
+        </CardContent>
       </Card>
     </>
   );

@@ -966,6 +966,17 @@ export type RoleFragment = {
   memberCount: number;
 };
 
+export type RoleMemberFragment = {
+  __typename?: "RoleMember";
+  id: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; filename: string; id: number };
+  };
+};
+
 export type CreateRoleMutationVariables = Exact<{
   roleData: CreateRoleInput;
 }>;
@@ -1290,17 +1301,23 @@ export const PostFormFragmentDoc = gql`
   }
   ${AttachedImageFragmentDoc}
 `;
+export const RoleMemberFragmentDoc = gql`
+  fragment RoleMember on RoleMember {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const AddMemberTabFragmentDoc = gql`
   fragment AddMemberTab on Role {
     id
     members {
-      id
-      user {
-        ...UserAvatar
-      }
+      ...RoleMember
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${RoleMemberFragmentDoc}
 `;
 export const RoleFragmentDoc = gql`
   fragment Role on Role {

@@ -1,15 +1,12 @@
 import { gql } from "@apollo/client";
-import { UserAvatarFragmentDoc } from "../../gen";
+import { RoleMemberFragmentDoc } from "../../gen";
 
 gql`
   fragment AddMemberTab on Role {
     id
     members {
-      id
-      user {
-        ...UserAvatar
-      }
+      ...RoleMember
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${RoleMemberFragmentDoc}
 `;

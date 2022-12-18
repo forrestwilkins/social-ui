@@ -943,6 +943,21 @@ export type PostsQuery = {
   }>;
 };
 
+export type AddMemberTabFragment = {
+  __typename?: "Role";
+  id: number;
+  members: Array<{
+    __typename?: "RoleMember";
+    id: number;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    };
+  }>;
+};
+
 export type RoleFragment = {
   __typename?: "Role";
   id: number;
@@ -1013,6 +1028,16 @@ export type EditRoleQuery = {
       id: number;
       name: string;
       enabled: boolean;
+    }>;
+    members: Array<{
+      __typename?: "RoleMember";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
+      };
     }>;
   };
 };
@@ -1264,6 +1289,18 @@ export const PostFormFragmentDoc = gql`
     }
   }
   ${AttachedImageFragmentDoc}
+`;
+export const AddMemberTabFragmentDoc = gql`
+  fragment AddMemberTab on Role {
+    id
+    members {
+      id
+      user {
+        ...UserAvatar
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
 `;
 export const RoleFragmentDoc = gql`
   fragment Role on Role {
@@ -2839,6 +2876,7 @@ export const EditRoleDocument = gql`
   query EditRole($id: Int!) {
     role(id: $id) {
       ...Role
+      ...AddMemberTab
       permissions {
         id
         name
@@ -2847,6 +2885,7 @@ export const EditRoleDocument = gql`
     }
   }
   ${RoleFragmentDoc}
+  ${AddMemberTabFragmentDoc}
 `;
 
 /**

@@ -28,13 +28,14 @@ const EditRole: NextPage = () => {
     variables: { id },
     skip: !id,
   });
+  const role = data?.role;
 
   const { asPath } = useRouter();
   const isAboveSmall = useAboveBreakpoint("sm");
   const t = useTranslate();
 
   useEffect(() => {
-    if (data) {
+    if (role) {
       breadcrumbsVar({
         path: asPath,
         breadcrumbs: [
@@ -43,12 +44,12 @@ const EditRole: NextPage = () => {
             href: NavigationPaths.Roles,
           },
           {
-            label: data.role.name,
+            label: role.name,
           },
         ],
       });
     }
-  }, [t, asPath, data]);
+  }, [t, asPath, role]);
 
   const handleTabChange = (_: SyntheticEvent<Element, Event>, value: number) =>
     setTab(value);
@@ -61,7 +62,7 @@ const EditRole: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!role) {
     return null;
   }
 
@@ -82,14 +83,14 @@ const EditRole: NextPage = () => {
 
       {tab === 0 && (
         <>
-          <RoleForm editRole={data.role} />
-          <DeleteRoleButton roleId={data.role.id} />
+          <RoleForm editRole={role} />
+          <DeleteRoleButton roleId={role.id} />
         </>
       )}
 
       {tab === 1 && <>{t("prompts.featureInDevelopment")}</>}
 
-      {tab === 2 && <AddMemberTab />}
+      {tab === 2 && <AddMemberTab role={role} />}
     </>
   );
 };

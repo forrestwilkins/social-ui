@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useEditRoleQuery } from "../../../apollo/gen";
+import AddMemberTab from "../../../components/Roles/AddMemberTab";
 import DeleteRoleButton from "../../../components/Roles/DeleteRoleButton";
 import RoleForm from "../../../components/Roles/RoleForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
@@ -86,7 +87,9 @@ const EditRole: NextPage = () => {
         </>
       )}
 
-      {tab !== 0 && <>{t("prompts.featureInDevelopment")}</>}
+      {tab === 1 && <>{t("prompts.featureInDevelopment")}</>}
+
+      {tab === 2 && <AddMemberTab />}
     </>
   );
 };

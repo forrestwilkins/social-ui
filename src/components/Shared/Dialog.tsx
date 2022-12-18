@@ -1,12 +1,16 @@
+import { Close } from "@mui/icons-material";
 import {
+  AppBar,
   Button,
   Dialog as MuiDialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
+  IconButton,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import { ReactNode } from "react";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useIsDesktop } from "../../hooks/common.hooks";
+import { Blurple } from "../../styles/theme";
 
 interface Props {
   actionLabel?: string;
@@ -25,20 +29,37 @@ const Dialog = ({
   open,
   title,
 }: Props) => {
-  const t = useTranslate();
+  const isDesktop = useIsDesktop();
 
   return (
-    <MuiDialog open={open}>
-      <DialogTitle>{title}</DialogTitle>
+    <MuiDialog open={open} fullScreen={!isDesktop}>
+      <AppBar sx={{ position: "relative" }}>
+        <Toolbar sx={{ backgroundColor: Blurple.Primary }}>
+          <IconButton
+            aria-label="close"
+            color="primary"
+            edge="start"
+            onClick={onClose}
+          >
+            <Close />
+          </IconButton>
+          <Typography
+            color="primary"
+            component="div"
+            sx={{ marginLeft: 1.25, flex: 1 }}
+            variant="h6"
+          >
+            {title}
+          </Typography>
+          <Button color="primary" onClick={closingAction}>
+            {actionLabel}
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-      <DialogContent dividers sx={{ width: "80vw" }}>
+      <DialogContent dividers sx={isDesktop ? { width: "80vw" } : {}}>
         {children}
       </DialogContent>
-
-      <DialogActions>
-        <Button onClick={onClose}>{t("actions.cancel")}</Button>
-        <Button onClick={closingAction}>{actionLabel}</Button>
-      </DialogActions>
     </MuiDialog>
   );
 };

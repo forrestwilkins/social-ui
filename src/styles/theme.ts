@@ -1,6 +1,13 @@
 import { grey } from "@mui/material/colors";
 import { createTheme, Theme } from "@mui/material/styles";
 
+export enum Blurple {
+  Active = "#4666A8",
+  Disabled = "#4C5B91",
+  Hover = "#637DC9",
+  Primary = "#7289DA",
+}
+
 declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
     navigation: string;

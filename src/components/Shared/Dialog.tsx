@@ -31,6 +31,14 @@ const Dialog = ({
 }: Props) => {
   const isDesktop = useIsDesktop();
 
+  const titleStyles = {
+    flex: 1,
+    marginLeft: 1.25,
+  };
+  const contentStyles = {
+    width: isDesktop ? "80vw" : undefined,
+  };
+
   return (
     <MuiDialog open={open} fullScreen={!isDesktop}>
       <AppBar sx={{ position: "relative" }}>
@@ -46,7 +54,7 @@ const Dialog = ({
           <Typography
             color="primary"
             component="div"
-            sx={{ marginLeft: 1.25, flex: 1 }}
+            sx={titleStyles}
             variant="h6"
           >
             {title}
@@ -57,9 +65,7 @@ const Dialog = ({
         </Toolbar>
       </AppBar>
 
-      <DialogContent dividers sx={isDesktop ? { width: "80vw" } : {}}>
-        {children}
-      </DialogContent>
+      <DialogContent sx={contentStyles}>{children}</DialogContent>
     </MuiDialog>
   );
 };

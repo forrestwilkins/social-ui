@@ -57,13 +57,15 @@ const AddMemberTab = ({ role: { members } }: Props) => {
         </CardActionArea>
       </Card>
 
-      <Card>
-        <CardContent>
-          {members.map((member) => (
-            <RoleMember roleMember={member} key={member.id} />
-          ))}
-        </CardContent>
-      </Card>
+      {!!members.length && (
+        <Card>
+          <CardContent>
+            {members.map((member) => (
+              <RoleMember roleMember={member} key={member.id} />
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };

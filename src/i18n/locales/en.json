@@ -151,7 +151,8 @@
   "roles": {
     "actions": {
       "delete": "Delete Role",
-      "addMembers": "Add members"
+      "addMembers": "Add members",
+      "add": "Add"
     },
     "headers": {
       "serverRoles": "Server Roles"

@@ -6,9 +6,11 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { AddMemberTabFragment } from "../../apollo/gen";
 import { useTranslate } from "../../hooks/common.hooks";
 import { inDevToast } from "../../utils/common.utils";
+import Dialog from "../Shared/Dialog";
 import Flex from "../Shared/Flex";
 import RoleMember from "./RoleMember";
 
@@ -30,6 +32,7 @@ interface Props {
 }
 
 const AddMemberTab = ({ role: { members } }: Props) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const t = useTranslate();
 
   const addCircleStyles = {
@@ -37,9 +40,17 @@ const AddMemberTab = ({ role: { members } }: Props) => {
     marginRight: 1.25,
   };
 
+  const handleAddMembersCardClick = () => setDialogOpen(true);
+  const handleCloseDialog = () => setDialogOpen(false);
+
+  const handleSubmit = () => {
+    handleCloseDialog();
+    inDevToast();
+  };
+
   return (
     <>
-      <Card sx={{ cursor: "pointer" }} onClick={() => inDevToast()}>
+      <Card sx={{ cursor: "pointer" }} onClick={handleAddMembersCardClick}>
         <CardActionArea>
           <FlexCardContent>
             <Flex>
@@ -56,6 +67,16 @@ const AddMemberTab = ({ role: { members } }: Props) => {
           </FlexCardContent>
         </CardActionArea>
       </Card>
+
+      <Dialog
+        title={t("roles.actions.addMembers")}
+        actionLabel={t("roles.actions.add")}
+        closingAction={handleSubmit}
+        onClose={handleCloseDialog}
+        open={dialogOpen}
+      >
+        <Typography>TODO: Show available users here</Typography>
+      </Dialog>
 
       {!!members.length && (
         <Card>

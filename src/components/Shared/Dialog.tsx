@@ -8,7 +8,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ReactNode } from "react";
+import { KeyboardEvent, ReactNode } from "react";
+import { KeyCodes } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import { Blurple } from "../../styles/theme";
 
@@ -39,8 +40,14 @@ const Dialog = ({
     width: isDesktop ? "80vw" : undefined,
   };
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.code === KeyCodes.Escape) {
+      onClose();
+    }
+  };
+
   return (
-    <MuiDialog open={open} fullScreen={!isDesktop}>
+    <MuiDialog open={open} fullScreen={!isDesktop} onKeyDown={handleKeyDown}>
       <AppBar sx={{ position: "relative" }}>
         <Toolbar sx={{ backgroundColor: Blurple.Primary }}>
           <IconButton

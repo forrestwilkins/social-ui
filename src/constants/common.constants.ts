@@ -65,10 +65,15 @@ export enum HttpMethod {
   Post = "POST",
 }
 
-export enum Events {
+export enum BrowserEvents {
   Keydown = "keydown",
   Resize = "resize",
   Scroll = "scroll",
+}
+
+export enum KeyCodes {
+  Enter = "Enter",
+  Escape = "Escape",
 }
 
 export enum Time {

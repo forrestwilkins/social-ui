@@ -1022,11 +1022,11 @@ export type UpdateRoleMutation = {
   };
 };
 
-export type EditRoleQueryVariables = Exact<{
+export type EditServerRoleQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type EditRoleQuery = {
+export type EditServerRoleQuery = {
   __typename?: "Query";
   role: {
     __typename?: "Role";
@@ -1051,6 +1051,12 @@ export type EditRoleQuery = {
       };
     }>;
   };
+  users: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; filename: string; id: number };
+  }>;
 };
 
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2889,8 +2895,8 @@ export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
   UpdateRoleMutation,
   UpdateRoleMutationVariables
 >;
-export const EditRoleDocument = gql`
-  query EditRole($id: Int!) {
+export const EditServerRoleDocument = gql`
+  query EditServerRole($id: Int!) {
     role(id: $id) {
       ...Role
       ...AddMemberTab
@@ -2900,55 +2906,64 @@ export const EditRoleDocument = gql`
         enabled
       }
     }
+    users {
+      ...UserAvatar
+    }
   }
   ${RoleFragmentDoc}
   ${AddMemberTabFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
 
 /**
- * __useEditRoleQuery__
+ * __useEditServerRoleQuery__
  *
- * To run a query within a React component, call `useEditRoleQuery` and pass it any options that fit your needs.
- * When your component renders, `useEditRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useEditServerRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditServerRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useEditRoleQuery({
+ * const { data, loading, error } = useEditServerRoleQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useEditRoleQuery(
-  baseOptions: Apollo.QueryHookOptions<EditRoleQuery, EditRoleQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<EditRoleQuery, EditRoleQueryVariables>(
-    EditRoleDocument,
-    options
-  );
-}
-export function useEditRoleLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    EditRoleQuery,
-    EditRoleQueryVariables
+export function useEditServerRoleQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditServerRoleQuery,
+    EditServerRoleQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<EditRoleQuery, EditRoleQueryVariables>(
-    EditRoleDocument,
+  return Apollo.useQuery<EditServerRoleQuery, EditServerRoleQueryVariables>(
+    EditServerRoleDocument,
     options
   );
 }
-export type EditRoleQueryHookResult = ReturnType<typeof useEditRoleQuery>;
-export type EditRoleLazyQueryHookResult = ReturnType<
-  typeof useEditRoleLazyQuery
+export function useEditServerRoleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditServerRoleQuery,
+    EditServerRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditServerRoleQuery, EditServerRoleQueryVariables>(
+    EditServerRoleDocument,
+    options
+  );
+}
+export type EditServerRoleQueryHookResult = ReturnType<
+  typeof useEditServerRoleQuery
 >;
-export type EditRoleQueryResult = Apollo.QueryResult<
-  EditRoleQuery,
-  EditRoleQueryVariables
+export type EditServerRoleLazyQueryHookResult = ReturnType<
+  typeof useEditServerRoleLazyQuery
+>;
+export type EditServerRoleQueryResult = Apollo.QueryResult<
+  EditServerRoleQuery,
+  EditServerRoleQueryVariables
 >;
 export const ServerRolesDocument = gql`
   query ServerRoles {

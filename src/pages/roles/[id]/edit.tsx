@@ -5,7 +5,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { breadcrumbsVar } from "../../../apollo/cache";
-import { useEditRoleQuery } from "../../../apollo/gen";
+import { useEditServerRoleQuery } from "../../../apollo/gen";
 import AddMemberTab from "../../../components/Roles/AddMemberTab";
 import DeleteRoleButton from "../../../components/Roles/DeleteRoleButton";
 import RoleForm from "../../../components/Roles/RoleForm";
@@ -19,12 +19,12 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   },
 }));
 
-const EditRole: NextPage = () => {
+const EditServerRole: NextPage = () => {
   const [tab, setTab] = useState(0);
 
   const { query } = useRouter();
   const id = parseInt(String(query?.id));
-  const { data, loading, error } = useEditRoleQuery({
+  const { data, loading, error } = useEditServerRoleQuery({
     variables: { id },
     skip: !id,
   });
@@ -90,9 +90,9 @@ const EditRole: NextPage = () => {
 
       {tab === 1 && <>{t("prompts.featureInDevelopment")}</>}
 
-      {tab === 2 && <AddMemberTab role={role} />}
+      {tab === 2 && <AddMemberTab role={role} users={data.users} />}
     </>
   );
 };
 
-export default EditRole;
+export default EditServerRole;

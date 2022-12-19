@@ -1,8 +1,12 @@
 import { gql } from "@apollo/client";
-import { AddMemberTabFragmentDoc, RoleFragmentDoc } from "../../gen";
+import {
+  AddMemberTabFragmentDoc,
+  RoleFragmentDoc,
+  UserAvatarFragmentDoc,
+} from "../../gen";
 
 gql`
-  query EditRole($id: Int!) {
+  query EditServerRole($id: Int!) {
     role(id: $id) {
       ...Role
       ...AddMemberTab
@@ -12,7 +16,11 @@ gql`
         enabled
       }
     }
+    users {
+      ...UserAvatar
+    }
   }
   ${AddMemberTabFragmentDoc}
   ${RoleFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;

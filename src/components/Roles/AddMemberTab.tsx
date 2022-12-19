@@ -7,11 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { AddMemberTabFragment } from "../../apollo/gen";
+import { AddMemberTabFragment, UserAvatarFragment } from "../../apollo/gen";
 import { useTranslate } from "../../hooks/common.hooks";
 import { inDevToast } from "../../utils/common.utils";
 import Dialog from "../Shared/Dialog";
 import Flex from "../Shared/Flex";
+import AddMemberOption from "./AddMemberOption";
 import RoleMember from "./RoleMember";
 
 const FlexCardContent = styled(MuiCardContent)(() => ({
@@ -29,9 +30,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props {
   role: AddMemberTabFragment;
+  users: UserAvatarFragment[];
 }
 
-const AddMemberTab = ({ role: { members } }: Props) => {
+const AddMemberTab = ({ role: { members }, users }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const t = useTranslate();
 
@@ -75,7 +77,9 @@ const AddMemberTab = ({ role: { members } }: Props) => {
         onClose={handleCloseDialog}
         open={dialogOpen}
       >
-        <Typography>TODO: Show available users here</Typography>
+        {users.map((user) => (
+          <AddMemberOption user={user} key={user.id} />
+        ))}
       </Dialog>
 
       {!!members.length && (

@@ -36,14 +36,18 @@ const Dialog = ({
     flex: 1,
     marginLeft: 1.25,
   };
-  const contentStyles = {
-    width: isDesktop ? "80vw" : undefined,
-  };
+  const contentStyles = isDesktop
+    ? {
+        minHeight: "65vh",
+        width: "600px",
+      }
+    : {};
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.code === KeyCodes.Escape) {
-      onClose();
+    if (event.code !== KeyCodes.Escape) {
+      return;
     }
+    onClose();
   };
 
   return (

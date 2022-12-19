@@ -15,9 +15,9 @@ gql`
         name
         enabled
       }
-    }
-    users {
-      ...UserAvatar
+      availableUsersToAdd {
+        ...UserAvatar
+      }
     }
   }
   ${AddMemberTabFragmentDoc}

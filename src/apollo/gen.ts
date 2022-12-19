@@ -284,6 +284,7 @@ export type QueryUserArgs = {
 
 export type Role = {
   __typename?: "Role";
+  availableUsersToAdd: Array<User>;
   color: Scalars["String"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
@@ -1040,6 +1041,12 @@ export type EditServerRoleQuery = {
       name: string;
       enabled: boolean;
     }>;
+    availableUsersToAdd: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; filename: string; id: number };
+    }>;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -1051,12 +1058,6 @@ export type EditServerRoleQuery = {
       };
     }>;
   };
-  users: Array<{
-    __typename?: "User";
-    id: number;
-    name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
-  }>;
 };
 
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2905,9 +2906,9 @@ export const EditServerRoleDocument = gql`
         name
         enabled
       }
-    }
-    users {
-      ...UserAvatar
+      availableUsersToAdd {
+        ...UserAvatar
+      }
     }
   }
   ${RoleFragmentDoc}

@@ -90,7 +90,9 @@ const EditServerRole: NextPage = () => {
 
       {tab === 1 && <>{t("prompts.featureInDevelopment")}</>}
 
-      {tab === 2 && <AddMemberTab role={role} users={data.users} />}
+      {tab === 2 && (
+        <AddMemberTab role={role} users={role.availableUsersToAdd} />
+      )}
     </>
   );
 };

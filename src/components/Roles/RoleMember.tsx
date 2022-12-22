@@ -1,11 +1,18 @@
 import { RemoveCircle } from "@mui/icons-material";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, styled, Typography } from "@mui/material";
 import { RoleMemberFragment } from "../../apollo/gen";
 import { inDevToast } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
+
+const OuterFlex = styled(Flex)(() => ({
+  marginBottom: 12,
+  "&:last-child": {
+    marginBottom: 0,
+  },
+}));
 
 interface Props {
   roleMember: RoleMemberFragment;
@@ -14,7 +21,7 @@ interface Props {
 const RoleMember = ({ roleMember: { user } }: Props) => {
   const userProfilePath = getUserProfilePath(user.name);
   return (
-    <Flex justifyContent="space-between">
+    <OuterFlex justifyContent="space-between">
       <Link href={userProfilePath}>
         <Flex>
           <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
@@ -27,7 +34,7 @@ const RoleMember = ({ roleMember: { user } }: Props) => {
       <IconButton onClick={() => inDevToast()}>
         <RemoveCircle />
       </IconButton>
-    </Flex>
+    </OuterFlex>
   );
 };
 

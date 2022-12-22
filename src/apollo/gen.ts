@@ -334,9 +334,10 @@ export type UpdatePostPayload = {
 };
 
 export type UpdateRoleInput = {
-  color: Scalars["String"];
+  color?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
-  name: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
+  selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 
 export type UpdateRolePayload = {

@@ -7,9 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { AddMemberTabFragment, UserAvatarFragment } from "../../apollo/gen";
+import {
+  AddMemberTabFragment,
+  UserAvatarFragment,
+  useUpdateRoleMutation,
+} from "../../apollo/gen";
 import { useTranslate } from "../../hooks/common.hooks";
-import { inDevToast } from "../../utils/common.utils";
 import Dialog from "../Shared/Dialog";
 import Flex from "../Shared/Flex";
 import AddMemberOption from "./AddMemberOption";
@@ -33,8 +36,11 @@ interface Props {
   users: UserAvatarFragment[];
 }
 
-const AddMemberTab = ({ role: { members }, users }: Props) => {
+const AddMemberTab = ({ role: { id, members }, users }: Props) => {
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [updateRole] = useUpdateRoleMutation();
+
   const t = useTranslate();
 
   const addCircleStyles = {
@@ -45,10 +51,16 @@ const AddMemberTab = ({ role: { members }, users }: Props) => {
   const handleAddMembersCardClick = () => setDialogOpen(true);
   const handleCloseDialog = () => setDialogOpen(false);
 
-  const handleSubmit = () => {
-    handleCloseDialog();
-    inDevToast();
-  };
+  const handleSubmit = async () =>
+    await updateRole({
+      variables: {
+        roleData: { id, selectedUserIds },
+      },
+      onCompleted() {
+        handleCloseDialog();
+        setSelectedUserIds([]);
+      },
+    });
 
   return (
     <>
@@ -78,7 +90,12 @@ const AddMemberTab = ({ role: { members }, users }: Props) => {
         open={dialogOpen}
       >
         {users.map((user) => (
-          <AddMemberOption user={user} key={user.id} />
+          <AddMemberOption
+            key={user.id}
+            selectedUserIds={selectedUserIds}
+            setSelectedUserIds={setSelectedUserIds}
+            user={user}
+          />
         ))}
       </Dialog>
 

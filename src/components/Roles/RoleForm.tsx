@@ -109,9 +109,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
     }
   };
 
-  const handleChangeComplete = (color: ColorResult) => {
-    setColor(color.hex);
-  };
+  const handleChangeComplete = (color: ColorResult) => setColor(color.hex);
 
   const unsavedColorChange = () => {
     if (!editRole) {

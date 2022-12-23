@@ -1020,6 +1020,20 @@ export type UpdateRoleMutation = {
       name: string;
       color: string;
       memberCount: number;
+      members: Array<{
+        __typename?: "RoleMember";
+        id: number;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: {
+            __typename?: "Image";
+            filename: string;
+            id: number;
+          };
+        };
+      }>;
     };
   };
 };
@@ -2849,10 +2863,14 @@ export const UpdateRoleDocument = gql`
     updateRole(roleData: $roleData) {
       role {
         ...Role
+        members {
+          ...RoleMember
+        }
       }
     }
   }
   ${RoleFragmentDoc}
+  ${RoleMemberFragmentDoc}
 `;
 export type UpdateRoleMutationFn = Apollo.MutationFunction<
   UpdateRoleMutation,

@@ -76,6 +76,15 @@ const cache = new InMemoryCache({
         },
       },
     },
+    Role: {
+      fields: {
+        availableUsersToAdd: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
   },
 });
 

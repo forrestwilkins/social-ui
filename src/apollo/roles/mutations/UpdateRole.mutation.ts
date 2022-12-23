@@ -1,5 +1,9 @@
 import { gql } from "@apollo/client";
-import { RoleFragmentDoc, RoleMemberFragmentDoc } from "../../gen";
+import {
+  RoleFragmentDoc,
+  RoleMemberFragmentDoc,
+  UserAvatarFragmentDoc,
+} from "../../gen";
 
 gql`
   mutation UpdateRole($roleData: UpdateRoleInput!) {
@@ -9,9 +13,13 @@ gql`
         members {
           ...RoleMember
         }
+        availableUsersToAdd {
+          ...UserAvatar
+        }
       }
     }
   }
   ${RoleFragmentDoc}
   ${RoleMemberFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;

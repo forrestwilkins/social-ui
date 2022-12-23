@@ -66,6 +66,11 @@ export type CreateRolePayload = {
   role: Role;
 };
 
+export type DeleteRoleMemberPayload = {
+  __typename?: "DeleteRoleMemberPayload";
+  role: Role;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -133,6 +138,7 @@ export type Mutation = {
   deleteImage: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
   deleteRole: Scalars["Boolean"];
+  deleteRoleMember: DeleteRoleMemberPayload;
   deleteUser: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
   leaveGroup: Scalars["Boolean"];
@@ -183,6 +189,10 @@ export type MutationDeletePostArgs = {
 };
 
 export type MutationDeleteRoleArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteRoleMemberArgs = {
   id: Scalars["Int"];
 };
 
@@ -1006,6 +1016,26 @@ export type DeleteRoleMutation = {
   deleteRole: boolean;
 };
 
+export type DeleteRoleMemberMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteRoleMemberMutation = {
+  __typename?: "Mutation";
+  deleteRoleMember: {
+    __typename?: "DeleteRoleMemberPayload";
+    role: {
+      __typename?: "Role";
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
+      }>;
+    };
+  };
+};
+
 export type UpdateRoleMutationVariables = Exact<{
   roleData: UpdateRoleInput;
 }>;
@@ -1033,6 +1063,12 @@ export type UpdateRoleMutation = {
             id: number;
           };
         };
+      }>;
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; filename: string; id: number };
       }>;
     };
   };
@@ -2858,6 +2894,61 @@ export type DeleteRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteRoleMutation,
   DeleteRoleMutationVariables
 >;
+export const DeleteRoleMemberDocument = gql`
+  mutation DeleteRoleMember($id: Int!) {
+    deleteRoleMember(id: $id) {
+      role {
+        availableUsersToAdd {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type DeleteRoleMemberMutationFn = Apollo.MutationFunction<
+  DeleteRoleMemberMutation,
+  DeleteRoleMemberMutationVariables
+>;
+
+/**
+ * __useDeleteRoleMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoleMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoleMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoleMemberMutation, { data, loading, error }] = useDeleteRoleMemberMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoleMemberMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRoleMemberMutation,
+    DeleteRoleMemberMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRoleMemberMutation,
+    DeleteRoleMemberMutationVariables
+  >(DeleteRoleMemberDocument, options);
+}
+export type DeleteRoleMemberMutationHookResult = ReturnType<
+  typeof useDeleteRoleMemberMutation
+>;
+export type DeleteRoleMemberMutationResult =
+  Apollo.MutationResult<DeleteRoleMemberMutation>;
+export type DeleteRoleMemberMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRoleMemberMutation,
+  DeleteRoleMemberMutationVariables
+>;
 export const UpdateRoleDocument = gql`
   mutation UpdateRole($roleData: UpdateRoleInput!) {
     updateRole(roleData: $roleData) {
@@ -2866,11 +2957,15 @@ export const UpdateRoleDocument = gql`
         members {
           ...RoleMember
         }
+        availableUsersToAdd {
+          ...UserAvatar
+        }
       }
     }
   }
   ${RoleFragmentDoc}
   ${RoleMemberFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
 export type UpdateRoleMutationFn = Apollo.MutationFunction<
   UpdateRoleMutation,

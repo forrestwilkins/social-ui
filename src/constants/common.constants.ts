@@ -1,7 +1,8 @@
 export const API_ROOT = "/api";
-export const SCROLL_DURATION = 250;
-export const MIDDOT_WITH_SPACES = " · ";
 export const UNAUTHORIZED = "Unauthorized";
+
+export const MIDDOT_WITH_SPACES = " · ";
+export const SCROLL_DURATION = 250;
 
 export enum NavigationPaths {
   About = "/about",
@@ -30,6 +31,7 @@ export enum TypeNames {
   Image = "Image",
   MemberRequest = "MemberRequest",
   Post = "Post",
+  Role = "Role",
   User = "User",
 }
 

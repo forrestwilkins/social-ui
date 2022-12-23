@@ -103,7 +103,7 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
         <Card>
           <CardContent>
             {members.map((member) => (
-              <RoleMember roleMember={member} key={member.id} />
+              <RoleMember roleMember={member} roleId={id} key={member.id} />
             ))}
           </CardContent>
         </Card>

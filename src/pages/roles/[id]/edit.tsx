@@ -8,6 +8,7 @@ import { breadcrumbsVar } from "../../../apollo/cache";
 import { useEditServerRoleQuery } from "../../../apollo/gen";
 import AddMemberTab from "../../../components/Roles/AddMemberTab";
 import DeleteRoleButton from "../../../components/Roles/DeleteRoleButton";
+import PermissionsForm from "../../../components/Roles/PermissionsForm";
 import RoleForm from "../../../components/Roles/RoleForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
@@ -88,7 +89,7 @@ const EditServerRole: NextPage = () => {
         </>
       )}
 
-      {tab === 1 && <>{t("prompts.featureInDevelopment")}</>}
+      {tab === 1 && <PermissionsForm permissions={role.permissions} />}
 
       {tab === 2 && (
         <AddMemberTab role={role} users={role.availableUsersToAdd} />

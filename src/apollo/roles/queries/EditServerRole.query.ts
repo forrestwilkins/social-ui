@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import {
   AddMemberTabFragmentDoc,
+  PermissionsFormFragmentDoc,
   RoleFragmentDoc,
   UserAvatarFragmentDoc,
 } from "../../gen";
@@ -11,9 +12,7 @@ gql`
       ...Role
       ...AddMemberTab
       permissions {
-        id
-        name
-        enabled
+        ...PermissionsForm
       }
       availableUsersToAdd {
         ...UserAvatar
@@ -21,6 +20,7 @@ gql`
     }
   }
   ${AddMemberTabFragmentDoc}
+  ${PermissionsFormFragmentDoc}
   ${RoleFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;

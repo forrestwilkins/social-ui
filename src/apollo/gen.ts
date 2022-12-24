@@ -240,6 +240,11 @@ export type Permission = {
   role: Role;
 };
 
+export type PermissionInput = {
+  enabled: Scalars["Boolean"];
+  id: Scalars["Int"];
+};
+
 export type Post = {
   __typename?: "Post";
   body: Scalars["String"];
@@ -347,6 +352,7 @@ export type UpdateRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
   name?: InputMaybe<Scalars["String"]>;
+  permissions?: InputMaybe<Array<PermissionInput>>;
   selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 
@@ -970,6 +976,13 @@ export type AddMemberTabFragment = {
   }>;
 };
 
+export type PermissionsFormFragment = {
+  __typename?: "Permission";
+  id: number;
+  name: string;
+  enabled: boolean;
+};
+
 export type RoleFragment = {
   __typename?: "Role";
   id: number;
@@ -1376,6 +1389,13 @@ export const AddMemberTabFragmentDoc = gql`
     }
   }
   ${RoleMemberFragmentDoc}
+`;
+export const PermissionsFormFragmentDoc = gql`
+  fragment PermissionsForm on Permission {
+    id
+    name
+    enabled
+  }
 `;
 export const RoleFragmentDoc = gql`
   fragment Role on Role {

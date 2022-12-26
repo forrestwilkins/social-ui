@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import {
+  PermissionsFormFragmentDoc,
   RoleFragmentDoc,
   RoleMemberFragmentDoc,
   UserAvatarFragmentDoc,
@@ -10,6 +11,9 @@ gql`
     updateRole(roleData: $roleData) {
       role {
         ...Role
+        permissions {
+          ...PermissionsForm
+        }
         members {
           ...RoleMember
         }
@@ -19,6 +23,7 @@ gql`
       }
     }
   }
+  ${PermissionsFormFragmentDoc}
   ${RoleFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}

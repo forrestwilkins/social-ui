@@ -6,10 +6,20 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import { FieldArray, FieldArrayRenderProps, Form, Formik } from "formik";
+import {
+  FieldArray,
+  FieldArrayRenderProps,
+  Form,
+  Formik,
+  FormikHelpers,
+} from "formik";
 import { ChangeEvent } from "react";
 import { toastVar } from "../../apollo/cache";
-import { PermissionInput, PermissionsFormFragment } from "../../apollo/gen";
+import {
+  PermissionInput,
+  PermissionsFormFragment,
+  useUpdateRoleMutation,
+} from "../../apollo/gen";
 import { useTranslate } from "../../hooks/common.hooks";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -26,28 +36,40 @@ interface FormValues {
 
 interface Props extends CardProps {
   permissions: PermissionsFormFragment[];
+  roleId: number;
 }
 
-const PermissionsForm = ({ permissions, ...cardProps }: Props) => {
+const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
+  const [updateRole] = useUpdateRoleMutation();
   const t = useTranslate();
 
   const initialValues: FormValues = {
     permissions: [],
   };
 
-  const handleSubmit = async () =>
-    // formValues: FormValues,
-    // formHelpers: FormikHelpers<FormValues>
-    {
-      try {
-        console.log("TODO: Add submit logic here");
-      } catch (err) {
-        toastVar({
-          status: "error",
-          title: String(err),
-        });
-      }
-    };
+  const handleSubmit = async (
+    { permissions }: FormValues,
+    { setSubmitting }: FormikHelpers<FormValues>
+  ) => {
+    try {
+      updateRole({
+        variables: {
+          roleData: {
+            id: roleId,
+            permissions,
+          },
+        },
+        onCompleted() {
+          setSubmitting(false);
+        },
+      });
+    } catch (err) {
+      toastVar({
+        status: "error",
+        title: String(err),
+      });
+    }
+  };
 
   const handleSwitchChange =
     (

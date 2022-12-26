@@ -89,7 +89,9 @@ const EditServerRole: NextPage = () => {
         </>
       )}
 
-      {tab === 1 && <PermissionsForm permissions={role.permissions} />}
+      {tab === 1 && (
+        <PermissionsForm permissions={role.permissions} roleId={role.id} />
+      )}
 
       {tab === 2 && (
         <AddMemberTab role={role} users={role.availableUsersToAdd} />

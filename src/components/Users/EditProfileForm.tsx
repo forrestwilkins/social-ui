@@ -5,16 +5,14 @@ import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
   EditProfileFormFragment,
+  Image,
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
-import {
-  uploadProfilePicture,
-  uploadUserCoverPhoto,
-} from "../../apollo/users/mutations/UpdateUser.mutation";
+import { ApiRoutes, HttpMethod } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { redirectTo } from "../../utils/common.utils";
+import { multiPartRequest, redirectTo } from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -41,6 +39,16 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
   const initialValues: Omit<UpdateUserInput, "id"> = {
     bio: user.bio || "",
     name: user.name || "",
+  };
+
+  const uploadProfilePicture = (userId: number, data: FormData) => {
+    const path = `${ApiRoutes.Users}/${userId}/profile-picture`;
+    return multiPartRequest<Image>(HttpMethod.Post, path, data);
+  };
+
+  const uploadUserCoverPhoto = (userId: number, data: FormData) => {
+    const path = `${ApiRoutes.Users}/${userId}/cover-photo`;
+    return multiPartRequest<Image>(HttpMethod.Post, path, data);
   };
 
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>

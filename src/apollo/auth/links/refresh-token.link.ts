@@ -6,9 +6,11 @@ import {
   MutationNames,
   UNAUTHORIZED,
 } from "../../../constants/common.constants";
+import { logOutUser } from "../../../utils/auth.utils";
 import { formatGQLError } from "../../../utils/common.utils";
 import { isRefreshingTokenVar } from "../../cache";
-import { refreshToken } from "../mutations/RefreshToken.mutation";
+import client from "../../client";
+import { RefreshTokenDocument } from "../../gen";
 
 type Callback = (arg: unknown) => void;
 
@@ -23,6 +25,18 @@ const onTokenRefreshed = (err: unknown) => {
 const prepareExit = () => {
   onTokenRefreshed(null);
   tokenSubscribers = [];
+};
+
+export const refreshToken = async () => {
+  try {
+    isRefreshingTokenVar(true);
+    await client.mutate({ mutation: RefreshTokenDocument });
+  } catch (err) {
+    await logOutUser();
+    throw err;
+  } finally {
+    isRefreshingTokenVar(false);
+  }
 };
 
 const refreshTokenLink = onError(

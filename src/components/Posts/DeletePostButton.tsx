@@ -1,13 +1,50 @@
+import { ApolloCache, Reference } from "@apollo/client";
+import { Modifiers } from "@apollo/client/cache/core/types/common";
 import { Button } from "@mui/material";
+import produce from "immer";
 import { toastVar } from "../../apollo/cache";
 import {
   DeletePostButtonFragment,
+  PostsDocument,
+  PostsQuery,
   useDeletePostMutation,
 } from "../../apollo/gen";
-import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
+
+export const removePost =
+  (post: DeletePostButtonFragment) => (cache: ApolloCache<any>) => {
+    cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
+      produce(postsData, (draft) => {
+        if (!draft) {
+          return;
+        }
+        const index = draft.posts.findIndex((p) => p.id === post.id);
+        draft.posts.splice(index, 1);
+      })
+    );
+    const fields: Modifiers = {
+      posts(existingPostRefs: Reference[], { readField }) {
+        return existingPostRefs.filter(
+          (ref) => readField("id", ref) !== post.id
+        );
+      },
+    };
+    cache.modify({
+      id: cache.identify(post.user),
+      fields,
+    });
+    if (post.group) {
+      cache.modify({
+        id: cache.identify(post.group),
+        fields,
+      });
+    }
+    const postCacheId = cache.identify(post);
+    cache.evict({ id: postCacheId });
+    cache.gc();
+  };
 
 interface Props {
   post: DeletePostButtonFragment;

@@ -13,6 +13,7 @@ import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
+  Image,
   PostCardFragment,
   PostCardFragmentDoc,
   PostFormFragment,
@@ -23,14 +24,19 @@ import {
   useDeleteImageMutation,
   useUpdatePostMutation,
 } from "../../apollo/gen";
-import { uploadPostImages } from "../../apollo/posts/mutations/CreatePost.mutation";
 import {
+  ApiRoutes,
   FieldNames,
+  HttpMethod,
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { generateRandom, redirectTo } from "../../utils/common.utils";
+import {
+  generateRandom,
+  multiPartRequest,
+  redirectTo,
+} from "../../utils/common.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
@@ -63,6 +69,11 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const initialValues: CreatePostInput = {
     body: editPost ? editPost.body : "",
     groupId,
+  };
+
+  const uploadPostImages = (postId: number, data: FormData) => {
+    const path = `${ApiRoutes.Posts}/${postId}/images`;
+    return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
   };
 
   const handleCreate = async (

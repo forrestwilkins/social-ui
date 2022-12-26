@@ -49,7 +49,7 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
 
   const handleSubmit = async (
     { permissions }: FormValues,
-    { setSubmitting }: FormikHelpers<FormValues>
+    { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
     try {
       updateRole({
@@ -61,6 +61,7 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
         },
         onCompleted() {
           setSubmitting(false);
+          resetForm();
         },
       });
     } catch (err) {
@@ -90,7 +91,7 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
     <Card {...cardProps}>
       <CardContent>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values }) => (
+          {({ values, isSubmitting }) => (
             <Form>
               <FieldArray
                 name="permissions"
@@ -114,11 +115,12 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
                 )}
               />
 
-              {/* TODO: Remove when no longer needed for testing */}
-              {JSON.stringify(values)}
-
               <Flex justifyContent="end">
-                <PrimaryActionButton sx={{ marginTop: 1.5 }} type="submit">
+                <PrimaryActionButton
+                  disabled={isSubmitting || !values.permissions.length}
+                  sx={{ marginTop: 1.5 }}
+                  type="submit"
+                >
                   {t("actions.save")}
                 </PrimaryActionButton>
               </Flex>

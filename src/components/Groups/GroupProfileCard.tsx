@@ -19,7 +19,6 @@ import {
   GroupProfileCardFragment,
   useDeleteGroupMutation,
 } from "../../apollo/gen";
-import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
@@ -35,6 +34,7 @@ import CoverPhoto from "../Images/CoverPhoto";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import { removeGroup } from "./GroupCard";
 import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({

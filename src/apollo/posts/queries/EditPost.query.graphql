@@ -1,0 +1,6 @@
+query EditPost($id: Int!) {
+  post(id: $id) {
+    ...PostForm
+    ...DeletePostButton
+  }
+}

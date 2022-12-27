@@ -14,6 +14,11 @@ import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useAboveBreakpoint, useTranslate } from "../../../hooks/common.hooks";
 
+enum EditRoleTabs {
+  Permissions = "permissions",
+  Members = "members",
+}
+
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     minWidth: 160,
@@ -22,18 +27,18 @@ const Tab = styled(MuiTab)(({ theme }) => ({
 
 const EditServerRole: NextPage = () => {
   const [tab, setTab] = useState(0);
+  const { query, asPath, replace } = useRouter();
 
-  const { query } = useRouter();
   const id = parseInt(String(query?.id));
   const { data, loading, error } = useEditServerRoleQuery({
     variables: { id },
     skip: !id,
   });
-  const role = data?.role;
 
-  const { asPath } = useRouter();
   const isAboveSmall = useAboveBreakpoint("sm");
   const t = useTranslate();
+
+  const role = data?.role;
 
   useEffect(() => {
     if (role) {
@@ -52,8 +57,35 @@ const EditServerRole: NextPage = () => {
     }
   }, [t, asPath, role]);
 
-  const handleTabChange = (_: SyntheticEvent<Element, Event>, value: number) =>
+  useEffect(() => {
+    if (query.tab === EditRoleTabs.Permissions) {
+      setTab(1);
+    }
+    if (query.tab === EditRoleTabs.Members) {
+      setTab(2);
+    }
+  }, [query.tab]);
+
+  const handleTabChange = (
+    _: SyntheticEvent<Element, Event>,
+    value: number
+  ) => {
+    if (value === 1) {
+      replace({
+        query: { ...query, tab: EditRoleTabs.Permissions },
+      });
+    }
+    if (value === 2) {
+      replace({
+        query: { ...query, tab: EditRoleTabs.Members },
+      });
+    }
+    if (query.tab && value === 0) {
+      delete query.tab;
+      replace({ query });
+    }
     setTab(value);
+  };
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

@@ -13,8 +13,8 @@ import {
   PermissionsFormFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
-import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
+import { getPermissionText } from "../../utils/role.utils";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -35,51 +35,6 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
 
   const initialValues: FormValues = {
     permissions: [],
-  };
-
-  const getPermissionText = (name: string) => {
-    switch (name) {
-      case ServerPermissions.CreateInvites:
-        return {
-          name: t("permissions.names.createInvites"),
-          description: t("permissions.descriptions.createInvites"),
-        };
-      case ServerPermissions.ManageComments:
-        return {
-          name: t("permissions.names.manageComments"),
-          description: t("permissions.descriptions.manageComments"),
-        };
-      case ServerPermissions.ManageEvents:
-        return {
-          name: t("permissions.names.manageEvents"),
-          description: t("permissions.descriptions.manageEvents"),
-        };
-      case ServerPermissions.ManageInvites:
-        return {
-          name: t("permissions.names.manageInvites"),
-          description: t("permissions.descriptions.manageInvites"),
-        };
-      case ServerPermissions.ManagePosts:
-        return {
-          name: t("permissions.names.managePosts"),
-          description: t("permissions.descriptions.managePosts"),
-        };
-      case ServerPermissions.ManageRoles:
-        return {
-          name: t("permissions.names.manageRoles"),
-          description: t("permissions.descriptions.manageRoles"),
-        };
-      case ServerPermissions.ManageUsers:
-        return {
-          name: t("permissions.names.manageUsers"),
-          description: t("permissions.descriptions.manageUsers"),
-        };
-      default:
-        return {
-          name: null,
-          description: null,
-        };
-    }
   };
 
   const handleSubmit = async (
@@ -127,7 +82,7 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
     permission: PermissionsFormFragment,
     arrayHelpers: FieldArrayRenderProps
   ) => {
-    const { name, description } = getPermissionText(permission.name);
+    const { name, description } = getPermissionText(permission.name, t);
 
     return (
       <Flex justifyContent="space-between" key={permission.id}>

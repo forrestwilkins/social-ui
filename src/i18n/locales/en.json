@@ -173,6 +173,43 @@
     }
   },
 
+  "permissions": {
+    "names": {
+      "acceptMemberRequests": "Approve Member Requests",
+      "createEvents": "Create Events",
+      "createInvites": "Create Invites",
+      "deleteGroup": "Delete Group",
+      "editGroup": "Edit Group",
+      "kickGroupMembers": "Kick Members",
+      "manageComments": "Manage Comments",
+      "manageEvents": "Manage Events",
+      "manageInvites": "Manage Invites",
+      "managePosts": "Manage Posts",
+      "manageRoles": "Manage Roles",
+      "manageSettings": "Manage Settings",
+      "manageUsers": "Manage Members"
+    },
+    "descriptions": {
+      "acceptMemberRequests": "Allows members to view member requests and to allow new members to join the group.",
+      "createEvents": "Allows members to create and plan events.",
+      "createInvites": "Allows members to invite new people to this server.",
+      "deleteGroup": "Allows members to permanently delete this group.",
+      "editGroup": "Allows members to edit the group's name, description, and cover photo.",
+      "kickGroupMembers": "Allows members to remove other members from the group.",
+      "manageComments": "Allows members to remove comments by other members.",
+      "manageEvents": "Allows members to remove events created by other members.",
+      "manageGroupSettings": "Allows members to make changes to this group's settings.",
+      "manageInvites": "Allows members to view the full list of server invites.",
+      "managePosts": "Allows members to delete posts by other members.",
+      "manageRoles": "Allows members to create new roles and edit or delete roles lower than their highest role.",
+      "manageUsers": "Allows members to view the full list of server members and kick other members from the server."
+    },
+    "states": {
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    }
+  },
+
   "images": {
     "labels": {
       "attachedImages": "Attached images",

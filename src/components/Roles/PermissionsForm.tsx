@@ -20,6 +20,7 @@ import {
   PermissionsFormFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
+import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -45,6 +46,27 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
 
   const initialValues: FormValues = {
     permissions: [],
+  };
+
+  const getDisplayName = (name: string) => {
+    switch (name) {
+      case ServerPermissions.CreateInvites:
+        return t("permissions.names.createInvites");
+      case ServerPermissions.ManageComments:
+        return t("permissions.names.manageComments");
+      case ServerPermissions.ManageEvents:
+        return t("permissions.names.manageEvents");
+      case ServerPermissions.ManageInvites:
+        return t("permissions.names.manageInvites");
+      case ServerPermissions.ManagePosts:
+        return t("permissions.names.managePosts");
+      case ServerPermissions.ManageRoles:
+        return t("permissions.names.manageRoles");
+      case ServerPermissions.ManageUsers:
+        return t("permissions.names.manageUsers");
+      default:
+        return;
+    }
   };
 
   const handleSubmit = async (
@@ -99,7 +121,9 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
                   <>
                     {permissions.map((permission) => (
                       <Flex justifyContent="space-between" key={permission.id}>
-                        <Typography>{permission.name}</Typography>
+                        <Typography>
+                          {getDisplayName(permission.name)}
+                        </Typography>
 
                         <Switch
                           defaultChecked={permission.enabled}

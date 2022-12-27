@@ -129,6 +129,26 @@ const theme: Theme = createTheme(initialTheme, {
         },
       },
     },
+
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          opacity: 0.9,
+
+          "& .MuiSwitch-thumb": {
+            color: grey[400],
+          },
+          "& .Mui-checked .MuiSwitch-thumb": {
+            backgroundColor: grey[300],
+          },
+          "& .MuiSwitch-track": {
+            backgroundColor: grey[900],
+            transition: "0.4s",
+            opacity: 1,
+          },
+        },
+      },
+    },
   },
 });
 

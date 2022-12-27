@@ -26,42 +26,51 @@ const Role = ({
 
   const editRolePath = `${NavigationPaths.Roles}/${id}/edit`;
 
+  const actionAreaStyles = {
+    borderRadius: 2,
+    paddingLeft: 0.75,
+    paddingRight: 0.25,
+    paddingY: 0.75,
+  };
   const avatarStyes = {
     backgroundColor: color,
     color: "black",
     marginRight: 1.5,
-  };
-  const memberCountStyles = {
-    color: theme.palette.text.secondary,
-    fontSize: 12,
   };
   const memberIconStyles = {
     fontSize: 18,
     marginBottom: -0.5,
     marginRight: 0.35,
   };
-  const linkStyles = {
-    display: "block",
-    marginBottom: gutterBottom ? 1.5 : 0,
-  };
 
   return (
-    <Link href={editRolePath} sx={linkStyles}>
-      <CardActionArea sx={{ borderRadius: 8, paddingY: 0.25 }}>
+    <Link
+      href={editRolePath}
+      sx={{
+        display: "block",
+        marginBottom: gutterBottom ? 0.5 : 0,
+      }}
+    >
+      <CardActionArea sx={actionAreaStyles}>
         <Flex justifyContent="space-between">
           <Flex>
             <Avatar sx={avatarStyes} />
 
             <Box marginTop={-0.35}>
               <Typography marginBottom={-0.2}>{name}</Typography>
-              <Typography sx={memberCountStyles}>
+              <Typography
+                sx={{
+                  color: theme.palette.text.secondary,
+                  fontSize: 12,
+                }}
+              >
                 <Person sx={memberIconStyles} />
                 {t("roles.labels.members", { count: memberCount })}
               </Typography>
             </Box>
           </Flex>
 
-          <ArrowForwardIos sx={{ alignSelf: "center", marginRight: 0.5 }} />
+          <ArrowForwardIos sx={{ alignSelf: "center" }} />
         </Flex>
       </CardActionArea>
     </Link>

@@ -3,8 +3,9 @@ import { RoleFragment } from "../../apollo/gen";
 import Role from "../../components/Roles/Role";
 
 const CardContent = styled(MuiCardContent)(() => ({
+  padding: 10,
   "&:last-child": {
-    paddingBottom: 14,
+    paddingBottom: 10,
   },
 }));
 

@@ -9,6 +9,7 @@ export const buildImageData = (selected?: File | File[]) => {
   const imageData = new FormData();
   const isMultiple = !(selected instanceof File);
 
+  // TODO: Refactor - remove need for early return
   if (!selected || (isMultiple && !selected.length)) {
     return;
   }
@@ -23,6 +24,7 @@ export const buildImageData = (selected?: File | File[]) => {
   return imageData;
 };
 
+// TODO: Refactor - remove need for early return and optional imageFile
 export const uploadImage = (path: string, imageFile?: File) => {
   const imageData = buildImageData(imageFile);
   if (!imageData) {

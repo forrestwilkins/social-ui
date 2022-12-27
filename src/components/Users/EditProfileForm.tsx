@@ -5,15 +5,14 @@ import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
   EditProfileFormFragment,
-  Image,
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
 import { ApiRoutes } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { multiPartRequest, redirectTo } from "../../utils/common.utils";
-import { buildImageData } from "../../utils/image.utils";
+import { redirectTo } from "../../utils/common.utils";
+import { uploadImage } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ImageInput from "../Images/ImageInput";
@@ -41,24 +40,14 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
     name: user.name || "",
   };
 
-  // TODO: Refactor - combine upload functions and move to util file
-
   const uploadProfilePicture = () => {
-    const imageData = buildImageData(profilePicture);
-    if (!imageData) {
-      return;
-    }
     const path = `${ApiRoutes.Users}/${user.id}/profile-picture`;
-    return multiPartRequest<Image>(path, imageData);
+    return uploadImage(path, profilePicture);
   };
 
   const uploadCoverPhoto = () => {
-    const imageData = buildImageData(coverPhoto);
-    if (!imageData) {
-      return;
-    }
     const path = `${ApiRoutes.Users}/${user.id}/cover-photo`;
-    return multiPartRequest<Image>(path, imageData);
+    return uploadImage(path, coverPhoto);
   };
 
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>

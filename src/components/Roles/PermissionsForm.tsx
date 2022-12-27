@@ -100,6 +100,7 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
         <Switch
           defaultChecked={permission.enabled}
           onChange={handleSwitchChange(permission, arrayHelpers, values)}
+          inputProps={{ "aria-label": t("labels.switch") }}
         />
       </Flex>
     );

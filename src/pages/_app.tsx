@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 import client from "../apollo/client";
 import AuthWrapper from "../components/Auth/AuthWrapper";
 import Layout from "../components/_App/Layout";
-import "../i18n/config";
+import "../i18n/i18n.config";
 import "../styles/globals.css";
 import theme from "../styles/theme";
 import { createEmotionCache, initAxe } from "../utils/common.utils";

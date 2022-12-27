@@ -60,10 +60,13 @@ const EditServerRole: NextPage = () => {
   useEffect(() => {
     if (query.tab === EditRoleTabs.Permissions) {
       setTab(1);
+      return;
     }
     if (query.tab === EditRoleTabs.Members) {
       setTab(2);
+      return;
     }
+    setTab(0);
   }, [query.tab]);
 
   const handleTabChange = (
@@ -74,17 +77,16 @@ const EditServerRole: NextPage = () => {
       replace({
         query: { ...query, tab: EditRoleTabs.Permissions },
       });
+      return;
     }
     if (value === 2) {
       replace({
         query: { ...query, tab: EditRoleTabs.Members },
       });
+      return;
     }
-    if (query.tab && value === 0) {
-      delete query.tab;
-      replace({ query });
-    }
-    setTab(value);
+    delete query.tab;
+    replace({ query });
   };
 
   if (error) {

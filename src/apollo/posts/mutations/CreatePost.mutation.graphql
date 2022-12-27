@@ -1,0 +1,15 @@
+mutation CreatePost($postData: CreatePostInput!) {
+  createPost(postData: $postData) {
+    post {
+      id
+      body
+      user {
+        ...UserAvatar
+      }
+      group {
+        ...GroupAvatar
+      }
+      createdAt
+    }
+  }
+}

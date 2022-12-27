@@ -1,4 +1,4 @@
-import { useReactiveVar } from "@apollo/client";
+import { ApolloCache, useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -8,13 +8,19 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import produce from "immer";
 import { useState } from "react";
 import { isLoggedInVar } from "../../apollo/cache";
-import { GroupCardFragment, useDeleteGroupMutation } from "../../apollo/gen";
-import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
+import {
+  GroupCardFragment,
+  GroupsDocument,
+  GroupsQuery,
+  useDeleteGroupMutation,
+} from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
   ResourceNames,
+  TypeNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
@@ -26,6 +32,21 @@ import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import GroupAvatar from "./GroupAvatar";
 import JoinButton from "./JoinButton";
+
+export const removeGroup = (id: number) => (cache: ApolloCache<any>) => {
+  cache.updateQuery<GroupsQuery>({ query: GroupsDocument }, (groupsData) =>
+    produce(groupsData, (draft) => {
+      if (!draft) {
+        return;
+      }
+      const index = draft.groups.findIndex((p) => p.id === id);
+      draft.groups.splice(index, 1);
+    })
+  );
+  const cacheId = cache.identify({ id, __typename: TypeNames.Group });
+  cache.evict({ id: cacheId });
+  cache.gc();
+};
 
 const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,

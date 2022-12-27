@@ -1,0 +1,8 @@
+fragment GroupAvatar on Group {
+  id
+  name
+  coverPhoto {
+    filename
+    id
+  }
+}

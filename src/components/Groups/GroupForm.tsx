@@ -14,16 +14,20 @@ import {
   GroupFormFragment,
   GroupsDocument,
   GroupsQuery,
+  Image,
   UpdateGroupInput,
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../apollo/gen";
-import { uploadGroupCoverPhoto } from "../../apollo/groups/mutations/CreateGroup.mutation";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
-import { FieldNames } from "../../constants/common.constants";
+import { ApiRoutes, FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
-import { generateRandom, redirectTo } from "../../utils/common.utils";
+import {
+  generateRandom,
+  multiPartRequest,
+  redirectTo,
+} from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { buildImageData } from "../../utils/image.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
@@ -51,6 +55,11 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const initialValues = {
     name: editGroup ? editGroup.name : "",
     description: editGroup ? editGroup.description : "",
+  };
+
+  const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {
+    const path = `${ApiRoutes.Groups}/${groupId}/cover-photo`;
+    return multiPartRequest<Image>(path, data);
   };
 
   const handleCreate = async (

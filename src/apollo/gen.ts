@@ -1063,6 +1063,12 @@ export type UpdateRoleMutation = {
       name: string;
       color: string;
       memberCount: number;
+      permissions: Array<{
+        __typename?: "Permission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }>;
       members: Array<{
         __typename?: "RoleMember";
         id: number;
@@ -2974,6 +2980,9 @@ export const UpdateRoleDocument = gql`
     updateRole(roleData: $roleData) {
       role {
         ...Role
+        permissions {
+          ...PermissionsForm
+        }
         members {
           ...RoleMember
         }
@@ -2984,6 +2993,7 @@ export const UpdateRoleDocument = gql`
     }
   }
   ${RoleFragmentDoc}
+  ${PermissionsFormFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
@@ -3036,9 +3046,7 @@ export const EditServerRoleDocument = gql`
       ...Role
       ...AddMemberTab
       permissions {
-        id
-        name
-        enabled
+        ...PermissionsForm
       }
       availableUsersToAdd {
         ...UserAvatar
@@ -3047,6 +3055,7 @@ export const EditServerRoleDocument = gql`
   }
   ${RoleFragmentDoc}
   ${AddMemberTabFragmentDoc}
+  ${PermissionsFormFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 

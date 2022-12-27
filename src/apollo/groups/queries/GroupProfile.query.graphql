@@ -1,0 +1,11 @@
+query GroupProfile($name: String!) {
+  group(name: $name) {
+    ...GroupProfileCard
+    posts {
+      ...PostCard
+    }
+  }
+  me {
+    id
+  }
+}

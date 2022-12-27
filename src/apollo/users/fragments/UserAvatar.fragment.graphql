@@ -1,0 +1,8 @@
+fragment UserAvatar on User {
+  id
+  name
+  profilePicture {
+    filename
+    id
+  }
+}

@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent as MuiCardContent,
-  CardProps,
-  styled,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Box, BoxProps, Switch, Typography, useTheme } from "@mui/material";
 import {
   FieldArray,
   FieldArrayRenderProps,
@@ -25,47 +18,67 @@ import { useTranslate } from "../../hooks/common.hooks";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
-const CardContent = styled(MuiCardContent)(() => ({
-  "&:last-child": {
-    paddingBottom: 18,
-  },
-}));
-
 interface FormValues {
   permissions: PermissionInput[];
 }
 
-interface Props extends CardProps {
+interface Props extends BoxProps {
   permissions: PermissionsFormFragment[];
   roleId: number;
 }
 
-const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
+const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
   const [updateRole] = useUpdateRoleMutation();
+
+  const theme = useTheme();
   const t = useTranslate();
 
   const initialValues: FormValues = {
     permissions: [],
   };
 
-  const getDisplayName = (name: string) => {
+  const getPermissionText = (name: string) => {
     switch (name) {
       case ServerPermissions.CreateInvites:
-        return t("permissions.names.createInvites");
+        return {
+          name: t("permissions.names.createInvites"),
+          description: t("permissions.descriptions.createInvites"),
+        };
       case ServerPermissions.ManageComments:
-        return t("permissions.names.manageComments");
+        return {
+          name: t("permissions.names.manageComments"),
+          description: t("permissions.descriptions.manageComments"),
+        };
       case ServerPermissions.ManageEvents:
-        return t("permissions.names.manageEvents");
+        return {
+          name: t("permissions.names.manageEvents"),
+          description: t("permissions.descriptions.manageEvents"),
+        };
       case ServerPermissions.ManageInvites:
-        return t("permissions.names.manageInvites");
+        return {
+          name: t("permissions.names.manageInvites"),
+          description: t("permissions.descriptions.manageInvites"),
+        };
       case ServerPermissions.ManagePosts:
-        return t("permissions.names.managePosts");
+        return {
+          name: t("permissions.names.managePosts"),
+          description: t("permissions.descriptions.managePosts"),
+        };
       case ServerPermissions.ManageRoles:
-        return t("permissions.names.manageRoles");
+        return {
+          name: t("permissions.names.manageRoles"),
+          description: t("permissions.descriptions.manageRoles"),
+        };
       case ServerPermissions.ManageUsers:
-        return t("permissions.names.manageUsers");
+        return {
+          name: t("permissions.names.manageUsers"),
+          description: t("permissions.descriptions.manageUsers"),
+        };
       default:
-        return;
+        return {
+          name: null,
+          description: null,
+        };
     }
   };
 
@@ -109,50 +122,63 @@ const PermissionsForm = ({ permissions, roleId, ...cardProps }: Props) => {
       arrayHelpers.push({ id, enabled: checked });
     };
 
+  const renderSwitch = (
+    values: FormValues,
+    permission: PermissionsFormFragment,
+    arrayHelpers: FieldArrayRenderProps
+  ) => {
+    const { name, description } = getPermissionText(permission.name);
+
+    return (
+      <Flex justifyContent="space-between" key={permission.id}>
+        <Box marginBottom={2.8}>
+          <Typography>{name}</Typography>
+
+          <Typography
+            fontSize={12}
+            sx={{ color: theme.palette.text.secondary }}
+          >
+            {description}
+          </Typography>
+        </Box>
+
+        <Switch
+          defaultChecked={permission.enabled}
+          onChange={handleSwitchChange(permission, arrayHelpers, values)}
+        />
+      </Flex>
+    );
+  };
+
   return (
-    <Card {...cardProps}>
-      <CardContent>
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values, isSubmitting }) => (
-            <Form>
-              <FieldArray
-                name="permissions"
-                render={(arrayHelpers) => (
-                  <>
-                    {permissions.map((permission) => (
-                      <Flex justifyContent="space-between" key={permission.id}>
-                        <Typography>
-                          {getDisplayName(permission.name)}
-                        </Typography>
+    <Box {...boxProps}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ values, isSubmitting }) => (
+          <Form>
+            <FieldArray
+              name="permissions"
+              render={(arrayHelpers) => (
+                <Box marginBottom={2}>
+                  {permissions.map((permission) =>
+                    renderSwitch(values, permission, arrayHelpers)
+                  )}
+                </Box>
+              )}
+            />
 
-                        <Switch
-                          defaultChecked={permission.enabled}
-                          onChange={handleSwitchChange(
-                            permission,
-                            arrayHelpers,
-                            values
-                          )}
-                        />
-                      </Flex>
-                    ))}
-                  </>
-                )}
-              />
-
-              <Flex justifyContent="end">
-                <PrimaryActionButton
-                  disabled={isSubmitting || !values.permissions.length}
-                  sx={{ marginTop: 1.5 }}
-                  type="submit"
-                >
-                  {t("actions.save")}
-                </PrimaryActionButton>
-              </Flex>
-            </Form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+            <Flex justifyContent="end">
+              <PrimaryActionButton
+                disabled={isSubmitting || !values.permissions.length}
+                sx={{ marginTop: 1.5 }}
+                type="submit"
+              >
+                {t("actions.save")}
+              </PrimaryActionButton>
+            </Flex>
+          </Form>
+        )}
+      </Formik>
+    </Box>
   );
 };
 

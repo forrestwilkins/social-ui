@@ -9,7 +9,7 @@ import {
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
-import { ApiRoutes, HttpMethod } from "../../constants/common.constants";
+import { ApiRoutes } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { multiPartRequest, redirectTo } from "../../utils/common.utils";
@@ -41,14 +41,24 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
     name: user.name || "",
   };
 
-  const uploadProfilePicture = (userId: number, data: FormData) => {
-    const path = `${ApiRoutes.Users}/${userId}/profile-picture`;
-    return multiPartRequest<Image>(HttpMethod.Post, path, data);
+  // TODO: Refactor - combine upload functions and move to util file
+
+  const uploadProfilePicture = () => {
+    const imageData = buildImageData(profilePicture);
+    if (!imageData) {
+      return;
+    }
+    const path = `${ApiRoutes.Users}/${user.id}/profile-picture`;
+    return multiPartRequest<Image>(path, imageData);
   };
 
-  const uploadUserCoverPhoto = (userId: number, data: FormData) => {
-    const path = `${ApiRoutes.Users}/${userId}/cover-photo`;
-    return multiPartRequest<Image>(HttpMethod.Post, path, data);
+  const uploadCoverPhoto = () => {
+    const imageData = buildImageData(coverPhoto);
+    if (!imageData) {
+      return;
+    }
+    const path = `${ApiRoutes.Users}/${user.id}/cover-photo`;
+    return multiPartRequest<Image>(path, imageData);
   };
 
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>
@@ -56,20 +66,12 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
       variables: {
         userData: { id: user.id, ...formValues },
       },
-      async update(cache, { data }) {
-        if (!data || (!coverPhoto && !profilePicture)) {
+      async update(cache) {
+        const profilePictureResult = await uploadProfilePicture();
+        const coverPhotoResult = await uploadCoverPhoto();
+        if (!profilePictureResult && !coverPhotoResult) {
           return;
         }
-        const coverPhotoData = buildImageData(coverPhoto);
-        const profilePictureData = buildImageData(profilePicture);
-
-        const coverPhotoResult =
-          coverPhotoData &&
-          (await uploadUserCoverPhoto(user.id, coverPhotoData));
-        const profilePictureResult =
-          profilePictureData &&
-          (await uploadProfilePicture(user.id, profilePictureData));
-
         cache.modify({
           id: cache.identify(user),
           fields: {

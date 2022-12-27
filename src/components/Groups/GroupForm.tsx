@@ -21,11 +21,7 @@ import {
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
-import {
-  ApiRoutes,
-  FieldNames,
-  HttpMethod,
-} from "../../constants/common.constants";
+import { ApiRoutes, FieldNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
   generateRandom,
@@ -63,7 +59,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
 
   const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {
     const path = `${ApiRoutes.Groups}/${groupId}/cover-photo`;
-    return multiPartRequest<Image>(HttpMethod.Post, path, data);
+    return multiPartRequest<Image>(path, data);
   };
 
   const handleCreate = async (

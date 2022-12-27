@@ -16,7 +16,6 @@ import {
 } from "../constants/common.constants";
 
 export const multiPartRequest = async <T>(
-  method: HttpMethod,
   path: string,
   data: Record<string, any>
 ) => {
@@ -26,13 +25,11 @@ export const multiPartRequest = async <T>(
   // Set auth refresh interceptor for Axios requests
   createAuthRefreshInterceptor(axios, refreshToken);
 
-  const url = `${API_ROOT}${path}`;
-  const headers = { "Content-Type": "multipart/form-data" };
   const response = await axios.request<T>({
+    headers: { "Content-Type": "multipart/form-data" },
+    method: HttpMethod.Post,
+    url: `${API_ROOT}${path}`,
     data,
-    headers,
-    method,
-    url,
   });
 
   return response.data;

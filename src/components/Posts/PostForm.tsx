@@ -27,7 +27,6 @@ import {
 import {
   ApiRoutes,
   FieldNames,
-  HttpMethod,
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
@@ -73,7 +72,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
 
   const uploadPostImages = (postId: number, data: FormData) => {
     const path = `${ApiRoutes.Posts}/${postId}/images`;
-    return multiPartRequest<Image[]>(HttpMethod.Post, path, data);
+    return multiPartRequest<Image[]>(path, data);
   };
 
   const handleCreate = async (

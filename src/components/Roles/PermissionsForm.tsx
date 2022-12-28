@@ -82,6 +82,14 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
     permission: PermissionsFormFragment,
     arrayHelpers: FieldArrayRenderProps
   ) => {
+    const permissionInput = values.permissions.find(
+      (p) => p.id === permission.id
+    );
+    const checked =
+      permissionInput !== undefined
+        ? permissionInput.enabled
+        : permission.enabled;
+
     const { name, description } = getPermissionText(permission.name, t);
 
     return (
@@ -98,9 +106,9 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
         </Box>
 
         <Switch
-          defaultChecked={permission.enabled}
-          onChange={handleSwitchChange(permission, arrayHelpers, values)}
+          checked={checked}
           inputProps={{ "aria-label": name || t("labels.switch") }}
+          onChange={handleSwitchChange(permission, arrayHelpers, values)}
         />
       </Flex>
     );

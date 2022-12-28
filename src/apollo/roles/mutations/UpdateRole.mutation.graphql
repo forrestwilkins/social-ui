@@ -12,5 +12,9 @@ mutation UpdateRole($roleData: UpdateRoleInput!) {
         ...UserAvatar
       }
     }
+    me {
+      id
+      serverPermissions
+    }
   }
 }

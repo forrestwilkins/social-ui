@@ -358,6 +358,7 @@ export type UpdateRoleInput = {
 
 export type UpdateRolePayload = {
   __typename?: "UpdateRolePayload";
+  me: User;
   role: Role;
 };
 
@@ -1093,6 +1094,7 @@ export type UpdateRoleMutation = {
         profilePicture: { __typename?: "Image"; filename: string; id: number };
       }>;
     };
+    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
 };
 
@@ -2995,6 +2997,10 @@ export const UpdateRoleDocument = gql`
         availableUsersToAdd {
           ...UserAvatar
         }
+      }
+      me {
+        id
+        serverPermissions
       }
     }
   }

@@ -1,15 +1,20 @@
 import { Person as UserIcon } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
+import { useUsersQuery } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
-import { useUsersQuery } from "../../apollo/gen";
+import { isDeniedAccess } from "../../utils/error.utils";
 
 const UsersIndex: NextPage = () => {
   const { data, error, loading } = useUsersQuery();
   const t = useTranslate();
+
+  if (isDeniedAccess(error)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

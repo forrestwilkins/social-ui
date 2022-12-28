@@ -13,6 +13,7 @@ import RoleForm from "../../../components/Roles/RoleForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { useAboveBreakpoint, useTranslate } from "../../../hooks/common.hooks";
+import { isDeniedAccess } from "../../../utils/error.utils";
 
 enum EditRoleTabs {
   Permissions = "permissions",
@@ -88,6 +89,10 @@ const EditServerRole: NextPage = () => {
     delete query.tab;
     replace({ query });
   };
+
+  if (isDeniedAccess(error)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

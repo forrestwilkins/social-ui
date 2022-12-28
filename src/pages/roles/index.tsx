@@ -8,12 +8,17 @@ import RoleList from "../../components/Roles/RoleList";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { useTranslate } from "../../hooks/common.hooks";
+import { isDeniedAccess } from "../../utils/error.utils";
 
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerRolesQuery();
   const roles = data?.serverRoles;
 
   const t = useTranslate();
+
+  if (isDeniedAccess(error)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

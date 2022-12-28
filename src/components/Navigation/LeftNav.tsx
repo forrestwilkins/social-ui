@@ -16,7 +16,9 @@ import {
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { isLoggedInVar } from "../../apollo/cache";
+import { useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
+import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import Link from "../Shared/Link";
 
@@ -48,9 +50,18 @@ const ListItemIcon = styled(MuiListItemIcon)(() => ({
 
 const LeftNav = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { data, loading } = useMeQuery({ skip: !isLoggedIn });
 
   const { asPath } = useRouter();
   const t = useTranslate();
+
+  const me = data?.me;
+  const canBanUsers = me?.serverPermissions.includes(
+    ServerPermissions.BanMembers
+  );
+  const canManageRoles = me?.serverPermissions.includes(
+    ServerPermissions.ManageRoles
+  );
 
   const listStyles: SxProps = {
     position: "fixed",
@@ -68,6 +79,10 @@ const LeftNav = () => {
   };
 
   const isActive = (path: NavigationPaths) => path === asPath;
+
+  if (loading) {
+    return null;
+  }
 
   // TODO: Determine whether or not to refactor to use Stack instead of List
   // https://mui.com/material-ui/react-stack
@@ -109,32 +124,32 @@ const LeftNav = () => {
         </ListItemButton>
       </Link>
 
-      {isLoggedIn && (
-        <>
-          <Link href={NavigationPaths.Users}>
-            <ListItemButton>
-              <ListItemIcon>
-                <UsersIcon sx={getIconStyle(NavigationPaths.Users)} />
-              </ListItemIcon>
-              <ListItemText
-                isActive={isActive(NavigationPaths.Users)}
-                primary={t("navigation.users")}
-              />
-            </ListItemButton>
-          </Link>
+      {canBanUsers && (
+        <Link href={NavigationPaths.Users}>
+          <ListItemButton>
+            <ListItemIcon>
+              <UsersIcon sx={getIconStyle(NavigationPaths.Users)} />
+            </ListItemIcon>
+            <ListItemText
+              isActive={isActive(NavigationPaths.Users)}
+              primary={t("navigation.users")}
+            />
+          </ListItemButton>
+        </Link>
+      )}
 
-          <Link href={NavigationPaths.Roles}>
-            <ListItemButton>
-              <ListItemIcon>
-                <AccountBox sx={getIconStyle(NavigationPaths.Roles)} />
-              </ListItemIcon>
-              <ListItemText
-                isActive={isActive(NavigationPaths.Roles)}
-                primary={t("navigation.roles")}
-              />
-            </ListItemButton>
-          </Link>
-        </>
+      {canManageRoles && (
+        <Link href={NavigationPaths.Roles}>
+          <ListItemButton>
+            <ListItemIcon>
+              <AccountBox sx={getIconStyle(NavigationPaths.Roles)} />
+            </ListItemIcon>
+            <ListItemText
+              isActive={isActive(NavigationPaths.Roles)}
+              primary={t("navigation.roles")}
+            />
+          </ListItemButton>
+        </Link>
       )}
     </List>
   );

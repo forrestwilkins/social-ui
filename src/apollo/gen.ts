@@ -404,7 +404,7 @@ export type LoginMutation = {
       serverPermissions: Array<string>;
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -429,7 +429,7 @@ export type SignUpMutation = {
       serverPermissions: Array<string>;
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -448,7 +448,7 @@ export type GroupAvatarFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type GroupCardFragment = {
@@ -462,7 +462,7 @@ export type GroupCardFragment = {
     id: number;
     user: { __typename?: "User"; id: number };
   }>;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type GroupFormFragment = {
@@ -470,7 +470,7 @@ export type GroupFormFragment = {
   id: number;
   name: string;
   description: string;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type GroupProfileCardFragment = {
@@ -478,7 +478,7 @@ export type GroupProfileCardFragment = {
   id: number;
   name: string;
   memberRequestCount: number;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{
     __typename?: "GroupMember";
     id: number;
@@ -493,7 +493,7 @@ export type JoinedMemberFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -504,7 +504,7 @@ export type RequestToJoinFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
   group: { __typename?: "Group"; id: number };
 };
@@ -524,7 +524,7 @@ export type ApproveMemberRequestMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     };
   };
@@ -557,11 +557,7 @@ export type CreateGroupMutation = {
         id: number;
         user: { __typename?: "User"; id: number };
       }>;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
 };
@@ -582,7 +578,7 @@ export type CreateMemberRequestMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     };
   };
@@ -643,7 +639,7 @@ export type EditGroupQuery = {
     id: number;
     name: string;
     description: string;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
   };
 };
 
@@ -663,7 +659,7 @@ export type GroupMembersQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
   };
@@ -690,20 +686,16 @@ export type GroupProfileQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{
       __typename?: "GroupMember";
       id: number;
@@ -728,7 +720,7 @@ export type GroupsQuery = {
       id: number;
       user: { __typename?: "User"; id: number };
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
   me: { __typename?: "User"; id: number };
 };
@@ -759,7 +751,7 @@ export type MemberRequestsQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
     group: { __typename?: "Group"; id: number };
   }>;
@@ -797,13 +789,13 @@ export type PostCardFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
   group?: {
     __typename?: "Group";
     id: number;
     name: string;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
 };
 
@@ -831,17 +823,13 @@ export type CreatePostMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     };
   };
@@ -873,17 +861,13 @@ export type UpdatePostMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     };
   };
@@ -921,17 +905,13 @@ export type PostQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
     group?: {
       __typename?: "Group";
       id: number;
       name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
   };
 };
@@ -950,17 +930,13 @@ export type PostsQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
     group?: {
       __typename?: "Group";
       id: number;
       name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
   }>;
 };
@@ -975,7 +951,7 @@ export type AddMemberTabFragment = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
 };
@@ -1002,7 +978,7 @@ export type RoleMemberFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -1047,7 +1023,7 @@ export type DeleteRoleMemberMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       }>;
     };
   };
@@ -1080,18 +1056,14 @@ export type UpdateRoleMutation = {
           __typename?: "User";
           id: number;
           name: string;
-          profilePicture: {
-            __typename?: "Image";
-            filename: string;
-            id: number;
-          };
+          profilePicture: { __typename?: "Image"; id: number };
         };
       }>;
       availableUsersToAdd: Array<{
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       }>;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
@@ -1120,7 +1092,7 @@ export type EditServerRoleQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     }>;
     members: Array<{
       __typename?: "RoleMember";
@@ -1129,7 +1101,7 @@ export type EditServerRoleQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
   };
@@ -1153,15 +1125,15 @@ export type EditProfileFormFragment = {
   id: number;
   bio?: string | null;
   name: string;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  profilePicture: { __typename?: "Image"; id: number };
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type UserAvatarFragment = {
   __typename?: "User";
   id: number;
   name: string;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
+  profilePicture: { __typename?: "Image"; id: number };
 };
 
 export type UserProfileCardFragment = {
@@ -1170,8 +1142,8 @@ export type UserProfileCardFragment = {
   createdAt: any;
   id: number;
   name: string;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
+  profilePicture: { __typename?: "Image"; id: number };
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -1200,7 +1172,7 @@ export type MeQuery = {
     serverPermissions: Array<string>;
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -1226,21 +1198,17 @@ export type UserQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -1256,7 +1224,6 @@ export const GroupAvatarFragmentDoc = gql`
     id
     name
     coverPhoto {
-      filename
       id
     }
   }
@@ -1287,7 +1254,6 @@ export const GroupFormFragmentDoc = gql`
     name
     description
     coverPhoto {
-      filename
       id
     }
   }
@@ -1297,7 +1263,6 @@ export const GroupProfileCardFragmentDoc = gql`
     id
     name
     coverPhoto {
-      filename
       id
     }
     members {
@@ -1312,7 +1277,6 @@ export const UserAvatarFragmentDoc = gql`
     id
     name
     profilePicture {
-      filename
       id
     }
   }
@@ -1423,11 +1387,9 @@ export const EditProfileFormFragmentDoc = gql`
     bio
     name
     profilePicture {
-      filename
       id
     }
     coverPhoto {
-      filename
       id
     }
   }
@@ -1436,7 +1398,6 @@ export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
     ...UserAvatar
     coverPhoto {
-      filename
       id
     }
     bio

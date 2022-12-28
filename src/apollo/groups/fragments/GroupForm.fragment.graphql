@@ -3,7 +3,6 @@ fragment GroupForm on Group {
   name
   description
   coverPhoto {
-    filename
     id
   }
 }

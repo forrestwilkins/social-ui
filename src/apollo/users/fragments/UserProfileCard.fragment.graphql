@@ -1,7 +1,6 @@
 fragment UserProfileCard on User {
   ...UserAvatar
   coverPhoto {
-    filename
     id
   }
   bio

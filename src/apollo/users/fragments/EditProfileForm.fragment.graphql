@@ -3,11 +3,9 @@ fragment EditProfileForm on User {
   bio
   name
   profilePicture {
-    filename
     id
   }
   coverPhoto {
-    filename
     id
   }
 }

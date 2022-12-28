@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const config: CodegenConfig = {
   schema: `${process.env.API_URL}/graphql`,
-  documents: ["src/**/*.{tsx,ts,graphql}"],
+  documents: ["src/apollo/**/*.graphql"],
   ignoreNoDocuments: true,
 
   generates: {

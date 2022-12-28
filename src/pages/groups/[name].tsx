@@ -10,8 +10,8 @@ import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import PostForm from "../../components/Posts/PostForm";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { UNAUTHORIZED } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
+import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupPage: NextPage = () => {
   const { query } = useRouter();
@@ -24,7 +24,7 @@ const GroupPage: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const t = useTranslate();
 
-  if (error?.message === UNAUTHORIZED) {
+  if (isDeniedAccess(error)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 

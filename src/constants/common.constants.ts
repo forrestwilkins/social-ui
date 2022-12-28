@@ -1,4 +1,6 @@
 export const API_ROOT = "/api";
+
+export const FORBIDDEN = "Forbidden";
 export const UNAUTHORIZED = "Unauthorized";
 
 export const MIDDOT_WITH_SPACES = " · ";

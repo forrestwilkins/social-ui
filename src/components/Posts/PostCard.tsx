@@ -23,6 +23,7 @@ import {
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
+import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
@@ -132,19 +133,19 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   };
 
   const renderMenu = () => {
-    if (!isMe) {
-      return null;
-    }
+    const hasPermission = me?.serverPermissions.includes(
+      ServerPermissions.ManagePosts
+    );
+    const canDelete = hasPermission || isMe;
     return (
-      // TODO: Add permission logic for edit and delete
       <ItemMenu
         anchorEl={menuAnchorEl}
         deleteItem={handleDelete}
         itemId={id}
         itemType={ResourceNames.Post}
         setAnchorEl={setMenuAnchorEl}
-        canDelete
-        canEdit
+        canDelete={canDelete}
+        canEdit={isMe}
       />
     );
   };

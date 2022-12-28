@@ -382,6 +382,7 @@ export type User = {
   name: Scalars["String"];
   posts: Array<Post>;
   profilePicture: Image;
+  serverPermissions: Array<Scalars["String"]>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -399,6 +400,7 @@ export type LoginMutation = {
     __typename?: "LoginPayload";
     user: {
       __typename?: "User";
+      serverPermissions: Array<string>;
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; filename: string; id: number };
@@ -423,6 +425,7 @@ export type SignUpMutation = {
     __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
+      serverPermissions: Array<string>;
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; filename: string; id: number };
@@ -1192,6 +1195,7 @@ export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
+    serverPermissions: Array<string>;
     id: number;
     name: string;
     profilePicture: { __typename?: "Image"; filename: string; id: number };
@@ -1487,6 +1491,7 @@ export const LoginDocument = gql`
     login(input: $input) {
       user {
         ...UserAvatar
+        serverPermissions
       }
     }
   }
@@ -1584,6 +1589,7 @@ export const SignUpDocument = gql`
     signUp(input: $input) {
       user {
         ...UserAvatar
+        serverPermissions
       }
     }
   }
@@ -3223,6 +3229,7 @@ export const MeDocument = gql`
   query Me {
     me {
       ...UserAvatar
+      serverPermissions
     }
   }
   ${UserAvatarFragmentDoc}

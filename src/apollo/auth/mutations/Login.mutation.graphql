@@ -2,6 +2,7 @@ mutation Login($input: LoginInput!) {
   login(input: $input) {
     user {
       ...UserAvatar
+      serverPermissions
     }
   }
 }

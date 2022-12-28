@@ -100,6 +100,7 @@ const ItemMenu = ({
         {canDelete && deleteItem && (
           <MenuItem
             onClick={() =>
+              // FIXME: Item type is currently showing as plural - is also used above in edit path
               window.confirm(t("prompts.deleteItem", { itemType })) &&
               deleteItem(itemId)
             }

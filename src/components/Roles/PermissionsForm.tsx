@@ -1,3 +1,14 @@
+/**
+ * TODO: Add remaining functionality - below is a WIP
+ *
+ * Permissions that still need to be implemented:
+ * - Ban Members
+ * - Create Invites
+ * - Manage Comments
+ * - Manage Events
+ * - Manage Invites
+ */
+
 import { Box, BoxProps, Switch, Typography, useTheme } from "@mui/material";
 import {
   FieldArray,

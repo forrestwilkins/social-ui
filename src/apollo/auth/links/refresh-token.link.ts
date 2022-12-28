@@ -7,7 +7,7 @@ import {
   UNAUTHORIZED,
 } from "../../../constants/common.constants";
 import { logOutUser } from "../../../utils/auth.utils";
-import { formatGQLError } from "../../../utils/common.utils";
+import { formatGQLError } from "../../../utils/error.utils";
 import { isRefreshingTokenVar } from "../../cache";
 import client from "../../client";
 import { RefreshTokenDocument } from "../../gen";

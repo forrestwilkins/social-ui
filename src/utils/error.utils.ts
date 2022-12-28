@@ -1,4 +1,5 @@
 import { ApolloError } from "@apollo/client";
+import { SourceLocation } from "graphql";
 import { FORBIDDEN, UNAUTHORIZED } from "../constants/common.constants";
 
 export const isDeniedAccess = (error: ApolloError | undefined) => {
@@ -6,4 +7,13 @@ export const isDeniedAccess = (error: ApolloError | undefined) => {
     return false;
   }
   return [UNAUTHORIZED, FORBIDDEN].includes(error?.message);
+};
+
+export const formatGQLError = (
+  message: string,
+  path?: readonly (string | number)[],
+  locations?: readonly SourceLocation[]
+) => {
+  const locationsStr = JSON.stringify(locations);
+  return `[GraphQL error]: Message: ${message}, Locations: ${locationsStr}, Path: ${path}`;
 };

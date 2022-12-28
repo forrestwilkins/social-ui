@@ -36,10 +36,10 @@ export const getPermissionText = (
         name: t("permissions.names.manageRoles"),
         description: t("permissions.descriptions.manageRoles"),
       };
-    case ServerPermissions.ManageUsers:
+    case ServerPermissions.BanMembers:
       return {
-        name: t("permissions.names.manageUsers"),
-        description: t("permissions.descriptions.manageUsers"),
+        name: t("permissions.names.banMembers"),
+        description: t("permissions.descriptions.banMembers"),
       };
     default:
       return {

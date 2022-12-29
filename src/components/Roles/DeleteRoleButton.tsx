@@ -5,7 +5,7 @@ import {
   ServerRolesQuery,
   useDeleteRoleMutation,
 } from "../../apollo/gen";
-import { NavigationPaths } from "../../constants/common.constants";
+import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import DeleteButton from "../Shared/DeleteButton";
@@ -37,6 +37,12 @@ const DeleteRoleButton = ({ roleId }: Props) => {
               draft.serverRoles.splice(index, 1);
             })
         );
+        const cacheId = cache.identify({
+          id: roleId,
+          __typename: TypeNames.Role,
+        });
+        cache.evict({ id: cacheId });
+        cache.gc();
       },
       onError() {
         toastVar({

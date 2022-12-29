@@ -169,14 +169,10 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     if (!coverPhoto && !editGroup?.coverPhoto) {
       return null;
     }
-    const currentCoverPhoto = editGroup?.coverPhoto
-      ? [editGroup.coverPhoto]
-      : undefined;
     return (
       <AttachedImagePreview
         removeSelectedImage={removeSelectedImageHandler}
         selectedImages={coverPhoto ? [coverPhoto] : []}
-        savedImages={currentCoverPhoto}
       />
     );
   };

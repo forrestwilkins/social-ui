@@ -1,12 +1,15 @@
-import { Checkbox, styled, Typography } from "@mui/material";
+import {
+  CardActionArea as MuiCardActionArea,
+  Checkbox,
+  styled,
+  Typography,
+} from "@mui/material";
 import { UserAvatarFragment } from "../../apollo/gen";
-import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
-import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
-const OuterFlex = styled(Flex)(() => ({
-  marginBottom: 12,
+const CardActionArea = styled(MuiCardActionArea)(() => ({
+  marginBottom: 2,
   "&:last-child": {
     marginBottom: 0,
   },
@@ -19,12 +22,11 @@ interface Props {
 }
 
 const AddMemberOption = ({
-  user,
   selectedUserIds,
   setSelectedUserIds,
+  user,
 }: Props) => {
   const isSelected = !!selectedUserIds.find((userId) => userId === user.id);
-  const userProfilePath = getUserProfilePath(user.name);
 
   const handleChange = () => {
     if (isSelected) {
@@ -36,21 +38,26 @@ const AddMemberOption = ({
     setSelectedUserIds([...selectedUserIds, user.id]);
   };
 
+  const actionAreaStyles = {
+    borderRadius: 2,
+    display: "flex",
+    justifyContent: "space-between",
+    paddingLeft: 0.75,
+    paddingRight: 0.25,
+    paddingY: 0.75,
+  };
+
   return (
-    <OuterFlex justifyContent="space-between">
+    <CardActionArea onClick={handleChange} sx={actionAreaStyles}>
       <Flex>
-        <Link href={userProfilePath}>
-          <Flex>
-            <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
-            <Typography color="primary" sx={{ marginTop: 1 }}>
-              {user.name}
-            </Typography>
-          </Flex>
-        </Link>
+        <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
+        <Typography color="primary" sx={{ marginTop: 1, userSelect: "none" }}>
+          {user.name}
+        </Typography>
       </Flex>
 
-      <Checkbox checked={isSelected} onChange={handleChange} />
-    </OuterFlex>
+      <Checkbox checked={isSelected} disableRipple />
+    </CardActionArea>
   );
 };
 

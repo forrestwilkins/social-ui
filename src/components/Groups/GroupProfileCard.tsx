@@ -22,11 +22,11 @@ import {
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
-  ResourceNames,
 } from "../../constants/common.constants";
 import { useAboveBreakpoint, useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import {
+  getEditGroupPath,
   getGroupMembersPath,
   getMemberRequestsPath,
 } from "../../utils/group.utils";
@@ -70,8 +70,12 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const t = useTranslate();
 
   const { id, name, coverPhoto, members, memberRequestCount } = group;
+  const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
+
+  const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
+
   const showCardHeader = isLoggedIn && isAboveSmall;
 
   const getNameTextWidth = () => {
@@ -111,9 +115,9 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
           anchorEl={menuAnchorEl}
           buttonStyles={{ paddingX: 0, minWidth: 38 }}
           deleteItem={handleDelete}
+          deletePrompt={deleteGroupPrompt}
+          editPath={editGroupPath}
           itemId={id}
-          itemType={ResourceNames.Group}
-          name={name}
           setAnchorEl={setMenuAnchorEl}
           variant="ghost"
           canDelete

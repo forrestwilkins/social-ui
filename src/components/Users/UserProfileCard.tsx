@@ -13,12 +13,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
-  ResourceNames,
+  NavigationPaths,
 } from "../../constants/common.constants";
 import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
-import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
 import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -63,6 +63,9 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const isMe = me?.id === user.id;
   const joinDate = formatDate(user.createdAt);
 
+  const deleteUserPrompt = t("prompts.deleteItem", { itemType: "user" });
+  const editUserPath = `${NavigationPaths.Users}/${user.name}${NavigationPaths.Edit}`;
+
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
     marginBottom: 1.25,
@@ -79,9 +82,9 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
           isMe && (
             <ItemMenu
               anchorEl={menuAnchorEl}
+              deletePrompt={deleteUserPrompt}
+              editPath={editUserPath}
               itemId={user.id}
-              itemType={ResourceNames.User}
-              name={user.name}
               setAnchorEl={setMenuAnchorEl}
               canEdit
             />

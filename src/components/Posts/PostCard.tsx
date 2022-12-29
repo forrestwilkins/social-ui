@@ -21,7 +21,6 @@ import {
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
-  ResourceNames,
 } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
@@ -133,19 +132,24 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   };
 
   const renderMenu = () => {
+    const editPostPath = `${NavigationPaths.Posts}/${id}${NavigationPaths.Edit}`;
+    const deletePostPrompt = t("prompts.deleteItem", { itemType: "post" });
+
     const hasPermission = me?.serverPermissions.includes(
       ServerPermissions.ManagePosts
     );
     const canDelete = hasPermission || isMe;
+
     return (
       <ItemMenu
         anchorEl={menuAnchorEl}
-        deleteItem={handleDelete}
-        itemId={id}
-        itemType={ResourceNames.Post}
-        setAnchorEl={setMenuAnchorEl}
         canDelete={canDelete}
         canEdit={isMe}
+        deleteItem={handleDelete}
+        deletePrompt={deletePostPrompt}
+        editPath={editPostPath}
+        itemId={id}
+        setAnchorEl={setMenuAnchorEl}
       />
     );
   };

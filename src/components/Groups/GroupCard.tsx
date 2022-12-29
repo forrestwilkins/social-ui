@@ -19,11 +19,11 @@ import {
 } from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
-  ResourceNames,
   TypeNames,
 } from "../../constants/common.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import {
+  getEditGroupPath,
   getGroupMembersPath,
   getGroupPath,
   getMemberRequestsPath,
@@ -69,9 +69,12 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     ? members.find(({ user }) => currentUserId === user.id)
     : undefined;
 
+  const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
-  const memberRequestsPath = getMemberRequestsPath(name);
   const groupPath = getGroupPath(name);
+  const memberRequestsPath = getMemberRequestsPath(name);
+
+  const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
 
   const handleDelete = async (id: number) =>
     await deleteGroup({
@@ -90,9 +93,9 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
             <ItemMenu
               anchorEl={menuAnchorEl}
               deleteItem={handleDelete}
+              deletePrompt={deleteGroupPrompt}
+              editPath={editGroupPath}
               itemId={id}
-              itemType={ResourceNames.Group}
-              name={name}
               setAnchorEl={setMenuAnchorEl}
               canDelete
               canEdit

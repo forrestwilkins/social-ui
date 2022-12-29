@@ -1,7 +1,7 @@
 /**
  * TODO: Add remaining functionality - below is a WIP
  *
- * Permissions that still need to be implemented:
+ * Permissions that still need to be implemented fully:
  * - Ban Members
  * - Create Invites
  * - Manage Comments

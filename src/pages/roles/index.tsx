@@ -1,5 +1,3 @@
-// TODO: Add basic functionality for roles - below is a WIP
-
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useServerRolesQuery } from "../../apollo/gen";

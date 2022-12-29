@@ -166,7 +166,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   };
 
   const renderImagePreview = () => {
-    if (!coverPhoto && !editGroup?.coverPhoto) {
+    if (!coverPhoto) {
       return null;
     }
     return (

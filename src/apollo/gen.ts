@@ -470,7 +470,6 @@ export type GroupFormFragment = {
   id: number;
   name: string;
   description: string;
-  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type GroupProfileCardFragment = {
@@ -639,7 +638,6 @@ export type EditGroupQuery = {
     id: number;
     name: string;
     description: string;
-    coverPhoto?: { __typename?: "Image"; id: number } | null;
   };
 };
 
@@ -1253,9 +1251,6 @@ export const GroupFormFragmentDoc = gql`
     id
     name
     description
-    coverPhoto {
-      id
-    }
   }
 `;
 export const GroupProfileCardFragmentDoc = gql`

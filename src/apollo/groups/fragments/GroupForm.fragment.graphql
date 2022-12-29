@@ -2,7 +2,4 @@ fragment GroupForm on Group {
   id
   name
   description
-  coverPhoto {
-    id
-  }
 }

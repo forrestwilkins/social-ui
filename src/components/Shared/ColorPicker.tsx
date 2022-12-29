@@ -6,10 +6,10 @@ import { useTranslate } from "../../hooks/common.hooks";
 import Flex from "./Flex";
 
 interface Props {
-  sx?: SxProps;
   color: string;
   label: string;
   onChange: (color: ColorResult) => void;
+  sx?: SxProps;
 }
 
 const ColorPicker = ({ label, color, onChange, sx }: Props) => {

@@ -6,7 +6,7 @@ export const isDeniedAccess = (error: ApolloError | undefined) => {
   if (!error?.message) {
     return false;
   }
-  return [UNAUTHORIZED, FORBIDDEN].includes(error?.message);
+  return [UNAUTHORIZED, FORBIDDEN].includes(error.message);
 };
 
 export const formatGQLError = (

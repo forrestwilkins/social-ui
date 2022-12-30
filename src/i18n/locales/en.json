@@ -152,9 +152,10 @@
 
   "roles": {
     "actions": {
-      "delete": "Delete Role",
+      "add": "Add",
       "addMembers": "Add members",
-      "add": "Add"
+      "delete": "Delete Role",
+      "manageRoles": "Manage Roles"
     },
     "headers": {
       "serverRoles": "Server Roles"
@@ -169,8 +170,8 @@
     },
     "tabs": {
       "display": "Display",
-      "permissions": "Permissions",
-      "members": "Members"
+      "members": "Members",
+      "permissions": "Permissions"
     }
   },
 

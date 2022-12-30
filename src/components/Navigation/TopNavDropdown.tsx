@@ -1,15 +1,20 @@
-import { ExitToApp, Person, Settings } from "@mui/icons-material";
+import { AccountBox, ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
 import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import { MeDocument, useLogOutMutation } from "../../apollo/gen";
+import {
+  MeDocument,
+  TopNavDropdownFragment,
+  useLogOutMutation,
+} from "../../apollo/gen";
 import {
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
+import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
@@ -30,12 +35,20 @@ const ICON_PROPS: SvgIconProps = {
 interface Props {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
-  userName: string;
+  user: TopNavDropdownFragment;
 }
 
-const TopNavDropdown = ({ userName, anchorEl, handleClose }: Props) => {
+const TopNavDropdown = ({
+  anchorEl,
+  handleClose,
+  user: { name, serverPermissions },
+}: Props) => {
   const [logOut] = useLogOutMutation();
   const t = useTranslate();
+
+  const canManageRoles = serverPermissions.includes(
+    ServerPermissions.ManageRoles
+  );
 
   const handleLogOutButtonClick = () =>
     window.confirm(t("users.prompts.logOut")) &&
@@ -50,9 +63,11 @@ const TopNavDropdown = ({ userName, anchorEl, handleClose }: Props) => {
     });
 
   const handleEditProfileButtonClick = () => {
-    const path = `/${ResourceNames.User}/${userName}/edit`;
+    const path = `/${ResourceNames.User}/${name}/edit`;
     redirectTo(path);
   };
+
+  const handleRolesButtonClick = () => redirectTo(NavigationPaths.Roles);
 
   return (
     <Menu
@@ -79,6 +94,13 @@ const TopNavDropdown = ({ userName, anchorEl, handleClose }: Props) => {
         <Settings {...ICON_PROPS} />
         {t("navigation.preferences")}
       </MenuItem>
+
+      {canManageRoles && (
+        <MenuItem onClick={handleRolesButtonClick}>
+          <AccountBox {...ICON_PROPS} />
+          {t("roles.actions.manageRoles")}
+        </MenuItem>
+      )}
 
       <MenuItem onClick={handleLogOutButtonClick}>
         <ExitToApp {...ICON_PROPS} />

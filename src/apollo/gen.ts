@@ -1127,6 +1127,12 @@ export type EditProfileFormFragment = {
   coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
+export type TopNavDropdownFragment = {
+  __typename?: "User";
+  name: string;
+  serverPermissions: Array<string>;
+};
+
 export type UserAvatarFragment = {
   __typename?: "User";
   id: number;
@@ -1387,6 +1393,12 @@ export const EditProfileFormFragmentDoc = gql`
     coverPhoto {
       id
     }
+  }
+`;
+export const TopNavDropdownFragmentDoc = gql`
+  fragment TopNavDropdown on User {
+    name
+    serverPermissions
   }
 `;
 export const UserProfileCardFragmentDoc = gql`

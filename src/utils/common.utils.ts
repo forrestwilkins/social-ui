@@ -87,5 +87,5 @@ export const scrollTop = () => {
 };
 
 export const createEmotionCache = () => createCache({ key: "css" });
-export const generateRandom = () => cryptoRandomString({ length: 8 });
+export const getRandomString = () => cryptoRandomString({ length: 8 });
 export const redirectTo = (path: string) => Router.push(path);

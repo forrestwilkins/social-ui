@@ -32,7 +32,7 @@ import {
   TypeNames,
 } from "../../constants/common.constants";
 import {
-  generateRandom,
+  getRandomString,
   multiPartRequest,
   redirectTo,
 } from "../../utils/common.utils";
@@ -112,7 +112,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         cache.modify({ id: groupCacheId, fields });
       },
       onCompleted() {
-        setImagesInputKey(generateRandom());
+        setImagesInputKey(getRandomString());
         setSelctedImages([]);
         setSubmitting(false);
         resetForm();
@@ -177,7 +177,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           cache.gc();
         },
       });
-      setImagesInputKey(generateRandom());
+      setImagesInputKey(getRandomString());
     }
   };
 
@@ -185,7 +185,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     setSelctedImages(
       selectedImages.filter((image) => image.name !== imageName)
     );
-    setImagesInputKey(generateRandom());
+    setImagesInputKey(getRandomString());
   };
 
   return (

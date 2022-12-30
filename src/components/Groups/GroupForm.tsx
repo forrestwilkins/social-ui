@@ -24,7 +24,7 @@ import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { ApiRoutes, FieldNames } from "../../constants/common.constants";
 import {
-  generateRandom,
+  getRandomString,
   multiPartRequest,
   redirectTo,
 } from "../../utils/common.utils";
@@ -93,7 +93,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         );
       },
       onCompleted() {
-        setImageInputKey(generateRandom());
+        setImageInputKey(getRandomString());
         setCoverPhoto(undefined);
         setSubmitting(false);
         resetForm();
@@ -162,7 +162,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
 
   const removeSelectedImageHandler = () => {
     setCoverPhoto(undefined);
-    setImageInputKey(generateRandom());
+    setImageInputKey(getRandomString());
   };
 
   const renderImagePreview = () => {

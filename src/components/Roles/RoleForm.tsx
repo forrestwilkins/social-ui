@@ -22,7 +22,7 @@ import {
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
-import { generateRandom } from "../../utils/common.utils";
+import { getRandomString } from "../../utils/common.utils";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -105,7 +105,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
         title: String(err),
       });
     } finally {
-      setColorPickerKey(generateRandom());
+      setColorPickerKey(getRandomString());
     }
   };
 

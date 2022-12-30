@@ -1,4 +1,3 @@
-import createCache from "@emotion/cache";
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import cryptoRandomString from "crypto-random-string";
@@ -86,6 +85,5 @@ export const scrollTop = () => {
   animateScroll.scrollToTop(options);
 };
 
-export const createEmotionCache = () => createCache({ key: "css" });
 export const getRandomString = () => cryptoRandomString({ length: 8 });
 export const redirectTo = (path: string) => Router.push(path);

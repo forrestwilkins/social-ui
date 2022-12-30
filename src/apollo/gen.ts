@@ -24,6 +24,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  Upload: any;
 };
 
 export type ApproveMemberRequestPayload = {
@@ -49,6 +50,7 @@ export type CreateMemberRequestPayload = {
 export type CreatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
 
 export type CreatePostPayload = {
@@ -150,6 +152,7 @@ export type Mutation = {
   updatePost: UpdatePostPayload;
   updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
+  uploadImage: Image;
 };
 
 export type MutationApproveMemberRequestArgs = {
@@ -230,6 +233,10 @@ export type MutationUpdateRoleArgs = {
 
 export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
+};
+
+export type MutationUploadImageArgs = {
+  image: Scalars["Upload"];
 };
 
 export type Permission = {
@@ -341,6 +348,7 @@ export type UpdateGroupPayload = {
 export type UpdatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
 
 export type UpdatePostPayload = {

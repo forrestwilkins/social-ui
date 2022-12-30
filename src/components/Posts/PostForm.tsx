@@ -77,11 +77,10 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
 
   const handleCreate = async (
     formValues: CreatePostInput,
-    { resetForm, setSubmitting }: FormikHelpers<CreatePostInput>,
-    imageData?: FormData
+    { resetForm, setSubmitting }: FormikHelpers<CreatePostInput>
   ) =>
     await createPost({
-      variables: { postData: formValues },
+      variables: { postData: { ...formValues, images: selectedImages } },
       async update(cache, { data }) {
         if (!data) {
           return;
@@ -89,10 +88,10 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         const {
           createPost: { post },
         } = data;
-        const images = imageData
-          ? await uploadPostImages(post.id, imageData)
-          : [];
-        const postWithImages = { ...post, images };
+        // const images = imageData
+        //   ? await uploadPostImages(post.id, imageData)
+        //   : [];
+        const postWithImages = { ...post, images: [] };
         cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
           produce(postsData, (draft) => {
             draft?.posts.unshift(postWithImages);
@@ -158,7 +157,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         await handleUpdate(formValues, editPost, imageData);
         return;
       }
-      await handleCreate(formValues, formikHelpers, imageData);
+      await handleCreate(formValues, formikHelpers);
     } catch (err) {
       toastVar({
         status: "error",

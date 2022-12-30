@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import {
+  AccountBox,
   Close,
   ExitToApp as SessionIcon,
   PersonAdd as SignUpIcon,
@@ -20,6 +21,7 @@ import { useEffect } from "react";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
 import { MeDocument, useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
+import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -78,6 +80,13 @@ const NavDrawer = () => {
       const { me } = data;
       const userProfilePath = getUserProfilePath(me.name);
 
+      const canBanUsers = me.serverPermissions.includes(
+        ServerPermissions.BanMembers
+      );
+      const canManageRoles = me.serverPermissions.includes(
+        ServerPermissions.ManageRoles
+      );
+
       return (
         <>
           <ListItemButton onClick={redirectTo(userProfilePath)}>
@@ -87,12 +96,23 @@ const NavDrawer = () => {
             <ListItemText primary={me.name} />
           </ListItemButton>
 
-          <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
-            <ListItemIcon>
-              <UsersIcon />
-            </ListItemIcon>
-            <ListItemText primary={t("navigation.users")} />
-          </ListItemButton>
+          {canBanUsers && (
+            <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
+              <ListItemIcon>
+                <UsersIcon />
+              </ListItemIcon>
+              <ListItemText primary={t("navigation.users")} />
+            </ListItemButton>
+          )}
+
+          {canManageRoles && (
+            <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
+              <ListItemIcon>
+                <AccountBox />
+              </ListItemIcon>
+              <ListItemText primary={t("navigation.roles")} />
+            </ListItemButton>
+          )}
 
           <ListItemButton
             onClick={() =>

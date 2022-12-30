@@ -11,15 +11,17 @@ import Link from "./Link";
 
 const Breadcrumbs = () => {
   const { path, breadcrumbs } = useReactiveVar(breadcrumbsVar);
-
   const { asPath } = useRouter();
   const theme = useTheme();
 
+  const pathBeforeQuery = path?.split("?")[0];
+  const asPathBeforeQuery = asPath.split("?")[0];
+
   useEffect(() => {
     breadcrumbsVar({ path: null, breadcrumbs: [] });
-  }, [asPath]);
+  }, [asPathBeforeQuery]);
 
-  if (path !== asPath || !breadcrumbs.length) {
+  if (pathBeforeQuery !== asPathBeforeQuery || !breadcrumbs.length) {
     return null;
   }
 

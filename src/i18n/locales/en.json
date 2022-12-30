@@ -16,6 +16,7 @@
     "deleteItem": "Are you sure you want to delete this {{itemType}}?",
     "featureInDevelopment": "This feature has not been implemented yet.",
     "permissionDenied": "Permission denied.",
+    "removeItem": "Are you sure you want to remove this {{itemType}}?",
     "welcomeToUI": "Welcome to Social UI",
     "whatsHappening": "What's happening?",
     "wip": "This page is still in construction."
@@ -23,6 +24,7 @@
 
   "labels": {
     "menu": "Menu",
+    "switch": "Switch",
     "menuButton": "Menu button",
     "scrollToTop": "Scroll to top"
   },
@@ -38,7 +40,6 @@
   },
 
   "navigation": {
-    "accountSettings": "Account Settings",
     "events": "Events",
     "groups": "Groups",
     "home": "Home",
@@ -146,6 +147,67 @@
     },
     "prompts": {
       "confirmLeave": "Are you sure you want to leave the group?"
+    }
+  },
+
+  "roles": {
+    "actions": {
+      "add": "Add",
+      "addMembers": "Add members",
+      "delete": "Delete Role",
+      "manageRoles": "Manage Roles"
+    },
+    "headers": {
+      "serverRoles": "Server Roles"
+    },
+    "form": {
+      "colorPickerLabel": "Role Color",
+      "pickColor": "Pick a Color"
+    },
+    "labels": {
+      "members_one": "{{count}} Member",
+      "members_other": "{{count}} Members"
+    },
+    "tabs": {
+      "display": "Display",
+      "members": "Members",
+      "permissions": "Permissions"
+    }
+  },
+
+  "permissions": {
+    "names": {
+      "acceptMemberRequests": "Approve Member Requests",
+      "banMembers": "Ban Members",
+      "createEvents": "Create Events",
+      "createInvites": "Create Invites",
+      "deleteGroup": "Delete Group",
+      "editGroup": "Edit Group",
+      "manageComments": "Manage Comments",
+      "manageEvents": "Manage Events",
+      "manageInvites": "Manage Invites",
+      "managePosts": "Manage Posts",
+      "manageRoles": "Manage Roles",
+      "manageSettings": "Manage Settings"
+    },
+    "descriptions": {
+      "acceptMemberRequests": "Allows members to view member requests and to allow new members to join the group.",
+      "banGroupMembers": "Allows members to remove other members from the group.",
+      "banMembers": "Allows members to permanently ban other members from the server.",
+      "createEvents": "Allows members to create and plan events.",
+      "createInvites": "Allows members to invite new people to this server.",
+      "deleteGroup": "Allows members to permanently delete this group.",
+      "editGroup": "Allows members to edit the group's name, description, and cover photo.",
+      "manageComments": "Allows members to remove or hide comments by other members.",
+      "manageEvents": "Allows members to remove or hide events created by other members.",
+      "manageGroupSettings": "Allows members to make changes to this group's settings.",
+      "manageInvites": "Allows members to view, copy, or delete invite links for this server.",
+      "managePosts": "Allows members to remove or hide posts by other members.",
+      "manageRoles": "Allows members to create new roles as well as edit or delete other roles."
+    },
+    "states": {
+      "enabled": "Enabled",
+      "disabled": "Disabled"
     }
   },
 

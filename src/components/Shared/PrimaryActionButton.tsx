@@ -1,11 +1,5 @@
 import { Button as MuiButton, styled } from "@mui/material";
-
-export enum Blurple {
-  Primary = "#7289DA",
-  Active = "#4666A8",
-  Hover = "#637DC9",
-  Disabled = "#4C5B91",
-}
+import { Blurple } from "../../styles/theme";
 
 export const BLURPLE_BUTTON_COLORS = {
   backgroundColor: Blurple.Primary,

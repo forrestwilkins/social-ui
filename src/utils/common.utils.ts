@@ -5,7 +5,7 @@ import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../apollo/auth/mutations/RefreshToken.mutation";
+import { refreshToken } from "../apollo/auth/links/refresh-token.link";
 import { isRefreshingTokenVar, toastVar } from "../apollo/cache";
 import {
   API_ROOT,
@@ -15,7 +15,6 @@ import {
 } from "../constants/common.constants";
 
 export const multiPartRequest = async <T>(
-  method: HttpMethod,
   path: string,
   data: Record<string, any>
 ) => {
@@ -25,13 +24,11 @@ export const multiPartRequest = async <T>(
   // Set auth refresh interceptor for Axios requests
   createAuthRefreshInterceptor(axios, refreshToken);
 
-  const url = `${API_ROOT}${path}`;
-  const headers = { "Content-Type": "multipart/form-data" };
   const response = await axios.request<T>({
+    headers: { "Content-Type": "multipart/form-data" },
+    method: HttpMethod.Post,
+    url: `${API_ROOT}${path}`,
     data,
-    headers,
-    method,
-    url,
   });
 
   return response.data;
@@ -85,7 +82,7 @@ export const scrollTop = () => {
   animateScroll.scrollToTop(options);
 };
 
-// TODO: Consider removing redirectTo
+// TODO: Remove redirectTo - unneeded abstraction
 export const redirectTo = (path: string) => Router.push(path);
 
 export const createEmotionCache = () => createCache({ key: "css" });

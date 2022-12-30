@@ -56,6 +56,21 @@ export type CreatePostPayload = {
   post: Post;
 };
 
+export type CreateRoleInput = {
+  color: Scalars["String"];
+  name: Scalars["String"];
+};
+
+export type CreateRolePayload = {
+  __typename?: "CreateRolePayload";
+  role: Role;
+};
+
+export type DeleteRoleMemberPayload = {
+  __typename?: "DeleteRoleMemberPayload";
+  role: Role;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -67,6 +82,7 @@ export type Group = {
   members: Array<GroupMember>;
   name: Scalars["String"];
   posts: Array<Post>;
+  roles: Array<Role>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -117,9 +133,12 @@ export type Mutation = {
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
   createPost: CreatePostPayload;
+  createRole: CreateRolePayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
+  deleteRole: Scalars["Boolean"];
+  deleteRoleMember: DeleteRoleMemberPayload;
   deleteUser: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
   leaveGroup: Scalars["Boolean"];
@@ -129,6 +148,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   updateGroup: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
+  updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
 };
 
@@ -152,6 +172,10 @@ export type MutationCreatePostArgs = {
   postData: CreatePostInput;
 };
 
+export type MutationCreateRoleArgs = {
+  roleData: CreateRoleInput;
+};
+
 export type MutationDeleteGroupArgs = {
   id: Scalars["Int"];
 };
@@ -161,6 +185,14 @@ export type MutationDeleteImageArgs = {
 };
 
 export type MutationDeletePostArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteRoleArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteRoleMemberArgs = {
   id: Scalars["Int"];
 };
 
@@ -192,8 +224,25 @@ export type MutationUpdatePostArgs = {
   postData: UpdatePostInput;
 };
 
+export type MutationUpdateRoleArgs = {
+  roleData: UpdateRoleInput;
+};
+
 export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
+};
+
+export type Permission = {
+  __typename?: "Permission";
+  enabled: Scalars["Boolean"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+  role: Role;
+};
+
+export type PermissionInput = {
+  enabled: Scalars["Boolean"];
+  id: Scalars["Int"];
 };
 
 export type Post = {
@@ -217,6 +266,8 @@ export type Query = {
   memberRequests: Array<MemberRequest>;
   post: Post;
   posts: Array<Post>;
+  role: Role;
+  serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
 };
@@ -237,9 +288,32 @@ export type QueryPostArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryRoleArgs = {
+  id: Scalars["Int"];
+};
+
 export type QueryUserArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type Role = {
+  __typename?: "Role";
+  availableUsersToAdd: Array<User>;
+  color: Scalars["String"];
+  group?: Maybe<Group>;
+  id: Scalars["Int"];
+  memberCount: Scalars["Int"];
+  members: Array<RoleMember>;
+  name: Scalars["String"];
+  permissions: Array<Permission>;
+};
+
+export type RoleMember = {
+  __typename?: "RoleMember";
+  id: Scalars["Int"];
+  role: Role;
+  user: User;
 };
 
 export type SignUpInput = {
@@ -274,6 +348,20 @@ export type UpdatePostPayload = {
   post: Post;
 };
 
+export type UpdateRoleInput = {
+  color?: InputMaybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: InputMaybe<Scalars["String"]>;
+  permissions?: InputMaybe<Array<PermissionInput>>;
+  selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
+};
+
+export type UpdateRolePayload = {
+  __typename?: "UpdateRolePayload";
+  me: User;
+  role: Role;
+};
+
 export type UpdateUserInput = {
   bio: Scalars["String"];
   id: Scalars["Int"];
@@ -295,6 +383,7 @@ export type User = {
   name: Scalars["String"];
   posts: Array<Post>;
   profilePicture: Image;
+  serverPermissions: Array<Scalars["String"]>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -312,9 +401,10 @@ export type LoginMutation = {
     __typename?: "LoginPayload";
     user: {
       __typename?: "User";
+      serverPermissions: Array<string>;
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -336,9 +426,10 @@ export type SignUpMutation = {
     __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
+      serverPermissions: Array<string>;
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -357,7 +448,7 @@ export type GroupAvatarFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type GroupCardFragment = {
@@ -371,7 +462,7 @@ export type GroupCardFragment = {
     id: number;
     user: { __typename?: "User"; id: number };
   }>;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type GroupFormFragment = {
@@ -379,16 +470,14 @@ export type GroupFormFragment = {
   id: number;
   name: string;
   description: string;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
 };
 
 export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  description: string;
   memberRequestCount: number;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{
     __typename?: "GroupMember";
     id: number;
@@ -403,7 +492,7 @@ export type JoinedMemberFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -414,7 +503,7 @@ export type RequestToJoinFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
   group: { __typename?: "Group"; id: number };
 };
@@ -434,7 +523,7 @@ export type ApproveMemberRequestMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     };
   };
@@ -467,11 +556,7 @@ export type CreateGroupMutation = {
         id: number;
         user: { __typename?: "User"; id: number };
       }>;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
 };
@@ -492,7 +577,7 @@ export type CreateMemberRequestMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     };
   };
@@ -553,7 +638,6 @@ export type EditGroupQuery = {
     id: number;
     name: string;
     description: string;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
   };
 };
 
@@ -573,7 +657,7 @@ export type GroupMembersQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
   };
@@ -589,7 +673,6 @@ export type GroupProfileQuery = {
     __typename?: "Group";
     id: number;
     name: string;
-    description: string;
     memberRequestCount: number;
     posts: Array<{
       __typename?: "Post";
@@ -601,20 +684,16 @@ export type GroupProfileQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{
       __typename?: "GroupMember";
       id: number;
@@ -639,7 +718,7 @@ export type GroupsQuery = {
       id: number;
       user: { __typename?: "User"; id: number };
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
   me: { __typename?: "User"; id: number };
 };
@@ -670,7 +749,7 @@ export type MemberRequestsQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
     group: { __typename?: "Group"; id: number };
   }>;
@@ -708,13 +787,13 @@ export type PostCardFragment = {
     __typename?: "User";
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
   group?: {
     __typename?: "Group";
     id: number;
     name: string;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
 };
 
@@ -742,17 +821,13 @@ export type CreatePostMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     };
   };
@@ -784,17 +859,13 @@ export type UpdatePostMutation = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     };
   };
@@ -832,17 +903,13 @@ export type PostQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
     group?: {
       __typename?: "Group";
       id: number;
       name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
   };
 };
@@ -861,18 +928,193 @@ export type PostsQuery = {
       __typename?: "User";
       id: number;
       name: string;
-      profilePicture: { __typename?: "Image"; filename: string; id: number };
+      profilePicture: { __typename?: "Image"; id: number };
     };
     group?: {
       __typename?: "Group";
       id: number;
       name: string;
-      coverPhoto?: {
-        __typename?: "Image";
-        filename: string;
-        id: number;
-      } | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
+  }>;
+};
+
+export type AddMemberTabFragment = {
+  __typename?: "Role";
+  id: number;
+  members: Array<{
+    __typename?: "RoleMember";
+    id: number;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
+export type PermissionsFormFragment = {
+  __typename?: "Permission";
+  id: number;
+  name: string;
+  enabled: boolean;
+};
+
+export type RoleFragment = {
+  __typename?: "Role";
+  id: number;
+  name: string;
+  color: string;
+  memberCount: number;
+};
+
+export type RoleMemberFragment = {
+  __typename?: "RoleMember";
+  id: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
+export type CreateRoleMutationVariables = Exact<{
+  roleData: CreateRoleInput;
+}>;
+
+export type CreateRoleMutation = {
+  __typename?: "Mutation";
+  createRole: {
+    __typename?: "CreateRolePayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+    };
+  };
+};
+
+export type DeleteRoleMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteRoleMutation = {
+  __typename?: "Mutation";
+  deleteRole: boolean;
+};
+
+export type DeleteRoleMemberMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteRoleMemberMutation = {
+  __typename?: "Mutation";
+  deleteRoleMember: {
+    __typename?: "DeleteRoleMemberPayload";
+    role: {
+      __typename?: "Role";
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+    };
+  };
+};
+
+export type UpdateRoleMutationVariables = Exact<{
+  roleData: UpdateRoleInput;
+}>;
+
+export type UpdateRoleMutation = {
+  __typename?: "Mutation";
+  updateRole: {
+    __typename?: "UpdateRolePayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+      permissions: Array<{
+        __typename?: "Permission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }>;
+      members: Array<{
+        __typename?: "RoleMember";
+        id: number;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }>;
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+    };
+    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+  };
+};
+
+export type EditServerRoleQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type EditServerRoleQuery = {
+  __typename?: "Query";
+  role: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+    memberCount: number;
+    permissions: Array<{
+      __typename?: "Permission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }>;
+    availableUsersToAdd: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+    members: Array<{
+      __typename?: "RoleMember";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+};
+
+export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ServerRolesQuery = {
+  __typename?: "Query";
+  serverRoles: Array<{
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+    memberCount: number;
   }>;
 };
 
@@ -881,15 +1123,21 @@ export type EditProfileFormFragment = {
   id: number;
   bio?: string | null;
   name: string;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
+  profilePicture: { __typename?: "Image"; id: number };
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
+};
+
+export type TopNavDropdownFragment = {
+  __typename?: "User";
+  name: string;
+  serverPermissions: Array<string>;
 };
 
 export type UserAvatarFragment = {
   __typename?: "User";
   id: number;
   name: string;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
+  profilePicture: { __typename?: "Image"; id: number };
 };
 
 export type UserProfileCardFragment = {
@@ -898,8 +1146,8 @@ export type UserProfileCardFragment = {
   createdAt: any;
   id: number;
   name: string;
-  coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-  profilePicture: { __typename?: "Image"; filename: string; id: number };
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
+  profilePicture: { __typename?: "Image"; id: number };
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -925,9 +1173,10 @@ export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
+    serverPermissions: Array<string>;
     id: number;
     name: string;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -953,21 +1202,17 @@ export type UserQuery = {
         __typename?: "User";
         id: number;
         name: string;
-        profilePicture: { __typename?: "Image"; filename: string; id: number };
+        profilePicture: { __typename?: "Image"; id: number };
       };
       group?: {
         __typename?: "Group";
         id: number;
         name: string;
-        coverPhoto?: {
-          __typename?: "Image";
-          filename: string;
-          id: number;
-        } | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     }>;
-    coverPhoto?: { __typename?: "Image"; filename: string; id: number } | null;
-    profilePicture: { __typename?: "Image"; filename: string; id: number };
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+    profilePicture: { __typename?: "Image"; id: number };
   };
 };
 
@@ -983,7 +1228,6 @@ export const GroupAvatarFragmentDoc = gql`
     id
     name
     coverPhoto {
-      filename
       id
     }
   }
@@ -1013,19 +1257,13 @@ export const GroupFormFragmentDoc = gql`
     id
     name
     description
-    coverPhoto {
-      filename
-      id
-    }
   }
 `;
 export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
-    description
     coverPhoto {
-      filename
       id
     }
     members {
@@ -1040,7 +1278,6 @@ export const UserAvatarFragmentDoc = gql`
     id
     name
     profilePicture {
-      filename
       id
     }
   }
@@ -1112,26 +1349,62 @@ export const PostFormFragmentDoc = gql`
   }
   ${AttachedImageFragmentDoc}
 `;
+export const RoleMemberFragmentDoc = gql`
+  fragment RoleMember on RoleMember {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export const AddMemberTabFragmentDoc = gql`
+  fragment AddMemberTab on Role {
+    id
+    members {
+      ...RoleMember
+    }
+  }
+  ${RoleMemberFragmentDoc}
+`;
+export const PermissionsFormFragmentDoc = gql`
+  fragment PermissionsForm on Permission {
+    id
+    name
+    enabled
+  }
+`;
+export const RoleFragmentDoc = gql`
+  fragment Role on Role {
+    id
+    name
+    color
+    memberCount
+  }
+`;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
     id
     bio
     name
     profilePicture {
-      filename
       id
     }
     coverPhoto {
-      filename
       id
     }
+  }
+`;
+export const TopNavDropdownFragmentDoc = gql`
+  fragment TopNavDropdown on User {
+    name
+    serverPermissions
   }
 `;
 export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
     ...UserAvatar
     coverPhoto {
-      filename
       id
     }
     bio
@@ -1188,6 +1461,7 @@ export const LoginDocument = gql`
     login(input: $input) {
       user {
         ...UserAvatar
+        serverPermissions
       }
     }
   }
@@ -1285,6 +1559,7 @@ export const SignUpDocument = gql`
     signUp(input: $input) {
       user {
         ...UserAvatar
+        serverPermissions
       }
     }
   }
@@ -2520,6 +2795,356 @@ export type PostsQueryResult = Apollo.QueryResult<
   PostsQuery,
   PostsQueryVariables
 >;
+export const CreateRoleDocument = gql`
+  mutation CreateRole($roleData: CreateRoleInput!) {
+    createRole(roleData: $roleData) {
+      role {
+        ...Role
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+export type CreateRoleMutationFn = Apollo.MutationFunction<
+  CreateRoleMutation,
+  CreateRoleMutationVariables
+>;
+
+/**
+ * __useCreateRoleMutation__
+ *
+ * To run a mutation, you first call `useCreateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoleMutation, { data, loading, error }] = useCreateRoleMutation({
+ *   variables: {
+ *      roleData: // value for 'roleData'
+ *   },
+ * });
+ */
+export function useCreateRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRoleMutation,
+    CreateRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateRoleMutation, CreateRoleMutationVariables>(
+    CreateRoleDocument,
+    options
+  );
+}
+export type CreateRoleMutationHookResult = ReturnType<
+  typeof useCreateRoleMutation
+>;
+export type CreateRoleMutationResult =
+  Apollo.MutationResult<CreateRoleMutation>;
+export type CreateRoleMutationOptions = Apollo.BaseMutationOptions<
+  CreateRoleMutation,
+  CreateRoleMutationVariables
+>;
+export const DeleteRoleDocument = gql`
+  mutation DeleteRole($id: Int!) {
+    deleteRole(id: $id)
+  }
+`;
+export type DeleteRoleMutationFn = Apollo.MutationFunction<
+  DeleteRoleMutation,
+  DeleteRoleMutationVariables
+>;
+
+/**
+ * __useDeleteRoleMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoleMutation, { data, loading, error }] = useDeleteRoleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRoleMutation,
+    DeleteRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteRoleMutation, DeleteRoleMutationVariables>(
+    DeleteRoleDocument,
+    options
+  );
+}
+export type DeleteRoleMutationHookResult = ReturnType<
+  typeof useDeleteRoleMutation
+>;
+export type DeleteRoleMutationResult =
+  Apollo.MutationResult<DeleteRoleMutation>;
+export type DeleteRoleMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRoleMutation,
+  DeleteRoleMutationVariables
+>;
+export const DeleteRoleMemberDocument = gql`
+  mutation DeleteRoleMember($id: Int!) {
+    deleteRoleMember(id: $id) {
+      role {
+        availableUsersToAdd {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type DeleteRoleMemberMutationFn = Apollo.MutationFunction<
+  DeleteRoleMemberMutation,
+  DeleteRoleMemberMutationVariables
+>;
+
+/**
+ * __useDeleteRoleMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoleMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoleMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoleMemberMutation, { data, loading, error }] = useDeleteRoleMemberMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoleMemberMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRoleMemberMutation,
+    DeleteRoleMemberMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRoleMemberMutation,
+    DeleteRoleMemberMutationVariables
+  >(DeleteRoleMemberDocument, options);
+}
+export type DeleteRoleMemberMutationHookResult = ReturnType<
+  typeof useDeleteRoleMemberMutation
+>;
+export type DeleteRoleMemberMutationResult =
+  Apollo.MutationResult<DeleteRoleMemberMutation>;
+export type DeleteRoleMemberMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRoleMemberMutation,
+  DeleteRoleMemberMutationVariables
+>;
+export const UpdateRoleDocument = gql`
+  mutation UpdateRole($roleData: UpdateRoleInput!) {
+    updateRole(roleData: $roleData) {
+      role {
+        ...Role
+        permissions {
+          ...PermissionsForm
+        }
+        members {
+          ...RoleMember
+        }
+        availableUsersToAdd {
+          ...UserAvatar
+        }
+      }
+      me {
+        id
+        serverPermissions
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+  ${PermissionsFormFragmentDoc}
+  ${RoleMemberFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+export type UpdateRoleMutationFn = Apollo.MutationFunction<
+  UpdateRoleMutation,
+  UpdateRoleMutationVariables
+>;
+
+/**
+ * __useUpdateRoleMutation__
+ *
+ * To run a mutation, you first call `useUpdateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRoleMutation, { data, loading, error }] = useUpdateRoleMutation({
+ *   variables: {
+ *      roleData: // value for 'roleData'
+ *   },
+ * });
+ */
+export function useUpdateRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateRoleMutation,
+    UpdateRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateRoleMutation, UpdateRoleMutationVariables>(
+    UpdateRoleDocument,
+    options
+  );
+}
+export type UpdateRoleMutationHookResult = ReturnType<
+  typeof useUpdateRoleMutation
+>;
+export type UpdateRoleMutationResult =
+  Apollo.MutationResult<UpdateRoleMutation>;
+export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
+  UpdateRoleMutation,
+  UpdateRoleMutationVariables
+>;
+export const EditServerRoleDocument = gql`
+  query EditServerRole($id: Int!) {
+    role(id: $id) {
+      ...Role
+      ...AddMemberTab
+      permissions {
+        ...PermissionsForm
+      }
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+  ${AddMemberTabFragmentDoc}
+  ${PermissionsFormFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useEditServerRoleQuery__
+ *
+ * To run a query within a React component, call `useEditServerRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditServerRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditServerRoleQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditServerRoleQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditServerRoleQuery,
+    EditServerRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditServerRoleQuery, EditServerRoleQueryVariables>(
+    EditServerRoleDocument,
+    options
+  );
+}
+export function useEditServerRoleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditServerRoleQuery,
+    EditServerRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditServerRoleQuery, EditServerRoleQueryVariables>(
+    EditServerRoleDocument,
+    options
+  );
+}
+export type EditServerRoleQueryHookResult = ReturnType<
+  typeof useEditServerRoleQuery
+>;
+export type EditServerRoleLazyQueryHookResult = ReturnType<
+  typeof useEditServerRoleLazyQuery
+>;
+export type EditServerRoleQueryResult = Apollo.QueryResult<
+  EditServerRoleQuery,
+  EditServerRoleQueryVariables
+>;
+export const ServerRolesDocument = gql`
+  query ServerRoles {
+    serverRoles {
+      ...Role
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+
+/**
+ * __useServerRolesQuery__
+ *
+ * To run a query within a React component, call `useServerRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerRolesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useServerRolesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ServerRolesQuery,
+    ServerRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ServerRolesQuery, ServerRolesQueryVariables>(
+    ServerRolesDocument,
+    options
+  );
+}
+export function useServerRolesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ServerRolesQuery,
+    ServerRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ServerRolesQuery, ServerRolesQueryVariables>(
+    ServerRolesDocument,
+    options
+  );
+}
+export type ServerRolesQueryHookResult = ReturnType<typeof useServerRolesQuery>;
+export type ServerRolesLazyQueryHookResult = ReturnType<
+  typeof useServerRolesLazyQuery
+>;
+export type ServerRolesQueryResult = Apollo.QueryResult<
+  ServerRolesQuery,
+  ServerRolesQueryVariables
+>;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
@@ -2578,6 +3203,7 @@ export const MeDocument = gql`
   query Me {
     me {
       ...UserAvatar
+      serverPermissions
     }
   }
   ${UserAvatarFragmentDoc}

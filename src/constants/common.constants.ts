@@ -1,7 +1,10 @@
 export const API_ROOT = "/api";
-export const SCROLL_DURATION = 250;
-export const MIDDOT_WITH_SPACES = " · ";
+
+export const FORBIDDEN = "Forbidden";
 export const UNAUTHORIZED = "Unauthorized";
+
+export const MIDDOT_WITH_SPACES = " · ";
+export const SCROLL_DURATION = 250;
 
 export enum NavigationPaths {
   About = "/about",
@@ -11,6 +14,7 @@ export enum NavigationPaths {
   Home = "/",
   LogIn = "/auth/login",
   Posts = "/posts",
+  Roles = "/roles",
   SignUp = "/auth/signup",
   Users = "/users",
 }
@@ -29,6 +33,7 @@ export enum TypeNames {
   Image = "Image",
   MemberRequest = "MemberRequest",
   Post = "Post",
+  Role = "Role",
   User = "User",
 }
 
@@ -64,10 +69,15 @@ export enum HttpMethod {
   Post = "POST",
 }
 
-export enum Events {
+export enum BrowserEvents {
   Keydown = "keydown",
   Resize = "resize",
   Scroll = "scroll",
+}
+
+export enum KeyCodes {
+  Enter = "Enter",
+  Escape = "Escape",
 }
 
 export enum Time {

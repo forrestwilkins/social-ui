@@ -18,12 +18,11 @@ import {
   useDeletePostMutation,
   useMeQuery,
 } from "../../apollo/gen";
-import { removePost } from "../../apollo/posts/mutations/DeletePost.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
-  ResourceNames,
 } from "../../constants/common.constants";
+import { ServerPermissions } from "../../constants/role.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
@@ -34,6 +33,7 @@ import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
+import { removePost } from "./DeletePostButton";
 import PostCardFooter from "./PostCardFooter";
 
 const CardHeader = styled(MuiCardHeader)(() => ({
@@ -132,19 +132,24 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   };
 
   const renderMenu = () => {
-    if (!isMe) {
-      return null;
-    }
+    const editPostPath = `${NavigationPaths.Posts}/${id}${NavigationPaths.Edit}`;
+    const deletePostPrompt = t("prompts.deleteItem", { itemType: "post" });
+
+    const hasPermission = me?.serverPermissions.includes(
+      ServerPermissions.ManagePosts
+    );
+    const canDelete = hasPermission || isMe;
+
     return (
-      // TODO: Add permission logic for edit and delete
       <ItemMenu
         anchorEl={menuAnchorEl}
+        canDelete={canDelete}
+        canEdit={isMe}
         deleteItem={handleDelete}
+        deletePrompt={deletePostPrompt}
+        editPath={editPostPath}
         itemId={id}
-        itemType={ResourceNames.Post}
         setAnchorEl={setMenuAnchorEl}
-        canDelete
-        canEdit
       />
     );
   };

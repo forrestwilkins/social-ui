@@ -19,15 +19,14 @@ import {
   GroupProfileCardFragment,
   useDeleteGroupMutation,
 } from "../../apollo/gen";
-import { removeGroup } from "../../apollo/groups/mutations/DeleteGroup.mutation";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
-  ResourceNames,
 } from "../../constants/common.constants";
 import { useAboveBreakpoint, useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import {
+  getEditGroupPath,
   getGroupMembersPath,
   getMemberRequestsPath,
 } from "../../utils/group.utils";
@@ -35,6 +34,7 @@ import CoverPhoto from "../Images/CoverPhoto";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import { removeGroup } from "./GroupCard";
 import JoinButton from "./JoinButton";
 
 const NameText = styled(Typography)(() => ({
@@ -70,8 +70,12 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const t = useTranslate();
 
   const { id, name, coverPhoto, members, memberRequestCount } = group;
+  const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
+
+  const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
+
   const showCardHeader = isLoggedIn && isAboveSmall;
 
   const getNameTextWidth = () => {
@@ -111,9 +115,9 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
           anchorEl={menuAnchorEl}
           buttonStyles={{ paddingX: 0, minWidth: 38 }}
           deleteItem={handleDelete}
+          deletePrompt={deleteGroupPrompt}
+          editPath={editGroupPath}
           itemId={id}
-          itemType={ResourceNames.Group}
-          name={name}
           setAnchorEl={setMenuAnchorEl}
           variant="ghost"
           canDelete

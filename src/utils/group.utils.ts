@@ -8,3 +8,6 @@ export const getMemberRequestsPath = (groupName: string) =>
 
 export const getGroupMembersPath = (groupName: string) =>
   `${NavigationPaths.Groups}/${groupName}/members`;
+
+export const getEditGroupPath = (groupName: string) =>
+  `${NavigationPaths.Groups}/${groupName}${NavigationPaths.Edit}`;

@@ -1,0 +1,9 @@
+fragment DeletePostButton on Post {
+  id
+  user {
+    id
+  }
+  group {
+    id
+  }
+}

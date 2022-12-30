@@ -85,7 +85,7 @@ const TopNavDesktop = () => {
           <TopNavDropdown
             anchorEl={menuAnchorEl}
             handleClose={handleClose}
-            userName={data.me.name}
+            user={data.me}
           />
         </Flex>
       )}

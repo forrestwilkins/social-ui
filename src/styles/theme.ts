@@ -1,6 +1,13 @@
 import { grey } from "@mui/material/colors";
 import { createTheme, Theme } from "@mui/material/styles";
 
+export enum Blurple {
+  Active = "#4666A8",
+  Disabled = "#4C5B91",
+  Hover = "#637DC9",
+  Primary = "#7289DA",
+}
+
 declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
     navigation: string;
@@ -118,6 +125,26 @@ const theme: Theme = createTheme(initialTheme, {
           },
           "&:after": {
             borderBottomColor: initialTheme.palette.divider,
+          },
+        },
+      },
+    },
+
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          opacity: 0.9,
+
+          "& .MuiSwitch-thumb": {
+            color: grey[400],
+          },
+          "& .Mui-checked .MuiSwitch-thumb": {
+            backgroundColor: grey[300],
+          },
+          "& .MuiSwitch-track": {
+            backgroundColor: grey[900],
+            transition: "0.4s",
+            opacity: 1,
           },
         },
       },

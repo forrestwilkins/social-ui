@@ -37,6 +37,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        serverRoles: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
     User: {
@@ -65,6 +70,15 @@ const cache = new InMemoryCache({
           },
         },
         members: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
+    Role: {
+      fields: {
+        availableUsersToAdd: {
           merge(_, incoming) {
             return incoming;
           },

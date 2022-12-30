@@ -8,14 +8,11 @@ import {
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
-import {
-  uploadProfilePicture,
-  uploadUserCoverPhoto,
-} from "../../apollo/users/mutations/UpdateUser.mutation";
+import { ApiRoutes } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
-import { buildImageData } from "../../utils/image.utils";
+import { uploadImage } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ImageInput from "../Images/ImageInput";
@@ -43,25 +40,27 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
     name: user.name || "",
   };
 
+  const uploadProfilePicture = () => {
+    const path = `${ApiRoutes.Users}/${user.id}/profile-picture`;
+    return uploadImage(path, profilePicture);
+  };
+
+  const uploadCoverPhoto = () => {
+    const path = `${ApiRoutes.Users}/${user.id}/cover-photo`;
+    return uploadImage(path, coverPhoto);
+  };
+
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>
     await updateUser({
       variables: {
         userData: { id: user.id, ...formValues },
       },
-      async update(cache, { data }) {
-        if (!data || (!coverPhoto && !profilePicture)) {
+      async update(cache) {
+        const profilePictureResult = await uploadProfilePicture();
+        const coverPhotoResult = await uploadCoverPhoto();
+        if (!profilePictureResult && !coverPhotoResult) {
           return;
         }
-        const coverPhotoData = buildImageData(coverPhoto);
-        const profilePictureData = buildImageData(profilePicture);
-
-        const coverPhotoResult =
-          coverPhotoData &&
-          (await uploadUserCoverPhoto(user.id, coverPhotoData));
-        const profilePictureResult =
-          profilePictureData &&
-          (await uploadProfilePicture(user.id, profilePictureData));
-
         cache.modify({
           id: cache.identify(user),
           fields: {

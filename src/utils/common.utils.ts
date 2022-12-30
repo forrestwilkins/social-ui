@@ -1,38 +1,10 @@
-import axios from "axios";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
 import cryptoRandomString from "crypto-random-string";
 import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
 import { animateScroll } from "react-scroll";
-import { refreshToken } from "../apollo/auth/links/refresh-token.link";
-import { isRefreshingTokenVar, toastVar } from "../apollo/cache";
-import {
-  API_ROOT,
-  Environments,
-  HttpMethod,
-  SCROLL_DURATION,
-} from "../constants/common.constants";
-
-export const multiPartRequest = async <T>(
-  path: string,
-  data: Record<string, any>
-) => {
-  // Prevent Axios from interfering with Apollo refresh logic
-  await waitFor(() => !isRefreshingTokenVar());
-
-  // Set auth refresh interceptor for Axios requests
-  createAuthRefreshInterceptor(axios, refreshToken);
-
-  const response = await axios.request<T>({
-    headers: { "Content-Type": "multipart/form-data" },
-    method: HttpMethod.Post,
-    url: `${API_ROOT}${path}`,
-    data,
-  });
-
-  return response.data;
-};
+import { toastVar } from "../apollo/cache";
+import { Environments, SCROLL_DURATION } from "../constants/common.constants";
 
 /**
  * Returns whether or not a given node can be successfully rendered.

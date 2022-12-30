@@ -1,4 +1,3 @@
-import { Reference } from "@apollo/client";
 import { Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
@@ -9,10 +8,8 @@ import {
   UpdateUserInput,
   useUpdateUserMutation,
 } from "../../apollo/gen";
-import { ApiRoutes } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { redirectTo } from "../../utils/common.utils";
-import { uploadImage } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ImageInput from "../Images/ImageInput";
@@ -40,42 +37,15 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
     name: user.name || "",
   };
 
-  const uploadProfilePicture = () => {
-    const path = `${ApiRoutes.Users}/${user.id}/profile-picture`;
-    return uploadImage(path, profilePicture);
-  };
-
-  const uploadCoverPhoto = () => {
-    const path = `${ApiRoutes.Users}/${user.id}/cover-photo`;
-    return uploadImage(path, coverPhoto);
-  };
-
   const handleSubmit = async (formValues: Omit<UpdateUserInput, "id">) =>
     await updateUser({
       variables: {
-        userData: { id: user.id, ...formValues },
-      },
-      async update(cache) {
-        const profilePictureResult = await uploadProfilePicture();
-        const coverPhotoResult = await uploadCoverPhoto();
-        if (!profilePictureResult && !coverPhotoResult) {
-          return;
-        }
-        cache.modify({
-          id: cache.identify(user),
-          fields: {
-            coverPhoto(existingRef: Reference, { toReference }) {
-              return coverPhotoResult
-                ? toReference(coverPhotoResult)
-                : existingRef;
-            },
-            profilePicture(existingRef: Reference, { toReference }) {
-              return profilePictureResult
-                ? toReference(profilePictureResult)
-                : existingRef;
-            },
-          },
-        });
+        userData: {
+          id: user.id,
+          ...formValues,
+          profilePicture,
+          coverPhoto,
+        },
       },
       onCompleted({ updateUser: { user } }) {
         const path = getUserProfilePath(user.name);

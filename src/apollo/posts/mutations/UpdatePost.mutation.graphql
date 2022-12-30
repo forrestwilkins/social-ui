@@ -1,15 +1,7 @@
 mutation UpdatePost($postData: UpdatePostInput!) {
   updatePost(postData: $postData) {
     post {
-      id
-      body
-      user {
-        ...UserAvatar
-      }
-      group {
-        ...GroupAvatar
-      }
-      createdAt
+      ...PostCard
     }
   }
 }

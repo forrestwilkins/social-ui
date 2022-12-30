@@ -24,6 +24,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  Upload: any;
 };
 
 export type ApproveMemberRequestPayload = {
@@ -32,6 +33,7 @@ export type ApproveMemberRequestPayload = {
 };
 
 export type CreateGroupInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
   name: Scalars["String"];
 };
@@ -49,6 +51,7 @@ export type CreateMemberRequestPayload = {
 export type CreatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
 
 export type CreatePostPayload = {
@@ -150,6 +153,7 @@ export type Mutation = {
   updatePost: UpdatePostPayload;
   updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
+  uploadImage: Image;
 };
 
 export type MutationApproveMemberRequestArgs = {
@@ -230,6 +234,10 @@ export type MutationUpdateRoleArgs = {
 
 export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
+};
+
+export type MutationUploadImageArgs = {
+  image: Scalars["Upload"];
 };
 
 export type Permission = {
@@ -328,6 +336,7 @@ export type SignUpPayload = {
 };
 
 export type UpdateGroupInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
   id: Scalars["Int"];
   name: Scalars["String"];
@@ -341,6 +350,7 @@ export type UpdateGroupPayload = {
 export type UpdatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
 
 export type UpdatePostPayload = {
@@ -364,8 +374,10 @@ export type UpdateRolePayload = {
 
 export type UpdateUserInput = {
   bio: Scalars["String"];
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   id: Scalars["Int"];
   name: Scalars["String"];
+  profilePicture?: InputMaybe<Scalars["Upload"]>;
 };
 
 export type UpdateUserPayload = {
@@ -620,9 +632,10 @@ export type UpdateGroupMutation = {
     __typename?: "UpdateGroupPayload";
     group: {
       __typename?: "Group";
+      description: string;
       id: number;
       name: string;
-      description: string;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
 };
@@ -817,6 +830,7 @@ export type CreatePostMutation = {
       id: number;
       body: string;
       createdAt: any;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -855,6 +869,7 @@ export type UpdatePostMutation = {
       id: number;
       body: string;
       createdAt: any;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -1163,6 +1178,8 @@ export type UpdateUserMutation = {
       id: number;
       name: string;
       bio?: string | null;
+      profilePicture: { __typename?: "Image"; id: number };
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
 };
@@ -2025,12 +2042,12 @@ export const UpdateGroupDocument = gql`
   mutation UpdateGroup($groupData: UpdateGroupInput!) {
     updateGroup(groupData: $groupData) {
       group {
-        id
-        name
+        ...GroupAvatar
         description
       }
     }
   }
+  ${GroupAvatarFragmentDoc}
 `;
 export type UpdateGroupMutationFn = Apollo.MutationFunction<
   UpdateGroupMutation,
@@ -2480,20 +2497,11 @@ export const CreatePostDocument = gql`
   mutation CreatePost($postData: CreatePostInput!) {
     createPost(postData: $postData) {
       post {
-        id
-        body
-        user {
-          ...UserAvatar
-        }
-        group {
-          ...GroupAvatar
-        }
-        createdAt
+        ...PostCard
       }
     }
   }
-  ${UserAvatarFragmentDoc}
-  ${GroupAvatarFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 export type CreatePostMutationFn = Apollo.MutationFunction<
   CreatePostMutation,
@@ -2590,20 +2598,11 @@ export const UpdatePostDocument = gql`
   mutation UpdatePost($postData: UpdatePostInput!) {
     updatePost(postData: $postData) {
       post {
-        id
-        body
-        user {
-          ...UserAvatar
-        }
-        group {
-          ...GroupAvatar
-        }
-        createdAt
+        ...PostCard
       }
     }
   }
-  ${UserAvatarFragmentDoc}
-  ${GroupAvatarFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 export type UpdatePostMutationFn = Apollo.MutationFunction<
   UpdatePostMutation,
@@ -3152,6 +3151,12 @@ export const UpdateUserDocument = gql`
         id
         name
         bio
+        profilePicture {
+          id
+        }
+        coverPhoto {
+          id
+        }
       }
     }
   }

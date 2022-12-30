@@ -82,7 +82,6 @@ export const scrollTop = () => {
   animateScroll.scrollToTop(options);
 };
 
-// TODO: Remove redirectTo - unneeded abstraction
 export const redirectTo = (path: string) => Router.push(path);
 
 export const createEmotionCache = () => createCache({ key: "css" });

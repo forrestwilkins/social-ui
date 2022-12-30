@@ -630,9 +630,10 @@ export type UpdateGroupMutation = {
     __typename?: "UpdateGroupPayload";
     group: {
       __typename?: "Group";
+      description: string;
       id: number;
       name: string;
-      description: string;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
 };
@@ -2037,12 +2038,12 @@ export const UpdateGroupDocument = gql`
   mutation UpdateGroup($groupData: UpdateGroupInput!) {
     updateGroup(groupData: $groupData) {
       group {
-        id
-        name
+        ...GroupAvatar
         description
       }
     }
   }
+  ${GroupAvatarFragmentDoc}
 `;
 export type UpdateGroupMutationFn = Apollo.MutationFunction<
   UpdateGroupMutation,

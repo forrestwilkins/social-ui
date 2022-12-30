@@ -1,8 +1,7 @@
 mutation UpdateGroup($groupData: UpdateGroupInput!) {
   updateGroup(groupData: $groupData) {
     group {
-      id
-      name
+      ...GroupAvatar
       description
     }
   }

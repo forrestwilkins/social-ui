@@ -1,4 +1,4 @@
-// TODO: Add remaining layout and functionality - below is a WIP
+// TODO: Determine whether RoleForm and PermissionsForm should be combined
 
 import { Card, styled, Tab as MuiTab, Tabs, Typography } from "@mui/material";
 import { NextPage } from "next";
@@ -105,8 +105,6 @@ const EditServerRole: NextPage = () => {
   if (!role) {
     return null;
   }
-
-  // TODO: Determine whether RoleForm and PermissionsForm should be combined
 
   return (
     <>

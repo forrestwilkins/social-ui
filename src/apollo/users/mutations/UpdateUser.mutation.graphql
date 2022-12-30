@@ -4,6 +4,12 @@ mutation UpdateUser($userData: UpdateUserInput!) {
       id
       name
       bio
+      profilePicture {
+        id
+      }
+      coverPhoto {
+        id
+      }
     }
   }
 }

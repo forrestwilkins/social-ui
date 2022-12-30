@@ -374,8 +374,10 @@ export type UpdateRolePayload = {
 
 export type UpdateUserInput = {
   bio: Scalars["String"];
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   id: Scalars["Int"];
   name: Scalars["String"];
+  profilePicture?: InputMaybe<Scalars["Upload"]>;
 };
 
 export type UpdateUserPayload = {
@@ -1176,6 +1178,8 @@ export type UpdateUserMutation = {
       id: number;
       name: string;
       bio?: string | null;
+      profilePicture: { __typename?: "Image"; id: number };
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
 };
@@ -3147,6 +3151,12 @@ export const UpdateUserDocument = gql`
         id
         name
         bio
+        profilePicture {
+          id
+        }
+        coverPhoto {
+          id
+        }
       }
     }
   }

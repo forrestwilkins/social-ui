@@ -1,6 +1,7 @@
 import createCache from "@emotion/cache";
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
+import cryptoRandomString from "crypto-random-string";
 import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
@@ -34,17 +35,6 @@ export const multiPartRequest = async <T>(
   return response.data;
 };
 
-export const waitFor = (conditionFn: () => boolean, ms = 250) => {
-  const poll = (resolve: (_?: unknown) => void) => {
-    if (conditionFn()) {
-      resolve();
-    } else {
-      setTimeout(() => poll(resolve), ms);
-    }
-  };
-  return new Promise(poll);
-};
-
 /**
  * Returns whether or not a given node can be successfully rendered.
  * Useful for checking whether a component has been passed any children.
@@ -62,13 +52,27 @@ export const isRenderable = (node: ReactNode): boolean => {
   }
 };
 
-export const generateRandom = (): string =>
-  Math.random()
-    .toString(36)
-    .slice(2, 10)
-    .split("")
-    .map((c) => (Math.random() < 0.5 ? c : c.toUpperCase()))
-    .join("");
+export const initAxe = () => {
+  if (
+    typeof window !== "undefined" &&
+    process.env.NODE_ENV !== Environments.Production
+  ) {
+    const ReactDOM = require("react-dom");
+    const axe = require("@axe-core/react");
+    axe(React, ReactDOM, 1000);
+  }
+};
+
+export const waitFor = (conditionFn: () => boolean, ms = 250) => {
+  const poll = (resolve: (_?: unknown) => void) => {
+    if (conditionFn()) {
+      resolve();
+    } else {
+      setTimeout(() => poll(resolve), ms);
+    }
+  };
+  return new Promise(poll);
+};
 
 export const inDevToast = () => {
   toastVar({
@@ -82,17 +86,6 @@ export const scrollTop = () => {
   animateScroll.scrollToTop(options);
 };
 
-export const redirectTo = (path: string) => Router.push(path);
-
 export const createEmotionCache = () => createCache({ key: "css" });
-
-export const initAxe = () => {
-  if (
-    typeof window !== "undefined" &&
-    process.env.NODE_ENV !== Environments.Production
-  ) {
-    const ReactDOM = require("react-dom");
-    const axe = require("@axe-core/react");
-    axe(React, ReactDOM, 1000);
-  }
-};
+export const generateRandom = () => cryptoRandomString({ length: 8 });
+export const redirectTo = (path: string) => Router.push(path);

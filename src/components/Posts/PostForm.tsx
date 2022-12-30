@@ -14,9 +14,6 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
-  Image,
-  PostCardFragment,
-  PostCardFragmentDoc,
   PostFormFragment,
   PostsDocument,
   PostsQuery,
@@ -26,17 +23,11 @@ import {
   useUpdatePostMutation,
 } from "../../apollo/gen";
 import {
-  ApiRoutes,
   FieldNames,
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
-import {
-  getRandomString,
-  multiPartRequest,
-  redirectTo,
-} from "../../utils/common.utils";
-import { buildImageData } from "../../utils/image.utils";
+import { getRandomString, redirectTo } from "../../utils/common.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
@@ -57,7 +48,7 @@ interface Props extends CardProps {
 
 const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
-  const [selectedImages, setSelctedImages] = useState<File[]>([]);
+  const [images, setImages] = useState<File[]>([]);
 
   const [createPost] = useCreatePostMutation();
   const [deleteImage] = useDeleteImageMutation();
@@ -70,17 +61,12 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     groupId,
   };
 
-  const uploadPostImages = (postId: number, data: FormData) => {
-    const path = `${ApiRoutes.Posts}/${postId}/images`;
-    return multiPartRequest<Image[]>(path, data);
-  };
-
   const handleCreate = async (
     formValues: CreatePostInput,
     { resetForm, setSubmitting }: FormikHelpers<CreatePostInput>
   ) =>
     await createPost({
-      variables: { postData: { ...formValues, images: selectedImages } },
+      variables: { postData: { ...formValues, images } },
       async update(cache, { data }) {
         if (!data) {
           return;
@@ -107,36 +93,24 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         cache.modify({ id: groupCacheId, fields });
       },
       onCompleted() {
-        setImagesInputKey(getRandomString());
-        setSelctedImages([]);
-        setSubmitting(false);
         resetForm();
+        setImages([]);
+        setImagesInputKey(getRandomString());
+        setSubmitting(false);
       },
     });
 
   const handleUpdate = async (
     formValues: Omit<UpdatePostInput, "id">,
-    editPost: PostFormFragment,
-    imageData?: FormData
+    editPost: PostFormFragment
   ) =>
     await updatePost({
-      variables: { postData: { id: editPost.id, ...formValues } },
-      async update(cache) {
-        if (!imageData) {
-          return;
-        }
-        const images = await uploadPostImages(editPost.id, imageData);
-        cache.updateFragment<PostCardFragment>(
-          {
-            id: cache.identify(editPost),
-            fragment: PostCardFragmentDoc,
-            fragmentName: "PostCard",
-          },
-          (data) =>
-            produce(data, (draft) => {
-              draft?.images.push(...images);
-            })
-        );
+      variables: {
+        postData: {
+          id: editPost.id,
+          ...formValues,
+          images,
+        },
       },
       onCompleted() {
         redirectTo(NavigationPaths.Home);
@@ -148,9 +122,8 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     formikHelpers: FormikHelpers<CreatePostInput | UpdatePostInput>
   ) => {
     try {
-      const imageData = buildImageData(selectedImages);
       if (editPost) {
-        await handleUpdate(formValues, editPost, imageData);
+        await handleUpdate(formValues, editPost);
         return;
       }
       await handleCreate(formValues, formikHelpers);
@@ -177,9 +150,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   };
 
   const removeSelectedImageHandler = (imageName: string) => {
-    setSelctedImages(
-      selectedImages.filter((image) => image.name !== imageName)
-    );
+    setImages(images.filter((image) => image.name !== imageName));
     setImagesInputKey(getRandomString());
   };
 
@@ -205,7 +176,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
                   deleteSavedImage={deleteSavedImageHandler}
                   removeSelectedImage={removeSelectedImageHandler}
                   savedImages={editPost?.images || []}
-                  selectedImages={selectedImages}
+                  selectedImages={images}
                 />
               </FormGroup>
 
@@ -214,14 +185,13 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
               <Flex sx={{ justifyContent: "space-between" }}>
                 <ImageInput
                   refreshKey={imagesInputKey}
-                  setImages={setSelctedImages}
+                  setImages={setImages}
                   multiple
                 />
 
                 <PrimaryActionButton
                   disabled={
-                    formik.isSubmitting ||
-                    (!formik.dirty && !selectedImages.length)
+                    formik.isSubmitting || (!formik.dirty && !images.length)
                   }
                   sx={{ marginTop: 1.5 }}
                   type="submit"

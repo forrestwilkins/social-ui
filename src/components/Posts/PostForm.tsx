@@ -88,18 +88,14 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         const {
           createPost: { post },
         } = data;
-        // const images = imageData
-        //   ? await uploadPostImages(post.id, imageData)
-        //   : [];
-        const postWithImages = { ...post, images: [] };
         cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
           produce(postsData, (draft) => {
-            draft?.posts.unshift(postWithImages);
+            draft?.posts.unshift(post);
           })
         );
         const fields: Modifiers = {
           posts(existingPostRefs, { toReference }) {
-            return [toReference(postWithImages), ...existingPostRefs];
+            return [toReference(post), ...existingPostRefs];
           },
         };
         const userCacheId = cache.identify(post.user);

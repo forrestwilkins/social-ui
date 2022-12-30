@@ -825,6 +825,7 @@ export type CreatePostMutation = {
       id: number;
       body: string;
       createdAt: any;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -863,6 +864,7 @@ export type UpdatePostMutation = {
       id: number;
       body: string;
       createdAt: any;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -2488,20 +2490,11 @@ export const CreatePostDocument = gql`
   mutation CreatePost($postData: CreatePostInput!) {
     createPost(postData: $postData) {
       post {
-        id
-        body
-        user {
-          ...UserAvatar
-        }
-        group {
-          ...GroupAvatar
-        }
-        createdAt
+        ...PostCard
       }
     }
   }
-  ${UserAvatarFragmentDoc}
-  ${GroupAvatarFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 export type CreatePostMutationFn = Apollo.MutationFunction<
   CreatePostMutation,
@@ -2598,20 +2591,11 @@ export const UpdatePostDocument = gql`
   mutation UpdatePost($postData: UpdatePostInput!) {
     updatePost(postData: $postData) {
       post {
-        id
-        body
-        user {
-          ...UserAvatar
-        }
-        group {
-          ...GroupAvatar
-        }
-        createdAt
+        ...PostCard
       }
     }
   }
-  ${UserAvatarFragmentDoc}
-  ${GroupAvatarFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 export type UpdatePostMutationFn = Apollo.MutationFunction<
   UpdatePostMutation,

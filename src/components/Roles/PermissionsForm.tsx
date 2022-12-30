@@ -18,13 +18,13 @@ import {
   FormikHelpers,
 } from "formik";
 import { ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   PermissionInput,
   PermissionsFormFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
-import { useTranslate } from "../../hooks/common.hooks";
 import { getPermissionText } from "../../utils/role.utils";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -41,8 +41,8 @@ interface Props extends BoxProps {
 const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
   const [updateRole] = useUpdateRoleMutation();
 
+  const { t } = useTranslation();
   const theme = useTheme();
-  const t = useTranslate();
 
   const initialValues: FormValues = {
     permissions: [],

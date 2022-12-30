@@ -3,10 +3,10 @@
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { useEditGroupQuery } from "../../../apollo/gen";
 import GroupForm from "../../../components/Groups/GroupForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
-import { useTranslate } from "../../../hooks/common.hooks";
 
 const EditGroup: NextPage = () => {
   const { query } = useRouter();
@@ -16,7 +16,7 @@ const EditGroup: NextPage = () => {
     skip: !name,
   });
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

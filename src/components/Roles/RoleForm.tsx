@@ -9,6 +9,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { ColorResult } from "react-color";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateRoleInput,
@@ -21,7 +22,6 @@ import {
 import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { generateRandom } from "../../utils/common.utils";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
@@ -45,7 +45,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
   const [createRole] = useCreateRoleMutation();
   const [updateRole] = useUpdateRoleMutation();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues = {
     name: editRole ? editRole.name : "",

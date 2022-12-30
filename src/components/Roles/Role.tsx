@@ -6,9 +6,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { RoleFragment } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 
@@ -21,7 +21,7 @@ const Role = ({
   role: { id, name, color, memberCount },
   gutterBottom,
 }: Props) => {
-  const t = useTranslate();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const editRolePath = `${NavigationPaths.Roles}/${id}/edit`;

@@ -1,8 +1,8 @@
 import { CircularProgress, CircularProgressProps } from "@mui/material";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
 
 const Spinner = (props: CircularProgressProps) => {
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   return (
     <CircularProgress

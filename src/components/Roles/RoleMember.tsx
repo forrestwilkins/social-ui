@@ -1,11 +1,11 @@
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import {
   RoleMemberFragment,
   useDeleteRoleMemberMutation,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -28,7 +28,7 @@ const RoleMember = ({
   roleId,
 }: Props) => {
   const [deleteRoleMember] = useDeleteRoleMemberMutation();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const userProfilePath = getUserProfilePath(user.name);
 

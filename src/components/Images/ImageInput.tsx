@@ -1,26 +1,27 @@
+// TODO: Research alternatives or libraries for image inputs
+
 import { Image } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { ChangeEvent, ReactNode, useRef } from "react";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
 
 interface Props {
+  children?: ReactNode;
   multiple?: boolean;
   refreshKey?: string;
   setImage?: (image: File) => void;
   setImages?: (images: File[]) => void;
-  children?: ReactNode;
 }
 
-// TODO: Research alternatives or libraries for image inputs
 const ImageInput = ({
-  setImage,
-  setImages,
+  children,
   multiple,
   refreshKey,
-  children,
+  setImage,
+  setImages,
 }: Props) => {
   const imageInput = useRef<HTMLInputElement>(null);
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const setImageState = (files: File[]) => {
     if (multiple && setImages) {

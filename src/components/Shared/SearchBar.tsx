@@ -5,8 +5,8 @@ import { Box, InputBase, styled, SxProps } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Field, Form, Formik } from "formik";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FieldNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { inDevToast } from "../../utils/common.utils";
 
 const SearchInput = styled(InputBase)(({ theme }) => ({
@@ -40,7 +40,7 @@ const SEARCH_ICON_STYLES: SxProps = {
 
 const SearchBar = () => {
   const [focused, setFocused] = useState<boolean>(false);
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues = { query: "" };
 

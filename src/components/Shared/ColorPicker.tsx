@@ -2,7 +2,7 @@ import { ArrowForwardIos } from "@mui/icons-material";
 import { Box, SxProps, Typography } from "@mui/material";
 import { useState } from "react";
 import { CirclePicker, ColorResult } from "react-color";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
 import Flex from "./Flex";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 
 const ColorPicker = ({ label, color, onChange, sx }: Props) => {
   const [open, setOpen] = useState(false);
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const colorBoxStyles = {
     backgroundColor: color,

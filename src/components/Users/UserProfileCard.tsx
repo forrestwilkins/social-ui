@@ -13,12 +13,13 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -55,8 +56,8 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const { data } = useMeQuery();
 
+  const { t } = useTranslation();
   const isDesktop = useIsDesktop();
-  const t = useTranslate();
   const theme = useTheme();
 
   const me = data && data.me;

@@ -4,16 +4,18 @@ import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupProfileQuery } from "../../apollo/gen";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import PostForm from "../../components/Posts/PostForm";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import { useTranslate } from "../../hooks/common.hooks";
 import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupPage: NextPage = () => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupProfileQuery({
@@ -21,8 +23,7 @@ const GroupPage: NextPage = () => {
     skip: !name,
   });
 
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   if (isDeniedAccess(error)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;

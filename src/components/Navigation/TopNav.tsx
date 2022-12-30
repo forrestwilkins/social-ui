@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import { NavigationPaths } from "../../constants/common.constants";
-import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { inDevToast } from "../../utils/common.utils";
 import LevelOneHeading from "../Shared/LevelOneHeading";
 import Link from "../Shared/Link";
@@ -22,8 +23,8 @@ interface Props {
 
 const TopNav = ({ appBarProps }: Props) => {
   const { asPath, reload } = useRouter();
+  const { t } = useTranslation();
   const isDesktop = useIsDesktop();
-  const t = useTranslate();
   const theme = useTheme();
 
   const appBarStyles: SxProps = {

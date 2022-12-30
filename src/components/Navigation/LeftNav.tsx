@@ -15,11 +15,11 @@ import {
 } from "@mui/material";
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import Link from "../Shared/Link";
 
 interface ListItemTextProps extends MuiListItemTextProps {
@@ -53,7 +53,7 @@ const LeftNav = () => {
   const { data, loading } = useMeQuery({ skip: !isLoggedIn });
 
   const { asPath } = useRouter();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const me = data?.me;
   const canBanUsers = me?.serverPermissions.includes(

@@ -25,6 +25,7 @@
     "@mui/styles": "^5.3.0",
     "axios": "^0.24.0",
     "axios-auth-refresh": "^3.3.1",
+    "crypto-random-string": "^5.0.0",
     "dayjs": "^1.11.5",
     "formik": "^2.2.9",
     "formik-material-ui": "^4.0.0-alpha.2",

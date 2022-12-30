@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import {
   GroupCardFragment,
@@ -21,7 +22,6 @@ import {
   MIDDOT_WITH_SPACES,
   TypeNames,
 } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
   getEditGroupPath,
   getGroupMembersPath,
@@ -62,7 +62,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const { id, name, description, members, memberRequestCount } = group;
   const currentMember = isLoggedIn

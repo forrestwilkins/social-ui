@@ -1,9 +1,9 @@
-// TODO: Resolve issue with Edit button only responsding to click on text
+// TODO: Resolve issue with Edit button only responding to click on text
 
 import { Delete, Edit, MoreHoriz } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, SxProps } from "@mui/material";
 import { ReactNode } from "react";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
 import { isRenderable } from "../../utils/common.utils";
 import GhostButton from "./GhostButton";
 import Link from "./Link";
@@ -37,7 +37,7 @@ const ItemMenu = ({
   setAnchorEl,
   variant,
 }: Props) => {
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   if (!canEdit && !canDelete && !isRenderable(children)) {
     return null;

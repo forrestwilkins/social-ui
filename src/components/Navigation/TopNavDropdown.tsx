@@ -1,5 +1,6 @@
 import { AccountBox, ExitToApp, Person, Settings } from "@mui/icons-material";
 import { Menu, MenuItem, SvgIconProps } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import {
   isAuthLoadingVar,
   isLoggedInVar,
@@ -15,7 +16,6 @@ import {
   ResourceNames,
 } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 export const handleLogOutComplete = () => {
@@ -44,7 +44,7 @@ const TopNavDropdown = ({
   user: { name, serverPermissions },
 }: Props) => {
   const [logOut] = useLogOutMutation();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const canManageRoles = serverPermissions.includes(
     ServerPermissions.ManageRoles

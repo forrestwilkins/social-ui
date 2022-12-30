@@ -2,14 +2,14 @@ import { useReactiveVar } from "@apollo/client";
 import { ArrowDropDown } from "@mui/icons-material";
 import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import { NavigationPaths } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { useMeQuery } from "../../apollo/gen";
+import { NavigationPaths } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -43,7 +43,7 @@ const TopNavDesktop = () => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { data, loading } = useMeQuery({ skip: !isLoggedIn });
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;

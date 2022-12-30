@@ -10,12 +10,13 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useGroupMembersQuery } from "../../../apollo/gen";
 import JoinedMember from "../../../components/Groups/JoinedMember";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
-import { useIsDesktop, useTranslate } from "../../../hooks/common.hooks";
+import { useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -34,8 +35,8 @@ const GroupMembers: NextPage = () => {
   const group = data?.group;
 
   const { asPath } = useRouter();
+  const { t } = useTranslation();
   const isDesktop = useIsDesktop();
-  const t = useTranslate();
 
   useEffect(() => {
     if (group) {

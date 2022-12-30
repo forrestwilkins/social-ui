@@ -1,4 +1,5 @@
 import produce from "immer";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   ServerRolesDocument,
@@ -6,7 +7,6 @@ import {
   useDeleteRoleMutation,
 } from "../../apollo/gen";
 import { NavigationPaths, TypeNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import DeleteButton from "../Shared/DeleteButton";
 
@@ -16,7 +16,7 @@ interface Props {
 
 const DeleteRoleButton = ({ roleId }: Props) => {
   const [deleteRole] = useDeleteRoleMutation();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const handleClick = async () => {
     await redirectTo(NavigationPaths.Roles);

@@ -1,6 +1,7 @@
 import { ApolloCache, Reference } from "@apollo/client";
 import { Box, Button, styled, Typography } from "@mui/material";
 import produce from "immer";
+import { useTranslation } from "react-i18next";
 import {
   MemberRequestsDocument,
   MemberRequestsQuery,
@@ -10,7 +11,6 @@ import {
   useDenyMemberRequestMutation,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -34,7 +34,7 @@ const RequestToJoin = ({
 }: Props) => {
   const [approve] = useApproveMemberRequestMutation();
   const [deny] = useDenyMemberRequestMutation();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const handleApproveButtonClick = async () =>
     await approve({

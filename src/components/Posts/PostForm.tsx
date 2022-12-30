@@ -10,6 +10,7 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
@@ -30,9 +31,8 @@ import {
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
-  generateRandom,
+  getRandomString,
   multiPartRequest,
   redirectTo,
 } from "../../utils/common.utils";
@@ -63,7 +63,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [deleteImage] = useDeleteImageMutation();
   const [updatePost] = useUpdatePostMutation();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues: CreatePostInput = {
     body: editPost ? editPost.body : "",
@@ -112,7 +112,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
         cache.modify({ id: groupCacheId, fields });
       },
       onCompleted() {
-        setImagesInputKey(generateRandom());
+        setImagesInputKey(getRandomString());
         setSelctedImages([]);
         setSubmitting(false);
         resetForm();
@@ -177,7 +177,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           cache.gc();
         },
       });
-      setImagesInputKey(generateRandom());
+      setImagesInputKey(getRandomString());
     }
   };
 
@@ -185,7 +185,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     setSelctedImages(
       selectedImages.filter((image) => image.name !== imageName)
     );
-    setImagesInputKey(generateRandom());
+    setImagesInputKey(getRandomString());
   };
 
   return (

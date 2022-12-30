@@ -2,6 +2,7 @@ import { Reference } from "@apollo/client";
 import { Divider, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   EditProfileFormFragment,
@@ -10,7 +11,6 @@ import {
 } from "../../apollo/gen";
 import { ApiRoutes } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { uploadImage } from "../../utils/image.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -33,7 +33,7 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [profilePicture, setProfilePicture] = useState<File>();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues: Omit<UpdateUserInput, "id"> = {
     bio: user.bio || "",

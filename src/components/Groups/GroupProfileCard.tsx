@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import {
   CurrentMemberFragment,
@@ -23,7 +24,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { useAboveBreakpoint, useTranslate } from "../../hooks/common.hooks";
+import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import {
   getEditGroupPath,
@@ -65,9 +66,9 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
 
+  const { t } = useTranslation();
   const isAboveMedium = useAboveBreakpoint("md");
   const isAboveSmall = useAboveBreakpoint("sm");
-  const t = useTranslate();
 
   const { id, name, coverPhoto, members, memberRequestCount } = group;
   const editGroupPath = getEditGroupPath(name);

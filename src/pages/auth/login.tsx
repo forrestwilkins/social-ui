@@ -4,6 +4,7 @@ import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import Router from "next/router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   isLoggedInVar,
   isNavDrawerOpenVar,
@@ -23,14 +24,13 @@ import ProgressBar from "../../components/Shared/ProgressBar";
 import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 
 const Login: NextPage = () => {
   const [login] = useLoginMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues: LoginInput = {
     email: "",

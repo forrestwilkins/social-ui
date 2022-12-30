@@ -4,6 +4,7 @@ import { Card, styled, Tab as MuiTab, Tabs, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useEditServerRoleQuery } from "../../../apollo/gen";
 import AddMemberTab from "../../../components/Roles/AddMemberTab";
@@ -12,7 +13,7 @@ import PermissionsForm from "../../../components/Roles/PermissionsForm";
 import RoleForm from "../../../components/Roles/RoleForm";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
-import { useAboveBreakpoint, useTranslate } from "../../../hooks/common.hooks";
+import { useAboveBreakpoint } from "../../../hooks/common.hooks";
 import { isDeniedAccess } from "../../../utils/error.utils";
 
 enum EditRoleTabs {
@@ -36,8 +37,8 @@ const EditServerRole: NextPage = () => {
     skip: !id,
   });
 
+  const { t } = useTranslation();
   const isAboveSmall = useAboveBreakpoint("sm");
-  const t = useTranslate();
 
   const role = data?.role;
 

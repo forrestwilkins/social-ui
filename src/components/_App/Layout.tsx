@@ -1,11 +1,8 @@
 import { Container } from "@mui/material";
 import Head from "next/head";
 import { ReactNode } from "react";
-import {
-  useAboveBreakpoint,
-  useIsDesktop,
-  useTranslate,
-} from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
+import { useAboveBreakpoint, useIsDesktop } from "../../hooks/common.hooks";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
 import NavDrawer from "../Navigation/NavDrawer";
@@ -20,9 +17,9 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
+  const { t } = useTranslation();
   const isDesktop = useIsDesktop();
   const isLarge = useAboveBreakpoint("lg");
-  const t = useTranslate();
 
   return (
     <>

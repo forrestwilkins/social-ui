@@ -7,12 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AddMemberTabFragment,
   UserAvatarFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
-import { useTranslate } from "../../hooks/common.hooks";
 import Dialog from "../Shared/Dialog";
 import Flex from "../Shared/Flex";
 import AddMemberOption from "./AddMemberOption";
@@ -41,7 +41,7 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [updateRole] = useUpdateRoleMutation();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const addCircleStyles = {
     fontSize: 23,

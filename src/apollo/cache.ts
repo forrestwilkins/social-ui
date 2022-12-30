@@ -83,6 +83,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        members: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
   },

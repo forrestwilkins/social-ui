@@ -1,10 +1,10 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { useUserQuery } from "../../../apollo/gen";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import EditProfileForm from "../../../components/Users/EditProfileForm";
-import { useTranslate } from "../../../hooks/common.hooks";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();
@@ -14,7 +14,7 @@ const EditUser: NextPage = () => {
     skip: !name,
   });
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;

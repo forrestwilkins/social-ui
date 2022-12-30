@@ -15,21 +15,15 @@ import {
   GroupFormFragment,
   GroupsDocument,
   GroupsQuery,
-  Image,
   UpdateGroupInput,
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
-import { ApiRoutes, FieldNames } from "../../constants/common.constants";
-import {
-  getRandomString,
-  multiPartRequest,
-  redirectTo,
-} from "../../utils/common.utils";
+import { FieldNames } from "../../constants/common.constants";
+import { getRandomString, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
-import { buildImageData } from "../../utils/image.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -57,18 +51,17 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     description: editGroup ? editGroup.description : "",
   };
 
-  const uploadGroupCoverPhoto = (groupId: number, data: FormData) => {
-    const path = `${ApiRoutes.Groups}/${groupId}/cover-photo`;
-    return multiPartRequest<Image>(path, data);
-  };
-
   const handleCreate = async (
     formValues: CreateGroupInput,
-    { setSubmitting, resetForm }: FormikHelpers<CreateGroupInput>,
-    coverPhotoData?: FormData
+    { setSubmitting, resetForm }: FormikHelpers<CreateGroupInput>
   ) =>
     await createGroup({
-      variables: { groupData: formValues },
+      variables: {
+        groupData: {
+          ...formValues,
+          coverPhoto,
+        },
+      },
       async update(cache, { data }) {
         if (!data) {
           return;
@@ -76,9 +69,6 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         const {
           createGroup: { group },
         } = data;
-        const coverPhoto = coverPhotoData
-          ? await uploadGroupCoverPhoto(group.id, coverPhotoData)
-          : group.coverPhoto;
 
         cache.updateQuery<GroupsQuery>(
           { query: GroupsDocument },
@@ -87,7 +77,6 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
               draft?.groups.unshift({
                 ...group,
                 memberRequestCount: 0,
-                coverPhoto,
               });
             })
         );
@@ -105,32 +94,15 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
 
   const handleUpdate = async (
     formValues: Omit<UpdateGroupInput, "id">,
-    editGroup: GroupFormFragment,
-    coverPhotoData?: FormData
+    editGroup: GroupFormFragment
   ) =>
     await updateGroup({
       variables: {
-        groupData: { id: editGroup.id, ...formValues },
-      },
-      async update(cache, { data }) {
-        if (!coverPhotoData || !data) {
-          return;
-        }
-        const {
-          updateGroup: { group },
-        } = data;
-        const coverPhotoResult = await uploadGroupCoverPhoto(
-          group.id,
-          coverPhotoData
-        );
-        cache.modify({
-          id: cache.identify(editGroup),
-          fields: {
-            coverPhoto(_, { toReference }) {
-              return toReference(coverPhotoResult);
-            },
-          },
-        });
+        groupData: {
+          id: editGroup.id,
+          ...formValues,
+          coverPhoto,
+        },
       },
       onCompleted({ updateGroup: { group } }) {
         const groupPagePath = getGroupPath(group.name);
@@ -146,12 +118,11 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     formikHelpers: FormikHelpers<CreateGroupInput | UpdateGroupInput>
   ) => {
     try {
-      const coverPhotoData = buildImageData(coverPhoto);
       if (editGroup) {
-        await handleUpdate(formValues, editGroup, coverPhotoData);
+        await handleUpdate(formValues, editGroup);
         return;
       }
-      await handleCreate(formValues, formikHelpers, coverPhotoData);
+      await handleCreate(formValues, formikHelpers);
     } catch (err) {
       toastVar({
         status: "error",

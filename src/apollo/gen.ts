@@ -33,6 +33,7 @@ export type ApproveMemberRequestPayload = {
 };
 
 export type CreateGroupInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
   name: Scalars["String"];
 };
@@ -335,6 +336,7 @@ export type SignUpPayload = {
 };
 
 export type UpdateGroupInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
   id: Scalars["Int"];
   name: Scalars["String"];

@@ -2,7 +2,7 @@
 
 import { Comment, Favorite, Reply } from "@mui/icons-material";
 import { CardActions, SxProps } from "@mui/material";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 
@@ -16,8 +16,7 @@ const ROTATED_ICON_STYLES = {
 };
 
 const PostCardFooter = () => {
-  const t = useTranslate();
-
+  const { t } = useTranslation();
   return (
     <CardActions sx={{ justifyContent: "space-around" }} onClick={inDevToast}>
       <CardFooterButton>

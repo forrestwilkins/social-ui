@@ -1,7 +1,8 @@
 import { Publish } from "@mui/icons-material";
 import { IconButton, SxProps } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useScrollPosition, useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
+import { useScrollPosition } from "../../hooks/common.hooks";
 import { scrollTop } from "../../utils/common.utils";
 
 const ICON_BUTTON_STYLES: SxProps = {
@@ -12,8 +13,9 @@ const ICON_BUTTON_STYLES: SxProps = {
 
 const ScrollToTop = () => {
   const [show, setShow] = useState(false);
+
+  const { t } = useTranslation();
   const scrollPosition = useScrollPosition();
-  const t = useTranslate();
 
   useEffect(() => {
     setShow(scrollPosition > window.document.body.offsetHeight * 0.25);

@@ -18,11 +18,11 @@ import {
 import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
 import { MeDocument, useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -51,7 +51,7 @@ const NavDrawer = () => {
   const [logOut] = useLogOutMutation();
 
   const router = useRouter();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const handleLogOutClick = async () =>
     await logOut({

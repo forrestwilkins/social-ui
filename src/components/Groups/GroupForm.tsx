@@ -8,6 +8,7 @@ import {
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateGroupInput,
@@ -22,7 +23,6 @@ import {
 import Flex from "../../components/Shared/Flex";
 import { TextField } from "../../components/Shared/TextField";
 import { ApiRoutes, FieldNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
   generateRandom,
   multiPartRequest,
@@ -50,7 +50,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
   const [createGroup] = useCreateGroupMutation();
   const [updateGroup] = useUpdateGroupMutation();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues = {
     name: editGroup ? editGroup.name : "",

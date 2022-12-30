@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import {
   PostCardFragment,
@@ -23,7 +24,6 @@ import {
   NavigationPaths,
 } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -64,7 +64,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const { asPath } = useRouter();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const { id, body, images, user, group, createdAt } = post;
   const me = data && data.me;

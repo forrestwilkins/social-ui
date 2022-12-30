@@ -1,7 +1,8 @@
 import { Box, SxProps } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import Image from "next/image";
-import { useIsDesktop, useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { getImagePath } from "../../utils/image.utils";
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const CoverPhoto = ({ imageFile, imageId, rounded, topRounded, sx }: Props) => {
-  const t = useTranslate();
+  const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
   const imageStyles = {

@@ -1,6 +1,7 @@
 import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CurrentMemberFragment,
@@ -16,7 +17,6 @@ import {
   useMemberRequestQuery,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import GhostButton from "../Shared/GhostButton";
 
 const Button = styled(GhostButton)(() => ({
@@ -40,7 +40,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
   const [leaveGroup, { loading: leaveGroupLoading }] = useLeaveGroupMutation();
   const [isHovering, setIsHovering] = useState(false);
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   if (!data) {
     return <Button disabled>{t("groups.actions.join")}</Button>;

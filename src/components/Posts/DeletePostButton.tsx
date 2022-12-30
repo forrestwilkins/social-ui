@@ -2,6 +2,7 @@ import { ApolloCache, Reference } from "@apollo/client";
 import { Modifiers } from "@apollo/client/cache/core/types/common";
 import { Button } from "@mui/material";
 import produce from "immer";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   DeletePostButtonFragment,
@@ -10,7 +11,6 @@ import {
   useDeletePostMutation,
 } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 
 export const removePost =
@@ -52,7 +52,7 @@ interface Props {
 
 const DeletePostButton = ({ post }: Props) => {
   const [deletePost] = useDeletePostMutation();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const handleClick = async () => {
     await redirectTo(NavigationPaths.Home);

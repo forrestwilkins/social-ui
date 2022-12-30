@@ -8,12 +8,12 @@ import {
 } from "@mui/material";
 import Router, { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { isNavDrawerOpenVar } from "../../apollo/cache";
 import {
   NavigationPaths,
   ResourceNames,
 } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import { scrollTop } from "../../utils/common.utils";
 
 const PAPER_STYLES: SxProps = {
@@ -29,7 +29,7 @@ const BottomNav = () => {
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
 
   const { asPath } = useRouter();
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isNavDrawerOpen) {

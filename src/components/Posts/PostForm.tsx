@@ -10,6 +10,7 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
@@ -30,7 +31,6 @@ import {
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
-import { useTranslate } from "../../hooks/common.hooks";
 import {
   generateRandom,
   multiPartRequest,
@@ -63,7 +63,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const [deleteImage] = useDeleteImageMutation();
   const [updatePost] = useUpdatePostMutation();
 
-  const t = useTranslate();
+  const { t } = useTranslation();
 
   const initialValues: CreatePostInput = {
     body: editPost ? editPost.body : "",

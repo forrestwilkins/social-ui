@@ -1,7 +1,7 @@
 import { RemoveCircle } from "@mui/icons-material";
 import { Box, IconButton, SxProps } from "@mui/material";
 import Image from "next/image";
-import { useTranslate } from "../../hooks/common.hooks";
+import { useTranslation } from "react-i18next";
 import { AttachedImageFragment } from "../../apollo/gen";
 import { getImagePath } from "../../utils/image.utils";
 
@@ -19,7 +19,7 @@ const REMOVE_BUTTON: SxProps = {
 };
 
 const RemoveButton = ({ onClick }: { onClick(): void }) => {
-  const t = useTranslate();
+  const { t } = useTranslation();
   return (
     <IconButton
       aria-label={t("images.labels.removeImage")}

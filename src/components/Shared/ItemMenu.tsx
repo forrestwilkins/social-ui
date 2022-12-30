@@ -1,4 +1,4 @@
-// TODO: Resolve issue with Edit button only responsding to click on text
+// TODO: Resolve issue with Edit button only responding to click on text
 
 import { Delete, Edit, MoreHoriz } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, SxProps } from "@mui/material";

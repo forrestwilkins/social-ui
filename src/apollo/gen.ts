@@ -1001,6 +1001,24 @@ export type PostsQuery = {
   }>;
 };
 
+export type CreateProposalMutationVariables = Exact<{
+  proposalData: CreateProposalInput;
+}>;
+
+export type CreateProposalMutation = {
+  __typename?: "Mutation";
+  createProposal: {
+    __typename?: "CreateProposalPayload";
+    proposal: {
+      __typename?: "Proposal";
+      id: number;
+      body?: string | null;
+      user: { __typename?: "User"; id: number };
+      group?: { __typename?: "Group"; id: number } | null;
+    };
+  };
+};
+
 export type AddMemberTabFragment = {
   __typename?: "Role";
   id: number;
@@ -2840,6 +2858,65 @@ export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<
   PostsQuery,
   PostsQueryVariables
+>;
+export const CreateProposalDocument = gql`
+  mutation CreateProposal($proposalData: CreateProposalInput!) {
+    createProposal(proposalData: $proposalData) {
+      proposal {
+        id
+        body
+        user {
+          id
+        }
+        group {
+          id
+        }
+      }
+    }
+  }
+`;
+export type CreateProposalMutationFn = Apollo.MutationFunction<
+  CreateProposalMutation,
+  CreateProposalMutationVariables
+>;
+
+/**
+ * __useCreateProposalMutation__
+ *
+ * To run a mutation, you first call `useCreateProposalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProposalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProposalMutation, { data, loading, error }] = useCreateProposalMutation({
+ *   variables: {
+ *      proposalData: // value for 'proposalData'
+ *   },
+ * });
+ */
+export function useCreateProposalMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateProposalMutation,
+    CreateProposalMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateProposalMutation,
+    CreateProposalMutationVariables
+  >(CreateProposalDocument, options);
+}
+export type CreateProposalMutationHookResult = ReturnType<
+  typeof useCreateProposalMutation
+>;
+export type CreateProposalMutationResult =
+  Apollo.MutationResult<CreateProposalMutation>;
+export type CreateProposalMutationOptions = Apollo.BaseMutationOptions<
+  CreateProposalMutation,
+  CreateProposalMutationVariables
 >;
 export const CreateRoleDocument = gql`
   mutation CreateRole($roleData: CreateRoleInput!) {

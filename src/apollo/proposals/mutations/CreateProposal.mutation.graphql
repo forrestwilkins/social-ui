@@ -1,0 +1,16 @@
+mutation CreateProposal($proposalData: CreateProposalInput!) {
+  createProposal(proposalData: $proposalData) {
+    proposal {
+      id
+      body
+      createdAt
+
+      user {
+        id
+      }
+      group {
+        id
+      }
+    }
+  }
+}

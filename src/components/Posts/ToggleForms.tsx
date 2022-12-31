@@ -5,9 +5,9 @@ import {
   styled,
   ToggleButton as MuiToggleButton,
   ToggleButtonGroup as MuiToggleButtonGroup,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
+import ProposalForm from "../Proposals/ProposalForm";
 import Card from "../Shared/Card";
 import PostForm from "./PostForm";
 
@@ -58,8 +58,7 @@ const ToggleForms = () => {
   if (!showPostForm) {
     return (
       <Card>
-        <Typography marginBottom={8}>TODO: Show proposal form here</Typography>
-        {renderToggleButtons()}
+        <ProposalForm ToggleFormButtons={renderToggleButtons} />
       </Card>
     );
   }

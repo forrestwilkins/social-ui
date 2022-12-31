@@ -50,6 +50,12 @@
     "users": "Users"
   },
 
+  "proposals": {
+    "prompts": {
+      "createProposal": "Create a proposal..."
+    }
+  },
+
   "users": {
     "actions": {
       "editProfile": "Edit Profile",

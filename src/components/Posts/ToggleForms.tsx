@@ -11,36 +11,33 @@ import { useState } from "react";
 import Card from "../Shared/Card";
 import PostForm from "./PostForm";
 
-// TODO: Move hex color values to theme
-const TOGGLE_BTN_BG_COLOR = "#555555";
-const TOGGLE_BTN_BG_COLOR_INACTIVE = "#616161";
-const TOGGLE_BTN_COLOR_INACTIVE = "#3c3c3c";
-
-const INACTIVE_BTN_STYLES = {
-  color: TOGGLE_BTN_COLOR_INACTIVE,
-  backgroundColor: TOGGLE_BTN_BG_COLOR_INACTIVE,
-  "&:hover": {
-    backgroundColor: TOGGLE_BTN_BG_COLOR_INACTIVE,
-  },
-};
-
 const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   height: 32,
-  marginLeft: 4,
-  marginTop: 12,
+  marginLeft: 3.5,
+  marginTop: 13,
   "& .MuiToggleButtonGroup-grouped": {
     border: "none",
   },
 }));
 
+// TODO: Move hex color values to theme
 const ToggleButton = styled(MuiToggleButton)(() => ({
-  background: TOGGLE_BTN_BG_COLOR,
+  background: "#555555",
   transition: "0.2s",
   "&:hover": {
-    backgroundColor: TOGGLE_BTN_BG_COLOR,
+    backgroundColor: "#555555",
     opacity: 0.85,
   },
 }));
+
+// TODO: Move hex color values to theme
+const INACTIVE_BTN_STYLES = {
+  color: "#3c3c3c",
+  backgroundColor: "#616161",
+  "&:hover": {
+    backgroundColor: "#616161",
+  },
+};
 
 const ToggleForms = () => {
   const [showPostForm, setShowPostForm] = useState(true);

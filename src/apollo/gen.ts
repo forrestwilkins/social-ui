@@ -59,6 +59,17 @@ export type CreatePostPayload = {
   post: Post;
 };
 
+export type CreateProposalInput = {
+  body?: InputMaybe<Scalars["String"]>;
+  groupId?: InputMaybe<Scalars["Int"]>;
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
+};
+
+export type CreateProposalPayload = {
+  __typename?: "CreateProposalPayload";
+  proposal: Proposal;
+};
+
 export type CreateRoleInput = {
   color: Scalars["String"];
   name: Scalars["String"];
@@ -85,6 +96,7 @@ export type Group = {
   members: Array<GroupMember>;
   name: Scalars["String"];
   posts: Array<Post>;
+  proposals: Array<Proposal>;
   roles: Array<Role>;
   updatedAt: Scalars["DateTime"];
 };
@@ -106,6 +118,7 @@ export type Image = {
   id: Scalars["Int"];
   imageType: Scalars["String"];
   post: Post;
+  proposal: Proposal;
   updatedAt: Scalars["DateTime"];
   user: User;
 };
@@ -136,6 +149,7 @@ export type Mutation = {
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
   createPost: CreatePostPayload;
+  createProposal: CreateProposalPayload;
   createRole: CreateRolePayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
@@ -153,7 +167,6 @@ export type Mutation = {
   updatePost: UpdatePostPayload;
   updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
-  uploadImage: Image;
 };
 
 export type MutationApproveMemberRequestArgs = {
@@ -174,6 +187,10 @@ export type MutationCreateMemberRequestArgs = {
 
 export type MutationCreatePostArgs = {
   postData: CreatePostInput;
+};
+
+export type MutationCreateProposalArgs = {
+  proposalData: CreateProposalInput;
 };
 
 export type MutationCreateRoleArgs = {
@@ -236,10 +253,6 @@ export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
 };
 
-export type MutationUploadImageArgs = {
-  image: Scalars["Upload"];
-};
-
 export type Permission = {
   __typename?: "Permission";
   enabled: Scalars["Boolean"];
@@ -264,6 +277,18 @@ export type Post = {
   user: User;
 };
 
+export type Proposal = {
+  __typename?: "Proposal";
+  action: Scalars["String"];
+  body?: Maybe<Scalars["String"]>;
+  createdAt: Scalars["DateTime"];
+  group?: Maybe<Group>;
+  id: Scalars["Int"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+  votes: Array<Vote>;
+};
+
 export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
@@ -274,10 +299,14 @@ export type Query = {
   memberRequests: Array<MemberRequest>;
   post: Post;
   posts: Array<Post>;
+  proposal: Proposal;
+  proposals: Array<Proposal>;
   role: Role;
   serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
+  vote: Vote;
+  votes: Array<Vote>;
 };
 
 export type QueryGroupArgs = {
@@ -296,6 +325,10 @@ export type QueryPostArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryProposalArgs = {
+  id: Scalars["Int"];
+};
+
 export type QueryRoleArgs = {
   id: Scalars["Int"];
 };
@@ -303,6 +336,10 @@ export type QueryRoleArgs = {
 export type QueryUserArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryVoteArgs = {
+  id: Scalars["Int"];
 };
 
 export type Role = {
@@ -395,8 +432,18 @@ export type User = {
   name: Scalars["String"];
   posts: Array<Post>;
   profilePicture: Image;
+  proposals: Array<Proposal>;
   serverPermissions: Array<Scalars["String"]>;
   updatedAt: Scalars["DateTime"];
+};
+
+export type Vote = {
+  __typename?: "Vote";
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  proposal: Proposal;
+  updatedAt: Scalars["DateTime"];
+  user: User;
 };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never }>;

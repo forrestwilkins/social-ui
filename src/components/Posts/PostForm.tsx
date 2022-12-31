@@ -30,15 +30,9 @@ import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 interface Props extends FormikFormProps {
   editPost?: PostFormFragment;
   groupId?: number;
-  ToggleFormButtons?(): JSX.Element;
 }
 
-const PostForm = ({
-  editPost,
-  groupId,
-  ToggleFormButtons,
-  ...formProps
-}: Props) => {
+const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
 
@@ -174,15 +168,11 @@ const PostForm = ({
           <Divider sx={{ marginBottom: 1.3 }} />
 
           <Flex sx={{ justifyContent: "space-between" }}>
-            <Flex>
-              <ImageInput
-                refreshKey={imagesInputKey}
-                setImages={setImages}
-                multiple
-              />
-
-              {ToggleFormButtons && <ToggleFormButtons />}
-            </Flex>
+            <ImageInput
+              refreshKey={imagesInputKey}
+              setImages={setImages}
+              multiple
+            />
 
             <PrimaryActionButton
               disabled={

@@ -1013,6 +1013,7 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body?: string | null;
+      createdAt: any;
       user: { __typename?: "User"; id: number };
       group?: { __typename?: "Group"; id: number } | null;
     };
@@ -2865,6 +2866,7 @@ export const CreateProposalDocument = gql`
       proposal {
         id
         body
+        createdAt
         user {
           id
         }

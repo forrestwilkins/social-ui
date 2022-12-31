@@ -1,4 +1,5 @@
 // TODO: Add remaining layout and functionality - below is a WIP
+// TODO: Move hex color values to theme
 
 import { EmojiPeople, PostAdd } from "@mui/icons-material";
 import {
@@ -15,12 +16,16 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   height: 32,
   marginLeft: 3.5,
   marginTop: 13,
+
+  position: "absolute",
+  bottom: 24,
+  left: 60.5,
+
   "& .MuiToggleButtonGroup-grouped": {
     border: "none",
   },
 }));
 
-// TODO: Move hex color values to theme
 const ToggleButton = styled(MuiToggleButton)(() => ({
   background: "#555555",
   transition: "0.2s",
@@ -30,7 +35,6 @@ const ToggleButton = styled(MuiToggleButton)(() => ({
   },
 }));
 
-// TODO: Move hex color values to theme
 const INACTIVE_BTN_STYLES = {
   color: "#3c3c3c",
   backgroundColor: "#616161",
@@ -40,32 +44,35 @@ const INACTIVE_BTN_STYLES = {
 };
 
 const ToggleForms = () => {
-  const [showPostForm, setShowPostForm] = useState(true);
+  const [showProposalForm, setShowProposalForm] = useState(false);
 
-  const handleChange = () => setShowPostForm(!showPostForm);
+  const handleChange = () => setShowProposalForm(!showProposalForm);
 
-  const renderToggleButtons = () => (
-    <ToggleButtonGroup exclusive size="small" onChange={handleChange}>
-      <ToggleButton sx={showPostForm ? {} : INACTIVE_BTN_STYLES} value={true}>
-        <PostAdd />
-      </ToggleButton>
-      <ToggleButton sx={showPostForm ? INACTIVE_BTN_STYLES : {}} value={false}>
-        <EmojiPeople />
-      </ToggleButton>
-    </ToggleButtonGroup>
-  );
-
-  if (!showPostForm) {
-    return (
-      <Card>
-        <ProposalForm ToggleFormButtons={renderToggleButtons} />
-      </Card>
-    );
-  }
+  const renderForm = () => {
+    if (showProposalForm) {
+      return <ProposalForm />;
+    }
+    return <PostForm />;
+  };
 
   return (
-    <Card>
-      <PostForm ToggleFormButtons={renderToggleButtons} />
+    <Card sx={{ position: "relative" }}>
+      {renderForm()}
+
+      <ToggleButtonGroup exclusive size="small" onChange={handleChange}>
+        <ToggleButton
+          sx={showProposalForm ? INACTIVE_BTN_STYLES : {}}
+          value={false}
+        >
+          <PostAdd />
+        </ToggleButton>
+        <ToggleButton
+          sx={showProposalForm ? {} : INACTIVE_BTN_STYLES}
+          value={true}
+        >
+          <EmojiPeople />
+        </ToggleButton>
+      </ToggleButtonGroup>
     </Card>
   );
 };

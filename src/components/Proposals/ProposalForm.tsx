@@ -17,11 +17,7 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
-interface Props extends FormikFormProps {
-  ToggleFormButtons?(): JSX.Element;
-}
-
-const ProposalForm = ({ ToggleFormButtons, ...formProps }: Props) => {
+const ProposalForm = (formProps: FormikFormProps) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [createProposal] = useCreateProposalMutation();
@@ -89,15 +85,11 @@ const ProposalForm = ({ ToggleFormButtons, ...formProps }: Props) => {
           <Divider sx={{ marginBottom: 1.3 }} />
 
           <Flex sx={{ justifyContent: "space-between" }}>
-            <Flex>
-              <ImageInput
-                refreshKey={imagesInputKey}
-                setImages={setImages}
-                multiple
-              />
-
-              {ToggleFormButtons && <ToggleFormButtons />}
-            </Flex>
+            <ImageInput
+              refreshKey={imagesInputKey}
+              setImages={setImages}
+              multiple
+            />
 
             <PrimaryActionButton
               disabled={

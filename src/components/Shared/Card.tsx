@@ -8,7 +8,7 @@ import {
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
-    paddingBottom: 12,
+    paddingBottom: 10,
   },
 }));
 

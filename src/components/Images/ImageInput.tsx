@@ -1,12 +1,11 @@
 // TODO: Research alternatives or libraries for image inputs
 
 import { Image } from "@mui/icons-material";
-import { Box, IconButton } from "@mui/material";
-import { ChangeEvent, ReactNode, useRef } from "react";
+import { Box, BoxProps, IconButton } from "@mui/material";
+import { ChangeEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-interface Props {
-  children?: ReactNode;
+interface Props extends BoxProps {
   multiple?: boolean;
   refreshKey?: string;
   setImage?: (image: File) => void;
@@ -19,6 +18,7 @@ const ImageInput = ({
   refreshKey,
   setImage,
   setImages,
+  ...boxProps
 }: Props) => {
   const imageInput = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
@@ -50,7 +50,7 @@ const ImageInput = ({
   };
 
   return (
-    <Box>
+    <Box marginTop={0.35} {...boxProps}>
       <input
         accept="image/*"
         aria-label={t("posts.labels.addImages")}

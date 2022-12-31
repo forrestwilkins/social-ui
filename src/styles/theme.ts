@@ -130,17 +130,6 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
-    MuiSelect: {
-      styleOverrides: {
-        select: {
-          color: "#9c9c9c",
-        },
-        icon: {
-          color: "#9c9c9c",
-        },
-      },
-    },
-
     MuiSwitch: {
       styleOverrides: {
         root: {

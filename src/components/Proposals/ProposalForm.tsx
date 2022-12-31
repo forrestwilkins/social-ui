@@ -1,6 +1,13 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
-import { Divider, FormGroup } from "@mui/material";
+import {
+  Divider,
+  FormControl,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { Field, Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,6 +18,7 @@ import {
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import { getRandomString } from "../../utils/common.utils";
+import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
@@ -19,6 +27,7 @@ import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 const ProposalForm = (formProps: FormikFormProps) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
+  const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [createProposal] = useCreateProposalMutation();
 
@@ -26,26 +35,22 @@ const ProposalForm = (formProps: FormikFormProps) => {
 
   const initialValues: CreateProposalInput = { body: "" };
 
-  const handleCreate = async (
-    formValues: CreateProposalInput,
-    { resetForm, setSubmitting }: FormikHelpers<CreateProposalInput>
-  ) =>
-    await createProposal({
-      variables: { proposalData: { ...formValues, images } },
-      onCompleted() {
-        resetForm();
-        setImages([]);
-        setImagesInputKey(getRandomString());
-        setSubmitting(false);
-      },
-    });
+  const actionTypeOptions = getProposalActionTypeOptions(t);
 
   const handleSubmit = async (
     formValues: CreateProposalInput,
-    formikHelpers: FormikHelpers<CreateProposalInput>
+    { resetForm, setSubmitting }: FormikHelpers<CreateProposalInput>
   ) => {
     try {
-      await handleCreate(formValues, formikHelpers);
+      await createProposal({
+        variables: { proposalData: { ...formValues, images } },
+        onCompleted() {
+          resetForm();
+          setImages([]);
+          setImagesInputKey(getRandomString());
+          setSubmitting(false);
+        },
+      });
     } catch (err) {
       toastVar({
         status: "error",
@@ -66,8 +71,8 @@ const ProposalForm = (formProps: FormikFormProps) => {
       enableReinitialize
       {...formProps}
     >
-      {(formik) => (
-        <Form>
+      {({ isSubmitting, dirty, values: { body } }) => (
+        <Form onClick={() => setClicked(true)}>
           <FormGroup>
             <Field
               autoComplete="off"
@@ -77,13 +82,26 @@ const ProposalForm = (formProps: FormikFormProps) => {
               multiline
             />
 
+            {!!(clicked || body?.length) && (
+              <FormControl variant="standard">
+                <InputLabel>{t("proposals.labels.action")}</InputLabel>
+                <Select value="">
+                  {actionTypeOptions.map((option) => (
+                    <MenuItem value={option.value} key={option.value}>
+                      {option.message}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+
             <AttachedImagePreview
               removeSelectedImage={removeSelectedImageHandler}
               selectedImages={images}
             />
           </FormGroup>
 
-          <Divider sx={{ marginBottom: 1.3 }} />
+          {!clicked && <Divider sx={{ marginBottom: 1.3 }} />}
 
           <Flex sx={{ justifyContent: "space-between" }}>
             <ImageInput
@@ -93,9 +111,7 @@ const ProposalForm = (formProps: FormikFormProps) => {
             />
 
             <PrimaryActionButton
-              disabled={
-                formik.isSubmitting || (!formik.dirty && !images.length)
-              }
+              disabled={isSubmitting || (!dirty && !images.length)}
               sx={{ marginTop: 1.5 }}
               type="submit"
             >

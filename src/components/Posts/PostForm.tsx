@@ -155,6 +155,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
               component={TextFieldWithAvatar}
               name={FieldNames.Body}
               placeholder={t("prompts.whatsHappening")}
+              multiline
             />
 
             <AttachedImagePreview

@@ -74,6 +74,7 @@ const ProposalForm = (formProps: FormikFormProps) => {
               component={TextFieldWithAvatar}
               name={FieldNames.Body}
               placeholder={t("proposals.prompts.createProposal")}
+              multiline
             />
 
             <AttachedImagePreview

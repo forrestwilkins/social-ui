@@ -53,6 +53,9 @@
   "proposals": {
     "prompts": {
       "createProposal": "Create a proposal..."
+    },
+    "actions": {
+      "createProposal": "Create Proposal"
     }
   },
 

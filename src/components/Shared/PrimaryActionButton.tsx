@@ -19,6 +19,7 @@ const PrimaryActionButton = styled(MuiButton)(() => ({
   letterSpacing: "0.2px",
   textTransform: "none",
   borderRadius: 9999,
+  padding: "0 15px",
   minWidth: 80,
   height: 38,
   ...BLURPLE_BUTTON_COLORS,

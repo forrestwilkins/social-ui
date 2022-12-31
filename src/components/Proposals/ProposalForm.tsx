@@ -98,7 +98,7 @@ const ProposalForm = (formProps: FormikFormProps) => {
               sx={{ marginTop: 1.5 }}
               type="submit"
             >
-              {t("actions.create")}
+              {t("proposals.actions.createProposal")}
             </PrimaryActionButton>
           </Flex>
         </Form>

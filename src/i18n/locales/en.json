@@ -60,7 +60,7 @@
     "actionTypes": {
       "assignRole": "Assign a group role",
       "changeDescription": "Change about text",
-      "changeImage": "Change cover photo",
+      "changeCoverPhoto": "Change cover photo",
       "changeName": "Change group name",
       "changeRole": "Change a group role",
       "changeSettings": "Change group settings",

@@ -1,7 +1,7 @@
 export enum ProposalActionTypes {
   AssignRole = "assign-role",
+  ChangeCoverPhoto = "change-cover-photo",
   ChangeDescription = "change-description",
-  ChangeImage = "change-image",
   ChangeName = "change-name",
   ChangeRole = "change-role",
   ChangeSettings = "change-settings",

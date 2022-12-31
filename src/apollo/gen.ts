@@ -60,6 +60,7 @@ export type CreatePostPayload = {
 };
 
 export type CreateProposalInput = {
+  action: Scalars["String"];
   body?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
   images?: InputMaybe<Array<Scalars["Upload"]>>;

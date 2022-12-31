@@ -33,7 +33,10 @@ const ProposalForm = (formProps: FormikFormProps) => {
 
   const { t } = useTranslation();
 
-  const initialValues: CreateProposalInput = { body: "" };
+  const initialValues: CreateProposalInput = {
+    body: "",
+    action: "",
+  };
 
   const actionTypeOptions = getProposalActionTypeOptions(t);
 
@@ -71,7 +74,7 @@ const ProposalForm = (formProps: FormikFormProps) => {
       enableReinitialize
       {...formProps}
     >
-      {({ isSubmitting, dirty, values: { body } }) => (
+      {({ isSubmitting, dirty, values, handleChange }) => (
         <Form onClick={() => setClicked(true)}>
           <FormGroup>
             <Field
@@ -82,10 +85,14 @@ const ProposalForm = (formProps: FormikFormProps) => {
               multiline
             />
 
-            {!!(clicked || body?.length) && (
+            {!!(clicked || values.body?.length) && (
               <FormControl variant="standard">
                 <InputLabel>{t("proposals.labels.action")}</InputLabel>
-                <Select value="">
+                <Select
+                  name="action"
+                  onChange={handleChange}
+                  value={values.action}
+                >
                   {actionTypeOptions.map((option) => (
                     <MenuItem value={option.value} key={option.value}>
                       {option.message}

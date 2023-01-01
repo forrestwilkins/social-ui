@@ -26,6 +26,7 @@ export enum TypeNames {
   Image = "Image",
   MemberRequest = "MemberRequest",
   Post = "Post",
+  Proposal = "Proposal",
   Role = "Role",
   User = "User",
 }

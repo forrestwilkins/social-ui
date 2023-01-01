@@ -7,9 +7,9 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
+  HomePageDocument,
+  HomePageQuery,
   PostFormFragment,
-  PostsDocument,
-  PostsQuery,
   UpdatePostInput,
   useCreatePostMutation,
   useDeleteImageMutation,
@@ -53,17 +53,19 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   ) =>
     await createPost({
       variables: { postData: { ...formValues, images } },
-      async update(cache, { data }) {
+      update(cache, { data }) {
         if (!data) {
           return;
         }
         const {
           createPost: { post },
         } = data;
-        cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
-          produce(postsData, (draft) => {
-            draft?.posts.unshift(post);
-          })
+        cache.updateQuery<HomePageQuery>(
+          { query: HomePageDocument },
+          (homePageData) =>
+            produce(homePageData, (draft) => {
+              draft?.me.feed.unshift(post);
+            })
         );
         const fields: Modifiers = {
           posts(existingPostRefs, { toReference }) {

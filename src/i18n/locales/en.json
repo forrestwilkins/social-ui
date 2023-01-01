@@ -3,11 +3,14 @@
 
   "actions": {
     "cancel": "Cancel",
+    "comment": "Comment",
     "create": "Create",
     "delete": "Delete",
     "edit": "Edit",
+    "like": "Like",
     "post": "Post",
     "save": "Save",
+    "share": "Share",
     "submit": "Submit",
     "upload": "Upload"
   },
@@ -55,7 +58,8 @@
       "createProposal": "Create a proposal..."
     },
     "actions": {
-      "createProposal": "Create Proposal"
+      "createProposal": "Create Proposal",
+      "vote": "Vote"
     },
     "actionTypes": {
       "assignRole": "Assign a group role",
@@ -127,11 +131,6 @@
       "addImages": "Add images",
       "addPost": "Add post",
       "posts": "Posts"
-    },
-    "actions": {
-      "comment": "Comment",
-      "like": "Like",
-      "share": "Share"
     }
   },
 

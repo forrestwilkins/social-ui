@@ -9,11 +9,14 @@ import {
   Select,
 } from "@mui/material";
 import { Field, Form, Formik, FormikFormProps, FormikHelpers } from "formik";
+import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateProposalInput,
+  HomePageDocument,
+  HomePageQuery,
   useCreateProposalMutation,
   useMeQuery,
 } from "../../apollo/gen";
@@ -52,6 +55,21 @@ const ProposalForm = (formProps: FormikFormProps) => {
     try {
       await createProposal({
         variables: { proposalData: { ...formValues, images } },
+        update(cache, { data }) {
+          if (!data) {
+            return;
+          }
+          const {
+            createProposal: { proposal },
+          } = data;
+          cache.updateQuery<HomePageQuery>(
+            { query: HomePageDocument },
+            (homePageData) =>
+              produce(homePageData, (draft) => {
+                draft?.me.feed.unshift(proposal);
+              })
+          );
+        },
         onCompleted() {
           resetForm();
           setImages([]);

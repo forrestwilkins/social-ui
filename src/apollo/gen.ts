@@ -1293,6 +1293,7 @@ export type HomePageQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
+    id: number;
     feed: Array<
       | {
           __typename?: "Post";
@@ -3432,6 +3433,7 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
 export const HomePageDocument = gql`
   query HomePage {
     me {
+      id
       feed {
         ... on Post {
           ...PostCard

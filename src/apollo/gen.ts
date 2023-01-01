@@ -432,11 +432,12 @@ export type User = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
-  feed: Array<FeedItem>;
+  homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
   joinedGroups: Array<Group>;
   name: Scalars["String"];
   posts: Array<Post>;
+  profileFeed: Array<FeedItem>;
   profilePicture: Image;
   proposals: Array<Proposal>;
   serverPermissions: Array<Scalars["String"]>;
@@ -1330,7 +1331,7 @@ export type HomePageQuery = {
   me: {
     __typename?: "User";
     id: number;
-    feed: Array<
+    homeFeed: Array<
       | {
           __typename?: "Post";
           id: number;
@@ -1399,25 +1400,46 @@ export type UserProfileQuery = {
     createdAt: any;
     id: number;
     name: string;
-    posts: Array<{
-      __typename?: "Post";
-      id: number;
-      body: string;
-      createdAt: any;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        coverPhoto?: { __typename?: "Image"; id: number } | null;
-      } | null;
-    }>;
+    profileFeed: Array<
+      | {
+          __typename?: "Post";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+      | {
+          __typename?: "Proposal";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+    >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
@@ -3528,7 +3550,7 @@ export const HomePageDocument = gql`
   query HomePage {
     me {
       id
-      feed {
+      homeFeed {
         ... on Post {
           ...PostCard
         }
@@ -3634,13 +3656,19 @@ export const UserProfileDocument = gql`
   query UserProfile($name: String) {
     user(name: $name) {
       ...UserProfileCard
-      posts {
-        ...PostCard
+      profileFeed {
+        ... on Post {
+          ...PostCard
+        }
+        ... on Proposal {
+          ...ProposalCard
+        }
       }
     }
   }
   ${UserProfileCardFragmentDoc}
   ${PostCardFragmentDoc}
+  ${ProposalCardFragmentDoc}
 `;
 
 /**

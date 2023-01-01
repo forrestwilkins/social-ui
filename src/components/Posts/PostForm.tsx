@@ -1,4 +1,3 @@
-import { Modifiers } from "@apollo/client/cache/core/types/common";
 import { Divider, FormGroup } from "@mui/material";
 import { Field, Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
@@ -64,21 +63,24 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
           { query: HomePageDocument },
           (homePageData) =>
             produce(homePageData, (draft) => {
-              draft?.me.feed.unshift(post);
+              draft?.me.homeFeed.unshift(post);
             })
         );
-        const fields: Modifiers = {
-          posts(existingPostRefs, { toReference }) {
-            return [toReference(post), ...existingPostRefs];
+        cache.modify({
+          id: cache.identify(post.user),
+          fields: {
+            profileFeed(existingRefs, { toReference }) {
+              return [toReference(post), ...existingRefs];
+            },
           },
-        };
-        const userCacheId = cache.identify(post.user);
-        cache.modify({ id: userCacheId, fields });
-        if (!post.group) {
-          return;
-        }
-        const groupCacheId = cache.identify(post.group);
-        cache.modify({ id: groupCacheId, fields });
+        });
+
+        // TODO: / FIXME: Add cache update logic for group feed
+        // if (!post.group) {
+        //   return;
+        // }
+        // const groupCacheId = cache.identify(post.group);
+        // cache.modify({ id: groupCacheId, fields });
       },
       onCompleted() {
         resetForm();

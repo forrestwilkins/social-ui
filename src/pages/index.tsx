@@ -19,13 +19,13 @@ const Home: NextPage = () => {
   }
 
   const {
-    me: { feed },
+    me: { homeFeed },
   } = data;
 
   return (
     <>
       {isLoggedIn && <ToggleForms />}
-      <Feed feed={feed} />
+      <Feed feed={homeFeed} />
     </>
   );
 };

@@ -1,7 +1,7 @@
 query HomePage {
   me {
     id
-    feed {
+    homeFeed {
       ... on Post {
         ...PostCard
       }

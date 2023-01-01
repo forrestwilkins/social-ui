@@ -66,9 +66,17 @@ const ProposalForm = (formProps: FormikFormProps) => {
             { query: HomePageDocument },
             (homePageData) =>
               produce(homePageData, (draft) => {
-                draft?.me.feed.unshift(proposal);
+                draft?.me.homeFeed.unshift(proposal);
               })
           );
+          cache.modify({
+            id: cache.identify(proposal.user),
+            fields: {
+              profileFeed(existingRefs, { toReference }) {
+                return [toReference(proposal), ...existingRefs];
+              },
+            },
+          });
         },
         onCompleted() {
           resetForm();

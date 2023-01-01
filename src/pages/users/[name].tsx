@@ -3,8 +3,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useUserProfileQuery } from "../../apollo/gen";
-import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import Feed from "../../components/Users/Feed";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 
 const UserProfile: NextPage = () => {
@@ -34,7 +34,7 @@ const UserProfile: NextPage = () => {
   return (
     <>
       <UserProfileCard user={user} />
-      {user.posts && <PostList posts={user.posts} />}
+      {user.profileFeed && <Feed feed={user.profileFeed} />}
     </>
   );
 };

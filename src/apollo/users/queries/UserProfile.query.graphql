@@ -1,8 +1,14 @@
 query UserProfile($name: String) {
   user(name: $name) {
     ...UserProfileCard
-    posts {
-      ...PostCard
+
+    profileFeed {
+      ... on Post {
+        ...PostCard
+      }
+      ... on Proposal {
+        ...ProposalCard
+      }
     }
   }
 }

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useUserProfileQuery } from "../../apollo/gen";
 import Feed from "../../components/Shared/Feed";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import ToggleForms from "../../components/Shared/ToggleForms";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 
 const UserProfile: NextPage = () => {
@@ -29,11 +30,14 @@ const UserProfile: NextPage = () => {
     return null;
   }
 
-  const { user } = data;
+  const { me, user } = data;
+  const isMe = me.id === user.id;
 
   return (
     <>
       <UserProfileCard user={user} />
+      {isMe && <ToggleForms />}
+
       {user.profileFeed && <Feed feed={user.profileFeed} />}
     </>
   );

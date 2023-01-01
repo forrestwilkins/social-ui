@@ -1465,6 +1465,7 @@ export type UserProfileQuery = {
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
+  me: { __typename?: "User"; id: number };
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
@@ -3692,6 +3693,9 @@ export const UserProfileDocument = gql`
           ...ProposalCard
         }
       }
+    }
+    me {
+      id
     }
   }
   ${UserProfileCardFragmentDoc}

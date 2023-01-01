@@ -1007,6 +1007,26 @@ export type PostsQuery = {
   }>;
 };
 
+export type ProposalCardFragment = {
+  __typename?: "Proposal";
+  id: number;
+  body: string;
+  createdAt: any;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  } | null;
+};
+
 export type CreateProposalMutationVariables = Exact<{
   proposalData: CreateProposalInput;
 }>;
@@ -1019,10 +1039,20 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body: string;
-      action: string;
       createdAt: any;
-      user: { __typename?: "User"; id: number };
-      group?: { __typename?: "Group"; id: number } | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
     };
   };
 };
@@ -1488,6 +1518,25 @@ export const PostFormFragmentDoc = gql`
     }
   }
   ${AttachedImageFragmentDoc}
+`;
+export const ProposalCardFragmentDoc = gql`
+  fragment ProposalCard on Proposal {
+    id
+    body
+    images {
+      ...AttachedImage
+    }
+    user {
+      ...UserAvatar
+    }
+    group {
+      ...GroupAvatar
+    }
+    createdAt
+  }
+  ${AttachedImageFragmentDoc}
+  ${UserAvatarFragmentDoc}
+  ${GroupAvatarFragmentDoc}
 `;
 export const RoleMemberFragmentDoc = gql`
   fragment RoleMember on RoleMember {
@@ -2921,19 +2970,11 @@ export const CreateProposalDocument = gql`
   mutation CreateProposal($proposalData: CreateProposalInput!) {
     createProposal(proposalData: $proposalData) {
       proposal {
-        id
-        body
-        action
-        createdAt
-        user {
-          id
-        }
-        group {
-          id
-        }
+        ...ProposalCard
       }
     }
   }
+  ${ProposalCardFragmentDoc}
 `;
 export type CreateProposalMutationFn = Apollo.MutationFunction<
   CreateProposalMutation,
@@ -3396,26 +3437,13 @@ export const HomePageDocument = gql`
           ...PostCard
         }
         ... on Proposal {
-          id
-          body
-          images {
-            ...AttachedImage
-          }
-          user {
-            ...UserAvatar
-          }
-          group {
-            ...GroupAvatar
-          }
-          createdAt
+          ...ProposalCard
         }
       }
     }
   }
   ${PostCardFragmentDoc}
-  ${AttachedImageFragmentDoc}
-  ${UserAvatarFragmentDoc}
-  ${GroupAvatarFragmentDoc}
+  ${ProposalCardFragmentDoc}
 `;
 
 /**

@@ -1,17 +1,7 @@
 mutation CreateProposal($proposalData: CreateProposalInput!) {
   createProposal(proposalData: $proposalData) {
     proposal {
-      id
-      body
-      action
-      createdAt
-
-      user {
-        id
-      }
-      group {
-        id
-      }
+      ...ProposalCard
     }
   }
 }

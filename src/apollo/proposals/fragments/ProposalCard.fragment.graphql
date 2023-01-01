@@ -1,0 +1,14 @@
+fragment ProposalCard on Proposal {
+  id
+  body
+  images {
+    ...AttachedImage
+  }
+  user {
+    ...UserAvatar
+  }
+  group {
+    ...GroupAvatar
+  }
+  createdAt
+}

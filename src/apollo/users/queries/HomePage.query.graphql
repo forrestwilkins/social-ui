@@ -5,18 +5,7 @@ query HomePage {
         ...PostCard
       }
       ... on Proposal {
-        id
-        body
-        images {
-          ...AttachedImage
-        }
-        user {
-          ...UserAvatar
-        }
-        group {
-          ...GroupAvatar
-        }
-        createdAt
+        ...ProposalCard
       }
     }
   }

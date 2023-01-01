@@ -283,7 +283,7 @@ export type Post = {
 export type Proposal = {
   __typename?: "Proposal";
   action: Scalars["String"];
-  body?: Maybe<Scalars["String"]>;
+  body: Scalars["String"];
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
@@ -1018,7 +1018,7 @@ export type CreateProposalMutation = {
     proposal: {
       __typename?: "Proposal";
       id: number;
-      body?: string | null;
+      body: string;
       action: string;
       createdAt: any;
       user: { __typename?: "User"; id: number };
@@ -1283,7 +1283,25 @@ export type HomePageQuery = {
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
         }
-      | { __typename?: "Proposal"; id: number; action: string }
+      | {
+          __typename?: "Proposal";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
     >;
   };
 };
@@ -3379,12 +3397,25 @@ export const HomePageDocument = gql`
         }
         ... on Proposal {
           id
-          action
+          body
+          images {
+            ...AttachedImage
+          }
+          user {
+            ...UserAvatar
+          }
+          group {
+            ...GroupAvatar
+          }
+          createdAt
         }
       }
     }
   }
   ${PostCardFragmentDoc}
+  ${AttachedImageFragmentDoc}
+  ${UserAvatarFragmentDoc}
+  ${GroupAvatarFragmentDoc}
 `;
 
 /**

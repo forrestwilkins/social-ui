@@ -4,11 +4,19 @@ query HomePage {
       ... on Post {
         ...PostCard
       }
-
-      # TODO: Add remaining data
       ... on Proposal {
         id
-        action
+        body
+        images {
+          ...AttachedImage
+        }
+        user {
+          ...UserAvatar
+        }
+        group {
+          ...GroupAvatar
+        }
+        createdAt
       }
     }
   }

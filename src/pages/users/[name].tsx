@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useUserQuery } from "../../apollo/gen";
+import { useUserProfileQuery } from "../../apollo/gen";
 import PostList from "../../components/Posts/PostList";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import UserProfileCard from "../../components/Users/UserProfileCard";
@@ -10,7 +10,7 @@ import UserProfileCard from "../../components/Users/UserProfileCard";
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const { data, loading, error } = useUserQuery({
+  const { data, loading, error } = useUserProfileQuery({
     variables: { name },
     skip: !name,
   });

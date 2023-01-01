@@ -20,14 +20,6 @@ export enum NavigationPaths {
   Users = "/users",
 }
 
-export enum ResourceNames {
-  Event = "events",
-  Group = "groups",
-  Image = "images",
-  Post = "posts",
-  User = "users",
-}
-
 export enum TypeNames {
   Group = "Group",
   GroupMember = "GroupMember",

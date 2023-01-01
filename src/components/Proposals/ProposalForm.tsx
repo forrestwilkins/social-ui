@@ -15,6 +15,7 @@ import { toastVar } from "../../apollo/cache";
 import {
   CreateProposalInput,
   useCreateProposalMutation,
+  useMeQuery,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import { getRandomString } from "../../utils/common.utils";
@@ -29,11 +30,20 @@ const ProposalForm = (formProps: FormikFormProps) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
+
   const [createProposal] = useCreateProposalMutation();
+  const { data } = useMeQuery();
+
   const { t } = useTranslation();
 
+  const initialValues: CreateProposalInput = {
+    groupId: null,
+    action: "",
+    body: "",
+  };
+
   const actionTypeOptions = getProposalActionTypeOptions(t);
-  const initialValues: CreateProposalInput = { body: "", action: "" };
+  const joinedGroups = data?.me.joinedGroups;
 
   const handleSubmit = async (
     formValues: CreateProposalInput,
@@ -47,6 +57,7 @@ const ProposalForm = (formProps: FormikFormProps) => {
           setImages([]);
           setImagesInputKey(getRandomString());
           setSubmitting(false);
+          setClicked(false);
         },
       });
     } catch (err) {
@@ -81,20 +92,39 @@ const ProposalForm = (formProps: FormikFormProps) => {
             />
 
             {!!(clicked || values.body?.length) && (
-              <FormControl variant="standard">
-                <InputLabel>{t("proposals.labels.action")}</InputLabel>
-                <Select
-                  name="action"
-                  onChange={handleChange}
-                  value={values.action}
-                >
-                  {actionTypeOptions.map((option) => (
-                    <MenuItem value={option.value} key={option.value}>
-                      {option.message}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <>
+                <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+                  <InputLabel>{t("proposals.labels.action")}</InputLabel>
+                  <Select
+                    name="action"
+                    onChange={handleChange}
+                    value={values.action}
+                  >
+                    {actionTypeOptions.map((option) => (
+                      <MenuItem value={option.value} key={option.value}>
+                        {option.message}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {!!joinedGroups?.length && (
+                  <FormControl variant="standard" sx={{ marginBottom: 0.25 }}>
+                    <InputLabel>{t("groups.labels.group")}</InputLabel>
+                    <Select
+                      name="groupId"
+                      onChange={handleChange}
+                      value={values.groupId || ""}
+                    >
+                      {joinedGroups.map(({ id, name }) => (
+                        <MenuItem value={id} key={id}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
+              </>
             )}
 
             <AttachedImagePreview

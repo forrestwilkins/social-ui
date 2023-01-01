@@ -3,6 +3,7 @@ mutation CreateProposal($proposalData: CreateProposalInput!) {
     proposal {
       id
       body
+      action
       createdAt
 
       user {

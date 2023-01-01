@@ -156,6 +156,7 @@
     },
     "labels": {
       "consensus": "Consensus",
+      "group": "Group",
       "groupMembers_one": "{{count}} Group Member",
       "groupMembers_other": "{{count}} Group Members",
       "joined": "Joined",

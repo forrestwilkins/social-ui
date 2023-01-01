@@ -430,6 +430,7 @@ export type User = {
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
   id: Scalars["Int"];
+  joinedGroups: Array<Group>;
   name: Scalars["String"];
   posts: Array<Post>;
   profilePicture: Image;
@@ -1014,6 +1015,7 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body?: string | null;
+      action: string;
       createdAt: any;
       user: { __typename?: "User"; id: number };
       group?: { __typename?: "Group"; id: number } | null;
@@ -1260,6 +1262,7 @@ export type MeQuery = {
     serverPermissions: Array<string>;
     id: number;
     name: string;
+    joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
   };
 };
@@ -2867,6 +2870,7 @@ export const CreateProposalDocument = gql`
       proposal {
         id
         body
+        action
         createdAt
         user {
           id
@@ -3336,6 +3340,10 @@ export const MeDocument = gql`
     me {
       ...UserAvatar
       serverPermissions
+      joinedGroups {
+        id
+        name
+      }
     }
   }
   ${UserAvatarFragmentDoc}

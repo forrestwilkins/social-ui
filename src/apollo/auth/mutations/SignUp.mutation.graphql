@@ -3,6 +3,10 @@ mutation SignUp($input: SignUpInput!) {
     user {
       ...UserAvatar
       serverPermissions
+      joinedGroups {
+        id
+        name
+      }
     }
   }
 }

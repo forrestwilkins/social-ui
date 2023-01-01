@@ -471,6 +471,7 @@ export type LoginMutation = {
       serverPermissions: Array<string>;
       id: number;
       name: string;
+      joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
     };
   };
@@ -496,6 +497,7 @@ export type SignUpMutation = {
       serverPermissions: Array<string>;
       id: number;
       name: string;
+      joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
     };
   };
@@ -1733,6 +1735,10 @@ export const LoginDocument = gql`
       user {
         ...UserAvatar
         serverPermissions
+        joinedGroups {
+          id
+          name
+        }
       }
     }
   }
@@ -1831,6 +1837,10 @@ export const SignUpDocument = gql`
       user {
         ...UserAvatar
         serverPermissions
+        joinedGroups {
+          id
+          name
+        }
       }
     }
   }

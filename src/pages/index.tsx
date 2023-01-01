@@ -7,14 +7,14 @@ import ProgressBar from "../components/Shared/ProgressBar";
 import ToggleForms from "../components/Shared/ToggleForms";
 
 const Home: NextPage = () => {
-  const { data, loading } = useHomePageQuery();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { data, loading } = useHomePageQuery({ skip: !isLoggedIn });
 
   if (loading) {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!data?.me) {
     return null;
   }
 

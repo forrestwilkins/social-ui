@@ -21,6 +21,7 @@ import {
 } from "../../constants/common.constants";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
+import { getProposalActionLabel } from "../../utils/proposal.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
@@ -59,7 +60,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const { id, body, images, user, group, createdAt } = proposal;
+  const { id, body, images, action, user, group, createdAt } = proposal;
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const formattedDate = timeAgo(createdAt);
@@ -97,7 +98,9 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   };
 
   const renderTitle = () => {
+    const actionLabel = getProposalActionLabel(action, t);
     const showGroup = group && !isGroupPage;
+
     return (
       <Box marginBottom={showGroup ? -0.5 : 0}>
         {showGroup && (
@@ -115,6 +118,16 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
             {user?.name}
           </Link>
           {MIDDOT_WITH_SPACES}
+
+          {isGroupPage && (
+            <>
+              <Link href={proposalPath} sx={{ color: "inherit", fontSize: 13 }}>
+                {actionLabel}
+              </Link>
+              {MIDDOT_WITH_SPACES}
+            </>
+          )}
+
           <Link href={proposalPath} sx={{ color: "inherit", fontSize: 13 }}>
             {formattedDate}
           </Link>

@@ -62,15 +62,15 @@
       "vote": "Vote"
     },
     "actionTypes": {
-      "assignRole": "Assign a group role",
-      "changeDescription": "Change about text",
-      "changeCoverPhoto": "Change cover photo",
-      "changeName": "Change group name",
-      "changeRole": "Change a group role",
-      "changeSettings": "Change group settings",
-      "createRole": "Create a group role",
-      "planEvent": "Plan event",
-      "test": "Just a test"
+      "assignRole": "Assign Group Role",
+      "changeDescription": "Change About Text",
+      "changeCoverPhoto": "Change Cover Photo",
+      "changeName": "Change Group Name",
+      "changeRole": "Change Group Role",
+      "changeSettings": "Change Group Settings",
+      "createRole": "Create Group Role",
+      "planEvent": "Plan Event",
+      "test": "QA Test"
     },
     "labels": {
       "action": "Action"

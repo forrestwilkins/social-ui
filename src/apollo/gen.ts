@@ -768,6 +768,7 @@ export type GroupProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body: string;
+          action: string;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
@@ -892,6 +893,7 @@ type FeedItem_Proposal_Fragment = {
   __typename?: "Proposal";
   id: number;
   body: string;
+  action: string;
   createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
@@ -1080,6 +1082,7 @@ export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
   body: string;
+  action: string;
   createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
@@ -1108,6 +1111,7 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body: string;
+      action: string;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
@@ -1423,6 +1427,7 @@ export type HomePageQuery = {
           __typename?: "Proposal";
           id: number;
           body: string;
+          action: string;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
@@ -1492,6 +1497,7 @@ export type UserProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body: string;
+          action: string;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
@@ -1641,6 +1647,7 @@ export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
     body
+    action
     images {
       ...AttachedImage
     }

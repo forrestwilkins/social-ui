@@ -41,3 +41,31 @@ export const getProposalActionTypeOptions = (
     value: ProposalActionTypes.Test,
   },
 ];
+
+export const getProposalActionLabel = (
+  action: string,
+  t: TFunction<Namespace<"ns1">, undefined>
+): string => {
+  switch (action) {
+    case ProposalActionTypes.PlanEvent:
+      return t("proposals.actionTypes.planEvent");
+    case ProposalActionTypes.ChangeName:
+      return t("proposals.actionTypes.changeName");
+    case ProposalActionTypes.ChangeCoverPhoto:
+      return t("proposals.actionTypes.changeCoverPhoto");
+    case ProposalActionTypes.ChangeDescription:
+      return t("proposals.actionTypes.changeDescription");
+    case ProposalActionTypes.ChangeSettings:
+      return t("proposals.actionTypes.changeSettings");
+    case ProposalActionTypes.CreateRole:
+      return t("proposals.actionTypes.createRole");
+    case ProposalActionTypes.ChangeRole:
+      return t("proposals.actionTypes.changeRole");
+    case ProposalActionTypes.AssignRole:
+      return t("proposals.actionTypes.assignRole");
+    case ProposalActionTypes.Test:
+      return t("proposals.actionTypes.test");
+    default:
+      return "";
+  }
+};

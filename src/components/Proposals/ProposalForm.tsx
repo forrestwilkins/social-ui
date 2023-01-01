@@ -26,19 +26,14 @@ import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 const ProposalForm = (formProps: FormikFormProps) => {
-  const [imagesInputKey, setImagesInputKey] = useState("");
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
+  const [imagesInputKey, setImagesInputKey] = useState("");
   const [createProposal] = useCreateProposalMutation();
-
   const { t } = useTranslation();
 
-  const initialValues: CreateProposalInput = {
-    body: "",
-    action: "",
-  };
-
   const actionTypeOptions = getProposalActionTypeOptions(t);
+  const initialValues: CreateProposalInput = { body: "", action: "" };
 
   const handleSubmit = async (
     formValues: CreateProposalInput,
@@ -69,9 +64,9 @@ const ProposalForm = (formProps: FormikFormProps) => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      enableReinitialize
       {...formProps}
     >
       {({ isSubmitting, dirty, values, handleChange }) => (

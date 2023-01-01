@@ -2,9 +2,9 @@ import { useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../apollo/cache";
 import { useHomePageQuery } from "../apollo/gen";
-import ToggleForms from "../components/Posts/ToggleForms";
+import Feed from "../components/Shared/Feed";
 import ProgressBar from "../components/Shared/ProgressBar";
-import Feed from "../components/Users/Feed";
+import ToggleForms from "../components/Shared/ToggleForms";
 
 const Home: NextPage = () => {
   const { data, loading } = useHomePageQuery();

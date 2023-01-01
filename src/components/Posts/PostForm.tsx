@@ -74,13 +74,17 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
             },
           },
         });
-
-        // TODO: / FIXME: Add cache update logic for group feed
-        // if (!post.group) {
-        //   return;
-        // }
-        // const groupCacheId = cache.identify(post.group);
-        // cache.modify({ id: groupCacheId, fields });
+        if (!post.group) {
+          return;
+        }
+        cache.modify({
+          id: cache.identify(post.group),
+          fields: {
+            feed(existingRefs, { toReference }) {
+              return [toReference(post), ...existingRefs];
+            },
+          },
+        });
       },
       onCompleted() {
         resetForm();

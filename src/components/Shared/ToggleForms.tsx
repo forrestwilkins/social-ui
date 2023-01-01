@@ -8,9 +8,9 @@ import {
   ToggleButtonGroup as MuiToggleButtonGroup,
 } from "@mui/material";
 import { useState } from "react";
+import PostForm from "../Posts/PostForm";
 import ProposalForm from "../Proposals/ProposalForm";
-import Card from "../Shared/Card";
-import PostForm from "./PostForm";
+import Card from "./Card";
 
 const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   height: 32,
@@ -43,16 +43,20 @@ const INACTIVE_BTN_STYLES = {
   },
 };
 
-const ToggleForms = () => {
+interface Props {
+  groupId?: number;
+}
+
+const ToggleForms = ({ groupId }: Props) => {
   const [showProposalForm, setShowProposalForm] = useState(false);
 
   const handleChange = () => setShowProposalForm(!showProposalForm);
 
   const renderForm = () => {
     if (showProposalForm) {
-      return <ProposalForm />;
+      return <ProposalForm groupId={groupId} />;
     }
-    return <PostForm />;
+    return <PostForm groupId={groupId} />;
   };
 
   return (

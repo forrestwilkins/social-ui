@@ -29,7 +29,11 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
-const ProposalForm = (formProps: FormikFormProps) => {
+interface Props extends FormikFormProps {
+  groupId?: number;
+}
+
+const ProposalForm = ({ groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
@@ -40,13 +44,14 @@ const ProposalForm = (formProps: FormikFormProps) => {
   const { t } = useTranslation();
 
   const initialValues: CreateProposalInput = {
-    groupId: null,
     action: "",
     body: "",
+    groupId,
   };
 
   const actionTypeOptions = getProposalActionTypeOptions(t);
   const joinedGroups = data?.me.joinedGroups;
+  const showGroupField = !!joinedGroups?.length && !groupId;
 
   const handleSubmit = async (
     formValues: CreateProposalInput,
@@ -73,6 +78,17 @@ const ProposalForm = (formProps: FormikFormProps) => {
             id: cache.identify(proposal.user),
             fields: {
               profileFeed(existingRefs, { toReference }) {
+                return [toReference(proposal), ...existingRefs];
+              },
+            },
+          });
+          if (!proposal.group) {
+            return;
+          }
+          cache.modify({
+            id: cache.identify(proposal.group),
+            fields: {
+              feed(existingRefs, { toReference }) {
                 return [toReference(proposal), ...existingRefs];
               },
             },
@@ -134,7 +150,7 @@ const ProposalForm = (formProps: FormikFormProps) => {
                   </Select>
                 </FormControl>
 
-                {!!joinedGroups?.length && (
+                {showGroupField && (
                   <FormControl variant="standard" sx={{ marginBottom: 0.25 }}>
                     <InputLabel>{t("groups.labels.group")}</InputLabel>
                     <Select

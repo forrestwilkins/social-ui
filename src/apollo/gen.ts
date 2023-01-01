@@ -93,6 +93,7 @@ export type Group = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
+  feed: Array<FeedItem>;
   id: Scalars["Int"];
   memberCount: Scalars["Int"];
   memberRequestCount: Scalars["Int"];
@@ -741,25 +742,46 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount: number;
-    posts: Array<{
-      __typename?: "Post";
-      id: number;
-      body: string;
-      createdAt: any;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        coverPhoto?: { __typename?: "Image"; id: number } | null;
-      } | null;
-    }>;
+    feed: Array<
+      | {
+          __typename?: "Post";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+      | {
+          __typename?: "Proposal";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+    >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{
       __typename?: "GroupMember";
@@ -2443,8 +2465,13 @@ export const GroupProfileDocument = gql`
   query GroupProfile($name: String!) {
     group(name: $name) {
       ...GroupProfileCard
-      posts {
-        ...PostCard
+      feed {
+        ... on Post {
+          ...PostCard
+        }
+        ... on Proposal {
+          ...ProposalCard
+        }
       }
     }
     me {
@@ -2453,6 +2480,7 @@ export const GroupProfileDocument = gql`
   }
   ${GroupProfileCardFragmentDoc}
   ${PostCardFragmentDoc}
+  ${ProposalCardFragmentDoc}
 `;
 
 /**

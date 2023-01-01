@@ -1,14 +1,10 @@
 import { Box, BoxProps } from "@mui/material";
-import {
-  FeedItemFragment,
-  PostCardFragment,
-  ProposalCardFragment,
-} from "../../apollo/gen";
+import { FeedItemFragment } from "../../apollo/gen";
 import PostCard from "../Posts/PostCard";
 import ProposalCard from "../Proposals/ProposalCard";
 
 interface Props extends BoxProps {
-  feed: (PostCardFragment | ProposalCardFragment)[];
+  feed: FeedItemFragment[];
 }
 
 const FeedItem = ({ item }: { item: FeedItemFragment }) => {

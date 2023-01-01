@@ -868,6 +868,50 @@ export type DeletePostButtonFragment = {
   group?: { __typename?: "Group"; id: number } | null;
 };
 
+type FeedItem_Post_Fragment = {
+  __typename?: "Post";
+  id: number;
+  body: string;
+  createdAt: any;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  } | null;
+};
+
+type FeedItem_Proposal_Fragment = {
+  __typename?: "Proposal";
+  id: number;
+  body: string;
+  createdAt: any;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  } | null;
+};
+
+export type FeedItemFragment =
+  | FeedItem_Post_Fragment
+  | FeedItem_Proposal_Fragment;
+
 export type PostCardFragment = {
   __typename?: "Post";
   id: number;
@@ -1593,16 +1637,6 @@ export const PostCardFragmentDoc = gql`
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
 `;
-export const PostFormFragmentDoc = gql`
-  fragment PostForm on Post {
-    id
-    body
-    images {
-      ...AttachedImage
-    }
-  }
-  ${AttachedImageFragmentDoc}
-`;
 export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
@@ -1621,6 +1655,28 @@ export const ProposalCardFragmentDoc = gql`
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+`;
+export const FeedItemFragmentDoc = gql`
+  fragment FeedItem on FeedItem {
+    ... on Post {
+      ...PostCard
+    }
+    ... on Proposal {
+      ...ProposalCard
+    }
+  }
+  ${PostCardFragmentDoc}
+  ${ProposalCardFragmentDoc}
+`;
+export const PostFormFragmentDoc = gql`
+  fragment PostForm on Post {
+    id
+    body
+    images {
+      ...AttachedImage
+    }
+  }
+  ${AttachedImageFragmentDoc}
 `;
 export const RoleMemberFragmentDoc = gql`
   fragment RoleMember on RoleMember {
@@ -2477,12 +2533,7 @@ export const GroupProfileDocument = gql`
     group(name: $name) {
       ...GroupProfileCard
       feed {
-        ... on Post {
-          ...PostCard
-        }
-        ... on Proposal {
-          ...ProposalCard
-        }
+        ...FeedItem
       }
     }
     me {
@@ -2490,8 +2541,7 @@ export const GroupProfileDocument = gql`
     }
   }
   ${GroupProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
-  ${ProposalCardFragmentDoc}
+  ${FeedItemFragmentDoc}
 `;
 
 /**
@@ -3590,17 +3640,11 @@ export const HomePageDocument = gql`
     me {
       id
       homeFeed {
-        ... on Post {
-          ...PostCard
-        }
-        ... on Proposal {
-          ...ProposalCard
-        }
+        ...FeedItem
       }
     }
   }
-  ${PostCardFragmentDoc}
-  ${ProposalCardFragmentDoc}
+  ${FeedItemFragmentDoc}
 `;
 
 /**
@@ -3696,12 +3740,7 @@ export const UserProfileDocument = gql`
     user(name: $name) {
       ...UserProfileCard
       profileFeed {
-        ... on Post {
-          ...PostCard
-        }
-        ... on Proposal {
-          ...ProposalCard
-        }
+        ...FeedItem
       }
     }
     me {
@@ -3709,8 +3748,7 @@ export const UserProfileDocument = gql`
     }
   }
   ${UserProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
-  ${ProposalCardFragmentDoc}
+  ${FeedItemFragmentDoc}
 `;
 
 /**

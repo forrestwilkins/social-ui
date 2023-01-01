@@ -3,12 +3,7 @@ query GroupProfile($name: String!) {
     ...GroupProfileCard
 
     feed {
-      ... on Post {
-        ...PostCard
-      }
-      ... on Proposal {
-        ...ProposalCard
-      }
+      ...FeedItem
     }
   }
 

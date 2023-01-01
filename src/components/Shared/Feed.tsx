@@ -1,6 +1,9 @@
 import { Box, BoxProps } from "@mui/material";
-import { PostCardFragment, ProposalCardFragment } from "../../apollo/gen";
-import { TypeNames } from "../../constants/common.constants";
+import {
+  FeedItemFragment,
+  PostCardFragment,
+  ProposalCardFragment,
+} from "../../apollo/gen";
 import PostCard from "../Posts/PostCard";
 import ProposalCard from "../Proposals/ProposalCard";
 
@@ -8,18 +11,21 @@ interface Props extends BoxProps {
   feed: (PostCardFragment | ProposalCardFragment)[];
 }
 
+const FeedItem = ({ item }: { item: FeedItemFragment }) => {
+  if (item.__typename === "Proposal") {
+    return <ProposalCard proposal={item} />;
+  }
+  if (item.__typename !== "Post") {
+    return null;
+  }
+  return <PostCard post={item} />;
+};
+
 const Feed = ({ feed, ...boxProps }: Props) => (
   <Box {...boxProps}>
-    {feed.map((item) => {
-      if (item.__typename === TypeNames.Post) {
-        const key = `${item.__typename}-${item.id}`;
-        return <PostCard post={item} key={key} />;
-      }
-      if (item.__typename === TypeNames.Proposal) {
-        const key = `${item.__typename}-${item.id}`;
-        return <ProposalCard proposal={item} key={key} />;
-      }
-    })}
+    {feed.map((item) => (
+      <FeedItem item={item} key={`${item.__typename}-${item.id}`} />
+    ))}
   </Box>
 );
 

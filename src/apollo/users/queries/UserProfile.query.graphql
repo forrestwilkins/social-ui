@@ -3,12 +3,7 @@ query UserProfile($name: String) {
     ...UserProfileCard
 
     profileFeed {
-      ... on Post {
-        ...PostCard
-      }
-      ... on Proposal {
-        ...ProposalCard
-      }
+      ...FeedItem
     }
   }
 

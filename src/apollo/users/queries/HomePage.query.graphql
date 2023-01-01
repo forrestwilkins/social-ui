@@ -2,12 +2,7 @@ query HomePage {
   me {
     id
     homeFeed {
-      ... on Post {
-        ...PostCard
-      }
-      ... on Proposal {
-        ...ProposalCard
-      }
+      ...FeedItem
     }
   }
 }

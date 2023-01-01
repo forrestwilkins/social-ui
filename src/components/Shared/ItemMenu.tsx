@@ -43,11 +43,6 @@ const ItemMenu = ({
     return null;
   }
 
-  const handleMenuButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
-    setAnchorEl(event.currentTarget);
-
-  const handleClose = () => setAnchorEl(null);
-
   const editIconStyles = {
     marginRight: 1,
     transform: "rotateY(180deg) translateY(2px)",
@@ -59,6 +54,22 @@ const ItemMenu = ({
 
   const showEditButton = canEdit && editPath;
   const showDeleteButton = canDelete && deleteItem && deletePrompt;
+
+  const handleMenuButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
+    setAnchorEl(event.currentTarget);
+
+  const handleClose = () => setAnchorEl(null);
+
+  const handleDelete = () => {
+    if (!deleteItem) {
+      return;
+    }
+    deleteItem(itemId);
+    handleClose();
+  };
+
+  const handleDeleteWithPrompt = () =>
+    window.confirm(deletePrompt) && handleDelete();
 
   return (
     <>
@@ -97,9 +108,7 @@ const ItemMenu = ({
         )}
 
         {showDeleteButton && (
-          <MenuItem
-            onClick={() => window.confirm(deletePrompt) && deleteItem(itemId)}
-          >
+          <MenuItem onClick={handleDeleteWithPrompt}>
             <Delete fontSize="small" sx={{ marginRight: 1 }} />
             {t("actions.delete")}
           </MenuItem>

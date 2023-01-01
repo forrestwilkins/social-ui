@@ -19,7 +19,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { redirectTo } from "../../utils/common.utils";
+import { inDevToast, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -85,8 +85,8 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       await redirectTo(NavigationPaths.Home);
     }
 
-    // TODO: Add delete logic here
-    console.log(id);
+    console.log("TODO: Add delete logic here", id);
+    inDevToast();
   };
 
   const renderAvatar = () => {

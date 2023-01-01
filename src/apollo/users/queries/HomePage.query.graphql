@@ -1,0 +1,15 @@
+query HomePage {
+  me {
+    feed {
+      ... on Post {
+        ...PostCard
+      }
+
+      # TODO: Add remaining data
+      ... on Proposal {
+        id
+        action
+      }
+    }
+  }
+}

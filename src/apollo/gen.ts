@@ -86,6 +86,8 @@ export type DeleteRoleMemberPayload = {
   role: Role;
 };
 
+export type FeedItem = Post | Proposal;
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -285,6 +287,7 @@ export type Proposal = {
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
+  images: Array<Image>;
   updatedAt: Scalars["DateTime"];
   user: User;
   votes: Array<Vote>;
@@ -429,6 +432,7 @@ export type User = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
+  feed: Array<FeedItem>;
   id: Scalars["Int"];
   joinedGroups: Array<Group>;
   name: Scalars["String"];
@@ -1250,6 +1254,37 @@ export type UpdateUserMutation = {
       profilePicture: { __typename?: "Image"; id: number };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
+  };
+};
+
+export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HomePageQuery = {
+  __typename?: "Query";
+  me: {
+    __typename?: "User";
+    feed: Array<
+      | {
+          __typename?: "Post";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+      | { __typename?: "Proposal"; id: number; action: string }
+    >;
   };
 };
 
@@ -3334,6 +3369,67 @@ export type UpdateUserMutationResult =
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutation,
   UpdateUserMutationVariables
+>;
+export const HomePageDocument = gql`
+  query HomePage {
+    me {
+      feed {
+        ... on Post {
+          ...PostCard
+        }
+        ... on Proposal {
+          id
+          action
+        }
+      }
+    }
+  }
+  ${PostCardFragmentDoc}
+`;
+
+/**
+ * __useHomePageQuery__
+ *
+ * To run a query within a React component, call `useHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomePageQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
+    options
+  );
+}
+export function useHomePageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    HomePageQuery,
+    HomePageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
+    options
+  );
+}
+export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
+export type HomePageLazyQueryHookResult = ReturnType<
+  typeof useHomePageLazyQuery
+>;
+export type HomePageQueryResult = Apollo.QueryResult<
+  HomePageQuery,
+  HomePageQueryVariables
 >;
 export const MeDocument = gql`
   query Me {

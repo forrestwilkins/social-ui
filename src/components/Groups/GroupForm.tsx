@@ -19,14 +19,14 @@ import {
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../apollo/gen";
-import Flex from "../../components/Shared/Flex";
-import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { getRandomString, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
+import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import { TextField } from "../Shared/TextField";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {

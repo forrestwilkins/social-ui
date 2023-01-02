@@ -452,6 +452,7 @@ export type Vote = {
   proposal: Proposal;
   updatedAt: Scalars["DateTime"];
   user: User;
+  voteType: Scalars["String"];
 };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never }>;

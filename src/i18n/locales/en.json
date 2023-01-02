@@ -77,6 +77,18 @@
     }
   },
 
+  "votes": {
+    "actions": {
+      "agree": "Agree",
+      "block": "Block",
+      "disagree": "Disagree",
+      "reservations": "Reservations",
+      "standAside": "Stand Aside",
+      "update": "Update Vote",
+      "vote": "Vote"
+    }
+  },
+
   "users": {
     "actions": {
       "editProfile": "Edit Profile",

@@ -61,9 +61,9 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
 
       <VoteMenu
         anchorEl={menuAnchorEl}
+        currentUserId={currentUserId}
         onClose={handleVoteMenuClose}
-        proposalId={proposal.id}
-        voteByCurrentUser={voteByCurrentUser}
+        proposal={proposal}
       />
     </>
   );

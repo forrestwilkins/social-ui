@@ -4,8 +4,11 @@ import { Reference } from "@apollo/client";
 import { PanTool, ThumbDown, ThumbsUpDown, ThumbUp } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useCreateVoteMutation } from "../../apollo/gen";
-import { TypeNames } from "../../constants/common.constants";
+import {
+  ProposalCardFooterFragment,
+  useCreateVoteMutation,
+  useDeleteVoteMutation,
+} from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
 import { Blurple } from "../../styles/theme";
 
@@ -16,25 +19,23 @@ const ICON_STYLES = {
 
 interface Props {
   anchorEl: null | HTMLElement;
+  currentUserId: number;
   onClose(): void;
-  proposalId: number;
-
-  // TODO: Replace with fragment type
-  voteByCurrentUser?: { voteType: string };
+  proposal: ProposalCardFooterFragment;
 }
 
-const VoteMenu = ({
-  anchorEl,
-  onClose,
-  proposalId,
-  voteByCurrentUser,
-}: Props) => {
+const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
   const [createVote] = useCreateVoteMutation();
+  const [deleteVote] = useDeleteVoteMutation();
   const { t } = useTranslation();
+
+  const voteByCurrentUser = proposal.votes.find(
+    (vote) => vote.user.id === currentUserId
+  );
 
   const getMenuItemStyles = (voteType: string) => {
     if (!voteByCurrentUser || voteByCurrentUser.voteType !== voteType) {
-      return {};
+      return;
     }
     return { color: Blurple.Primary };
   };
@@ -42,14 +43,38 @@ const VoteMenu = ({
   const handleClick = (voteType: string) => async () => {
     onClose();
 
+    if (voteByCurrentUser && voteByCurrentUser.voteType !== voteType) {
+      console.log("TODO: Handle update here");
+      return;
+    }
+
     if (voteByCurrentUser) {
-      console.log("TODO: Handle update or delete here");
+      await deleteVote({
+        variables: {
+          id: voteByCurrentUser.id,
+        },
+        update(cache) {
+          cache.modify({
+            id: cache.identify(proposal),
+            fields: {
+              votes(existingPostRefs: Reference[], { readField }) {
+                return existingPostRefs.filter(
+                  (ref) => readField("id", ref) !== voteByCurrentUser.id
+                );
+              },
+            },
+          });
+        },
+      });
       return;
     }
 
     await createVote({
       variables: {
-        voteData: { voteType, proposalId },
+        voteData: {
+          proposalId: proposal.id,
+          voteType,
+        },
       },
       update(cache, { data }) {
         if (!data) {
@@ -60,10 +85,7 @@ const VoteMenu = ({
         } = data;
 
         cache.modify({
-          id: cache.identify({
-            id: proposalId,
-            __typename: TypeNames.Proposal,
-          }),
+          id: cache.identify(proposal),
           fields: {
             votes(existingVoteRefs: Reference[], { toReference }) {
               return [toReference(vote), ...existingVoteRefs];

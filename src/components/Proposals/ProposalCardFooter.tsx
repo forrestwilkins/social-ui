@@ -5,6 +5,7 @@ import { CardActions, SxProps } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalCardFooterFragment } from "../../apollo/gen";
+import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import VoteMenu from "../Votes/VoteMenu";
@@ -27,7 +28,7 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { t } = useTranslation();
 
-  const alreadyVoted = !!proposal.votes.find(
+  const voteByCurrentUser = proposal.votes.find(
     (vote) => vote.user.id === currentUserId
   );
 
@@ -39,7 +40,10 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
   return (
     <>
       <CardActions sx={{ justifyContent: "space-around" }}>
-        <CardFooterButton onClick={handleVoteButtonClick}>
+        <CardFooterButton
+          onClick={handleVoteButtonClick}
+          sx={voteByCurrentUser ? { color: Blurple.Primary } : {}}
+        >
           <HowToVote sx={ICON_STYLES} />
           {t("proposals.actions.vote")}
         </CardFooterButton>
@@ -56,10 +60,10 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
       </CardActions>
 
       <VoteMenu
-        alreadyVoted={alreadyVoted}
         anchorEl={menuAnchorEl}
         onClose={handleVoteMenuClose}
         proposalId={proposal.id}
+        voteByCurrentUser={voteByCurrentUser}
       />
     </>
   );

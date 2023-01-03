@@ -1,4 +1,3 @@
-import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -13,7 +12,6 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isLoggedInVar } from "../../apollo/cache";
 import { ProposalCardFragment, useMeQuery } from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
@@ -54,7 +52,6 @@ interface Props extends CardProps {
 
 const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { data } = useMeQuery();
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const { asPath } = useRouter();
@@ -78,7 +75,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     paddingTop: images.length && !body ? 2.5 : 3,
   };
   const imageListStyles: SxProps = {
-    marginBottom: isLoggedIn ? 1.9 : 0,
+    marginBottom: me ? 1.9 : 0,
   };
 
   const handleDelete = async (id: number) => {
@@ -173,10 +170,10 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
           </Link>
         )}
 
-        {isLoggedIn && <Divider />}
+        {me && <Divider />}
       </CardContent>
 
-      {isLoggedIn && <ProposalCardFooter />}
+      {me && <ProposalCardFooter proposal={proposal} currentUserId={me.id} />}
     </Card>
   );
 };

@@ -4,6 +4,7 @@ import { Comment, HowToVote, Reply } from "@mui/icons-material";
 import { CardActions, SxProps } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ProposalCardFooterFragment } from "../../apollo/gen";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import VoteMenu from "../Votes/VoteMenu";
@@ -17,10 +18,18 @@ const ROTATED_ICON_STYLES = {
   ...ICON_STYLES,
 };
 
-const ProposalCardFooter = () => {
-  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+interface Props {
+  currentUserId: number;
+  proposal: ProposalCardFooterFragment;
+}
 
+const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { t } = useTranslation();
+
+  const alreadyVoted = !!proposal.votes.find(
+    (vote) => vote.user.id === currentUserId
+  );
 
   const handleVoteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -46,7 +55,12 @@ const ProposalCardFooter = () => {
         </CardFooterButton>
       </CardActions>
 
-      <VoteMenu anchorEl={menuAnchorEl} onClose={handleVoteMenuClose} />
+      <VoteMenu
+        alreadyVoted={alreadyVoted}
+        anchorEl={menuAnchorEl}
+        onClose={handleVoteMenuClose}
+        proposalId={proposal.id}
+      />
     </>
   );
 };

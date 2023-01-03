@@ -2,14 +2,19 @@ fragment ProposalCard on Proposal {
   id
   body
   action
-  images {
-    ...AttachedImage
-  }
+  createdAt
+
   user {
     ...UserAvatar
   }
+
   group {
     ...GroupAvatar
   }
-  createdAt
+
+  images {
+    ...AttachedImage
+  }
+
+  ...ProposalCardFooter
 }

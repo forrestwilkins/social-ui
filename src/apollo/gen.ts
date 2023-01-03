@@ -806,7 +806,6 @@ export type GroupProfileQuery = {
           body: string;
           action: string;
           createdAt: any;
-          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
             id: number;
@@ -819,6 +818,13 @@ export type GroupProfileQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -931,7 +937,6 @@ type FeedItem_Proposal_Fragment = {
   body: string;
   action: string;
   createdAt: any;
-  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
     id: number;
@@ -944,6 +949,13 @@ type FeedItem_Proposal_Fragment = {
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 export type FeedItemFragment =
@@ -1120,7 +1132,6 @@ export type ProposalCardFragment = {
   body: string;
   action: string;
   createdAt: any;
-  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
     id: number;
@@ -1133,6 +1144,24 @@ export type ProposalCardFragment = {
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+};
+
+export type ProposalCardFooterFragment = {
+  __typename?: "Proposal";
+  id: number;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 export type CreateProposalMutationVariables = Exact<{
@@ -1149,7 +1178,6 @@ export type CreateProposalMutation = {
       body: string;
       action: string;
       createdAt: any;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -1162,6 +1190,13 @@ export type CreateProposalMutation = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      votes: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: { __typename?: "User"; id: number };
+      }>;
     };
   };
 };
@@ -1465,7 +1500,6 @@ export type HomePageQuery = {
           body: string;
           action: string;
           createdAt: any;
-          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
             id: number;
@@ -1478,6 +1512,13 @@ export type HomePageQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
     >;
   };
@@ -1535,7 +1576,6 @@ export type UserProfileQuery = {
           body: string;
           action: string;
           createdAt: any;
-          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
             id: number;
@@ -1548,6 +1588,13 @@ export type UserProfileQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1712,25 +1759,39 @@ export const PostCardFragmentDoc = gql`
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
 `;
+export const ProposalCardFooterFragmentDoc = gql`
+  fragment ProposalCardFooter on Proposal {
+    id
+    votes {
+      id
+      voteType
+      user {
+        id
+      }
+    }
+  }
+`;
 export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
     body
     action
-    images {
-      ...AttachedImage
-    }
+    createdAt
     user {
       ...UserAvatar
     }
     group {
       ...GroupAvatar
     }
-    createdAt
+    images {
+      ...AttachedImage
+    }
+    ...ProposalCardFooter
   }
-  ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+  ${AttachedImageFragmentDoc}
+  ${ProposalCardFooterFragmentDoc}
 `;
 export const FeedItemFragmentDoc = gql`
   fragment FeedItem on FeedItem {

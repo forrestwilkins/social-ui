@@ -32,6 +32,13 @@ const VoteMenu = ({
   const [createVote] = useCreateVoteMutation();
   const { t } = useTranslation();
 
+  const getMenuItemStyles = (voteType: string) => {
+    if (!voteByCurrentUser || voteByCurrentUser.voteType !== voteType) {
+      return {};
+    }
+    return { color: Blurple.Primary };
+  };
+
   const handleClick = (voteType: string) => async () => {
     onClose();
 
@@ -48,7 +55,6 @@ const VoteMenu = ({
         if (!data) {
           return;
         }
-
         const {
           createVote: { vote },
         } = data;
@@ -85,12 +91,7 @@ const VoteMenu = ({
     >
       <MenuItem
         onClick={handleClick(VoteTypes.Agreement)}
-        sx={
-          // TODO: Refactor - add function to avoid repeated code
-          voteByCurrentUser?.voteType === VoteTypes.Agreement
-            ? { color: Blurple.Primary }
-            : {}
-        }
+        sx={getMenuItemStyles(VoteTypes.Agreement)}
       >
         <ThumbUp sx={ICON_STYLES} />
         {t("votes.actions.agree")}
@@ -98,11 +99,7 @@ const VoteMenu = ({
 
       <MenuItem
         onClick={handleClick(VoteTypes.StandAside)}
-        sx={
-          voteByCurrentUser?.voteType === VoteTypes.StandAside
-            ? { color: Blurple.Primary }
-            : {}
-        }
+        sx={getMenuItemStyles(VoteTypes.StandAside)}
       >
         <ThumbDown sx={ICON_STYLES} />
         {t("votes.actions.standAside")}
@@ -110,11 +107,7 @@ const VoteMenu = ({
 
       <MenuItem
         onClick={handleClick(VoteTypes.Reservations)}
-        sx={
-          voteByCurrentUser?.voteType === VoteTypes.Reservations
-            ? { color: Blurple.Primary }
-            : {}
-        }
+        sx={getMenuItemStyles(VoteTypes.Reservations)}
       >
         <ThumbsUpDown sx={ICON_STYLES} />
         {t("votes.actions.reservations")}
@@ -122,11 +115,7 @@ const VoteMenu = ({
 
       <MenuItem
         onClick={handleClick(VoteTypes.Block)}
-        sx={
-          voteByCurrentUser?.voteType === VoteTypes.Block
-            ? { color: Blurple.Primary }
-            : {}
-        }
+        sx={getMenuItemStyles(VoteTypes.Block)}
       >
         <PanTool sx={ICON_STYLES} />
         {t("votes.actions.block")}

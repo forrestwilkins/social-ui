@@ -1610,6 +1610,17 @@ export type UsersQuery = {
   users: Array<{ __typename?: "User"; id: number; name: string }>;
 };
 
+export type VoteMenuFragment = {
+  __typename?: "Proposal";
+  id: number;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+};
+
 export type CreateVoteMutationVariables = Exact<{
   voteData: CreateVoteInput;
 }>;
@@ -1759,8 +1770,8 @@ export const PostCardFragmentDoc = gql`
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
 `;
-export const ProposalCardFooterFragmentDoc = gql`
-  fragment ProposalCardFooter on Proposal {
+export const VoteMenuFragmentDoc = gql`
+  fragment VoteMenu on Proposal {
     id
     votes {
       id
@@ -1770,6 +1781,17 @@ export const ProposalCardFooterFragmentDoc = gql`
       }
     }
   }
+`;
+export const ProposalCardFooterFragmentDoc = gql`
+  fragment ProposalCardFooter on Proposal {
+    votes {
+      user {
+        id
+      }
+    }
+    ...VoteMenu
+  }
+  ${VoteMenuFragmentDoc}
 `;
 export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {

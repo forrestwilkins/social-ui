@@ -8,6 +8,7 @@ import {
   ProposalCardFooterFragment,
   useCreateVoteMutation,
   useDeleteVoteMutation,
+  useUpdateVoteMutation,
 } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
 import { Blurple } from "../../styles/theme";
@@ -26,6 +27,7 @@ interface Props {
 
 const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
   const [createVote] = useCreateVoteMutation();
+  const [updateVote] = useUpdateVoteMutation();
   const [deleteVote] = useDeleteVoteMutation();
   const { t } = useTranslation();
 
@@ -67,6 +69,13 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
       },
     });
 
+  const handleUpdate = async (id: number, voteType: string) =>
+    await updateVote({
+      variables: {
+        voteData: { id, voteType },
+      },
+    });
+
   const handleDelete = async (id: number) =>
     await deleteVote({
       variables: { id },
@@ -88,14 +97,13 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
     onClose();
 
     if (voteByCurrentUser && voteByCurrentUser.voteType !== voteType) {
-      console.log("TODO: Handle update here");
+      await handleUpdate(voteByCurrentUser.id, voteType);
       return;
     }
     if (voteByCurrentUser) {
       await handleDelete(voteByCurrentUser.id);
       return;
     }
-
     await handleCreate(voteType);
   };
 

@@ -40,35 +40,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
     return { color: Blurple.Primary };
   };
 
-  const handleClick = (voteType: string) => async () => {
-    onClose();
-
-    if (voteByCurrentUser && voteByCurrentUser.voteType !== voteType) {
-      console.log("TODO: Handle update here");
-      return;
-    }
-
-    if (voteByCurrentUser) {
-      await deleteVote({
-        variables: {
-          id: voteByCurrentUser.id,
-        },
-        update(cache) {
-          cache.modify({
-            id: cache.identify(proposal),
-            fields: {
-              votes(existingPostRefs: Reference[], { readField }) {
-                return existingPostRefs.filter(
-                  (ref) => readField("id", ref) !== voteByCurrentUser.id
-                );
-              },
-            },
-          });
-        },
-      });
-      return;
-    }
-
+  const handleCreate = async (voteType: string) =>
     await createVote({
       variables: {
         voteData: {
@@ -94,6 +66,37 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
         });
       },
     });
+
+  const handleDelete = async (id: number) =>
+    await deleteVote({
+      variables: { id },
+      update(cache) {
+        cache.modify({
+          id: cache.identify(proposal),
+          fields: {
+            votes(existingPostRefs: Reference[], { readField }) {
+              return existingPostRefs.filter(
+                (ref) => readField("id", ref) !== id
+              );
+            },
+          },
+        });
+      },
+    });
+
+  const handleClick = (voteType: string) => async () => {
+    onClose();
+
+    if (voteByCurrentUser && voteByCurrentUser.voteType !== voteType) {
+      console.log("TODO: Handle update here");
+      return;
+    }
+    if (voteByCurrentUser) {
+      await handleDelete(voteByCurrentUser.id);
+      return;
+    }
+
+    await handleCreate(voteType);
   };
 
   return (

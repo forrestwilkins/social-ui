@@ -1,9 +1,11 @@
 // TODO: Add basic functionality for votes - below is a WIP
 
+import { Reference } from "@apollo/client";
 import { PanTool, ThumbDown, ThumbsUpDown, ThumbUp } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useCreateVoteMutation } from "../../apollo/gen";
+import { TypeNames } from "../../constants/common.constants";
 import { VoteTypes } from "../../constants/vote.constants";
 import { Blurple } from "../../styles/theme";
 
@@ -30,7 +32,7 @@ const VoteMenu = ({
   const [createVote] = useCreateVoteMutation();
   const { t } = useTranslation();
 
-  const handleClick = (voteType: VoteTypes) => async () => {
+  const handleClick = (voteType: string) => async () => {
     onClose();
 
     if (voteByCurrentUser) {
@@ -41,6 +43,27 @@ const VoteMenu = ({
     await createVote({
       variables: {
         voteData: { voteType, proposalId },
+      },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+
+        const {
+          createVote: { vote },
+        } = data;
+
+        cache.modify({
+          id: cache.identify({
+            id: proposalId,
+            __typename: TypeNames.Proposal,
+          }),
+          fields: {
+            votes(existingVoteRefs: Reference[], { toReference }) {
+              return [toReference(vote), ...existingVoteRefs];
+            },
+          },
+        });
       },
     });
   };

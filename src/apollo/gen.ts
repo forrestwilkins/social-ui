@@ -831,30 +831,6 @@ export type GroupProfileQuery = {
             voteType: string;
             user: { __typename?: "User"; id: number };
           }>;
-          agreements: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          reservations: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          standAsides: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          blocks: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
         }
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -982,30 +958,6 @@ type FeedItem_Proposal_Fragment = {
   } | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   votes: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  agreements: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  reservations: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  standAsides: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  blocks: Array<{
     __typename?: "Vote";
     id: number;
     voteType: string;
@@ -1207,30 +1159,6 @@ export type ProposalCardFragment = {
     voteType: string;
     user: { __typename?: "User"; id: number };
   }>;
-  agreements: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  reservations: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  standAsides: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  blocks: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
 };
 
 export type ProposalCardFooterFragment = {
@@ -1238,30 +1166,6 @@ export type ProposalCardFooterFragment = {
   id: number;
   voteCount: number;
   votes: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  agreements: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  reservations: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  standAsides: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  blocks: Array<{
     __typename?: "Vote";
     id: number;
     voteType: string;
@@ -1298,30 +1202,6 @@ export type CreateProposalMutation = {
       } | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       votes: Array<{
-        __typename?: "Vote";
-        id: number;
-        voteType: string;
-        user: { __typename?: "User"; id: number };
-      }>;
-      agreements: Array<{
-        __typename?: "Vote";
-        id: number;
-        voteType: string;
-        user: { __typename?: "User"; id: number };
-      }>;
-      reservations: Array<{
-        __typename?: "Vote";
-        id: number;
-        voteType: string;
-        user: { __typename?: "User"; id: number };
-      }>;
-      standAsides: Array<{
-        __typename?: "Vote";
-        id: number;
-        voteType: string;
-        user: { __typename?: "User"; id: number };
-      }>;
-      blocks: Array<{
         __typename?: "Vote";
         id: number;
         voteType: string;
@@ -1650,30 +1530,6 @@ export type HomePageQuery = {
             voteType: string;
             user: { __typename?: "User"; id: number };
           }>;
-          agreements: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          reservations: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          standAsides: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          blocks: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
         }
     >;
   };
@@ -1751,30 +1607,6 @@ export type UserProfileQuery = {
             voteType: string;
             user: { __typename?: "User"; id: number };
           }>;
-          agreements: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          reservations: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          standAsides: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
-          blocks: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: { __typename?: "User"; id: number };
-          }>;
         }
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1793,6 +1625,7 @@ export type UsersQuery = {
 export type VoteChipFragment = {
   __typename?: "Vote";
   id: number;
+  voteType: string;
   user: { __typename?: "User"; id: number };
 };
 
@@ -1800,25 +1633,7 @@ export type VoteChipsFragment = {
   __typename?: "Proposal";
   id: number;
   voteCount: number;
-  agreements: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  reservations: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  standAsides: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: { __typename?: "User"; id: number };
-  }>;
-  blocks: Array<{
+  votes: Array<{
     __typename?: "Vote";
     id: number;
     voteType: string;
@@ -1998,39 +1813,24 @@ export const VoteMenuFragmentDoc = gql`
     }
   }
 `;
+export const VoteChipFragmentDoc = gql`
+  fragment VoteChip on Vote {
+    id
+    voteType
+    user {
+      id
+    }
+  }
+`;
 export const VoteChipsFragmentDoc = gql`
   fragment VoteChips on Proposal {
     id
     voteCount
-    agreements {
-      id
-      voteType
-      user {
-        id
-      }
-    }
-    reservations {
-      id
-      voteType
-      user {
-        id
-      }
-    }
-    standAsides {
-      id
-      voteType
-      user {
-        id
-      }
-    }
-    blocks {
-      id
-      voteType
-      user {
-        id
-      }
+    votes {
+      ...VoteChip
     }
   }
+  ${VoteChipFragmentDoc}
 `;
 export const ProposalCardFooterFragmentDoc = gql`
   fragment ProposalCardFooter on Proposal {
@@ -2151,14 +1951,6 @@ export const UserProfileCardFragmentDoc = gql`
     createdAt
   }
   ${UserAvatarFragmentDoc}
-`;
-export const VoteChipFragmentDoc = gql`
-  fragment VoteChip on Vote {
-    id
-    user {
-      id
-    }
-  }
 `;
 export const LogOutDocument = gql`
   mutation LogOut {

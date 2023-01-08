@@ -2,14 +2,14 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useUserQuery } from "../../../apollo/gen";
+import { useEditUserQuery } from "../../../apollo/gen";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import EditProfileForm from "../../../components/Users/EditProfileForm";
 
 const EditUser: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const { data, loading, error } = useUserQuery({
+  const { data, loading, error } = useEditUserQuery({
     variables: { name },
     skip: !name,
   });

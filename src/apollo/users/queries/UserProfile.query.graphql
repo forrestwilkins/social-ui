@@ -1,0 +1,13 @@
+query UserProfile($name: String) {
+  user(name: $name) {
+    ...UserProfileCard
+
+    profileFeed {
+      ...FeedItem
+    }
+  }
+
+  me {
+    id
+  }
+}

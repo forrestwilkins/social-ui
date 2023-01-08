@@ -1,0 +1,9 @@
+fragment ProposalCardFooter on Proposal {
+  votes {
+    user {
+      id
+    }
+  }
+  ...VoteMenu
+  ...VoteChips
+}

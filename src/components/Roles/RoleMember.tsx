@@ -1,11 +1,12 @@
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import {
   RoleMemberFragment,
   useDeleteRoleMemberMutation,
 } from "../../apollo/gen";
-import { TypeNames } from "../../constants/common.constants";
+import { FORBIDDEN, TypeNames } from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -58,6 +59,15 @@ const RoleMember = ({
         const cacheId = cache.identify({ id, __typename });
         cache.evict({ id: cacheId });
         cache.gc();
+      },
+      onError(error) {
+        toastVar({
+          status: "error",
+          title:
+            error.message === FORBIDDEN
+              ? t("prompts.permissionDenied")
+              : error.message,
+        });
       },
     });
 

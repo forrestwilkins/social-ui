@@ -3,11 +3,14 @@
 
   "actions": {
     "cancel": "Cancel",
+    "comment": "Comment",
     "create": "Create",
     "delete": "Delete",
     "edit": "Edit",
+    "like": "Like",
     "post": "Post",
     "save": "Save",
+    "share": "Share",
     "submit": "Submit",
     "upload": "Upload"
   },
@@ -23,10 +26,11 @@
   },
 
   "labels": {
+    "all": "All",
     "menu": "Menu",
-    "switch": "Switch",
     "menuButton": "Menu button",
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "switch": "Switch"
   },
 
   "errors": {
@@ -48,6 +52,42 @@
     "profile": "Profile",
     "roles": "Roles",
     "users": "Users"
+  },
+
+  "proposals": {
+    "prompts": {
+      "createProposal": "Create a proposal..."
+    },
+    "actions": {
+      "createProposal": "Create Proposal",
+      "vote": "Vote"
+    },
+    "actionTypes": {
+      "assignRole": "Assign Group Role",
+      "changeDescription": "Change About Text",
+      "changeCoverPhoto": "Change Cover Photo",
+      "changeName": "Change Group Name",
+      "changeRole": "Change Group Role",
+      "changeSettings": "Change Group Settings",
+      "createRole": "Create Group Role",
+      "planEvent": "Plan Event",
+      "test": "QA Test"
+    },
+    "labels": {
+      "action": "Action"
+    }
+  },
+
+  "votes": {
+    "actions": {
+      "agree": "Agree",
+      "block": "Block",
+      "disagree": "Disagree",
+      "reservations": "Reservations",
+      "standAside": "Stand Aside",
+      "update": "Update Vote",
+      "vote": "Vote"
+    }
   },
 
   "users": {
@@ -104,11 +144,6 @@
       "addImages": "Add images",
       "addPost": "Add post",
       "posts": "Posts"
-    },
-    "actions": {
-      "comment": "Comment",
-      "like": "Like",
-      "share": "Share"
     }
   },
 
@@ -133,6 +168,7 @@
     },
     "labels": {
       "consensus": "Consensus",
+      "group": "Group",
       "groupMembers_one": "{{count}} Group Member",
       "groupMembers_other": "{{count}} Group Members",
       "joined": "Joined",

@@ -13,7 +13,7 @@ import {
   UserAvatarFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
-import Dialog from "../Shared/Dialog";
+import Modal from "../Shared/Modal";
 import Flex from "../Shared/Flex";
 import AddMemberOption from "./AddMemberOption";
 import RoleMember from "./RoleMember";
@@ -38,7 +38,7 @@ interface Props {
 
 const AddMemberTab = ({ role: { id, members }, users }: Props) => {
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateRole] = useUpdateRoleMutation();
 
   const { t } = useTranslation();
@@ -48,8 +48,8 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
     marginRight: 1.25,
   };
 
-  const handleAddMembersCardClick = () => setDialogOpen(true);
-  const handleCloseDialog = () => setDialogOpen(false);
+  const handleAddMembersCardClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const handleSubmit = async () =>
     await updateRole({
@@ -57,7 +57,7 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
         roleData: { id, selectedUserIds },
       },
       onCompleted() {
-        handleCloseDialog();
+        handleCloseModal();
         setSelectedUserIds([]);
       },
     });
@@ -82,12 +82,12 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
         </CardActionArea>
       </Card>
 
-      <Dialog
+      <Modal
         title={t("roles.actions.addMembers")}
         actionLabel={t("roles.actions.add")}
         closingAction={handleSubmit}
-        onClose={handleCloseDialog}
-        open={dialogOpen}
+        onClose={handleCloseModal}
+        open={isModalOpen}
       >
         {users.map((user) => (
           <AddMemberOption
@@ -97,7 +97,7 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
             user={user}
           />
         ))}
-      </Dialog>
+      </Modal>
 
       {!!members.length && (
         <Card>

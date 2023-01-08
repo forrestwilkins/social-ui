@@ -1,0 +1,8 @@
+query HomePage {
+  me {
+    id
+    homeFeed {
+      ...FeedItem
+    }
+  }
+}

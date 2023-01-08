@@ -59,6 +59,18 @@ export type CreatePostPayload = {
   post: Post;
 };
 
+export type CreateProposalInput = {
+  action: Scalars["String"];
+  body?: InputMaybe<Scalars["String"]>;
+  groupId?: InputMaybe<Scalars["Int"]>;
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
+};
+
+export type CreateProposalPayload = {
+  __typename?: "CreateProposalPayload";
+  proposal: Proposal;
+};
+
 export type CreateRoleInput = {
   color: Scalars["String"];
   name: Scalars["String"];
@@ -69,22 +81,36 @@ export type CreateRolePayload = {
   role: Role;
 };
 
+export type CreateVoteInput = {
+  proposalId: Scalars["Int"];
+  voteType: Scalars["String"];
+};
+
+export type CreateVotePayload = {
+  __typename?: "CreateVotePayload";
+  vote: Vote;
+};
+
 export type DeleteRoleMemberPayload = {
   __typename?: "DeleteRoleMemberPayload";
   role: Role;
 };
+
+export type FeedItem = Post | Proposal;
 
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
+  feed: Array<FeedItem>;
   id: Scalars["Int"];
   memberCount: Scalars["Int"];
   memberRequestCount: Scalars["Int"];
   members: Array<GroupMember>;
   name: Scalars["String"];
   posts: Array<Post>;
+  proposals: Array<Proposal>;
   roles: Array<Role>;
   updatedAt: Scalars["DateTime"];
 };
@@ -106,6 +132,7 @@ export type Image = {
   id: Scalars["Int"];
   imageType: Scalars["String"];
   post: Post;
+  proposal: Proposal;
   updatedAt: Scalars["DateTime"];
   user: User;
 };
@@ -136,13 +163,16 @@ export type Mutation = {
   createGroup: CreateGroupPayload;
   createMemberRequest: CreateMemberRequestPayload;
   createPost: CreatePostPayload;
+  createProposal: CreateProposalPayload;
   createRole: CreateRolePayload;
+  createVote: CreateVotePayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
   deleteRole: Scalars["Boolean"];
   deleteRoleMember: DeleteRoleMemberPayload;
   deleteUser: Scalars["Boolean"];
+  deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
@@ -153,7 +183,7 @@ export type Mutation = {
   updatePost: UpdatePostPayload;
   updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
-  uploadImage: Image;
+  updateVote: UpdateVotePayload;
 };
 
 export type MutationApproveMemberRequestArgs = {
@@ -176,8 +206,16 @@ export type MutationCreatePostArgs = {
   postData: CreatePostInput;
 };
 
+export type MutationCreateProposalArgs = {
+  proposalData: CreateProposalInput;
+};
+
 export type MutationCreateRoleArgs = {
   roleData: CreateRoleInput;
+};
+
+export type MutationCreateVoteArgs = {
+  voteData: CreateVoteInput;
 };
 
 export type MutationDeleteGroupArgs = {
@@ -201,6 +239,10 @@ export type MutationDeleteRoleMemberArgs = {
 };
 
 export type MutationDeleteUserArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteVoteArgs = {
   id: Scalars["Int"];
 };
 
@@ -236,8 +278,8 @@ export type MutationUpdateUserArgs = {
   userData: UpdateUserInput;
 };
 
-export type MutationUploadImageArgs = {
-  image: Scalars["Upload"];
+export type MutationUpdateVoteArgs = {
+  voteData: UpdateVoteInput;
 };
 
 export type Permission = {
@@ -264,6 +306,24 @@ export type Post = {
   user: User;
 };
 
+export type Proposal = {
+  __typename?: "Proposal";
+  action: Scalars["String"];
+  agreements: Array<Vote>;
+  blocks: Array<Vote>;
+  body: Scalars["String"];
+  createdAt: Scalars["DateTime"];
+  group?: Maybe<Group>;
+  id: Scalars["Int"];
+  images: Array<Image>;
+  reservations: Array<Vote>;
+  standAsides: Array<Vote>;
+  updatedAt: Scalars["DateTime"];
+  user: User;
+  voteCount: Scalars["Int"];
+  votes: Array<Vote>;
+};
+
 export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
@@ -274,10 +334,14 @@ export type Query = {
   memberRequests: Array<MemberRequest>;
   post: Post;
   posts: Array<Post>;
+  proposal: Proposal;
+  proposals: Array<Proposal>;
   role: Role;
   serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
+  vote: Vote;
+  votes: Array<Vote>;
 };
 
 export type QueryGroupArgs = {
@@ -296,6 +360,10 @@ export type QueryPostArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryProposalArgs = {
+  id: Scalars["Int"];
+};
+
 export type QueryRoleArgs = {
   id: Scalars["Int"];
 };
@@ -303,6 +371,10 @@ export type QueryRoleArgs = {
 export type QueryUserArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryVoteArgs = {
+  id: Scalars["Int"];
 };
 
 export type Role = {
@@ -385,18 +457,42 @@ export type UpdateUserPayload = {
   user: User;
 };
 
+export type UpdateVoteInput = {
+  id: Scalars["Int"];
+  voteType: Scalars["String"];
+};
+
+export type UpdateVotePayload = {
+  __typename?: "UpdateVotePayload";
+  vote: Vote;
+};
+
 export type User = {
   __typename?: "User";
   bio?: Maybe<Scalars["String"]>;
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
+  homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
+  joinedGroups: Array<Group>;
   name: Scalars["String"];
   posts: Array<Post>;
+  profileFeed: Array<FeedItem>;
   profilePicture: Image;
+  proposals: Array<Proposal>;
   serverPermissions: Array<Scalars["String"]>;
   updatedAt: Scalars["DateTime"];
+};
+
+export type Vote = {
+  __typename?: "Vote";
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  proposal: Proposal;
+  updatedAt: Scalars["DateTime"];
+  user: User;
+  voteType: Scalars["String"];
 };
 
 export type LogOutMutationVariables = Exact<{ [key: string]: never }>;
@@ -416,6 +512,7 @@ export type LoginMutation = {
       serverPermissions: Array<string>;
       id: number;
       name: string;
+      joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
     };
   };
@@ -441,6 +538,7 @@ export type SignUpMutation = {
       serverPermissions: Array<string>;
       id: number;
       name: string;
+      joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
     };
   };
@@ -687,25 +785,59 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount: number;
-    posts: Array<{
-      __typename?: "Post";
-      id: number;
-      body: string;
-      createdAt: any;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        coverPhoto?: { __typename?: "Image"; id: number } | null;
-      } | null;
-    }>;
+    feed: Array<
+      | {
+          __typename?: "Post";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+      | {
+          __typename?: "Proposal";
+          id: number;
+          body: string;
+          action: string;
+          createdAt: any;
+          voteCount: number;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }>;
+        }
+    >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{
       __typename?: "GroupMember";
@@ -789,6 +921,63 @@ export type DeletePostButtonFragment = {
   user: { __typename?: "User"; id: number };
   group?: { __typename?: "Group"; id: number } | null;
 };
+
+type FeedItem_Post_Fragment = {
+  __typename?: "Post";
+  id: number;
+  body: string;
+  createdAt: any;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  } | null;
+};
+
+type FeedItem_Proposal_Fragment = {
+  __typename?: "Proposal";
+  id: number;
+  body: string;
+  action: string;
+  createdAt: any;
+  voteCount: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  } | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
+export type FeedItemFragment =
+  | FeedItem_Post_Fragment
+  | FeedItem_Proposal_Fragment;
 
 export type PostCardFragment = {
   __typename?: "Post";
@@ -952,6 +1141,99 @@ export type PostsQuery = {
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
   }>;
+};
+
+export type ProposalCardFragment = {
+  __typename?: "Proposal";
+  id: number;
+  body: string;
+  action: string;
+  createdAt: any;
+  voteCount: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  } | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
+export type ProposalCardFooterFragment = {
+  __typename?: "Proposal";
+  id: number;
+  voteCount: number;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
+export type CreateProposalMutationVariables = Exact<{
+  proposalData: CreateProposalInput;
+}>;
+
+export type CreateProposalMutation = {
+  __typename?: "Mutation";
+  createProposal: {
+    __typename?: "CreateProposalPayload";
+    proposal: {
+      __typename?: "Proposal";
+      id: number;
+      body: string;
+      action: string;
+      createdAt: any;
+      voteCount: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      votes: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }>;
+    };
+  };
 };
 
 export type AddMemberTabFragment = {
@@ -1184,24 +1466,11 @@ export type UpdateUserMutation = {
   };
 };
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
-
-export type MeQuery = {
-  __typename?: "Query";
-  me: {
-    __typename?: "User";
-    serverPermissions: Array<string>;
-    id: number;
-    name: string;
-    profilePicture: { __typename?: "Image"; id: number };
-  };
-};
-
-export type UserQueryVariables = Exact<{
+export type EditUserQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
 }>;
 
-export type UserQuery = {
+export type EditUserQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
@@ -1233,11 +1502,239 @@ export type UserQuery = {
   };
 };
 
+export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HomePageQuery = {
+  __typename?: "Query";
+  me: {
+    __typename?: "User";
+    id: number;
+    homeFeed: Array<
+      | {
+          __typename?: "Post";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+      | {
+          __typename?: "Proposal";
+          id: number;
+          body: string;
+          action: string;
+          createdAt: any;
+          voteCount: number;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }>;
+        }
+    >;
+  };
+};
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = {
+  __typename?: "Query";
+  me: {
+    __typename?: "User";
+    serverPermissions: Array<string>;
+    id: number;
+    name: string;
+    joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
+export type UserProfileQueryVariables = Exact<{
+  name?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type UserProfileQuery = {
+  __typename?: "Query";
+  user: {
+    __typename?: "User";
+    bio?: string | null;
+    createdAt: any;
+    id: number;
+    name: string;
+    profileFeed: Array<
+      | {
+          __typename?: "Post";
+          id: number;
+          body: string;
+          createdAt: any;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+        }
+      | {
+          __typename?: "Proposal";
+          id: number;
+          body: string;
+          action: string;
+          createdAt: any;
+          voteCount: number;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          group?: {
+            __typename?: "Group";
+            id: number;
+            name: string;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+          votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }>;
+        }
+    >;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  me: { __typename?: "User"; id: number };
+};
+
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UsersQuery = {
   __typename?: "Query";
   users: Array<{ __typename?: "User"; id: number; name: string }>;
+};
+
+export type VoteFragment = {
+  __typename?: "Vote";
+  id: number;
+  voteType: string;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
+export type VoteChipFragment = {
+  __typename?: "Vote";
+  id: number;
+  voteType: string;
+  user: { __typename?: "User"; id: number };
+};
+
+export type VoteChipsFragment = {
+  __typename?: "Proposal";
+  id: number;
+  voteCount: number;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
+export type VoteMenuFragment = {
+  __typename?: "Proposal";
+  id: number;
+  votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+};
+
+export type CreateVoteMutationVariables = Exact<{
+  voteData: CreateVoteInput;
+}>;
+
+export type CreateVoteMutation = {
+  __typename?: "Mutation";
+  createVote: {
+    __typename?: "CreateVotePayload";
+    vote: { __typename?: "Vote"; id: number; voteType: string };
+  };
+};
+
+export type DeleteVoteMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteVoteMutation = {
+  __typename?: "Mutation";
+  deleteVote: boolean;
+};
+
+export type UpdateVoteMutationVariables = Exact<{
+  voteData: UpdateVoteInput;
+}>;
+
+export type UpdateVoteMutation = {
+  __typename?: "Mutation";
+  updateVote: {
+    __typename?: "UpdateVotePayload";
+    vote: { __typename?: "Vote"; id: number; voteType: string };
+  };
 };
 
 export const GroupAvatarFragmentDoc = gql`
@@ -1355,6 +1852,96 @@ export const PostCardFragmentDoc = gql`
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+`;
+export const VoteMenuFragmentDoc = gql`
+  fragment VoteMenu on Proposal {
+    id
+    votes {
+      id
+      voteType
+      user {
+        id
+      }
+    }
+  }
+`;
+export const VoteFragmentDoc = gql`
+  fragment Vote on Vote {
+    id
+    voteType
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export const VoteChipFragmentDoc = gql`
+  fragment VoteChip on Vote {
+    id
+    voteType
+    user {
+      id
+    }
+  }
+`;
+export const VoteChipsFragmentDoc = gql`
+  fragment VoteChips on Proposal {
+    id
+    voteCount
+    votes {
+      ...Vote
+      ...VoteChip
+    }
+  }
+  ${VoteFragmentDoc}
+  ${VoteChipFragmentDoc}
+`;
+export const ProposalCardFooterFragmentDoc = gql`
+  fragment ProposalCardFooter on Proposal {
+    votes {
+      user {
+        id
+      }
+    }
+    ...VoteMenu
+    ...VoteChips
+  }
+  ${VoteMenuFragmentDoc}
+  ${VoteChipsFragmentDoc}
+`;
+export const ProposalCardFragmentDoc = gql`
+  fragment ProposalCard on Proposal {
+    id
+    body
+    action
+    createdAt
+    user {
+      ...UserAvatar
+    }
+    group {
+      ...GroupAvatar
+    }
+    images {
+      ...AttachedImage
+    }
+    ...ProposalCardFooter
+  }
+  ${UserAvatarFragmentDoc}
+  ${GroupAvatarFragmentDoc}
+  ${AttachedImageFragmentDoc}
+  ${ProposalCardFooterFragmentDoc}
+`;
+export const FeedItemFragmentDoc = gql`
+  fragment FeedItem on FeedItem {
+    ... on Post {
+      ...PostCard
+    }
+    ... on Proposal {
+      ...ProposalCard
+    }
+  }
+  ${PostCardFragmentDoc}
+  ${ProposalCardFragmentDoc}
 `;
 export const PostFormFragmentDoc = gql`
   fragment PostForm on Post {
@@ -1479,6 +2066,10 @@ export const LoginDocument = gql`
       user {
         ...UserAvatar
         serverPermissions
+        joinedGroups {
+          id
+          name
+        }
       }
     }
   }
@@ -1577,6 +2168,10 @@ export const SignUpDocument = gql`
       user {
         ...UserAvatar
         serverPermissions
+        joinedGroups {
+          id
+          name
+        }
       }
     }
   }
@@ -2212,8 +2807,8 @@ export const GroupProfileDocument = gql`
   query GroupProfile($name: String!) {
     group(name: $name) {
       ...GroupProfileCard
-      posts {
-        ...PostCard
+      feed {
+        ...FeedItem
       }
     }
     me {
@@ -2221,7 +2816,7 @@ export const GroupProfileDocument = gql`
     }
   }
   ${GroupProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
+  ${FeedItemFragmentDoc}
 `;
 
 /**
@@ -2794,6 +3389,59 @@ export type PostsQueryResult = Apollo.QueryResult<
   PostsQuery,
   PostsQueryVariables
 >;
+export const CreateProposalDocument = gql`
+  mutation CreateProposal($proposalData: CreateProposalInput!) {
+    createProposal(proposalData: $proposalData) {
+      proposal {
+        ...ProposalCard
+      }
+    }
+  }
+  ${ProposalCardFragmentDoc}
+`;
+export type CreateProposalMutationFn = Apollo.MutationFunction<
+  CreateProposalMutation,
+  CreateProposalMutationVariables
+>;
+
+/**
+ * __useCreateProposalMutation__
+ *
+ * To run a mutation, you first call `useCreateProposalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProposalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProposalMutation, { data, loading, error }] = useCreateProposalMutation({
+ *   variables: {
+ *      proposalData: // value for 'proposalData'
+ *   },
+ * });
+ */
+export function useCreateProposalMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateProposalMutation,
+    CreateProposalMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateProposalMutation,
+    CreateProposalMutationVariables
+  >(CreateProposalDocument, options);
+}
+export type CreateProposalMutationHookResult = ReturnType<
+  typeof useCreateProposalMutation
+>;
+export type CreateProposalMutationResult =
+  Apollo.MutationResult<CreateProposalMutation>;
+export type CreateProposalMutationOptions = Apollo.BaseMutationOptions<
+  CreateProposalMutation,
+  CreateProposalMutationVariables
+>;
 export const CreateRoleDocument = gql`
   mutation CreateRole($roleData: CreateRoleInput!) {
     createRole(roleData: $roleData) {
@@ -3204,11 +3852,129 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutation,
   UpdateUserMutationVariables
 >;
+export const EditUserDocument = gql`
+  query EditUser($name: String) {
+    user(name: $name) {
+      ...UserProfileCard
+      posts {
+        ...PostCard
+      }
+    }
+  }
+  ${UserProfileCardFragmentDoc}
+  ${PostCardFragmentDoc}
+`;
+
+/**
+ * __useEditUserQuery__
+ *
+ * To run a query within a React component, call `useEditUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditUserQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useEditUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<EditUserQuery, EditUserQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditUserQuery, EditUserQueryVariables>(
+    EditUserDocument,
+    options
+  );
+}
+export function useEditUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditUserQuery,
+    EditUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditUserQuery, EditUserQueryVariables>(
+    EditUserDocument,
+    options
+  );
+}
+export type EditUserQueryHookResult = ReturnType<typeof useEditUserQuery>;
+export type EditUserLazyQueryHookResult = ReturnType<
+  typeof useEditUserLazyQuery
+>;
+export type EditUserQueryResult = Apollo.QueryResult<
+  EditUserQuery,
+  EditUserQueryVariables
+>;
+export const HomePageDocument = gql`
+  query HomePage {
+    me {
+      id
+      homeFeed {
+        ...FeedItem
+      }
+    }
+  }
+  ${FeedItemFragmentDoc}
+`;
+
+/**
+ * __useHomePageQuery__
+ *
+ * To run a query within a React component, call `useHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomePageQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
+    options
+  );
+}
+export function useHomePageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    HomePageQuery,
+    HomePageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
+    options
+  );
+}
+export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
+export type HomePageLazyQueryHookResult = ReturnType<
+  typeof useHomePageLazyQuery
+>;
+export type HomePageQueryResult = Apollo.QueryResult<
+  HomePageQuery,
+  HomePageQueryVariables
+>;
 export const MeDocument = gql`
   query Me {
     me {
       ...UserAvatar
       serverPermissions
+      joinedGroups {
+        id
+        name
+      }
     }
   }
   ${UserAvatarFragmentDoc}
@@ -3244,53 +4010,70 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const UserDocument = gql`
-  query User($name: String) {
+export const UserProfileDocument = gql`
+  query UserProfile($name: String) {
     user(name: $name) {
       ...UserProfileCard
-      posts {
-        ...PostCard
+      profileFeed {
+        ...FeedItem
       }
+    }
+    me {
+      id
     }
   }
   ${UserProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
+  ${FeedItemFragmentDoc}
 `;
 
 /**
- * __useUserQuery__
+ * __useUserProfileQuery__
  *
- * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserQuery({
+ * const { data, loading, error } = useUserProfileQuery({
  *   variables: {
  *      name: // value for 'name'
  *   },
  * });
  */
-export function useUserQuery(
-  baseOptions?: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>
+export function useUserProfileQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    UserProfileQuery,
+    UserProfileQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-}
-export function useUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(
-    UserDocument,
+  return Apollo.useQuery<UserProfileQuery, UserProfileQueryVariables>(
+    UserProfileDocument,
     options
   );
 }
-export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
-export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
-export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export function useUserProfileLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserProfileQuery,
+    UserProfileQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserProfileQuery, UserProfileQueryVariables>(
+    UserProfileDocument,
+    options
+  );
+}
+export type UserProfileQueryHookResult = ReturnType<typeof useUserProfileQuery>;
+export type UserProfileLazyQueryHookResult = ReturnType<
+  typeof useUserProfileLazyQuery
+>;
+export type UserProfileQueryResult = Apollo.QueryResult<
+  UserProfileQuery,
+  UserProfileQueryVariables
+>;
 export const UsersDocument = gql`
   query Users {
     users {
@@ -3338,4 +4121,158 @@ export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<
   UsersQuery,
   UsersQueryVariables
+>;
+export const CreateVoteDocument = gql`
+  mutation CreateVote($voteData: CreateVoteInput!) {
+    createVote(voteData: $voteData) {
+      vote {
+        id
+        voteType
+      }
+    }
+  }
+`;
+export type CreateVoteMutationFn = Apollo.MutationFunction<
+  CreateVoteMutation,
+  CreateVoteMutationVariables
+>;
+
+/**
+ * __useCreateVoteMutation__
+ *
+ * To run a mutation, you first call `useCreateVoteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVoteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVoteMutation, { data, loading, error }] = useCreateVoteMutation({
+ *   variables: {
+ *      voteData: // value for 'voteData'
+ *   },
+ * });
+ */
+export function useCreateVoteMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateVoteMutation,
+    CreateVoteMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateVoteMutation, CreateVoteMutationVariables>(
+    CreateVoteDocument,
+    options
+  );
+}
+export type CreateVoteMutationHookResult = ReturnType<
+  typeof useCreateVoteMutation
+>;
+export type CreateVoteMutationResult =
+  Apollo.MutationResult<CreateVoteMutation>;
+export type CreateVoteMutationOptions = Apollo.BaseMutationOptions<
+  CreateVoteMutation,
+  CreateVoteMutationVariables
+>;
+export const DeleteVoteDocument = gql`
+  mutation DeleteVote($id: Int!) {
+    deleteVote(id: $id)
+  }
+`;
+export type DeleteVoteMutationFn = Apollo.MutationFunction<
+  DeleteVoteMutation,
+  DeleteVoteMutationVariables
+>;
+
+/**
+ * __useDeleteVoteMutation__
+ *
+ * To run a mutation, you first call `useDeleteVoteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteVoteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteVoteMutation, { data, loading, error }] = useDeleteVoteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteVoteMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteVoteMutation,
+    DeleteVoteMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteVoteMutation, DeleteVoteMutationVariables>(
+    DeleteVoteDocument,
+    options
+  );
+}
+export type DeleteVoteMutationHookResult = ReturnType<
+  typeof useDeleteVoteMutation
+>;
+export type DeleteVoteMutationResult =
+  Apollo.MutationResult<DeleteVoteMutation>;
+export type DeleteVoteMutationOptions = Apollo.BaseMutationOptions<
+  DeleteVoteMutation,
+  DeleteVoteMutationVariables
+>;
+export const UpdateVoteDocument = gql`
+  mutation UpdateVote($voteData: UpdateVoteInput!) {
+    updateVote(voteData: $voteData) {
+      vote {
+        id
+        voteType
+      }
+    }
+  }
+`;
+export type UpdateVoteMutationFn = Apollo.MutationFunction<
+  UpdateVoteMutation,
+  UpdateVoteMutationVariables
+>;
+
+/**
+ * __useUpdateVoteMutation__
+ *
+ * To run a mutation, you first call `useUpdateVoteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateVoteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateVoteMutation, { data, loading, error }] = useUpdateVoteMutation({
+ *   variables: {
+ *      voteData: // value for 'voteData'
+ *   },
+ * });
+ */
+export function useUpdateVoteMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateVoteMutation,
+    UpdateVoteMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateVoteMutation, UpdateVoteMutationVariables>(
+    UpdateVoteDocument,
+    options
+  );
+}
+export type UpdateVoteMutationHookResult = ReturnType<
+  typeof useUpdateVoteMutation
+>;
+export type UpdateVoteMutationResult =
+  Apollo.MutationResult<UpdateVoteMutation>;
+export type UpdateVoteMutationOptions = Apollo.BaseMutationOptions<
+  UpdateVoteMutation,
+  UpdateVoteMutationVariables
 >;

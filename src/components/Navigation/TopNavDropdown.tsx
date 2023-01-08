@@ -11,10 +11,7 @@ import {
   TopNavDropdownFragment,
   useLogOutMutation,
 } from "../../apollo/gen";
-import {
-  NavigationPaths,
-  ResourceNames,
-} from "../../constants/common.constants";
+import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
@@ -63,7 +60,7 @@ const TopNavDropdown = ({
     });
 
   const handleEditProfileButtonClick = () => {
-    const path = `/${ResourceNames.User}/${name}/edit`;
+    const path = `${NavigationPaths.Users}/${name}/edit`;
     redirectTo(path);
   };
 

@@ -21,15 +21,15 @@ const PostCardFooter = () => {
     <CardActions sx={{ justifyContent: "space-around" }} onClick={inDevToast}>
       <CardFooterButton>
         <Favorite sx={ICON_STYLES} />
-        {t("posts.actions.like")}
+        {t("actions.like")}
       </CardFooterButton>
       <CardFooterButton>
         <Comment sx={ROTATED_ICON_STYLES} />
-        {t("posts.actions.comment")}
+        {t("actions.comment")}
       </CardFooterButton>
       <CardFooterButton>
         <Reply sx={ROTATED_ICON_STYLES} />
-        {t("posts.actions.share")}
+        {t("actions.share")}
       </CardFooterButton>
     </CardActions>
   );

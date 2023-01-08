@@ -1,4 +1,4 @@
-query User($name: String) {
+query EditUser($name: String) {
   user(name: $name) {
     ...UserProfileCard
     posts {

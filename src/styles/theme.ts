@@ -109,6 +109,16 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          [initialTheme.breakpoints.up("sm")]: {
+            minWidth: 160,
+          },
+        },
+      },
+    },
+
     MuiMenuItem: {
       styleOverrides: {
         root: {
@@ -119,13 +129,38 @@ const theme: Theme = createTheme(initialTheme, {
 
     MuiInput: {
       styleOverrides: {
+        root: {
+          color: "#cacaca",
+        },
         underline: {
           "&:before": {
-            borderBottomColor: `${initialTheme.palette.divider} !important`,
+            borderBottom: `1px solid ${initialTheme.palette.divider}`,
           },
           "&:after": {
-            borderBottomColor: initialTheme.palette.divider,
+            borderBottom: `2px solid ${initialTheme.palette.primary.dark}`,
           },
+          "&&:hover:before": {
+            borderBottom: `2px solid ${initialTheme.palette.primary.dark}`,
+          },
+        },
+      },
+    },
+
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: initialTheme.palette.primary.dark,
+          "&.Mui-focused": {
+            color: initialTheme.palette.primary.light,
+          },
+        },
+      },
+    },
+
+    MuiSelect: {
+      styleOverrides: {
+        icon: {
+          color: initialTheme.palette.primary.dark,
         },
       },
     },

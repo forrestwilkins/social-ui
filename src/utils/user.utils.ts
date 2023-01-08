@@ -1,4 +1,4 @@
-import { ResourceNames } from "../constants/common.constants";
+import { NavigationPaths } from "../constants/common.constants";
 
 export const getUserProfilePath = (userName?: string) =>
-  userName ? `/${ResourceNames.User}/${userName}` : "/";
+  userName ? `${NavigationPaths.Users}/${userName}` : "/";

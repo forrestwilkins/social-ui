@@ -3,6 +3,10 @@ mutation Login($input: LoginInput!) {
     user {
       ...UserAvatar
       serverPermissions
+      joinedGroups {
+        id
+        name
+      }
     }
   }
 }

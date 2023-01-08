@@ -1,0 +1,20 @@
+fragment ProposalCard on Proposal {
+  id
+  body
+  action
+  createdAt
+
+  user {
+    ...UserAvatar
+  }
+
+  group {
+    ...GroupAvatar
+  }
+
+  images {
+    ...AttachedImage
+  }
+
+  ...ProposalCardFooter
+}

@@ -14,17 +14,10 @@ export enum NavigationPaths {
   Home = "/",
   LogIn = "/auth/login",
   Posts = "/posts",
+  Proposals = "/proposals",
   Roles = "/roles",
   SignUp = "/auth/signup",
   Users = "/users",
-}
-
-export enum ResourceNames {
-  Event = "events",
-  Group = "groups",
-  Image = "images",
-  Post = "posts",
-  User = "users",
 }
 
 export enum TypeNames {
@@ -33,6 +26,7 @@ export enum TypeNames {
   Image = "Image",
   MemberRequest = "MemberRequest",
   Post = "Post",
+  Proposal = "Proposal",
   Role = "Role",
   User = "User",
 }

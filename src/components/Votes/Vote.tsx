@@ -35,7 +35,7 @@ const Vote = ({ vote: { user, voteType } }: Props) => {
   };
 
   return (
-    <Flex>
+    <Flex marginBottom={3}>
       <Box sx={{ position: "relative" }}>
         <UserAvatar user={user} />
 

@@ -86,7 +86,12 @@ const Modal = ({
   };
 
   return (
-    <Dialog open={open} fullScreen={!isDesktop} onKeyDown={handleKeyDown}>
+    <Dialog
+      fullScreen={!isDesktop}
+      onBackdropClick={onClose}
+      onKeyDown={handleKeyDown}
+      open={open}
+    >
       <AppBar sx={{ position: "relative" }}>{renderAppBarContent()}</AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>
     </Dialog>

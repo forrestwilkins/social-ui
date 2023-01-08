@@ -76,25 +76,21 @@ const VotesModal = ({
     </Tabs>
   );
 
+  const renderVotes = (votes: VoteChipsFragment["votes"]) =>
+    votes.map((vote) => <Vote vote={vote} key={vote.id} />);
+
   return (
     <Modal
       appBarContent={renderAppBarContent()}
+      contentStyles={{ backgroundColor: "#323232", paddingTop: 5 }}
       onClose={onClose}
       open={open}
-      contentStyles={{ backgroundColor: "#323232", paddingTop: 5 }}
     >
-      {tab === 0 && allVotes.map((vote) => <Vote vote={vote} key={vote.id} />)}
-
-      {tab === 1 &&
-        agreements.map((vote) => <Vote vote={vote} key={vote.id} />)}
-
-      {tab === 2 &&
-        reservations.map((vote) => <Vote vote={vote} key={vote.id} />)}
-
-      {tab === 3 &&
-        standAsides.map((vote) => <Vote vote={vote} key={vote.id} />)}
-
-      {tab === 4 && blocks.map((vote) => <Vote vote={vote} key={vote.id} />)}
+      {tab === 0 && renderVotes(allVotes)}
+      {tab === 1 && renderVotes(agreements)}
+      {tab === 2 && renderVotes(reservations)}
+      {tab === 3 && renderVotes(standAsides)}
+      {tab === 4 && renderVotes(blocks)}
     </Modal>
   );
 };

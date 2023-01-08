@@ -13,11 +13,12 @@ import {
   ThumbUp as AgreementIcon,
 } from "@mui/icons-material";
 import { SxProps, Typography } from "@mui/material";
+import { useState } from "react";
 import { VoteChipsFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
-import { inDevToast } from "../../utils/common.utils";
 import Flex from "../Shared/Flex";
 import VoteChip from "./VoteChip";
+import VotesModal from "./VotesModal";
 
 const CHIPS_CONTAINER_STYLES: SxProps = {
   cursor: "pointer",
@@ -37,6 +38,8 @@ interface Props {
 }
 
 const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { agreements, reservations, standAsides, blocks } =
     votes.reduce<SortedVotes>(
       (result, vote) => {
@@ -88,18 +91,31 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
     .filter((chip) => chip.votes.length)
     .sort((a, b) => b.votes.length - a.votes.length);
 
-  const handleClick = () => inDevToast();
+  const handleClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <Flex sx={CHIPS_CONTAINER_STYLES} onClick={handleClick}>
-      <Flex paddingRight={1}>
-        {chips.map((chip) => (
-          <VoteChip {...chip} key={chip.voteType} />
-        ))}
+    <>
+      <Flex sx={CHIPS_CONTAINER_STYLES} onClick={handleClick}>
+        <Flex paddingRight={1}>
+          {chips.map((chip) => (
+            <VoteChip {...chip} key={chip.voteType} />
+          ))}
+        </Flex>
+
+        <Typography>{voteCount}</Typography>
       </Flex>
 
-      <Typography>{voteCount}</Typography>
-    </Flex>
+      <VotesModal
+        allVotes={votes}
+        agreements={agreements}
+        blocks={blocks}
+        open={isModalOpen}
+        reservations={reservations}
+        standAsides={standAsides}
+        onClose={handleCloseModal}
+      />
+    </>
   );
 };
 

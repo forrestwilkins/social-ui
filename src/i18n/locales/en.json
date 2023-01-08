@@ -26,10 +26,11 @@
   },
 
   "labels": {
+    "all": "All",
     "menu": "Menu",
-    "switch": "Switch",
     "menuButton": "Menu button",
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "switch": "Switch"
   },
 
   "errors": {

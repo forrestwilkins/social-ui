@@ -7,7 +7,7 @@ import { VoteTypes } from "../../constants/vote.constants";
 import { Blurple } from "../../styles/theme";
 import Flex from "../Shared/Flex";
 
-const CHIP_STYLES: SxProps = {
+export const CHIP_STYLES: SxProps = {
   backgroundColor: Blurple.Primary,
   borderRadius: "50%",
   display: "inline-flex",

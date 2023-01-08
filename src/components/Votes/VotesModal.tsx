@@ -9,9 +9,10 @@ import {
 } from "@mui/icons-material";
 import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { VoteChipsFragment } from "../../apollo/gen";
-import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";
+import Vote from "./Vote";
 
 interface Props {
   open: boolean;
@@ -33,6 +34,7 @@ const VotesModal = ({
   onClose,
 }: Props) => {
   const [tab, setTab] = useState(0);
+  const { t } = useTranslation();
 
   const handleTabChange = (_: SyntheticEvent<Element, Event>, value: number) =>
     setTab(value);
@@ -54,7 +56,7 @@ const VotesModal = ({
       value={tab}
       variant="scrollable"
     >
-      <Tab label={"All"} />
+      <Tab label={t("labels.all")} />
       <Tab
         label={renderTabLabel(ThumbUp, agreements.length)}
         sx={{ display: agreements.length ? "initial" : "none" }}
@@ -79,29 +81,20 @@ const VotesModal = ({
       appBarContent={renderAppBarContent()}
       onClose={onClose}
       open={open}
-      contentStyles={{ backgroundColor: "#323232" }}
+      contentStyles={{ backgroundColor: "#323232", paddingTop: 6 }}
     >
-      {tab === 0 &&
-        allVotes.map((vote) => (
-          <Flex key={vote.id}>{JSON.stringify(vote)}</Flex>
-        ))}
+      {tab === 0 && allVotes.map((vote) => <Vote vote={vote} key={vote.id} />)}
 
       {tab === 1 &&
-        agreements.map((vote) => (
-          <Flex key={vote.id}>{JSON.stringify(vote)}</Flex>
-        ))}
+        agreements.map((vote) => <Vote vote={vote} key={vote.id} />)}
 
       {tab === 2 &&
-        reservations.map((vote) => (
-          <Flex key={vote.id}>{JSON.stringify(vote)}</Flex>
-        ))}
-      {tab === 3 &&
-        standAsides.map((vote) => (
-          <Flex key={vote.id}>{JSON.stringify(vote)}</Flex>
-        ))}
+        reservations.map((vote) => <Vote vote={vote} key={vote.id} />)}
 
-      {tab === 4 &&
-        blocks.map((vote) => <Flex key={vote.id}>{JSON.stringify(vote)}</Flex>)}
+      {tab === 3 &&
+        standAsides.map((vote) => <Vote vote={vote} key={vote.id} />)}
+
+      {tab === 4 && blocks.map((vote) => <Vote vote={vote} key={vote.id} />)}
     </Modal>
   );
 };

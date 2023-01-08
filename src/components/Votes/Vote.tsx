@@ -4,7 +4,7 @@ import { VoteFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
 import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/UserAvatar";
-import { CHIP_STYLES } from "./VoteChip";
+import { SHARED_CHIP_STYLES } from "./VoteChip";
 
 interface Props {
   vote: VoteFragment;
@@ -41,7 +41,7 @@ const Vote = ({ vote: { user, voteType } }: Props) => {
 
         <Box
           sx={{
-            ...CHIP_STYLES,
+            ...SHARED_CHIP_STYLES,
             border: `2px solid ${theme.palette.background.paper}`,
             height: 20,
             width: 20,

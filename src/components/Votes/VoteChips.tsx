@@ -98,8 +98,12 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
     <>
       <Flex sx={CHIPS_CONTAINER_STYLES} onClick={handleClick}>
         <Flex paddingRight={1}>
-          {chips.map((chip) => (
-            <VoteChip {...chip} key={chip.voteType} />
+          {chips.map((chip, index) => (
+            <VoteChip
+              {...chip}
+              key={chip.voteType}
+              sx={{ zIndex: chips.length - index }}
+            />
           ))}
         </Flex>
 

@@ -18,7 +18,7 @@ const PAPER_STYLES: SxProps = {
   bottom: 0,
   left: 0,
   right: 0,
-  zIndex: 1,
+  zIndex: 5,
 };
 
 const BottomNav = () => {

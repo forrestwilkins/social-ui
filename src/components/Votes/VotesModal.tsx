@@ -81,7 +81,7 @@ const VotesModal = ({
       appBarContent={renderAppBarContent()}
       onClose={onClose}
       open={open}
-      contentStyles={{ backgroundColor: "#323232", paddingTop: 6 }}
+      contentStyles={{ backgroundColor: "#323232", paddingTop: 5 }}
     >
       {tab === 0 && allVotes.map((vote) => <Vote vote={vote} key={vote.id} />)}
 

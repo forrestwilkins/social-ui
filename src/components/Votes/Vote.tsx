@@ -57,8 +57,8 @@ const Vote = ({ vote: { user, voteType } }: Props) => {
 
   return (
     <Link href={userProfilePath}>
-      <Flex marginBottom={3}>
-        <Box position="relative" marginRight={2}>
+      <Flex>
+        <Box position="relative" marginRight={2.5}>
           <UserAvatar user={user} />
 
           <Box sx={voteBadgeStyles}>{renderVoteIcon()}</Box>

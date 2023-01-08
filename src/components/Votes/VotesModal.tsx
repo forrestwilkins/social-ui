@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { VoteFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import Modal from "../Shared/Modal";
-import Vote from "./Vote";
+import VoteList from "./VoteList";
 
 interface Props {
   open: boolean;
@@ -79,9 +79,6 @@ const VotesModal = ({
     </Tabs>
   );
 
-  const renderVotes = (votes: VoteFragment[]) =>
-    votes.map((vote) => <Vote vote={vote} key={vote.id} />);
-
   return (
     <Modal
       appBarContent={renderAppBarContent()}
@@ -90,11 +87,11 @@ const VotesModal = ({
       open={open}
       topGap={isDesktop ? undefined : "18vh"}
     >
-      {tab === 0 && renderVotes(allVotes)}
-      {tab === 1 && renderVotes(agreements)}
-      {tab === 2 && renderVotes(reservations)}
-      {tab === 3 && renderVotes(standAsides)}
-      {tab === 4 && renderVotes(blocks)}
+      {tab === 0 && <VoteList votes={allVotes} />}
+      {tab === 1 && <VoteList votes={agreements} />}
+      {tab === 2 && <VoteList votes={reservations} />}
+      {tab === 3 && <VoteList votes={standAsides} />}
+      {tab === 4 && <VoteList votes={blocks} />}
     </Modal>
   );
 };

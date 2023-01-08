@@ -7,18 +7,11 @@ import {
   ThumbsUpDown,
   ThumbUp,
 } from "@mui/icons-material";
-import { Box, styled, Tab as MuiTab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { VoteChipsFragment } from "../../apollo/gen";
 import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";
-
-// TODO: Consider moving to theme - is used in 2 locations
-const Tab = styled(MuiTab)(({ theme }) => ({
-  [theme.breakpoints.up("sm")]: {
-    minWidth: 160,
-  },
-}));
 
 interface Props {
   open: boolean;

@@ -109,6 +109,16 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          [initialTheme.breakpoints.up("sm")]: {
+            minWidth: 160,
+          },
+        },
+      },
+    },
+
     MuiMenuItem: {
       styleOverrides: {
         root: {

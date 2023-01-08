@@ -23,7 +23,7 @@ interface Props {
   onClose(): void;
   open: boolean;
   title?: string;
-  topGap?: string;
+  topGap?: string | number;
 }
 
 const Modal = ({

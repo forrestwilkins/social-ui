@@ -10,18 +10,18 @@ import {
 import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { VoteChipsFragment } from "../../apollo/gen";
+import { VoteFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import Modal from "../Shared/Modal";
 import Vote from "./Vote";
 
 interface Props {
   open: boolean;
-  allVotes: VoteChipsFragment["votes"];
-  agreements: VoteChipsFragment["votes"];
-  reservations: VoteChipsFragment["votes"];
-  standAsides: VoteChipsFragment["votes"];
-  blocks: VoteChipsFragment["votes"];
+  allVotes: VoteFragment[];
+  agreements: VoteFragment[];
+  reservations: VoteFragment[];
+  standAsides: VoteFragment[];
+  blocks: VoteFragment[];
   onClose(): void;
 }
 
@@ -79,7 +79,7 @@ const VotesModal = ({
     </Tabs>
   );
 
-  const renderVotes = (votes: VoteChipsFragment["votes"]) =>
+  const renderVotes = (votes: VoteFragment[]) =>
     votes.map((vote) => <Vote vote={vote} key={vote.id} />);
 
   return (

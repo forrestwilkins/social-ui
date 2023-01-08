@@ -79,7 +79,7 @@ const VotesModal = ({
       appBarContent={renderAppBarContent()}
       onClose={onClose}
       open={open}
-      contentStyles={{ backgroundColor: "#323232", minHeight: "40vh" }}
+      contentStyles={{ backgroundColor: "#323232" }}
     >
       {tab === 0 &&
         allVotes.map((vote) => (

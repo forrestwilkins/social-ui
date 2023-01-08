@@ -1,8 +1,16 @@
 import { PanTool, ThumbDown, ThumbsUpDown, ThumbUp } from "@mui/icons-material";
-import { Box, SvgIconProps, useTheme } from "@mui/material";
+import {
+  Box,
+  SvgIconProps,
+  SxProps,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { VoteFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
+import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
+import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 import { SHARED_CHIP_STYLES } from "./VoteChip";
 
@@ -13,14 +21,27 @@ interface Props {
 const Vote = ({ vote: { user, voteType } }: Props) => {
   const theme = useTheme();
 
+  const userProfilePath = getUserProfilePath(user.name);
+
+  const voteBadgeStyles: SxProps = {
+    ...SHARED_CHIP_STYLES,
+    border: `2px solid ${theme.palette.background.paper}`,
+    height: 20,
+    width: 20,
+    position: "absolute",
+    top: 25,
+    left: 26,
+  };
+
   const renderVoteIcon = () => {
+    const sx: SxProps = {
+      fontSize: 8,
+      marginTop: 0.5,
+      transform: voteType === VoteTypes.Block ? "translateX(-0.5px)" : null,
+    };
     const iconProps: SvgIconProps = {
       color: "primary",
-      sx: {
-        fontSize: 8,
-        marginTop: 0.5,
-        transform: voteType === VoteTypes.Block ? "translateX(-0.5px)" : null,
-      },
+      sx,
     };
     if (voteType === VoteTypes.Reservations) {
       return <ThumbsUpDown {...iconProps} />;
@@ -35,25 +56,17 @@ const Vote = ({ vote: { user, voteType } }: Props) => {
   };
 
   return (
-    <Flex marginBottom={3}>
-      <Box sx={{ position: "relative" }}>
-        <UserAvatar user={user} />
+    <Link href={userProfilePath}>
+      <Flex marginBottom={3}>
+        <Box position="relative" marginRight={2}>
+          <UserAvatar user={user} />
 
-        <Box
-          sx={{
-            ...SHARED_CHIP_STYLES,
-            border: `2px solid ${theme.palette.background.paper}`,
-            height: 20,
-            width: 20,
-            position: "absolute",
-            top: 25,
-            left: 26,
-          }}
-        >
-          {renderVoteIcon()}
+          <Box sx={voteBadgeStyles}>{renderVoteIcon()}</Box>
         </Box>
-      </Box>
-    </Flex>
+
+        <Typography marginTop={1}>{user.name}</Typography>
+      </Flex>
+    </Link>
   );
 };
 

@@ -11,6 +11,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { VoteChipsFragment } from "../../apollo/gen";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import Modal from "../Shared/Modal";
 import Vote from "./Vote";
 
@@ -34,7 +35,9 @@ const VotesModal = ({
   onClose,
 }: Props) => {
   const [tab, setTab] = useState(0);
+
   const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
 
   const handleTabChange = (_: SyntheticEvent<Element, Event>, value: number) =>
     setTab(value);
@@ -85,6 +88,7 @@ const VotesModal = ({
       contentStyles={{ backgroundColor: "#323232", paddingTop: 5 }}
       onClose={onClose}
       open={open}
+      topGap={isDesktop ? undefined : "18vh"}
     >
       {tab === 0 && renderVotes(allVotes)}
       {tab === 1 && renderVotes(agreements)}

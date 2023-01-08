@@ -19,10 +19,11 @@ interface Props {
   appBarContent?: ReactNode;
   children: ReactNode;
   closingAction?(): void;
+  contentStyles?: SxProps;
   onClose(): void;
   open: boolean;
-  contentStyles?: SxProps;
   title?: string;
+  topGap?: string;
 }
 
 const Modal = ({
@@ -34,6 +35,7 @@ const Modal = ({
   onClose,
   open,
   title,
+  topGap,
 }: Props) => {
   const isDesktop = useIsDesktop();
 
@@ -88,9 +90,13 @@ const Modal = ({
   return (
     <Dialog
       fullScreen={!isDesktop}
-      onBackdropClick={onClose}
       onKeyDown={handleKeyDown}
       open={open}
+      sx={{ marginTop: topGap }}
+      // Required for mobile
+      BackdropProps={{ onClick: onClose }}
+      // Required for desktop
+      onBackdropClick={onClose}
     >
       <AppBar sx={{ position: "relative" }}>{renderAppBarContent()}</AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>

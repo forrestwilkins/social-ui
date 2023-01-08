@@ -1,7 +1,9 @@
 /**
  * TODO: Find a better name, or determine if "chip" is the right choice here
  *
- * TODO: Consider just fetching votes and filtering them on the FE
+ * TODO: Show modal with votes listed and sorted by type on click
+ *
+ * TODO: Show popover with voters listed on hover
  */
 
 import {
@@ -10,11 +12,18 @@ import {
   ThumbsUpDown as ReservationsIcon,
   ThumbUp as AgreementIcon,
 } from "@mui/icons-material";
-import { Typography } from "@mui/material";
+import { SxProps, Typography } from "@mui/material";
 import { VoteChipsFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
+import { inDevToast } from "../../utils/common.utils";
 import Flex from "../Shared/Flex";
 import VoteChip from "./VoteChip";
+
+const CHIPS_CONTAINER_STYLES: SxProps = {
+  cursor: "pointer",
+  paddingBottom: 1,
+  paddingLeft: "16px",
+};
 
 interface SortedVotes {
   agreements: VoteChipsFragment["votes"];
@@ -79,8 +88,10 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
     .filter((chip) => chip.votes.length)
     .sort((a, b) => b.votes.length - a.votes.length);
 
+  const handleClick = () => inDevToast();
+
   return (
-    <Flex sx={{ paddingLeft: "16px", paddingBottom: 1 }}>
+    <Flex sx={CHIPS_CONTAINER_STYLES} onClick={handleClick}>
       <Flex paddingRight={1}>
         {chips.map((chip) => (
           <VoteChip {...chip} key={chip.voteType} />

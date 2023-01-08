@@ -4,7 +4,6 @@ import {
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
-  Divider,
   styled,
   SxProps,
   Typography,
@@ -169,8 +168,6 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
             <AttachedImageList images={images} sx={imageListStyles} />
           </Link>
         )}
-
-        {me && <Divider />}
       </CardContent>
 
       {me && <ProposalCardFooter proposal={proposal} currentUserId={me.id} />}

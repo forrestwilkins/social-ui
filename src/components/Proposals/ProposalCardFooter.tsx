@@ -1,13 +1,14 @@
 // TODO: Add basic functionality for votes, comments, and sharing - below is a WIP
 
 import { Comment, HowToVote, Reply } from "@mui/icons-material";
-import { CardActions, SxProps } from "@mui/material";
+import { CardActions, Divider, SxProps } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalCardFooterFragment } from "../../apollo/gen";
 import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
+import VoteChips from "../Votes/VoteChips";
 import VoteMenu from "../Votes/VoteMenu";
 
 const ICON_STYLES: SxProps = {
@@ -39,6 +40,10 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
 
   return (
     <>
+      {!!proposal.voteCount && <VoteChips proposal={proposal} />}
+
+      <Divider sx={{ margin: "0 16px" }} />
+
       <CardActions sx={{ justifyContent: "space-around" }}>
         <CardFooterButton
           onClick={handleVoteButtonClick}

@@ -1,0 +1,17 @@
+fragment VoteChips on Proposal {
+  id
+  voteCount
+
+  agreements {
+    ...VoteChip
+  }
+  reservations {
+    ...VoteChip
+  }
+  standAsides {
+    ...VoteChip
+  }
+  blocks {
+    ...VoteChip
+  }
+}

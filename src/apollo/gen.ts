@@ -309,13 +309,18 @@ export type Post = {
 export type Proposal = {
   __typename?: "Proposal";
   action: Scalars["String"];
+  agreements: Array<Vote>;
+  blocks: Array<Vote>;
   body: Scalars["String"];
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
+  reservations: Array<Vote>;
+  standAsides: Array<Vote>;
   updatedAt: Scalars["DateTime"];
   user: User;
+  voteCount: Scalars["Int"];
   votes: Array<Vote>;
 };
 
@@ -806,6 +811,7 @@ export type GroupProfileQuery = {
           body: string;
           action: string;
           createdAt: any;
+          voteCount: number;
           user: {
             __typename?: "User";
             id: number;
@@ -820,6 +826,30 @@ export type GroupProfileQuery = {
           } | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          agreements: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          reservations: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          standAsides: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          blocks: Array<{
             __typename?: "Vote";
             id: number;
             voteType: string;
@@ -937,6 +967,7 @@ type FeedItem_Proposal_Fragment = {
   body: string;
   action: string;
   createdAt: any;
+  voteCount: number;
   user: {
     __typename?: "User";
     id: number;
@@ -951,6 +982,30 @@ type FeedItem_Proposal_Fragment = {
   } | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  agreements: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  reservations: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  standAsides: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  blocks: Array<{
     __typename?: "Vote";
     id: number;
     voteType: string;
@@ -1132,6 +1187,7 @@ export type ProposalCardFragment = {
   body: string;
   action: string;
   createdAt: any;
+  voteCount: number;
   user: {
     __typename?: "User";
     id: number;
@@ -1151,12 +1207,61 @@ export type ProposalCardFragment = {
     voteType: string;
     user: { __typename?: "User"; id: number };
   }>;
+  agreements: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  reservations: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  standAsides: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  blocks: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 export type ProposalCardFooterFragment = {
   __typename?: "Proposal";
   id: number;
+  voteCount: number;
   votes: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  agreements: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  reservations: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  standAsides: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  blocks: Array<{
     __typename?: "Vote";
     id: number;
     voteType: string;
@@ -1178,6 +1283,7 @@ export type CreateProposalMutation = {
       body: string;
       action: string;
       createdAt: any;
+      voteCount: number;
       user: {
         __typename?: "User";
         id: number;
@@ -1192,6 +1298,30 @@ export type CreateProposalMutation = {
       } | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       votes: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: { __typename?: "User"; id: number };
+      }>;
+      agreements: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: { __typename?: "User"; id: number };
+      }>;
+      reservations: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: { __typename?: "User"; id: number };
+      }>;
+      standAsides: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: { __typename?: "User"; id: number };
+      }>;
+      blocks: Array<{
         __typename?: "Vote";
         id: number;
         voteType: string;
@@ -1500,6 +1630,7 @@ export type HomePageQuery = {
           body: string;
           action: string;
           createdAt: any;
+          voteCount: number;
           user: {
             __typename?: "User";
             id: number;
@@ -1514,6 +1645,30 @@ export type HomePageQuery = {
           } | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           votes: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          agreements: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          reservations: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          standAsides: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          blocks: Array<{
             __typename?: "Vote";
             id: number;
             voteType: string;
@@ -1576,6 +1731,7 @@ export type UserProfileQuery = {
           body: string;
           action: string;
           createdAt: any;
+          voteCount: number;
           user: {
             __typename?: "User";
             id: number;
@@ -1595,6 +1751,30 @@ export type UserProfileQuery = {
             voteType: string;
             user: { __typename?: "User"; id: number };
           }>;
+          agreements: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          reservations: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          standAsides: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
+          blocks: Array<{
+            __typename?: "Vote";
+            id: number;
+            voteType: string;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1608,6 +1788,42 @@ export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 export type UsersQuery = {
   __typename?: "Query";
   users: Array<{ __typename?: "User"; id: number; name: string }>;
+};
+
+export type VoteChipFragment = {
+  __typename?: "Vote";
+  id: number;
+  user: { __typename?: "User"; id: number };
+};
+
+export type VoteChipsFragment = {
+  __typename?: "Proposal";
+  id: number;
+  voteCount: number;
+  agreements: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  reservations: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  standAsides: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
+  blocks: Array<{
+    __typename?: "Vote";
+    id: number;
+    voteType: string;
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 export type VoteMenuFragment = {
@@ -1782,6 +1998,40 @@ export const VoteMenuFragmentDoc = gql`
     }
   }
 `;
+export const VoteChipsFragmentDoc = gql`
+  fragment VoteChips on Proposal {
+    id
+    voteCount
+    agreements {
+      id
+      voteType
+      user {
+        id
+      }
+    }
+    reservations {
+      id
+      voteType
+      user {
+        id
+      }
+    }
+    standAsides {
+      id
+      voteType
+      user {
+        id
+      }
+    }
+    blocks {
+      id
+      voteType
+      user {
+        id
+      }
+    }
+  }
+`;
 export const ProposalCardFooterFragmentDoc = gql`
   fragment ProposalCardFooter on Proposal {
     votes {
@@ -1790,8 +2040,10 @@ export const ProposalCardFooterFragmentDoc = gql`
       }
     }
     ...VoteMenu
+    ...VoteChips
   }
   ${VoteMenuFragmentDoc}
+  ${VoteChipsFragmentDoc}
 `;
 export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
@@ -1899,6 +2151,14 @@ export const UserProfileCardFragmentDoc = gql`
     createdAt
   }
   ${UserAvatarFragmentDoc}
+`;
+export const VoteChipFragmentDoc = gql`
+  fragment VoteChip on Vote {
+    id
+    user {
+      id
+    }
+  }
 `;
 export const LogOutDocument = gql`
   mutation LogOut {

@@ -172,13 +172,18 @@ type Post {
 
 type Proposal {
   action: String!
+  agreements: [Vote!]!
+  blocks: [Vote!]!
   body: String!
   createdAt: DateTime!
   group: Group
   id: Int!
   images: [Image!]!
+  reservations: [Vote!]!
+  standAsides: [Vote!]!
   updatedAt: DateTime!
   user: User!
+  voteCount: Int!
   votes: [Vote!]!
 }
 

@@ -1,4 +1,4 @@
-import { Box, Popover, Typography } from "@mui/material";
+import { PaperProps, Popover, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { VoteFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
@@ -17,6 +17,13 @@ const VotesPopover = ({
   voteType,
 }: Props) => {
   const { t } = useTranslation();
+
+  const paperProps: PaperProps = {
+    sx: {
+      paddingX: 1.75,
+      paddingY: 1.25,
+    },
+  };
 
   const getVoteType = () => {
     if (voteType === VoteTypes.Reservations) {
@@ -37,6 +44,7 @@ const VotesPopover = ({
       onClose={handlePopoverClose}
       open={!!anchorEl}
       sx={{ pointerEvents: "none" }}
+      PaperProps={paperProps}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left",
@@ -46,13 +54,13 @@ const VotesPopover = ({
         horizontal: "left",
       }}
     >
-      <Box paddingX={1.75} paddingY={1.25}>
-        <Typography color="primary">{getVoteType()}</Typography>
+      <Typography color="primary" gutterBottom>
+        {getVoteType()}
+      </Typography>
 
-        {votes.map(({ id, user }) => (
-          <Typography key={id}>{user.name}</Typography>
-        ))}
-      </Box>
+      {votes.map(({ id, user }) => (
+        <Typography key={id}>{user.name}</Typography>
+      ))}
     </Popover>
   );
 };

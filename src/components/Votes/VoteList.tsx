@@ -1,4 +1,5 @@
 import { Divider, SxProps } from "@mui/material";
+import { Fragment } from "react";
 import { VoteFragment } from "../../apollo/gen";
 import Vote from "./Vote";
 
@@ -21,10 +22,10 @@ const VoteList = ({ votes }: Props) => {
   return (
     <>
       {votes.map((vote, index) => (
-        <>
-          <Vote vote={vote} key={vote.id} />
+        <Fragment key={vote.id}>
+          <Vote vote={vote} />
           <Divider sx={getDividerStyles(index)} />
-        </>
+        </Fragment>
       ))}
     </>
   );

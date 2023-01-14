@@ -27,11 +27,9 @@ type CreatePostPayload {
 }
 
 input CreateProposalInput {
-  actionType: String!
+  action: ProposalActionInput!
   body: String
-  groupDescription: String
   groupId: Int
-  groupName: String
   images: [Upload!]
 }
 
@@ -195,6 +193,12 @@ type ProposalAction {
   id: Int!
   proposal: Proposal!
   updatedAt: DateTime!
+}
+
+input ProposalActionInput {
+  actionType: String!
+  groupDescription: String
+  groupName: String
 }
 
 type Query {

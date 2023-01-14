@@ -17,6 +17,7 @@ export enum ProposalStages {
 }
 
 export enum ProposalActionFields {
-  GroupDescription = "groupDescription",
-  GroupName = "groupName",
+  ActionType = "action.actionType",
+  GroupDescription = "action.groupDescription",
+  GroupName = "action.groupName",
 }

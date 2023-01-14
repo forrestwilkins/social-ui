@@ -54,9 +54,11 @@ const ProposalForm = ({
 
   const initialValues: CreateProposalInput = {
     body: "",
-    actionType: "",
-    groupDescription: "",
-    groupName: "",
+    action: {
+      actionType: "",
+      groupDescription: "",
+      groupName: "",
+    },
     groupId,
   };
 
@@ -147,9 +149,9 @@ const ProposalForm = ({
                 <FormControl variant="standard" sx={{ marginBottom: 1 }}>
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
-                    name="actionType"
+                    name={ProposalActionFields.ActionType}
                     onChange={handleChange}
-                    value={values.actionType}
+                    value={values.action.actionType}
                   >
                     {actionTypeOptions.map((option) => (
                       <MenuItem value={option.value} key={option.value}>
@@ -161,7 +163,7 @@ const ProposalForm = ({
 
                 <FormControl
                   variant="standard"
-                  sx={{ marginBottom: values.actionType ? 1 : 0.25 }}
+                  sx={{ marginBottom: values.action.actionType ? 1 : 0.25 }}
                 >
                   <InputLabel>{t("groups.labels.group")}</InputLabel>
                   <Select
@@ -177,7 +179,8 @@ const ProposalForm = ({
                   </Select>
                 </FormControl>
 
-                {values.actionType === ProposalActionTypes.ChangeName && (
+                {values.action.actionType ===
+                  ProposalActionTypes.ChangeName && (
                   <TextField
                     autoComplete="off"
                     label={t("proposals.labels.newGroupName")}
@@ -185,7 +188,7 @@ const ProposalForm = ({
                   />
                 )}
 
-                {values.actionType ===
+                {values.action.actionType ===
                   ProposalActionTypes.ChangeDescription && (
                   <TextField
                     autoComplete="off"

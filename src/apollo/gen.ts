@@ -60,11 +60,9 @@ export type CreatePostPayload = {
 };
 
 export type CreateProposalInput = {
-  actionType: Scalars["String"];
+  action: ProposalActionInput;
   body?: InputMaybe<Scalars["String"]>;
-  groupDescription?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
-  groupName?: InputMaybe<Scalars["String"]>;
   images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
 
@@ -337,6 +335,12 @@ export type ProposalAction = {
   id: Scalars["Int"];
   proposal: Proposal;
   updatedAt: Scalars["DateTime"];
+};
+
+export type ProposalActionInput = {
+  actionType: Scalars["String"];
+  groupDescription?: InputMaybe<Scalars["String"]>;
+  groupName?: InputMaybe<Scalars["String"]>;
 };
 
 export type Query = {

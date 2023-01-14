@@ -17,8 +17,8 @@ import {
   CreateProposalInput,
   HomePageDocument,
   HomePageQuery,
+  MeQuery,
   useCreateProposalMutation,
-  useMeQuery,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import { getRandomString } from "../../utils/common.utils";
@@ -31,15 +31,15 @@ import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
   groupId?: number;
+  joinedGroups: MeQuery["me"]["joinedGroups"];
 }
 
-const ProposalForm = ({ groupId, ...formProps }: Props) => {
+const ProposalForm = ({ groupId, joinedGroups, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
 
   const [createProposal] = useCreateProposalMutation();
-  const { data } = useMeQuery();
 
   const { t } = useTranslation();
 
@@ -50,8 +50,6 @@ const ProposalForm = ({ groupId, ...formProps }: Props) => {
   };
 
   const actionTypeOptions = getProposalActionTypeOptions(t);
-  const joinedGroups = data?.me.joinedGroups;
-  const showGroupField = !!joinedGroups?.length && !groupId;
 
   const handleSubmit = async (
     formValues: CreateProposalInput,
@@ -150,22 +148,20 @@ const ProposalForm = ({ groupId, ...formProps }: Props) => {
                   </Select>
                 </FormControl>
 
-                {showGroupField && (
-                  <FormControl variant="standard" sx={{ marginBottom: 0.25 }}>
-                    <InputLabel>{t("groups.labels.group")}</InputLabel>
-                    <Select
-                      name="groupId"
-                      onChange={handleChange}
-                      value={values.groupId || ""}
-                    >
-                      {joinedGroups.map(({ id, name }) => (
-                        <MenuItem value={id} key={id}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
+                <FormControl variant="standard" sx={{ marginBottom: 0.25 }}>
+                  <InputLabel>{t("groups.labels.group")}</InputLabel>
+                  <Select
+                    name="groupId"
+                    onChange={handleChange}
+                    value={values.groupId || ""}
+                  >
+                    {joinedGroups.map(({ id, name }) => (
+                      <MenuItem value={id} key={id}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </>
             )}
 

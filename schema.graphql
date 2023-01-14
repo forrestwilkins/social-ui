@@ -143,6 +143,7 @@ type Mutation {
   signUp(input: SignUpInput!): SignUpPayload!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
+  updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
   updateRole(roleData: UpdateRoleInput!): UpdateRolePayload!
   updateUser(userData: UpdateUserInput!): UpdateUserPayload!
   updateVote(voteData: UpdateVoteInput!): UpdateVotePayload!
@@ -253,6 +254,17 @@ input UpdatePostInput {
 
 type UpdatePostPayload {
   post: Post!
+}
+
+input UpdateProposalInput {
+  action: String
+  body: String
+  id: Int!
+  images: [Upload!]
+}
+
+type UpdateProposalPayload {
+  proposal: Proposal!
 }
 
 input UpdateRoleInput {

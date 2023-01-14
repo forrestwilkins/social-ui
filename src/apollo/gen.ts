@@ -181,6 +181,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   updateGroup: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
+  updateProposal: UpdateProposalPayload;
   updateRole: UpdateRolePayload;
   updateUser: UpdateUserPayload;
   updateVote: UpdateVotePayload;
@@ -268,6 +269,10 @@ export type MutationUpdateGroupArgs = {
 
 export type MutationUpdatePostArgs = {
   postData: UpdatePostInput;
+};
+
+export type MutationUpdateProposalArgs = {
+  proposalData: UpdateProposalInput;
 };
 
 export type MutationUpdateRoleArgs = {
@@ -429,6 +434,18 @@ export type UpdatePostInput = {
 export type UpdatePostPayload = {
   __typename?: "UpdatePostPayload";
   post: Post;
+};
+
+export type UpdateProposalInput = {
+  action?: InputMaybe<Scalars["String"]>;
+  body?: InputMaybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
+};
+
+export type UpdateProposalPayload = {
+  __typename?: "UpdateProposalPayload";
+  proposal: Proposal;
 };
 
 export type UpdateRoleInput = {
@@ -812,6 +829,7 @@ export type GroupProfileQuery = {
           body: string;
           action: string;
           createdAt: any;
+          stage: string;
           voteCount: number;
           user: {
             __typename?: "User";
@@ -953,6 +971,7 @@ type FeedItem_Proposal_Fragment = {
   body: string;
   action: string;
   createdAt: any;
+  stage: string;
   voteCount: number;
   user: {
     __typename?: "User";
@@ -1154,6 +1173,7 @@ export type ProposalCardFragment = {
   body: string;
   action: string;
   createdAt: any;
+  stage: string;
   voteCount: number;
   user: {
     __typename?: "User";
@@ -1184,6 +1204,7 @@ export type ProposalCardFragment = {
 export type ProposalCardFooterFragment = {
   __typename?: "Proposal";
   id: number;
+  stage: string;
   voteCount: number;
   votes: Array<{
     __typename?: "Vote";
@@ -1218,6 +1239,7 @@ export type CreateProposalMutation = {
       body: string;
       action: string;
       createdAt: any;
+      stage: string;
       voteCount: number;
       user: {
         __typename?: "User";
@@ -1552,6 +1574,7 @@ export type HomePageQuery = {
           body: string;
           action: string;
           createdAt: any;
+          stage: string;
           voteCount: number;
           user: {
             __typename?: "User";
@@ -1635,6 +1658,7 @@ export type UserProfileQuery = {
           body: string;
           action: string;
           createdAt: any;
+          stage: string;
           voteCount: number;
           user: {
             __typename?: "User";
@@ -1920,6 +1944,8 @@ export const VoteChipsFragmentDoc = gql`
 `;
 export const ProposalCardFooterFragmentDoc = gql`
   fragment ProposalCardFooter on Proposal {
+    id
+    stage
     votes {
       user {
         id

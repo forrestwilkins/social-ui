@@ -5,6 +5,7 @@ import { CardActions, Divider, SxProps } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalCardFooterFragment } from "../../apollo/gen";
+import { ProposalStages } from "../../constants/proposal.constants";
 import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
@@ -29,9 +30,14 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { t } = useTranslation();
 
-  const voteByCurrentUser = proposal.votes.find(
+  const { stage, voteCount, votes } = proposal;
+  const voteByCurrentUser = votes.find(
     (vote) => vote.user.id === currentUserId
   );
+  const voteButtonLabel =
+    stage === ProposalStages.Ratified
+      ? t("proposals.labels.ratified")
+      : t("proposals.actions.vote");
 
   const handleVoteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -40,7 +46,7 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
 
   return (
     <>
-      {!!proposal.voteCount && <VoteChips proposal={proposal} />}
+      {!!voteCount && <VoteChips proposal={proposal} />}
 
       <Divider sx={{ margin: "0 16px" }} />
 
@@ -50,7 +56,7 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
           sx={voteByCurrentUser ? { color: Blurple.Primary } : {}}
         >
           <HowToVote sx={ICON_STYLES} />
-          {t("proposals.actions.vote")}
+          {voteButtonLabel}
         </CardFooterButton>
 
         <CardFooterButton onClick={inDevToast}>

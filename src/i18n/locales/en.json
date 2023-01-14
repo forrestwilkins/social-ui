@@ -74,7 +74,8 @@
       "test": "QA Test"
     },
     "labels": {
-      "action": "Action"
+      "action": "Action",
+      "ratified": "Ratified"
     }
   },
 

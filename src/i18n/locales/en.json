@@ -64,7 +64,7 @@
     },
     "actionTypes": {
       "assignRole": "Assign Group Role",
-      "changeDescription": "Change About Text",
+      "changeDescription": "Change Group Description",
       "changeCoverPhoto": "Change Cover Photo",
       "changeName": "Change Group Name",
       "changeRole": "Change Group Role",
@@ -75,6 +75,10 @@
     },
     "labels": {
       "action": "Action",
+      "newGroupDescription": "New group description",
+      "newGroupName": "New group name",
+      "proposedGroupDescription": "Proposed group description",
+      "proposedGroupName": "Proposed group name",
       "ratified": "Ratified"
     }
   },

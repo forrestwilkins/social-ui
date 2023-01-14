@@ -29,7 +29,9 @@ type CreatePostPayload {
 input CreateProposalInput {
   actionType: String!
   body: String
+  groupDescription: String
   groupId: Int
+  groupName: String
   images: [Upload!]
 }
 

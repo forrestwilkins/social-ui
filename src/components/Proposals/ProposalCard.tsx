@@ -57,7 +57,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { t } = useTranslation();
 
   const {
-    action: { actionType },
+    action: { actionType, groupDescription, groupName },
     body,
     createdAt,
     group,
@@ -76,7 +76,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const userProfilePath = getUserProfilePath(user?.name);
 
   const bodyStyles: SxProps = {
-    marginBottom: images.length ? 2.5 : 3.5,
+    marginBottom: images.length || groupName || groupDescription ? 2.5 : 3.5,
   };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 2.5 : 3,
@@ -167,6 +167,18 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
 
       <CardContent sx={cardContentStyles}>
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
+
+        {groupName && (
+          <Typography marginBottom={3.5}>
+            {t("proposals.labels.newGroupName")}: {groupName}
+          </Typography>
+        )}
+
+        {groupDescription && (
+          <Typography marginBottom={3.5}>
+            {t("proposals.labels.newGroupDescription")}: {groupDescription}
+          </Typography>
+        )}
 
         {!!images.length && (
           <Link

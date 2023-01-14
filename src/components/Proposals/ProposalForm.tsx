@@ -21,12 +21,17 @@ import {
   useCreateProposalMutation,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
+import {
+  ProposalActionFields,
+  ProposalActionTypes,
+} from "../../constants/proposal.constants";
 import { getRandomString } from "../../utils/common.utils";
 import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
@@ -48,8 +53,10 @@ const ProposalForm = ({
   const { t } = useTranslation();
 
   const initialValues: CreateProposalInput = {
-    actionType: "",
     body: "",
+    actionType: "",
+    groupDescription: "",
+    groupName: "",
     groupId,
   };
 
@@ -152,7 +159,10 @@ const ProposalForm = ({
                   </Select>
                 </FormControl>
 
-                <FormControl variant="standard" sx={{ marginBottom: 0.25 }}>
+                <FormControl
+                  variant="standard"
+                  sx={{ marginBottom: values.actionType ? 1 : 0.25 }}
+                >
                   <InputLabel>{t("groups.labels.group")}</InputLabel>
                   <Select
                     name="groupId"
@@ -166,6 +176,23 @@ const ProposalForm = ({
                     ))}
                   </Select>
                 </FormControl>
+
+                {values.actionType === ProposalActionTypes.ChangeName && (
+                  <TextField
+                    autoComplete="off"
+                    label={t("proposals.labels.newGroupName")}
+                    name={ProposalActionFields.GroupName}
+                  />
+                )}
+
+                {values.actionType ===
+                  ProposalActionTypes.ChangeDescription && (
+                  <TextField
+                    autoComplete="off"
+                    label={t("proposals.labels.newGroupDescription")}
+                    name={ProposalActionFields.GroupDescription}
+                  />
+                )}
               </>
             )}
 

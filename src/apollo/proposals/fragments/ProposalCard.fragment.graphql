@@ -6,6 +6,8 @@ fragment ProposalCard on Proposal {
   action {
     id
     actionType
+    groupDescription
+    groupName
   }
 
   user {

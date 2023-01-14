@@ -62,7 +62,9 @@ export type CreatePostPayload = {
 export type CreateProposalInput = {
   actionType: Scalars["String"];
   body?: InputMaybe<Scalars["String"]>;
+  groupDescription?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
+  groupName?: InputMaybe<Scalars["String"]>;
   images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
 
@@ -841,6 +843,8 @@ export type GroupProfileQuery = {
             __typename?: "ProposalAction";
             id: number;
             actionType: string;
+            groupDescription?: string | null;
+            groupName?: string | null;
           };
           user: {
             __typename?: "User";
@@ -983,7 +987,13 @@ type FeedItem_Proposal_Fragment = {
   createdAt: any;
   stage: string;
   voteCount: number;
-  action: { __typename?: "ProposalAction"; id: number; actionType: string };
+  action: {
+    __typename?: "ProposalAction";
+    id: number;
+    actionType: string;
+    groupDescription?: string | null;
+    groupName?: string | null;
+  };
   user: {
     __typename?: "User";
     id: number;
@@ -1185,7 +1195,13 @@ export type ProposalCardFragment = {
   createdAt: any;
   stage: string;
   voteCount: number;
-  action: { __typename?: "ProposalAction"; id: number; actionType: string };
+  action: {
+    __typename?: "ProposalAction";
+    id: number;
+    actionType: string;
+    groupDescription?: string | null;
+    groupName?: string | null;
+  };
   user: {
     __typename?: "User";
     id: number;
@@ -1251,7 +1267,13 @@ export type CreateProposalMutation = {
       createdAt: any;
       stage: string;
       voteCount: number;
-      action: { __typename?: "ProposalAction"; id: number; actionType: string };
+      action: {
+        __typename?: "ProposalAction";
+        id: number;
+        actionType: string;
+        groupDescription?: string | null;
+        groupName?: string | null;
+      };
       user: {
         __typename?: "User";
         id: number;
@@ -1293,7 +1315,13 @@ export type ProposalQuery = {
     createdAt: any;
     stage: string;
     voteCount: number;
-    action: { __typename?: "ProposalAction"; id: number; actionType: string };
+    action: {
+      __typename?: "ProposalAction";
+      id: number;
+      actionType: string;
+      groupDescription?: string | null;
+      groupName?: string | null;
+    };
     user: {
       __typename?: "User";
       id: number;
@@ -1631,6 +1659,8 @@ export type HomePageQuery = {
             __typename?: "ProposalAction";
             id: number;
             actionType: string;
+            groupDescription?: string | null;
+            groupName?: string | null;
           };
           user: {
             __typename?: "User";
@@ -1719,6 +1749,8 @@ export type UserProfileQuery = {
             __typename?: "ProposalAction";
             id: number;
             actionType: string;
+            groupDescription?: string | null;
+            groupName?: string | null;
           };
           user: {
             __typename?: "User";
@@ -2025,6 +2057,8 @@ export const ProposalCardFragmentDoc = gql`
     action {
       id
       actionType
+      groupDescription
+      groupName
     }
     user {
       ...UserAvatar

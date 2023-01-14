@@ -15,3 +15,8 @@ export enum ProposalStages {
   Revision = "revision",
   Voting = "voting",
 }
+
+export enum ProposalActionFields {
+  GroupDescription = "groupDescription",
+  GroupName = "groupName",
+}

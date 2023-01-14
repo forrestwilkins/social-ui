@@ -1,8 +1,12 @@
 fragment ProposalCard on Proposal {
   id
   body
-  action
   createdAt
+
+  action {
+    id
+    actionType
+  }
 
   user {
     ...UserAvatar

@@ -27,7 +27,7 @@ type CreatePostPayload {
 }
 
 input CreateProposalInput {
-  action: String!
+  actionType: String!
   body: String
   groupId: Int
   images: [Upload!]
@@ -172,7 +172,7 @@ type Post {
 }
 
 type Proposal {
-  action: String!
+  action: ProposalAction!
   agreements: [Vote!]!
   blocks: [Vote!]!
   body: String!
@@ -187,6 +187,16 @@ type Proposal {
   user: User!
   voteCount: Int!
   votes: [Vote!]!
+}
+
+type ProposalAction {
+  actionType: String!
+  createdAt: DateTime!
+  groupDescription: String
+  groupName: String
+  id: Int!
+  proposal: Proposal!
+  updatedAt: DateTime!
 }
 
 type Query {

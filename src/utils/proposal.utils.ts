@@ -43,10 +43,10 @@ export const getProposalActionTypeOptions = (
 ];
 
 export const getProposalActionLabel = (
-  action: string,
+  actionType: string,
   t: TFunction<Namespace<"ns1">, undefined>
 ): string => {
-  switch (action) {
+  switch (actionType) {
     case ProposalActionTypes.PlanEvent:
       return t("proposals.actionTypes.planEvent");
     case ProposalActionTypes.ChangeName:

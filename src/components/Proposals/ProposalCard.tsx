@@ -56,7 +56,15 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const { id, body, images, action, user, group, createdAt } = proposal;
+  const {
+    action: { actionType },
+    body,
+    createdAt,
+    group,
+    id,
+    images,
+    user,
+  } = proposal;
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const formattedDate = timeAgo(createdAt);
@@ -94,7 +102,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   };
 
   const renderTitle = () => {
-    const actionLabel = getProposalActionLabel(action, t);
+    const actionLabel = getProposalActionLabel(actionType, t);
     const showGroup = group && !isGroupPage;
 
     return (

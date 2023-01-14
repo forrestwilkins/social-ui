@@ -48,7 +48,7 @@ const ProposalForm = ({
   const { t } = useTranslation();
 
   const initialValues: CreateProposalInput = {
-    action: "",
+    actionType: "",
     body: "",
     groupId,
   };
@@ -140,9 +140,9 @@ const ProposalForm = ({
                 <FormControl variant="standard" sx={{ marginBottom: 1 }}>
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
-                    name="action"
+                    name="actionType"
                     onChange={handleChange}
-                    value={values.action}
+                    value={values.actionType}
                   >
                     {actionTypeOptions.map((option) => (
                       <MenuItem value={option.value} key={option.value}>

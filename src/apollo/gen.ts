@@ -314,16 +314,12 @@ export type Post = {
 export type Proposal = {
   __typename?: "Proposal";
   action: ProposalAction;
-  agreements: Array<Vote>;
-  blocks: Array<Vote>;
   body: Scalars["String"];
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
-  reservations: Array<Vote>;
   stage: Scalars["String"];
-  standAsides: Array<Vote>;
   updatedAt: Scalars["DateTime"];
   user: User;
   voteCount: Scalars["Int"];
@@ -1281,6 +1277,47 @@ export type CreateProposalMutation = {
         };
       }>;
     };
+  };
+};
+
+export type ProposalQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type ProposalQuery = {
+  __typename?: "Query";
+  proposal: {
+    __typename?: "Proposal";
+    id: number;
+    body: string;
+    createdAt: any;
+    stage: string;
+    voteCount: number;
+    action: { __typename?: "ProposalAction"; id: number; actionType: string };
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+    group?: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+    } | null;
+    images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+    votes: Array<{
+      __typename?: "Vote";
+      id: number;
+      voteType: string;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
   };
 };
 
@@ -3537,6 +3574,60 @@ export type CreateProposalMutationResult =
 export type CreateProposalMutationOptions = Apollo.BaseMutationOptions<
   CreateProposalMutation,
   CreateProposalMutationVariables
+>;
+export const ProposalDocument = gql`
+  query Proposal($id: Int!) {
+    proposal(id: $id) {
+      ...ProposalCard
+    }
+  }
+  ${ProposalCardFragmentDoc}
+`;
+
+/**
+ * __useProposalQuery__
+ *
+ * To run a query within a React component, call `useProposalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProposalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProposalQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useProposalQuery(
+  baseOptions: Apollo.QueryHookOptions<ProposalQuery, ProposalQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProposalQuery, ProposalQueryVariables>(
+    ProposalDocument,
+    options
+  );
+}
+export function useProposalLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProposalQuery,
+    ProposalQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProposalQuery, ProposalQueryVariables>(
+    ProposalDocument,
+    options
+  );
+}
+export type ProposalQueryHookResult = ReturnType<typeof useProposalQuery>;
+export type ProposalLazyQueryHookResult = ReturnType<
+  typeof useProposalLazyQuery
+>;
+export type ProposalQueryResult = Apollo.QueryResult<
+  ProposalQuery,
+  ProposalQueryVariables
 >;
 export const CreateRoleDocument = gql`
   mutation CreateRole($roleData: CreateRoleInput!) {

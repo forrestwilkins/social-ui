@@ -9,5 +9,6 @@ query UserProfile($name: String) {
 
   me {
     id
+    ...ToggleForms
   }
 }

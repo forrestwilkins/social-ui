@@ -9,5 +9,6 @@ query GroupProfile($name: String!) {
 
   me {
     id
+    ...ToggleForms
   }
 }

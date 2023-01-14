@@ -8,7 +8,7 @@ import {
   ToggleButtonGroup as MuiToggleButtonGroup,
 } from "@mui/material";
 import { useState } from "react";
-import { useMeQuery } from "../../apollo/gen";
+import { ToggleFormsFragment } from "../../apollo/gen";
 import PostForm from "../Posts/PostForm";
 import ProposalForm from "../Proposals/ProposalForm";
 import Card from "./Card";
@@ -46,20 +46,20 @@ const INACTIVE_BTN_STYLES = {
 
 interface Props {
   groupId?: number;
+  me: ToggleFormsFragment;
 }
 
-const ToggleForms = ({ groupId }: Props) => {
+const ToggleForms = ({ groupId, me }: Props) => {
   const [showProposalForm, setShowProposalForm] = useState(false);
-  const { data } = useMeQuery();
 
-  const joinedGroups = data?.me.joinedGroups;
-  const hasGroups = !!joinedGroups?.length;
+  const { joinedGroups } = me;
+  const hasGroups = !!joinedGroups.length;
 
   const handleChange = () => setShowProposalForm(!showProposalForm);
 
   const renderForm = () => {
-    if (showProposalForm && hasGroups) {
-      return <ProposalForm groupId={groupId} joinedGroups={joinedGroups} />;
+    if (showProposalForm) {
+      return <ProposalForm groupId={groupId} me={me} />;
     }
     return <PostForm groupId={groupId} />;
   };

@@ -17,7 +17,7 @@ import {
   CreateProposalInput,
   HomePageDocument,
   HomePageQuery,
-  MeQuery,
+  ProposalFormFragment,
   useCreateProposalMutation,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
@@ -31,10 +31,14 @@ import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
   groupId?: number;
-  joinedGroups: MeQuery["me"]["joinedGroups"];
+  me: ProposalFormFragment;
 }
 
-const ProposalForm = ({ groupId, joinedGroups, ...formProps }: Props) => {
+const ProposalForm = ({
+  groupId,
+  me: { joinedGroups },
+  ...formProps
+}: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");

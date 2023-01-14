@@ -50,7 +50,7 @@ const GroupPage: NextPage = () => {
     <>
       <GroupProfileCard group={group} currentMember={currentMember} />
 
-      {currentMember && <ToggleForms groupId={group.id} />}
+      {currentMember && <ToggleForms groupId={group.id} me={me} />}
 
       <Feed feed={group.feed} />
     </>

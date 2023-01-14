@@ -4,5 +4,6 @@ query HomePage {
     homeFeed {
       ...FeedItem
     }
+    ...ToggleForms
   }
 }

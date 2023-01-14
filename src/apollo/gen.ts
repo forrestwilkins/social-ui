@@ -317,6 +317,7 @@ export type Proposal = {
   id: Scalars["Int"];
   images: Array<Image>;
   reservations: Array<Vote>;
+  stage: Scalars["String"];
   standAsides: Array<Vote>;
   updatedAt: Scalars["DateTime"];
   user: User;
@@ -845,7 +846,11 @@ export type GroupProfileQuery = {
       user: { __typename?: "User"; id: number };
     }>;
   };
-  me: { __typename?: "User"; id: number };
+  me: {
+    __typename?: "User";
+    id: number;
+    joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
+  };
 };
 
 export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
@@ -1193,6 +1198,12 @@ export type ProposalCardFooterFragment = {
   }>;
 };
 
+export type ProposalFormFragment = {
+  __typename?: "User";
+  id: number;
+  joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
+};
+
 export type CreateProposalMutationVariables = Exact<{
   proposalData: CreateProposalInput;
 }>;
@@ -1415,6 +1426,12 @@ export type ServerRolesQuery = {
   }>;
 };
 
+export type ToggleFormsFragment = {
+  __typename?: "User";
+  id: number;
+  joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
+};
+
 export type EditProfileFormFragment = {
   __typename?: "User";
   id: number;
@@ -1562,6 +1579,7 @@ export type HomePageQuery = {
           }>;
         }
     >;
+    joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
   };
 };
 
@@ -1647,7 +1665,11 @@ export type UserProfileQuery = {
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
-  me: { __typename?: "User"; id: number };
+  me: {
+    __typename?: "User";
+    id: number;
+    joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
+  };
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
@@ -1985,6 +2007,26 @@ export const RoleFragmentDoc = gql`
     color
     memberCount
   }
+`;
+export const ProposalFormFragmentDoc = gql`
+  fragment ProposalForm on User {
+    id
+    joinedGroups {
+      id
+      name
+    }
+  }
+`;
+export const ToggleFormsFragmentDoc = gql`
+  fragment ToggleForms on User {
+    id
+    joinedGroups {
+      id
+      name
+    }
+    ...ProposalForm
+  }
+  ${ProposalFormFragmentDoc}
 `;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
@@ -2813,10 +2855,12 @@ export const GroupProfileDocument = gql`
     }
     me {
       id
+      ...ToggleForms
     }
   }
   ${GroupProfileCardFragmentDoc}
   ${FeedItemFragmentDoc}
+  ${ToggleFormsFragmentDoc}
 `;
 
 /**
@@ -3917,9 +3961,11 @@ export const HomePageDocument = gql`
       homeFeed {
         ...FeedItem
       }
+      ...ToggleForms
     }
   }
   ${FeedItemFragmentDoc}
+  ${ToggleFormsFragmentDoc}
 `;
 
 /**
@@ -4020,10 +4066,12 @@ export const UserProfileDocument = gql`
     }
     me {
       id
+      ...ToggleForms
     }
   }
   ${UserProfileCardFragmentDoc}
   ${FeedItemFragmentDoc}
+  ${ToggleFormsFragmentDoc}
 `;
 
 /**

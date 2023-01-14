@@ -180,6 +180,7 @@ type Proposal {
   id: Int!
   images: [Image!]!
   reservations: [Vote!]!
+  stage: String!
   standAsides: [Vote!]!
   updatedAt: DateTime!
   user: User!

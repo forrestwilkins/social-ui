@@ -36,7 +36,7 @@ const UserProfile: NextPage = () => {
   return (
     <>
       <UserProfileCard user={user} />
-      {isMe && <ToggleForms />}
+      {isMe && <ToggleForms me={me} />}
 
       {user.profileFeed && <Feed feed={user.profileFeed} />}
     </>

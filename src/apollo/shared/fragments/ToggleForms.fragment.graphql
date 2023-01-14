@@ -1,0 +1,8 @@
+fragment ToggleForms on User {
+  id
+  joinedGroups {
+    id
+    name
+  }
+  ...ProposalForm
+}

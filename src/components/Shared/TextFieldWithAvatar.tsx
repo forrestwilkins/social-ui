@@ -1,5 +1,5 @@
+import { InputBase as MuiInputBase, InputBaseProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { InputBase as MuiInputBase, InputBaseProps } from "formik-material-ui";
 import UserAvatar from "../Users/UserAvatar";
 import Flex from "./Flex";
 

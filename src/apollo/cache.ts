@@ -49,7 +49,7 @@ const cache = new InMemoryCache({
     },
     User: {
       fields: {
-        posts: {
+        homeFeed: {
           merge(_, incoming) {
             return incoming;
           },

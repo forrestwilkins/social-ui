@@ -8,7 +8,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { Field, Form, Formik, FormikFormProps, FormikHelpers } from "formik";
+import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -136,11 +136,12 @@ const ProposalForm = ({
       {({ isSubmitting, dirty, values, handleChange }) => (
         <Form onClick={() => setClicked(true)}>
           <FormGroup>
-            <Field
+            <TextFieldWithAvatar
               autoComplete="off"
-              component={TextFieldWithAvatar}
               name={FieldNames.Body}
+              onChange={handleChange}
               placeholder={t("proposals.prompts.createProposal")}
+              value={values.body}
               multiline
             />
 

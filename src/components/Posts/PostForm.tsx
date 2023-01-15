@@ -1,5 +1,5 @@
 import { Divider, FormGroup } from "@mui/material";
-import { Field, Form, Formik, FormikFormProps, FormikHelpers } from "formik";
+import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -155,14 +155,15 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
       enableReinitialize
       {...formProps}
     >
-      {(formik) => (
+      {({ isSubmitting, dirty, handleChange, values }) => (
         <Form>
           <FormGroup>
-            <Field
+            <TextFieldWithAvatar
               autoComplete="off"
-              component={TextFieldWithAvatar}
               name={FieldNames.Body}
+              onChange={handleChange}
               placeholder={t("prompts.whatsHappening")}
+              value={values.body}
               multiline
             />
 
@@ -184,9 +185,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
             />
 
             <PrimaryActionButton
-              disabled={
-                formik.isSubmitting || (!formik.dirty && !images.length)
-              }
+              disabled={isSubmitting || (!dirty && !images.length)}
               sx={{ marginTop: 1.5 }}
               type="submit"
             >

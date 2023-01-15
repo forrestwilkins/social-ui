@@ -42,7 +42,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   const { t } = useTranslation();
 
   const initialValues: CreatePostInput = {
-    body: editPost ? editPost.body : "",
+    body: editPost?.body || "",
     groupId,
   };
 

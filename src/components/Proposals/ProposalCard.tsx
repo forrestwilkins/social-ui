@@ -30,6 +30,7 @@ import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
+import { removeProposal } from "./DeleteProposalButton";
 import ProposalCardFooter from "./ProposalCardFooter";
 
 const CardHeader = styled(MuiCardHeader)(() => ({
@@ -97,6 +98,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     }
     await deleteProposal({
       variables: { id },
+      update: removeProposal(id),
     });
   };
 

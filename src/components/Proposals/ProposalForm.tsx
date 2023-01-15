@@ -1,4 +1,5 @@
 // TODO: Add remaining layout and functionality - below is a WIP
+// TODO: Add update logic for proposals
 
 import {
   Divider,
@@ -17,8 +18,10 @@ import {
   CreateProposalInput,
   HomePageDocument,
   HomePageQuery,
+  ProposalActionInput,
   ProposalFormFragment,
   useCreateProposalMutation,
+  useMeQuery,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
@@ -35,30 +38,30 @@ import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
+  editProposal?: ProposalFormFragment;
   groupId?: number;
-  me: ProposalFormFragment;
 }
 
-const ProposalForm = ({
-  groupId,
-  me: { joinedGroups },
-  ...formProps
-}: Props) => {
+const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
 
   const [createProposal] = useCreateProposalMutation();
+  const { data } = useMeQuery();
 
   const { t } = useTranslation();
 
+  const joinedGroups = data?.me.joinedGroups;
+
+  const action: ProposalActionInput = editProposal?.action || {
+    actionType: "",
+    groupDescription: "",
+    groupName: "",
+  };
   const initialValues: CreateProposalInput = {
-    body: "",
-    action: {
-      actionType: "",
-      groupDescription: "",
-      groupName: "",
-    },
+    body: editProposal?.body || "",
+    action,
     groupId,
   };
 
@@ -162,23 +165,25 @@ const ProposalForm = ({
                   </Select>
                 </FormControl>
 
-                <FormControl
-                  variant="standard"
-                  sx={{ marginBottom: values.action.actionType ? 1 : 0.25 }}
-                >
-                  <InputLabel>{t("groups.labels.group")}</InputLabel>
-                  <Select
-                    name="groupId"
-                    onChange={handleChange}
-                    value={values.groupId || ""}
+                {joinedGroups && !editProposal && (
+                  <FormControl
+                    variant="standard"
+                    sx={{ marginBottom: values.action.actionType ? 1 : 0.25 }}
                   >
-                    {joinedGroups.map(({ id, name }) => (
-                      <MenuItem value={id} key={id}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                    <InputLabel>{t("groups.labels.group")}</InputLabel>
+                    <Select
+                      name="groupId"
+                      onChange={handleChange}
+                      value={values.groupId || ""}
+                    >
+                      {joinedGroups.map(({ id, name }) => (
+                        <MenuItem value={id} key={id}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
 
                 {values.action.actionType ===
                   ProposalActionTypes.ChangeName && (
@@ -206,7 +211,7 @@ const ProposalForm = ({
             />
           </FormGroup>
 
-          {!clicked && <Divider sx={{ marginBottom: 1.3 }} />}
+          {!clicked && !editProposal && <Divider sx={{ marginBottom: 1.3 }} />}
 
           <Flex sx={{ justifyContent: "space-between" }}>
             <ImageInput
@@ -216,7 +221,9 @@ const ProposalForm = ({
             />
 
             <PrimaryActionButton
-              disabled={isSubmitting || (!dirty && !images.length)}
+              disabled={
+                isSubmitting || !!editProposal || (!dirty && !images.length)
+              }
               sx={{ marginTop: 1.5 }}
               type="submit"
             >

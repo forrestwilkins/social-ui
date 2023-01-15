@@ -59,7 +59,7 @@ const ToggleForms = ({ groupId, me }: Props) => {
 
   const renderForm = () => {
     if (showProposalForm) {
-      return <ProposalForm groupId={groupId} me={me} />;
+      return <ProposalForm groupId={groupId} />;
     }
     return <PostForm groupId={groupId} />;
   };

@@ -4,5 +4,4 @@ fragment ToggleForms on User {
     id
     name
   }
-  ...ProposalForm
 }

@@ -1,7 +1,15 @@
-fragment ProposalForm on User {
+fragment ProposalForm on Proposal {
   id
-  joinedGroups {
+  body
+
+  action {
     id
-    name
+    actionType
+    groupDescription
+    groupName
+  }
+
+  images {
+    ...AttachedImage
   }
 }

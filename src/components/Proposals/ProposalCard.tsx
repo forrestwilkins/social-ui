@@ -11,12 +11,16 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProposalCardFragment, useMeQuery } from "../../apollo/gen";
+import {
+  ProposalCardFragment,
+  useDeleteProposalMutation,
+  useMeQuery,
+} from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { inDevToast, redirectTo } from "../../utils/common.utils";
+import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { getProposalActionLabel } from "../../utils/proposal.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -50,8 +54,10 @@ interface Props extends CardProps {
 }
 
 const ProposalCard = ({ proposal, ...cardProps }: Props) => {
-  const { data } = useMeQuery();
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+
+  const [deleteProposal] = useDeleteProposalMutation();
+  const { data } = useMeQuery();
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
@@ -89,9 +95,9 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     if (isProposalPage) {
       await redirectTo(NavigationPaths.Home);
     }
-
-    console.log("TODO: Add delete logic here", id);
-    inDevToast();
+    await deleteProposal({
+      variables: { id },
+    });
   };
 
   const renderAvatar = () => {

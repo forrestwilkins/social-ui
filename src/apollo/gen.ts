@@ -618,6 +618,17 @@ export type GroupFormFragment = {
   description: string;
 };
 
+export type GroupMemberFragment = {
+  __typename?: "GroupMember";
+  id: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
 export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
@@ -629,17 +640,6 @@ export type GroupProfileCardFragment = {
     id: number;
     user: { __typename?: "User"; id: number };
   }>;
-};
-
-export type JoinedMemberFragment = {
-  __typename?: "GroupMember";
-  id: number;
-  user: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    profilePicture: { __typename?: "Image"; id: number };
-  };
 };
 
 export type RequestToJoinFragment = {
@@ -1964,6 +1964,24 @@ export const GroupFormFragmentDoc = gql`
     description
   }
 `;
+export const UserAvatarFragmentDoc = gql`
+  fragment UserAvatar on User {
+    id
+    name
+    profilePicture {
+      id
+    }
+  }
+`;
+export const GroupMemberFragmentDoc = gql`
+  fragment GroupMember on GroupMember {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
@@ -1977,24 +1995,6 @@ export const GroupProfileCardFragmentDoc = gql`
     memberRequestCount
   }
   ${CurrentMemberFragmentDoc}
-`;
-export const UserAvatarFragmentDoc = gql`
-  fragment UserAvatar on User {
-    id
-    name
-    profilePicture {
-      id
-    }
-  }
-`;
-export const JoinedMemberFragmentDoc = gql`
-  fragment JoinedMember on GroupMember {
-    id
-    user {
-      ...UserAvatar
-    }
-  }
-  ${UserAvatarFragmentDoc}
 `;
 export const RequestToJoinFragmentDoc = gql`
   fragment RequestToJoin on MemberRequest {
@@ -2958,11 +2958,11 @@ export const GroupMembersDocument = gql`
     group(name: $name) {
       id
       members {
-        ...JoinedMember
+        ...GroupMember
       }
     }
   }
-  ${JoinedMemberFragmentDoc}
+  ${GroupMemberFragmentDoc}
 `;
 
 /**

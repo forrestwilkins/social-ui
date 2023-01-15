@@ -1,6 +1,6 @@
 # TODO: Rename as GroupMember
 
-fragment JoinedMember on GroupMember {
+fragment GroupMember on GroupMember {
   id
   user {
     ...UserAvatar

@@ -1,5 +1,5 @@
 import { styled, Typography } from "@mui/material";
-import { JoinedMemberFragment } from "../../apollo/gen";
+import { GroupMemberFragment } from "../../apollo/gen";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -13,11 +13,11 @@ const Flex = styled(SharedFlex)(() => ({
 }));
 
 interface Props {
-  member: JoinedMemberFragment;
+  member: GroupMemberFragment;
 }
 
 // TODO: Rename as GroupMember
-const JoinedMember = ({ member: { user } }: Props) => (
+const GroupMember = ({ member: { user } }: Props) => (
   <Flex sx={{ justifyContent: "space-between" }}>
     <Link href={getUserProfilePath(user.name)}>
       <Flex>
@@ -28,4 +28,4 @@ const JoinedMember = ({ member: { user } }: Props) => (
   </Flex>
 );
 
-export default JoinedMember;
+export default GroupMember;

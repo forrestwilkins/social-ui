@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useGroupMembersQuery } from "../../../apollo/gen";
-import JoinedMember from "../../../components/Groups/JoinedMember";
+import GroupMember from "../../../components/Groups/GroupMember";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
@@ -77,7 +77,7 @@ const GroupMembers: NextPage = () => {
     <Card>
       <CardContent>
         {group.members.map((member) => (
-          <JoinedMember key={member.id} member={member} />
+          <GroupMember key={member.id} member={member} />
         ))}
       </CardContent>
     </Card>

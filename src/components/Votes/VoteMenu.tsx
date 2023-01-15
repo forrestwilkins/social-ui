@@ -88,6 +88,9 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
                 (ref) => readField("id", ref) !== id
               );
             },
+            voteCount(existingCount: number) {
+              return existingCount - 1;
+            },
           },
         });
       },

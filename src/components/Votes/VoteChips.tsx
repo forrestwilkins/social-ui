@@ -1,9 +1,5 @@
 /**
  * TODO: Find a better name, or determine if "chip" is the right choice here
- *
- * TODO: Show modal with votes listed and sorted by type on click
- *
- * TODO: Show popover with voters listed on hover
  */
 
 import {

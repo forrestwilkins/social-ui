@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import {
   ProposalCardFragment,
   useDeleteProposalMutation,
@@ -99,6 +100,12 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     await deleteProposal({
       variables: { id },
       update: removeProposal(id),
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+      },
     });
   };
 

@@ -30,10 +30,10 @@ const DeleteProposalButton = ({ proposalId }: Props) => {
     await deleteProposal({
       variables: { id: proposalId },
       update: removeProposal(proposalId),
-      onError() {
+      onError(err) {
         toastVar({
           status: "error",
-          title: t("errors.somethingWentWrong"),
+          title: err.message,
         });
       },
     });

@@ -962,13 +962,6 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
-export type DeletePostButtonFragment = {
-  __typename?: "Post";
-  id: number;
-  user: { __typename?: "User"; id: number };
-  group?: { __typename?: "Group"; id: number } | null;
-};
-
 type FeedItem_Post_Fragment = {
   __typename?: "Post";
   id: number;
@@ -1140,8 +1133,6 @@ export type EditPostQuery = {
     id: number;
     body: string;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-    user: { __typename?: "User"; id: number };
-    group?: { __typename?: "Group"; id: number } | null;
   };
 };
 
@@ -1976,17 +1967,6 @@ export const RequestToJoinFragmentDoc = gql`
     }
   }
   ${UserAvatarFragmentDoc}
-`;
-export const DeletePostButtonFragmentDoc = gql`
-  fragment DeletePostButton on Post {
-    id
-    user {
-      id
-    }
-    group {
-      id
-    }
-  }
 `;
 export const AttachedImageFragmentDoc = gql`
   fragment AttachedImage on Image {
@@ -3440,11 +3420,9 @@ export const EditPostDocument = gql`
   query EditPost($id: Int!) {
     post(id: $id) {
       ...PostForm
-      ...DeletePostButton
     }
   }
   ${PostFormFragmentDoc}
-  ${DeletePostButtonFragmentDoc}
 `;
 
 /**

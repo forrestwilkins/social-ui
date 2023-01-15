@@ -36,7 +36,7 @@ const EditPostPage: NextPage = () => {
         <PostForm editPost={data.post} />
       </Card>
 
-      <DeletePostButton post={data.post} />
+      <DeletePostButton postId={data.post.id} />
     </>
   );
 };

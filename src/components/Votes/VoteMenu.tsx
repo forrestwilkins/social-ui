@@ -65,10 +65,19 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
         },
       },
     } = "createVote" in data ? data.createVote : data.updateVote;
+
+    const isRatified = stage === ProposalStages.Ratified;
+    if (isRatified) {
+      toastVar({
+        status: "info",
+        title: t("proposals.toasts.ratifiedSuccess"),
+      });
+    }
+
     if (
       asPath.includes(NavigationPaths.Groups) &&
       actionType === ProposalActionTypes.ChangeName &&
-      stage === ProposalStages.Ratified &&
+      isRatified &&
       group
     ) {
       const groupPath = getGroupPath(group.name);

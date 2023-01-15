@@ -56,8 +56,7 @@
 
   "proposals": {
     "prompts": {
-      "createProposal": "Create a proposal...",
-      "isRatified": "This proposal has been ratified and can no longer be voted on."
+      "createProposal": "Create a proposal..."
     },
     "actions": {
       "createProposal": "Create Proposal",
@@ -81,6 +80,10 @@
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
       "ratified": "Ratified"
+    },
+    "toasts": {
+      "noVotingAfterRatification": "This proposal has been ratified and can no longer be voted on.",
+      "ratifiedSuccess": "This proposal has been ratified! 🎉"
     }
   },
 

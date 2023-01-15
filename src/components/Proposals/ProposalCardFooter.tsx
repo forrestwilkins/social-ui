@@ -45,7 +45,10 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     if (isRatified) {
-      toastVar({ status: "info", title: t("proposals.prompts.isRatified") });
+      toastVar({
+        status: "info",
+        title: t("proposals.toasts.noVotingAfterRatification"),
+      });
       return;
     }
     setMenuAnchorEl(event.currentTarget);

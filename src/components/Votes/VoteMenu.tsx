@@ -3,16 +3,26 @@
 import { Reference } from "@apollo/client";
 import { PanTool, ThumbDown, ThumbsUpDown, ThumbUp } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
+  CreateVoteMutation,
   ProposalCardFooterFragment,
+  UpdateVoteMutation,
   useCreateVoteMutation,
   useDeleteVoteMutation,
   useUpdateVoteMutation,
 } from "../../apollo/gen";
+import { NavigationPaths } from "../../constants/common.constants";
+import {
+  ProposalActionTypes,
+  ProposalStages,
+} from "../../constants/proposal.constants";
 import { VoteTypes } from "../../constants/vote.constants";
 import { Blurple } from "../../styles/theme";
+import { redirectTo } from "../../utils/common.utils";
+import { getGroupPath } from "../../utils/group.utils";
 
 const ICON_STYLES = {
   fontSize: 20,
@@ -30,6 +40,8 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
   const [createVote] = useCreateVoteMutation();
   const [updateVote] = useUpdateVoteMutation();
   const [deleteVote] = useDeleteVoteMutation();
+
+  const { asPath } = useRouter();
   const { t } = useTranslation();
 
   const voteByCurrentUser = proposal.votes.find(
@@ -41,6 +53,27 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
       return;
     }
     return { color: Blurple.Primary };
+  };
+
+  const handleCompleted = (data: CreateVoteMutation | UpdateVoteMutation) => {
+    const {
+      vote: {
+        proposal: {
+          action: { actionType },
+          group,
+          stage,
+        },
+      },
+    } = "createVote" in data ? data.createVote : data.updateVote;
+    if (
+      asPath.includes(NavigationPaths.Groups) &&
+      actionType === ProposalActionTypes.ChangeName &&
+      stage === ProposalStages.Ratified &&
+      group
+    ) {
+      const groupPath = getGroupPath(group.name);
+      redirectTo(groupPath);
+    }
   };
 
   const handleCreate = async (voteType: string) =>
@@ -68,6 +101,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
           },
         });
       },
+      onCompleted: handleCompleted,
       onError(err) {
         toastVar({
           status: "error",
@@ -81,6 +115,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
       variables: {
         voteData: { id, voteType },
       },
+      onCompleted: handleCompleted,
       onError(err) {
         toastVar({
           status: "error",

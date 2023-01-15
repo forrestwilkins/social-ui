@@ -3,6 +3,22 @@ mutation CreateVote($voteData: CreateVoteInput!) {
     vote {
       id
       voteType
+
+      proposal {
+        id
+        stage
+
+        action {
+          id
+          actionType
+        }
+
+        group {
+          id
+          name
+          description
+        }
+      }
     }
   }
 }

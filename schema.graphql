@@ -250,9 +250,9 @@ type SignUpPayload {
 
 input UpdateGroupInput {
   coverPhoto: Upload
-  description: String!
+  description: String
   id: Int!
-  name: String!
+  name: String
 }
 
 type UpdateGroupPayload {

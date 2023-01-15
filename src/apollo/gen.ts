@@ -433,9 +433,9 @@ export type SignUpPayload = {
 
 export type UpdateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
-  description: Scalars["String"];
+  description?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
-  name: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateGroupPayload = {
@@ -1863,7 +1863,27 @@ export type CreateVoteMutation = {
   __typename?: "Mutation";
   createVote: {
     __typename?: "CreateVotePayload";
-    vote: { __typename?: "Vote"; id: number; voteType: string };
+    vote: {
+      __typename?: "Vote";
+      id: number;
+      voteType: string;
+      proposal: {
+        __typename?: "Proposal";
+        id: number;
+        stage: string;
+        action: {
+          __typename?: "ProposalAction";
+          id: number;
+          actionType: string;
+        };
+        group?: {
+          __typename?: "Group";
+          id: number;
+          name: string;
+          description: string;
+        } | null;
+      };
+    };
   };
 };
 
@@ -1884,7 +1904,27 @@ export type UpdateVoteMutation = {
   __typename?: "Mutation";
   updateVote: {
     __typename?: "UpdateVotePayload";
-    vote: { __typename?: "Vote"; id: number; voteType: string };
+    vote: {
+      __typename?: "Vote";
+      id: number;
+      voteType: string;
+      proposal: {
+        __typename?: "Proposal";
+        id: number;
+        stage: string;
+        action: {
+          __typename?: "ProposalAction";
+          id: number;
+          actionType: string;
+        };
+        group?: {
+          __typename?: "Group";
+          id: number;
+          name: string;
+          description: string;
+        } | null;
+      };
+    };
   };
 };
 
@@ -4417,6 +4457,19 @@ export const CreateVoteDocument = gql`
       vote {
         id
         voteType
+        proposal {
+          id
+          stage
+          action {
+            id
+            actionType
+          }
+          group {
+            id
+            name
+            description
+          }
+        }
       }
     }
   }
@@ -4518,6 +4571,19 @@ export const UpdateVoteDocument = gql`
       vote {
         id
         voteType
+        proposal {
+          id
+          stage
+          action {
+            id
+            actionType
+          }
+          group {
+            id
+            name
+            description
+          }
+        }
       }
     }
   }

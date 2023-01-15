@@ -4,6 +4,7 @@ import { Reference } from "@apollo/client";
 import { PanTool, ThumbDown, ThumbsUpDown, ThumbUp } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import {
   ProposalCardFooterFragment,
   useCreateVoteMutation,
@@ -67,12 +68,24 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
           },
         });
       },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+      },
     });
 
   const handleUpdate = async (id: number, voteType: string) =>
     await updateVote({
       variables: {
         voteData: { id, voteType },
+      },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
       },
     });
 
@@ -92,6 +105,12 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
               return existingCount - 1;
             },
           },
+        });
+      },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
         });
       },
     });

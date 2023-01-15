@@ -56,7 +56,8 @@
 
   "proposals": {
     "prompts": {
-      "createProposal": "Create a proposal..."
+      "createProposal": "Create a proposal...",
+      "isRatified": "This proposal has been ratified and can no longer be voted on."
     },
     "actions": {
       "createProposal": "Create Proposal",

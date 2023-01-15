@@ -4,6 +4,7 @@ import { Comment, HowToVote, Reply } from "@mui/icons-material";
 import { CardActions, Divider, SxProps } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import { ProposalCardFooterFragment } from "../../apollo/gen";
 import { ProposalStages } from "../../constants/proposal.constants";
 import { Blurple } from "../../styles/theme";
@@ -31,16 +32,24 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
   const { t } = useTranslation();
 
   const { stage, voteCount, votes } = proposal;
+  const isRatified = stage === ProposalStages.Ratified;
   const voteByCurrentUser = votes.find(
     (vote) => vote.user.id === currentUserId
   );
-  const voteButtonLabel =
-    stage === ProposalStages.Ratified
-      ? t("proposals.labels.ratified")
-      : t("proposals.actions.vote");
 
-  const handleVoteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
+  const voteButtonLabel = isRatified
+    ? t("proposals.labels.ratified")
+    : t("proposals.actions.vote");
+
+  const handleVoteButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    if (isRatified) {
+      toastVar({ status: "info", title: t("proposals.prompts.isRatified") });
+      return;
+    }
     setMenuAnchorEl(event.currentTarget);
+  };
 
   const handleVoteMenuClose = () => setMenuAnchorEl(null);
 

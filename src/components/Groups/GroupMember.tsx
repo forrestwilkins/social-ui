@@ -16,7 +16,6 @@ interface Props {
   member: GroupMemberFragment;
 }
 
-// TODO: Rename as GroupMember
 const GroupMember = ({ member: { user } }: Props) => (
   <Flex sx={{ justifyContent: "space-between" }}>
     <Link href={getUserProfilePath(user.name)}>

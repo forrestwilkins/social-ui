@@ -1172,31 +1172,6 @@ export type PostQuery = {
   };
 };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type PostsQuery = {
-  __typename?: "Query";
-  posts: Array<{
-    __typename?: "Post";
-    id: number;
-    body: string;
-    createdAt: any;
-    images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      name: string;
-      coverPhoto?: { __typename?: "Image"; id: number } | null;
-    } | null;
-  }>;
-};
-
 export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
@@ -3526,54 +3501,6 @@ export function usePostLazyQuery(
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
-export const PostsDocument = gql`
-  query Posts {
-    posts {
-      ...PostCard
-    }
-  }
-  ${PostCardFragmentDoc}
-`;
-
-/**
- * __usePostsQuery__
- *
- * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePostsQuery({
- *   variables: {
- *   },
- * });
- */
-export function usePostsQuery(
-  baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(
-    PostsDocument,
-    options
-  );
-}
-export function usePostsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(
-    PostsDocument,
-    options
-  );
-}
-export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
-export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
-export type PostsQueryResult = Apollo.QueryResult<
-  PostsQuery,
-  PostsQueryVariables
->;
 export const CreateProposalDocument = gql`
   mutation CreateProposal($proposalData: CreateProposalInput!) {
     createProposal(proposalData: $proposalData) {

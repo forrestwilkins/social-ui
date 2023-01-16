@@ -270,7 +270,7 @@ type UpdatePostPayload {
 }
 
 input UpdateProposalInput {
-  action: String
+  action: ProposalActionInput!
   body: String
   id: Int!
   images: [Upload!]

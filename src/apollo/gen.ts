@@ -455,7 +455,7 @@ export type UpdatePostPayload = {
 };
 
 export type UpdateProposalInput = {
-  action?: InputMaybe<Scalars["String"]>;
+  action: ProposalActionInput;
   body?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
   images?: InputMaybe<Array<Scalars["Upload"]>>;

@@ -1,5 +1,4 @@
 // TODO: Add remaining layout and functionality - below is a WIP
-// TODO: Add update logic for proposals
 
 import {
   Divider,
@@ -67,55 +66,65 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
   const actionTypeOptions = getProposalActionTypeOptions(t);
 
-  const handleSubmit = async (
+  const handleCreate = async (
     formValues: CreateProposalInput,
     { resetForm, setSubmitting }: FormikHelpers<CreateProposalInput>
+  ) =>
+    await createProposal({
+      variables: { proposalData: { ...formValues, images } },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        const {
+          createProposal: { proposal },
+        } = data;
+        cache.updateQuery<HomePageQuery>(
+          { query: HomePageDocument },
+          (homePageData) =>
+            produce(homePageData, (draft) => {
+              draft?.me.homeFeed.unshift(proposal);
+            })
+        );
+        cache.modify({
+          id: cache.identify(proposal.user),
+          fields: {
+            profileFeed(existingRefs, { toReference }) {
+              return [toReference(proposal), ...existingRefs];
+            },
+          },
+        });
+        if (!proposal.group) {
+          return;
+        }
+        cache.modify({
+          id: cache.identify(proposal.group),
+          fields: {
+            feed(existingRefs, { toReference }) {
+              return [toReference(proposal), ...existingRefs];
+            },
+          },
+        });
+      },
+      onCompleted() {
+        resetForm();
+        setImages([]);
+        setImagesInputKey(getRandomString());
+        setSubmitting(false);
+        setClicked(false);
+      },
+    });
+
+  const handleSubmit = async (
+    formValues: CreateProposalInput,
+    formHelpers: FormikHelpers<CreateProposalInput>
   ) => {
     try {
-      await createProposal({
-        variables: { proposalData: { ...formValues, images } },
-        update(cache, { data }) {
-          if (!data) {
-            return;
-          }
-          const {
-            createProposal: { proposal },
-          } = data;
-          cache.updateQuery<HomePageQuery>(
-            { query: HomePageDocument },
-            (homePageData) =>
-              produce(homePageData, (draft) => {
-                draft?.me.homeFeed.unshift(proposal);
-              })
-          );
-          cache.modify({
-            id: cache.identify(proposal.user),
-            fields: {
-              profileFeed(existingRefs, { toReference }) {
-                return [toReference(proposal), ...existingRefs];
-              },
-            },
-          });
-          if (!proposal.group) {
-            return;
-          }
-          cache.modify({
-            id: cache.identify(proposal.group),
-            fields: {
-              feed(existingRefs, { toReference }) {
-                return [toReference(proposal), ...existingRefs];
-              },
-            },
-          });
-        },
-        onCompleted() {
-          resetForm();
-          setImages([]);
-          setImagesInputKey(getRandomString());
-          setSubmitting(false);
-          setClicked(false);
-        },
-      });
+      if (editProposal) {
+        console.log("TODO: Add update logic for proposals");
+        return;
+      }
+      await handleCreate(formValues, formHelpers);
     } catch (err) {
       toastVar({
         status: "error",

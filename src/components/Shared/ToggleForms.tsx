@@ -1,4 +1,3 @@
-// TODO: Add remaining layout and functionality - below is a WIP
 // TODO: Move hex color values to theme
 
 import { EmojiPeople, PostAdd } from "@mui/icons-material";

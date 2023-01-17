@@ -72,6 +72,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     id,
     images,
     user,
+    voteCount,
   } = proposal;
   const me = data && data.me;
   const isMe = me?.id === user.id;
@@ -156,6 +157,9 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   };
 
   const renderMenu = () => {
+    if (voteCount) {
+      return null;
+    }
     const editPath = `${NavigationPaths.Proposals}/${id}${NavigationPaths.Edit}`;
     const deletePrompt = t("prompts.deleteItem", { itemType: "proposal" });
     return (

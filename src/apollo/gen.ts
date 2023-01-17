@@ -845,9 +845,9 @@ export type GroupProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body: string;
+          voteCount: number;
           createdAt: any;
           stage: string;
-          voteCount: number;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -986,9 +986,9 @@ type FeedItem_Proposal_Fragment = {
   __typename?: "Proposal";
   id: number;
   body: string;
+  voteCount: number;
   createdAt: any;
   stage: string;
-  voteCount: number;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1167,9 +1167,9 @@ export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
   body: string;
+  voteCount: number;
   createdAt: any;
   stage: string;
-  voteCount: number;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1247,9 +1247,9 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body: string;
+      voteCount: number;
       createdAt: any;
       stage: string;
-      voteCount: number;
       action: {
         __typename?: "ProposalAction";
         id: number;
@@ -1306,9 +1306,9 @@ export type UpdateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body: string;
+      voteCount: number;
       createdAt: any;
       stage: string;
-      voteCount: number;
       action: {
         __typename?: "ProposalAction";
         id: number;
@@ -1375,9 +1375,9 @@ export type ProposalQuery = {
     __typename?: "Proposal";
     id: number;
     body: string;
+    voteCount: number;
     createdAt: any;
     stage: string;
-    voteCount: number;
     action: {
       __typename?: "ProposalAction";
       id: number;
@@ -1715,9 +1715,9 @@ export type HomePageQuery = {
           __typename?: "Proposal";
           id: number;
           body: string;
+          voteCount: number;
           createdAt: any;
           stage: string;
-          voteCount: number;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -1805,9 +1805,9 @@ export type UserProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body: string;
+          voteCount: number;
           createdAt: any;
           stage: string;
-          voteCount: number;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -2145,6 +2145,7 @@ export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
     body
+    voteCount
     createdAt
     action {
       id

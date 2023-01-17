@@ -1,5 +1,3 @@
-// TODO: Add basic functionality for votes - below is a WIP
-
 import { Reference } from "@apollo/client";
 import { PanTool, ThumbDown, ThumbsUpDown, ThumbUp } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";

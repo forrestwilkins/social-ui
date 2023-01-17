@@ -19,15 +19,17 @@ import {
   HomePageQuery,
   ProposalActionInput,
   ProposalFormFragment,
+  UpdateProposalInput,
   useCreateProposalMutation,
   useMeQuery,
+  useUpdateProposalMutation,
 } from "../../apollo/gen";
-import { FieldNames } from "../../constants/common.constants";
+import { FieldNames, NavigationPaths } from "../../constants/common.constants";
 import {
   ProposalActionFields,
   ProposalActionTypes,
 } from "../../constants/proposal.constants";
-import { getRandomString } from "../../utils/common.utils";
+import { getRandomString, redirectTo } from "../../utils/common.utils";
 import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
@@ -47,6 +49,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
 
   const [createProposal] = useCreateProposalMutation();
+  const [updateProposal] = useUpdateProposalMutation();
   const { data } = useMeQuery();
 
   const { t } = useTranslation();
@@ -115,13 +118,26 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       },
     });
 
+  const handleUpdate = async (
+    formValues: Omit<UpdateProposalInput, "id">,
+    editProposal: ProposalFormFragment
+  ) =>
+    await updateProposal({
+      variables: {
+        proposalData: { id: editProposal.id, ...formValues, images },
+      },
+      onCompleted() {
+        redirectTo(NavigationPaths.Home);
+      },
+    });
+
   const handleSubmit = async (
-    formValues: CreateProposalInput,
-    formHelpers: FormikHelpers<CreateProposalInput>
+    formValues: CreateProposalInput | UpdateProposalInput,
+    formHelpers: FormikHelpers<CreateProposalInput | UpdateProposalInput>
   ) => {
     try {
       if (editProposal) {
-        console.log("TODO: Add update logic for proposals");
+        await handleUpdate(formValues as UpdateProposalInput, editProposal);
         return;
       }
       await handleCreate(formValues, formHelpers);

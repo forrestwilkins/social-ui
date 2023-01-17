@@ -1294,6 +1294,56 @@ export type DeleteProposalMutation = {
   deleteProposal: boolean;
 };
 
+export type UpdateProposalMutationVariables = Exact<{
+  proposalData: UpdateProposalInput;
+}>;
+
+export type UpdateProposalMutation = {
+  __typename?: "Mutation";
+  updateProposal: {
+    __typename?: "UpdateProposalPayload";
+    proposal: {
+      __typename?: "Proposal";
+      id: number;
+      body: string;
+      createdAt: any;
+      stage: string;
+      voteCount: number;
+      action: {
+        __typename?: "ProposalAction";
+        id: number;
+        actionType: string;
+        groupDescription?: string | null;
+        groupName?: string | null;
+      };
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      votes: Array<{
+        __typename?: "Vote";
+        id: number;
+        voteType: string;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }>;
+    };
+  };
+};
+
 export type EditProposalQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -3653,6 +3703,59 @@ export type DeleteProposalMutationResult =
 export type DeleteProposalMutationOptions = Apollo.BaseMutationOptions<
   DeleteProposalMutation,
   DeleteProposalMutationVariables
+>;
+export const UpdateProposalDocument = gql`
+  mutation UpdateProposal($proposalData: UpdateProposalInput!) {
+    updateProposal(proposalData: $proposalData) {
+      proposal {
+        ...ProposalCard
+      }
+    }
+  }
+  ${ProposalCardFragmentDoc}
+`;
+export type UpdateProposalMutationFn = Apollo.MutationFunction<
+  UpdateProposalMutation,
+  UpdateProposalMutationVariables
+>;
+
+/**
+ * __useUpdateProposalMutation__
+ *
+ * To run a mutation, you first call `useUpdateProposalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProposalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProposalMutation, { data, loading, error }] = useUpdateProposalMutation({
+ *   variables: {
+ *      proposalData: // value for 'proposalData'
+ *   },
+ * });
+ */
+export function useUpdateProposalMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProposalMutation,
+    UpdateProposalMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateProposalMutation,
+    UpdateProposalMutationVariables
+  >(UpdateProposalDocument, options);
+}
+export type UpdateProposalMutationHookResult = ReturnType<
+  typeof useUpdateProposalMutation
+>;
+export type UpdateProposalMutationResult =
+  Apollo.MutationResult<UpdateProposalMutation>;
+export type UpdateProposalMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProposalMutation,
+  UpdateProposalMutationVariables
 >;
 export const EditProposalDocument = gql`
   query EditProposal($id: Int!) {

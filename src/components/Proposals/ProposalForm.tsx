@@ -56,10 +56,10 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
   const joinedGroups = data?.me.joinedGroups;
 
-  const action: ProposalActionInput = editProposal?.action || {
-    actionType: "",
-    groupDescription: "",
-    groupName: "",
+  const action: ProposalActionInput = {
+    actionType: editProposal?.action.actionType || "",
+    groupDescription: editProposal?.action.groupDescription || "",
+    groupName: editProposal?.action.groupName || "",
   };
   const initialValues: CreateProposalInput = {
     body: editProposal?.body || "",
@@ -246,13 +246,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
             />
 
             <PrimaryActionButton
-              disabled={
-                isSubmitting || !!editProposal || (!dirty && !images.length)
-              }
+              disabled={isSubmitting || (!dirty && !images.length)}
               sx={{ marginTop: 1.5 }}
               type="submit"
             >
-              {t("proposals.actions.createProposal")}
+              {editProposal
+                ? t("actions.save")
+                : t("proposals.actions.createProposal")}
             </PrimaryActionButton>
           </Flex>
         </Form>

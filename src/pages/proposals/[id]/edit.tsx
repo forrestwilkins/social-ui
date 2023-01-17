@@ -34,12 +34,6 @@ const EditProposalPage: NextPage = () => {
 
   return (
     <>
-      <Card>
-        <Typography gutterBottom>
-          {t("prompts.featureInDevelopment")}
-        </Typography>
-      </Card>
-
       <Card sx={{ marginBottom: 2.5 }}>
         <ProposalForm editProposal={proposal} />
       </Card>

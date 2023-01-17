@@ -1,4 +1,4 @@
-// TODO: Add basic functionality for votes, comments, and sharing - below is a WIP
+// TODO: Add basic functionality for comments and sharing - below is a WIP
 
 import { Comment, HowToVote, Reply } from "@mui/icons-material";
 import { CardActions, Divider, SxProps } from "@mui/material";

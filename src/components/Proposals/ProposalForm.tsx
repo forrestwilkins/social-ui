@@ -1,10 +1,13 @@
+import { CropOriginal } from "@mui/icons-material";
 import {
+  Box,
   Divider,
   FormControl,
   FormGroup,
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
@@ -44,6 +47,7 @@ interface Props extends FormikFormProps {
 const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
+  const [groupCoverPhoto, setGroupCoverPhoto] = useState<File>();
   const [imagesInputKey, setImagesInputKey] = useState("");
 
   const [createProposal] = useCreateProposalMutation();
@@ -68,11 +72,17 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const actionTypeOptions = getProposalActionTypeOptions(t);
 
   const handleCreate = async (
-    formValues: CreateProposalInput,
+    { action, ...formValues }: CreateProposalInput,
     { resetForm, setSubmitting }: FormikHelpers<CreateProposalInput>
   ) =>
     await createProposal({
-      variables: { proposalData: { ...formValues, images } },
+      variables: {
+        proposalData: {
+          ...formValues,
+          action: { ...action, groupCoverPhoto },
+          images,
+        },
+      },
       update(cache, { data }) {
         if (!data) {
           return;
@@ -224,6 +234,32 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     label={t("proposals.labels.newGroupDescription")}
                     name={ProposalActionFields.GroupDescription}
                   />
+                )}
+
+                {values.action.actionType ===
+                  ProposalActionTypes.ChangeCoverPhoto && (
+                  <Box marginTop={1.5}>
+                    <AttachedImagePreview
+                      selectedImages={groupCoverPhoto ? [groupCoverPhoto] : []}
+                      imageContainerStyles={{ marginBottom: 1 }}
+                      sx={{ marginTop: 1 }}
+                    />
+
+                    <ImageInput
+                      sx={{ cursor: "pointer", marginTop: 0 }}
+                      setImage={setGroupCoverPhoto}
+                    >
+                      <Typography
+                        color="primary"
+                        sx={{ display: "flex", fontSize: 14 }}
+                      >
+                        <CropOriginal
+                          sx={{ marginRight: "0.25ch", fontSize: 20 }}
+                        />
+                        {t("proposals.actions.attachNewCoverPhoto")}
+                      </Typography>
+                    </ImageInput>
+                  </Box>
                 )}
               </>
             )}

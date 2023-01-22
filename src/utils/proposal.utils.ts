@@ -13,6 +13,10 @@ export const getProposalActionTypeOptions = (
     value: ProposalActionTypes.ChangeDescription,
   },
   {
+    message: t("proposals.actionTypes.changeCoverPhoto"),
+    value: ProposalActionTypes.ChangeCoverPhoto,
+  },
+  {
     message: t("proposals.actionTypes.test"),
     value: ProposalActionTypes.Test,
   },
@@ -21,10 +25,6 @@ export const getProposalActionTypeOptions = (
   // {
   //   message: t("proposals.actionTypes.assignRole"),
   //   value: ProposalActionTypes.AssignRole,
-  // },
-  // {
-  //   message: t("proposals.actionTypes.changeCoverPhoto"),
-  //   value: ProposalActionTypes.ChangeCoverPhoto,
   // },
   // {
   //   message: t("proposals.actionTypes.changeRole"),

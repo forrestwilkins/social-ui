@@ -59,6 +59,7 @@
       "createProposal": "Create a proposal..."
     },
     "actions": {
+      "attachNewCoverPhoto": "Attach new cover photo",
       "createProposal": "Create Proposal",
       "vote": "Vote"
     },

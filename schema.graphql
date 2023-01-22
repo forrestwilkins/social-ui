@@ -98,6 +98,7 @@ type Image {
   imageType: String!
   post: Post!
   proposal: Proposal!
+  proposalAction: ProposalAction!
   updatedAt: DateTime!
   user: User!
 }
@@ -189,6 +190,7 @@ type Proposal {
 type ProposalAction {
   actionType: String!
   createdAt: DateTime!
+  groupCoverPhoto: Image
   groupDescription: String
   groupName: String
   id: Int!
@@ -198,6 +200,7 @@ type ProposalAction {
 
 input ProposalActionInput {
   actionType: String!
+  groupCoverPhoto: Upload
   groupDescription: String
   groupName: String
 }

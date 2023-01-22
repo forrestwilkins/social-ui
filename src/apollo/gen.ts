@@ -133,6 +133,7 @@ export type Image = {
   imageType: Scalars["String"];
   post: Post;
   proposal: Proposal;
+  proposalAction: ProposalAction;
   updatedAt: Scalars["DateTime"];
   user: User;
 };
@@ -335,6 +336,7 @@ export type ProposalAction = {
   __typename?: "ProposalAction";
   actionType: Scalars["String"];
   createdAt: Scalars["DateTime"];
+  groupCoverPhoto?: Maybe<Image>;
   groupDescription?: Maybe<Scalars["String"]>;
   groupName?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
@@ -344,6 +346,7 @@ export type ProposalAction = {
 
 export type ProposalActionInput = {
   actionType: Scalars["String"];
+  groupCoverPhoto?: InputMaybe<Scalars["Upload"]>;
   groupDescription?: InputMaybe<Scalars["String"]>;
   groupName?: InputMaybe<Scalars["String"]>;
 };

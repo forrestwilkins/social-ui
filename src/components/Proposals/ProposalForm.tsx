@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
@@ -40,11 +40,19 @@ import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
+  defaultBody?: string;
+  setDefaultBody?: Dispatch<SetStateAction<string>>;
   editProposal?: ProposalFormFragment;
   groupId?: number;
 }
 
-const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
+const ProposalForm = ({
+  defaultBody,
+  setDefaultBody,
+  editProposal,
+  groupId,
+  ...formProps
+}: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [groupCoverPhoto, setGroupCoverPhoto] = useState<File>();
@@ -64,7 +72,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     groupName: editProposal?.action.groupName || "",
   };
   const initialValues: CreateProposalInput = {
-    body: editProposal?.body || "",
+    body: editProposal?.body || defaultBody || "",
     action,
     groupId,
   };
@@ -118,6 +126,9 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
         });
       },
       onCompleted() {
+        if (setDefaultBody) {
+          setDefaultBody("");
+        }
         resetForm();
         setImages([]);
         setImagesInputKey(getRandomString());
@@ -157,7 +168,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     }
   };
 
-  const removeSelectedImageHandler = (imageName: string) => {
+  const removeSelectedImage = (imageName: string) => {
     setImages(images.filter((image) => image.name !== imageName));
     setImagesInputKey(getRandomString());
   };
@@ -173,9 +184,14 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
         <Form onClick={() => setClicked(true)}>
           <FormGroup>
             <TextFieldWithAvatar
+              onChange={(e) => {
+                if (setDefaultBody) {
+                  setDefaultBody(e.target.value);
+                }
+                handleChange(e);
+              }}
               autoComplete="off"
               name={FieldNames.Body}
-              onChange={handleChange}
               placeholder={t("proposals.prompts.createProposal")}
               value={values.body}
               multiline
@@ -265,12 +281,14 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
             )}
 
             <AttachedImagePreview
-              removeSelectedImage={removeSelectedImageHandler}
+              removeSelectedImage={removeSelectedImage}
               selectedImages={images}
             />
           </FormGroup>
 
-          {!clicked && !editProposal && <Divider sx={{ marginBottom: 1.3 }} />}
+          {!clicked && !defaultBody && !editProposal && (
+            <Divider sx={{ marginBottom: 1.3 }} />
+          )}
 
           <Flex sx={{ justifyContent: "space-between" }}>
             <ImageInput

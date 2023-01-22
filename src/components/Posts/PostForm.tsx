@@ -1,7 +1,7 @@
 import { Divider, FormGroup } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
@@ -27,11 +27,19 @@ import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
+  defaultBody?: string;
+  setDefaultBody?: Dispatch<SetStateAction<string>>;
   editPost?: PostFormFragment;
   groupId?: number;
 }
 
-const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
+const PostForm = ({
+  defaultBody,
+  setDefaultBody,
+  editPost,
+  groupId,
+  ...formProps
+}: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
 
@@ -42,7 +50,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   const { t } = useTranslation();
 
   const initialValues: CreatePostInput = {
-    body: editPost?.body || "",
+    body: editPost?.body || defaultBody || "",
     groupId,
   };
 
@@ -87,6 +95,9 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
         });
       },
       onCompleted() {
+        if (setDefaultBody) {
+          setDefaultBody("");
+        }
         resetForm();
         setImages([]);
         setImagesInputKey(getRandomString());
@@ -143,7 +154,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
     }
   };
 
-  const removeSelectedImageHandler = (imageName: string) => {
+  const removeSelectedImage = (imageName: string) => {
     setImages(images.filter((image) => image.name !== imageName));
     setImagesInputKey(getRandomString());
   };
@@ -159,9 +170,14 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
         <Form>
           <FormGroup>
             <TextFieldWithAvatar
+              onChange={(e) => {
+                if (setDefaultBody) {
+                  setDefaultBody(e.target.value);
+                }
+                handleChange(e);
+              }}
               autoComplete="off"
               name={FieldNames.Body}
-              onChange={handleChange}
               placeholder={t("prompts.whatsHappening")}
               value={values.body}
               multiline
@@ -169,7 +185,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
 
             <AttachedImagePreview
               deleteSavedImage={deleteSavedImageHandler}
-              removeSelectedImage={removeSelectedImageHandler}
+              removeSelectedImage={removeSelectedImage}
               savedImages={editPost?.images || []}
               selectedImages={images}
             />

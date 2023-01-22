@@ -48,8 +48,8 @@ interface Props extends FormikFormProps {
 
 const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
+  const [groupCoverPhoto, setGroupCoverPhoto] = useState<File | null>(null);
   const [images, setImages] = useState<File[]>([]);
-  const [groupCoverPhoto, setGroupCoverPhoto] = useState<File>();
   const [imagesInputKey, setImagesInputKey] = useState("");
 
   const [createProposal] = useCreateProposalMutation();
@@ -121,10 +121,11 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       },
       onCompleted() {
         resetForm();
+        setClicked(false);
+        setGroupCoverPhoto(null);
         setImages([]);
         setImagesInputKey(getRandomString());
         setSubmitting(false);
-        setClicked(false);
       },
     });
 

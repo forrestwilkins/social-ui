@@ -5,7 +5,6 @@ import {
   CardHeader as MuiCardHeader,
   CardProps,
   styled,
-  SxProps,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
@@ -86,13 +85,16 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const proposalPath = `${NavigationPaths.Proposals}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
 
-  const bodyStyles: SxProps = {
-    marginBottom: images.length || groupName || groupDescription ? 2.5 : 3.5,
+  const bodyStyles = {
+    marginBottom:
+      groupName || groupDescription || groupCoverPhoto || images.length
+        ? 2.5
+        : 3.5,
   };
-  const cardContentStyles: SxProps = {
+  const cardContentStyles = {
     paddingTop: images.length && !body ? 2.5 : 3,
   };
-  const imageListStyles: SxProps = {
+  const imageListStyles = {
     marginBottom: me ? 1.9 : 0,
   };
 
@@ -202,15 +204,11 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
         )}
 
         {groupCoverPhoto && (
-          <Box>
+          <Box marginBottom="20px">
             <Typography gutterBottom fontSize={14}>
               {t("proposals.labels.proposedGroupCoverPhoto")}:
             </Typography>
-            <AttachedImage
-              image={groupCoverPhoto}
-              marginBottom="20px"
-              width="55%"
-            />
+            <AttachedImage image={groupCoverPhoto} width="55%" />
           </Box>
         )}
 

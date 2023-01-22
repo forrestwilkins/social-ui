@@ -161,6 +161,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
         status: "error",
         title: String(err),
       });
+      console.error(err);
     }
   };
 

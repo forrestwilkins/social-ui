@@ -191,35 +191,29 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <CardContent sx={cardContentStyles}>
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
-        {groupName && (
-          <Typography marginBottom={3.5}>
-            {t("proposals.labels.newGroupName")}: {groupName}
-          </Typography>
-        )}
-
-        {groupDescription && (
-          <Typography marginBottom={3.5}>
-            {t("proposals.labels.newGroupDescription")}: {groupDescription}
-          </Typography>
-        )}
-
-        {groupCoverPhoto && (
-          <Box marginBottom="20px">
-            <Typography gutterBottom fontSize={14}>
-              {t("proposals.labels.proposedGroupCoverPhoto")}:
+        <Link href={proposalPath}>
+          {groupName && (
+            <Typography marginBottom={3.5}>
+              {t("proposals.labels.newGroupName")}: {groupName}
             </Typography>
-            <AttachedImage image={groupCoverPhoto} width="55%" />
-          </Box>
-        )}
-
-        {!!images.length && (
-          <Link
-            aria-label={t("images.labels.attachedImages")}
-            href={proposalPath}
-          >
+          )}
+          {groupDescription && (
+            <Typography marginBottom={3.5}>
+              {t("proposals.labels.newGroupDescription")}: {groupDescription}
+            </Typography>
+          )}
+          {groupCoverPhoto && (
+            <Box marginBottom="20px">
+              <Typography gutterBottom fontSize={14}>
+                {t("proposals.labels.proposedGroupCoverPhoto")}:
+              </Typography>
+              <AttachedImage image={groupCoverPhoto} width="55%" />
+            </Box>
+          )}
+          {!!images.length && (
             <AttachedImageList images={images} sx={imageListStyles} />
-          </Link>
-        )}
+          )}
+        </Link>
       </CardContent>
 
       {me && <ProposalCardFooter proposal={proposal} currentUserId={me.id} />}

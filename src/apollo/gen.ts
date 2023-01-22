@@ -857,6 +857,11 @@ export type GroupProfileQuery = {
             actionType: string;
             groupDescription?: string | null;
             groupName?: string | null;
+            groupCoverPhoto?: {
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            } | null;
           };
           user: {
             __typename?: "User";
@@ -998,6 +1003,11 @@ type FeedItem_Proposal_Fragment = {
     actionType: string;
     groupDescription?: string | null;
     groupName?: string | null;
+    groupCoverPhoto?: {
+      __typename?: "Image";
+      id: number;
+      filename: string;
+    } | null;
   };
   user: {
     __typename?: "User";
@@ -1179,6 +1189,11 @@ export type ProposalCardFragment = {
     actionType: string;
     groupDescription?: string | null;
     groupName?: string | null;
+    groupCoverPhoto?: {
+      __typename?: "Image";
+      id: number;
+      filename: string;
+    } | null;
   };
   user: {
     __typename?: "User";
@@ -1259,6 +1274,11 @@ export type CreateProposalMutation = {
         actionType: string;
         groupDescription?: string | null;
         groupName?: string | null;
+        groupCoverPhoto?: {
+          __typename?: "Image";
+          id: number;
+          filename: string;
+        } | null;
       };
       user: {
         __typename?: "User";
@@ -1318,6 +1338,11 @@ export type UpdateProposalMutation = {
         actionType: string;
         groupDescription?: string | null;
         groupName?: string | null;
+        groupCoverPhoto?: {
+          __typename?: "Image";
+          id: number;
+          filename: string;
+        } | null;
       };
       user: {
         __typename?: "User";
@@ -1387,6 +1412,11 @@ export type ProposalQuery = {
       actionType: string;
       groupDescription?: string | null;
       groupName?: string | null;
+      groupCoverPhoto?: {
+        __typename?: "Image";
+        id: number;
+        filename: string;
+      } | null;
     };
     user: {
       __typename?: "User";
@@ -1727,6 +1757,11 @@ export type HomePageQuery = {
             actionType: string;
             groupDescription?: string | null;
             groupName?: string | null;
+            groupCoverPhoto?: {
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            } | null;
           };
           user: {
             __typename?: "User";
@@ -1817,6 +1852,11 @@ export type UserProfileQuery = {
             actionType: string;
             groupDescription?: string | null;
             groupName?: string | null;
+            groupCoverPhoto?: {
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            } | null;
           };
           user: {
             __typename?: "User";
@@ -2155,6 +2195,9 @@ export const ProposalCardFragmentDoc = gql`
       actionType
       groupDescription
       groupName
+      groupCoverPhoto {
+        ...AttachedImage
+      }
     }
     user {
       ...UserAvatar
@@ -2167,9 +2210,9 @@ export const ProposalCardFragmentDoc = gql`
     }
     ...ProposalCardFooter
   }
+  ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
-  ${AttachedImageFragmentDoc}
   ${ProposalCardFooterFragmentDoc}
 `;
 export const FeedItemFragmentDoc = gql`

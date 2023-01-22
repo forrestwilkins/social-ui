@@ -27,6 +27,7 @@ import { getProposalActionLabel } from "../../utils/proposal.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
+import AttachedImage from "../Images/AttachedImage";
 import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -65,7 +66,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { t } = useTranslation();
 
   const {
-    action: { actionType, groupDescription, groupName },
+    action: { actionType, groupDescription, groupName, groupCoverPhoto },
     body,
     createdAt,
     group,
@@ -74,6 +75,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     user,
     voteCount,
   } = proposal;
+
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const formattedDate = timeAgo(createdAt);
@@ -197,6 +199,19 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
           <Typography marginBottom={3.5}>
             {t("proposals.labels.newGroupDescription")}: {groupDescription}
           </Typography>
+        )}
+
+        {groupCoverPhoto && (
+          <Box>
+            <Typography gutterBottom fontSize={14}>
+              {t("proposals.labels.proposedGroupCoverPhoto")}:
+            </Typography>
+            <AttachedImage
+              image={groupCoverPhoto}
+              marginBottom="20px"
+              width="55%"
+            />
+          </Box>
         )}
 
         {!!images.length && (

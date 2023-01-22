@@ -9,6 +9,10 @@ fragment ProposalCard on Proposal {
     actionType
     groupDescription
     groupName
+
+    groupCoverPhoto {
+      ...AttachedImage
+    }
   }
 
   user {

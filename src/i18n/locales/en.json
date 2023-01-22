@@ -78,6 +78,7 @@
       "action": "Action",
       "newGroupDescription": "New group description",
       "newGroupName": "New group name",
+      "proposedGroupCoverPhoto": "Proposed group cover photo",
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
       "ratified": "Ratified"

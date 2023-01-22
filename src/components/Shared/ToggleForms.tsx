@@ -6,7 +6,7 @@ import {
   ToggleButton as MuiToggleButton,
   ToggleButtonGroup as MuiToggleButtonGroup,
 } from "@mui/material";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { ToggleFormsFragment } from "../../apollo/gen";
 import PostForm from "../Posts/PostForm";
 import ProposalForm from "../Proposals/ProposalForm";
@@ -55,7 +55,8 @@ const ToggleForms = ({ groupId, me }: Props) => {
   const { joinedGroups } = me;
   const hasGroups = !!joinedGroups.length;
 
-  const handleChange = () => setShowProposalForm(!showProposalForm);
+  const handleChange = (_: MouseEvent<HTMLElement>, value: boolean) =>
+    setShowProposalForm(value);
 
   const renderForm = () => {
     if (showProposalForm) {

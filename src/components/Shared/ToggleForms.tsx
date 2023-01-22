@@ -50,7 +50,6 @@ interface Props {
 
 const ToggleForms = ({ groupId, me }: Props) => {
   const [showProposalForm, setShowProposalForm] = useState(false);
-  const [body, setBody] = useState("");
 
   const { joinedGroups } = me;
   const hasGroups = !!joinedGroups.length;
@@ -60,17 +59,9 @@ const ToggleForms = ({ groupId, me }: Props) => {
 
   const renderForm = () => {
     if (showProposalForm) {
-      return (
-        <ProposalForm
-          groupId={groupId}
-          defaultBody={body}
-          setDefaultBody={setBody}
-        />
-      );
+      return <ProposalForm groupId={groupId} />;
     }
-    return (
-      <PostForm groupId={groupId} defaultBody={body} setDefaultBody={setBody} />
-    );
+    return <PostForm groupId={groupId} />;
   };
 
   return (

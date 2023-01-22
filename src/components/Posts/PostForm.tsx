@@ -1,7 +1,7 @@
 import { Divider, FormGroup } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
@@ -27,19 +27,11 @@ import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
-  defaultBody?: string;
-  setDefaultBody?: Dispatch<SetStateAction<string>>;
   editPost?: PostFormFragment;
   groupId?: number;
 }
 
-const PostForm = ({
-  defaultBody,
-  setDefaultBody,
-  editPost,
-  groupId,
-  ...formProps
-}: Props) => {
+const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
 
@@ -50,7 +42,7 @@ const PostForm = ({
   const { t } = useTranslation();
 
   const initialValues: CreatePostInput = {
-    body: editPost?.body || defaultBody || "",
+    body: editPost?.body || "",
     groupId,
   };
 
@@ -95,9 +87,6 @@ const PostForm = ({
         });
       },
       onCompleted() {
-        if (setDefaultBody) {
-          setDefaultBody("");
-        }
         resetForm();
         setImages([]);
         setImagesInputKey(getRandomString());
@@ -170,14 +159,9 @@ const PostForm = ({
         <Form>
           <FormGroup>
             <TextFieldWithAvatar
-              onChange={(e) => {
-                if (setDefaultBody) {
-                  setDefaultBody(e.target.value);
-                }
-                handleChange(e);
-              }}
               autoComplete="off"
               name={FieldNames.Body}
+              onChange={handleChange}
               placeholder={t("prompts.whatsHappening")}
               value={values.body}
               multiline

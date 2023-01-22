@@ -46,13 +46,7 @@ interface Props extends FormikFormProps {
   groupId?: number;
 }
 
-const ProposalForm = ({
-  defaultBody,
-  setDefaultBody,
-  editProposal,
-  groupId,
-  ...formProps
-}: Props) => {
+const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [groupCoverPhoto, setGroupCoverPhoto] = useState<File>();
@@ -72,7 +66,7 @@ const ProposalForm = ({
     groupName: editProposal?.action.groupName || "",
   };
   const initialValues: CreateProposalInput = {
-    body: editProposal?.body || defaultBody || "",
+    body: editProposal?.body || "",
     action,
     groupId,
   };
@@ -126,9 +120,6 @@ const ProposalForm = ({
         });
       },
       onCompleted() {
-        if (setDefaultBody) {
-          setDefaultBody("");
-        }
         resetForm();
         setImages([]);
         setImagesInputKey(getRandomString());
@@ -189,14 +180,9 @@ const ProposalForm = ({
         <Form onClick={() => setClicked(true)}>
           <FormGroup>
             <TextFieldWithAvatar
-              onChange={(e) => {
-                if (setDefaultBody) {
-                  setDefaultBody(e.target.value);
-                }
-                handleChange(e);
-              }}
               autoComplete="off"
               name={FieldNames.Body}
+              onChange={handleChange}
               placeholder={t("proposals.prompts.createProposal")}
               value={values.body}
               multiline
@@ -296,9 +282,7 @@ const ProposalForm = ({
             />
           </FormGroup>
 
-          {!clicked && !defaultBody && !editProposal && (
-            <Divider sx={{ marginBottom: 1.3 }} />
-          )}
+          {!clicked && !editProposal && <Divider sx={{ marginBottom: 1.3 }} />}
 
           <Flex sx={{ justifyContent: "space-between" }}>
             <ImageInput

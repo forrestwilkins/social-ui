@@ -1249,6 +1249,11 @@ export type ProposalFormFragment = {
     actionType: string;
     groupDescription?: string | null;
     groupName?: string | null;
+    groupCoverPhoto?: {
+      __typename?: "Image";
+      id: number;
+      filename: string;
+    } | null;
   };
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
 };
@@ -1388,6 +1393,11 @@ export type EditProposalQuery = {
       actionType: string;
       groupDescription?: string | null;
       groupName?: string | null;
+      groupCoverPhoto?: {
+        __typename?: "Image";
+        id: number;
+        filename: string;
+      } | null;
     };
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   };
@@ -2246,6 +2256,9 @@ export const ProposalFormFragmentDoc = gql`
       actionType
       groupDescription
       groupName
+      groupCoverPhoto {
+        ...AttachedImage
+      }
     }
     images {
       ...AttachedImage

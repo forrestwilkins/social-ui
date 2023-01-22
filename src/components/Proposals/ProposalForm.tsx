@@ -86,8 +86,8 @@ const ProposalForm = ({
     await createProposal({
       variables: {
         proposalData: {
-          ...formValues,
           action: { ...action, groupCoverPhoto },
+          ...formValues,
           images,
         },
       },
@@ -138,12 +138,17 @@ const ProposalForm = ({
     });
 
   const handleUpdate = async (
-    formValues: Omit<UpdateProposalInput, "id">,
+    { action, ...formValues }: Omit<UpdateProposalInput, "id">,
     editProposal: ProposalFormFragment
   ) =>
     await updateProposal({
       variables: {
-        proposalData: { id: editProposal.id, ...formValues, images },
+        proposalData: {
+          id: editProposal.id,
+          action: { ...action, groupCoverPhoto },
+          ...formValues,
+          images,
+        },
       },
       onCompleted() {
         redirectTo(NavigationPaths.Home);
@@ -256,6 +261,11 @@ const ProposalForm = ({
                   ProposalActionTypes.ChangeCoverPhoto && (
                   <Box marginTop={1.5}>
                     <AttachedImagePreview
+                      savedImages={
+                        editProposal?.action.groupCoverPhoto && !groupCoverPhoto
+                          ? [editProposal.action.groupCoverPhoto]
+                          : []
+                      }
                       selectedImages={groupCoverPhoto ? [groupCoverPhoto] : []}
                       imageContainerStyles={{ marginBottom: 1 }}
                       sx={{ marginTop: 1 }}
@@ -298,7 +308,9 @@ const ProposalForm = ({
             />
 
             <PrimaryActionButton
-              disabled={isSubmitting || (!dirty && !images.length)}
+              disabled={
+                isSubmitting || (!dirty && !images.length && !groupCoverPhoto)
+              }
               sx={{ marginTop: 1.5 }}
               type="submit"
             >

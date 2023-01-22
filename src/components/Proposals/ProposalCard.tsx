@@ -20,6 +20,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
+import { ProposalActionTypes } from "../../constants/proposal.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { getProposalActionLabel } from "../../utils/proposal.utils";
@@ -192,24 +193,28 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
         <Link href={proposalPath}>
-          {groupName && (
+          {actionType === ProposalActionTypes.ChangeName && (
             <Typography marginBottom={3.5}>
               {t("proposals.labels.newGroupName")}: {groupName}
             </Typography>
           )}
-          {groupDescription && (
+
+          {actionType === ProposalActionTypes.ChangeDescription && (
             <Typography marginBottom={3.5}>
               {t("proposals.labels.newGroupDescription")}: {groupDescription}
             </Typography>
           )}
-          {groupCoverPhoto && (
-            <Box marginBottom="20px">
-              <Typography gutterBottom fontSize={14}>
-                {t("proposals.labels.proposedGroupCoverPhoto")}:
-              </Typography>
-              <AttachedImage image={groupCoverPhoto} width="55%" />
-            </Box>
-          )}
+
+          {actionType === ProposalActionTypes.ChangeCoverPhoto &&
+            groupCoverPhoto && (
+              <Box marginBottom="20px">
+                <Typography gutterBottom fontSize={14}>
+                  {t("proposals.labels.proposedGroupCoverPhoto")}:
+                </Typography>
+                <AttachedImage image={groupCoverPhoto} width="55%" />
+              </Box>
+            )}
+
           {!!images.length && (
             <AttachedImageList images={images} sx={imageListStyles} />
           )}

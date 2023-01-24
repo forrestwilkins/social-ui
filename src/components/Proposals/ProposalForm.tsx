@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
@@ -40,8 +40,6 @@ import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
-  defaultBody?: string;
-  setDefaultBody?: Dispatch<SetStateAction<string>>;
   editProposal?: ProposalFormFragment;
   groupId?: number;
 }

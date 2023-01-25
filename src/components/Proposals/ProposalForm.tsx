@@ -1,3 +1,5 @@
+// TODO: Use Formik for image input
+
 import { CropOriginal } from "@mui/icons-material";
 import {
   Box,
@@ -39,6 +41,13 @@ import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
+type ProposalFormErrors = {
+  action: {
+    [T in keyof ProposalActionInput]?: string;
+  };
+  groupId?: string;
+};
+
 interface Props extends FormikFormProps {
   editProposal?: ProposalFormFragment;
   groupId?: number;
@@ -70,6 +79,41 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   };
 
   const actionTypeOptions = getProposalActionTypeOptions(t);
+
+  const validateProposal = ({ action, groupId }: CreateProposalInput) => {
+    const errors: ProposalFormErrors = {
+      action: {},
+    };
+    if (
+      action.actionType === ProposalActionTypes.ChangeName &&
+      !action.groupName
+    ) {
+      errors.action.groupName = t("proposals.errors.missingGroupName");
+    }
+    if (
+      action.actionType === ProposalActionTypes.ChangeDescription &&
+      !action.groupDescription
+    ) {
+      errors.action.groupDescription = t(
+        "proposals.errors.missingGroupDescription"
+      );
+    }
+    if (
+      action.actionType === ProposalActionTypes.ChangeCoverPhoto &&
+      !groupCoverPhoto
+    ) {
+      errors.action.groupCoverPhoto = t(
+        "proposals.errors.missingGroupCoverPhoto"
+      );
+    }
+    if (!groupId) {
+      errors.groupId = t("proposals.errors.missingGroupId");
+    }
+    if (!Object.keys(errors.action).length && !errors.groupId) {
+      return {};
+    }
+    return errors;
+  };
 
   const handleCreate = async (
     { action, ...formValues }: CreateProposalInput,
@@ -171,12 +215,21 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
   return (
     <Formik
-      enableReinitialize
       initialValues={initialValues}
       onSubmit={handleSubmit}
+      validate={validateProposal}
+      enableReinitialize
       {...formProps}
     >
-      {({ isSubmitting, dirty, values, handleChange }) => (
+      {({
+        dirty,
+        errors,
+        handleChange,
+        isSubmitting,
+        submitCount,
+        touched,
+        values,
+      }) => (
         <Form onClick={() => setClicked(true)}>
           <FormGroup>
             <TextFieldWithAvatar
@@ -209,6 +262,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   <FormControl
                     variant="standard"
                     sx={{ marginBottom: values.action.actionType ? 1 : 0.25 }}
+                    error={!!(errors.groupId && touched.groupId)}
                   >
                     <InputLabel>{t("groups.labels.group")}</InputLabel>
                     <Select
@@ -222,6 +276,16 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                         </MenuItem>
                       ))}
                     </Select>
+                    {!!(errors.groupId && submitCount) && (
+                      <Typography
+                        color="error"
+                        fontSize="small"
+                        marginTop={0.5}
+                        gutterBottom
+                      >
+                        {t("proposals.errors.missingGroupId")}
+                      </Typography>
+                    )}
                   </FormControl>
                 )}
 
@@ -231,6 +295,9 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     autoComplete="off"
                     label={t("proposals.labels.newGroupName")}
                     name={ProposalActionFields.GroupName}
+                    error={
+                      !!(errors.action?.groupName && touched.action?.groupName)
+                    }
                   />
                 )}
 
@@ -240,6 +307,12 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     autoComplete="off"
                     label={t("proposals.labels.newGroupDescription")}
                     name={ProposalActionFields.GroupDescription}
+                    error={
+                      !!(
+                        errors.action?.groupDescription &&
+                        touched.action?.groupDescription
+                      )
+                    }
                   />
                 )}
 
@@ -271,6 +344,16 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                         {t("proposals.actions.attachNewCoverPhoto")}
                       </Typography>
                     </ImageInput>
+
+                    {!!(errors.action?.groupCoverPhoto && submitCount) && (
+                      <Typography
+                        color="error"
+                        fontSize="small"
+                        marginLeft={0.25}
+                      >
+                        {t("proposals.errors.missingGroupCoverPhoto")}
+                      </Typography>
+                    )}
                   </Box>
                 )}
               </>

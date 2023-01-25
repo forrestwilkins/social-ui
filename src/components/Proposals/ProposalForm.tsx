@@ -84,6 +84,9 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     const errors: ProposalFormErrors = {
       action: {},
     };
+    if (!action.actionType) {
+      errors.action.actionType = t("proposals.errors.missingActionType");
+    }
     if (
       action.actionType === ProposalActionTypes.ChangeName &&
       !action.groupName
@@ -243,7 +246,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
             {!!(clicked || values.body?.length) && (
               <>
-                <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+                <FormControl
+                  variant="standard"
+                  sx={{ marginBottom: 1 }}
+                  error={
+                    !!(errors.action?.actionType && touched.action?.actionType)
+                  }
+                >
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
                     name={ProposalActionFields.ActionType}
@@ -256,6 +265,11 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                       </MenuItem>
                     ))}
                   </Select>
+                  {!!(errors.action?.actionType && submitCount) && (
+                    <Typography color="error" fontSize="small" marginTop={0.5}>
+                      {t("proposals.errors.missingActionType")}
+                    </Typography>
+                  )}
                 </FormControl>
 
                 {joinedGroups && !editProposal && (

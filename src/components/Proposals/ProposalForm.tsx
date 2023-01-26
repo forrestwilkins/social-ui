@@ -107,13 +107,14 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     }
     if (
       action.actionType === ProposalActionTypes.ChangeCoverPhoto &&
+      !editProposal?.action.groupCoverPhoto &&
       !groupCoverPhoto
     ) {
       errors.action.groupCoverPhoto = t(
         "proposals.errors.missingGroupCoverPhoto"
       );
     }
-    if (!groupId) {
+    if (!groupId && !editProposal) {
       errors.groupId = t("proposals.errors.missingGroupId");
     }
     if (!Object.keys(errors.action).length && !errors.groupId) {

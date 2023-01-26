@@ -250,7 +250,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   variant="standard"
                   sx={{ marginBottom: 1 }}
                   error={
-                    !!(errors.action?.actionType && touched.action?.actionType)
+                    !!errors.action?.actionType && touched.action?.actionType
                   }
                 >
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
@@ -310,7 +310,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     label={t("proposals.labels.newGroupName")}
                     name={ProposalActionFields.GroupName}
                     error={
-                      !!(errors.action?.groupName && touched.action?.groupName)
+                      !!errors.action?.groupName && touched.action?.groupName
                     }
                   />
                 )}
@@ -322,10 +322,8 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     label={t("proposals.labels.newGroupDescription")}
                     name={ProposalActionFields.GroupDescription}
                     error={
-                      !!(
-                        errors.action?.groupDescription &&
-                        touched.action?.groupDescription
-                      )
+                      !!errors.action?.groupDescription &&
+                      touched.action?.groupDescription
                     }
                   />
                 )}

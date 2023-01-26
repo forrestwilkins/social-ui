@@ -347,7 +347,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                       setImage={setGroupCoverPhoto}
                     >
                       <Typography
-                        color="primary"
+                        color={
+                          errors.action?.groupCoverPhoto &&
+                          !groupCoverPhoto &&
+                          submitCount
+                            ? "error"
+                            : "primary"
+                        }
                         sx={{ display: "flex", fontSize: 14 }}
                       >
                         <CropOriginal

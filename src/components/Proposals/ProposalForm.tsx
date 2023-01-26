@@ -359,7 +359,11 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                       </Typography>
                     </ImageInput>
 
-                    {!!(errors.action?.groupCoverPhoto && submitCount) && (
+                    {!!(
+                      errors.action?.groupCoverPhoto &&
+                      !groupCoverPhoto &&
+                      submitCount
+                    ) && (
                       <Typography
                         color="error"
                         fontSize="small"

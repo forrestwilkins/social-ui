@@ -11,7 +11,13 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
+import {
+  Form,
+  Formik,
+  FormikErrors,
+  FormikFormProps,
+  FormikHelpers,
+} from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,9 +48,7 @@ import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 type ProposalFormErrors = {
-  action: {
-    [T in keyof ProposalActionInput]?: string;
-  };
+  action: FormikErrors<ProposalActionInput>;
   groupId?: string;
 };
 

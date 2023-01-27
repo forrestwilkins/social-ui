@@ -164,7 +164,7 @@ input PermissionInput {
 }
 
 type Post {
-  body: String!
+  body: String
   createdAt: DateTime!
   group: Group
   id: Int!
@@ -175,7 +175,7 @@ type Post {
 
 type Proposal {
   action: ProposalAction!
-  body: String!
+  body: String
   createdAt: DateTime!
   group: Group
   id: Int!

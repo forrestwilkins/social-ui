@@ -308,7 +308,7 @@ export type PermissionInput = {
 
 export type Post = {
   __typename?: "Post";
-  body: Scalars["String"];
+  body?: Maybe<Scalars["String"]>;
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
@@ -320,7 +320,7 @@ export type Post = {
 export type Proposal = {
   __typename?: "Proposal";
   action: ProposalAction;
-  body: Scalars["String"];
+  body?: Maybe<Scalars["String"]>;
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
@@ -828,7 +828,7 @@ export type GroupProfileQuery = {
       | {
           __typename?: "Post";
           id: number;
-          body: string;
+          body?: string | null;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
@@ -847,7 +847,7 @@ export type GroupProfileQuery = {
       | {
           __typename?: "Proposal";
           id: number;
-          body: string;
+          body?: string | null;
           voteCount: number;
           createdAt: any;
           stage: string;
@@ -973,7 +973,7 @@ export type DeleteImageMutation = {
 type FeedItem_Post_Fragment = {
   __typename?: "Post";
   id: number;
-  body: string;
+  body?: string | null;
   createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
@@ -993,7 +993,7 @@ type FeedItem_Post_Fragment = {
 type FeedItem_Proposal_Fragment = {
   __typename?: "Proposal";
   id: number;
-  body: string;
+  body?: string | null;
   voteCount: number;
   createdAt: any;
   stage: string;
@@ -1042,7 +1042,7 @@ export type FeedItemFragment =
 export type PostCardFragment = {
   __typename?: "Post";
   id: number;
-  body: string;
+  body?: string | null;
   createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
@@ -1062,7 +1062,7 @@ export type PostCardFragment = {
 export type PostFormFragment = {
   __typename?: "Post";
   id: number;
-  body: string;
+  body?: string | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
 };
 
@@ -1077,7 +1077,7 @@ export type CreatePostMutation = {
     post: {
       __typename?: "Post";
       id: number;
-      body: string;
+      body?: string | null;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
@@ -1116,7 +1116,7 @@ export type UpdatePostMutation = {
     post: {
       __typename?: "Post";
       id: number;
-      body: string;
+      body?: string | null;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
@@ -1144,7 +1144,7 @@ export type EditPostQuery = {
   post: {
     __typename?: "Post";
     id: number;
-    body: string;
+    body?: string | null;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   };
 };
@@ -1158,7 +1158,7 @@ export type PostQuery = {
   post: {
     __typename?: "Post";
     id: number;
-    body: string;
+    body?: string | null;
     createdAt: any;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
@@ -1179,7 +1179,7 @@ export type PostQuery = {
 export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
-  body: string;
+  body?: string | null;
   voteCount: number;
   createdAt: any;
   stage: string;
@@ -1242,7 +1242,7 @@ export type ProposalCardFooterFragment = {
 export type ProposalFormFragment = {
   __typename?: "Proposal";
   id: number;
-  body: string;
+  body?: string | null;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1269,7 +1269,7 @@ export type CreateProposalMutation = {
     proposal: {
       __typename?: "Proposal";
       id: number;
-      body: string;
+      body?: string | null;
       voteCount: number;
       createdAt: any;
       stage: string;
@@ -1333,7 +1333,7 @@ export type UpdateProposalMutation = {
     proposal: {
       __typename?: "Proposal";
       id: number;
-      body: string;
+      body?: string | null;
       voteCount: number;
       createdAt: any;
       stage: string;
@@ -1386,7 +1386,7 @@ export type EditProposalQuery = {
   proposal: {
     __typename?: "Proposal";
     id: number;
-    body: string;
+    body?: string | null;
     action: {
       __typename?: "ProposalAction";
       id: number;
@@ -1412,7 +1412,7 @@ export type ProposalQuery = {
   proposal: {
     __typename?: "Proposal";
     id: number;
-    body: string;
+    body?: string | null;
     voteCount: number;
     createdAt: any;
     stage: string;
@@ -1706,7 +1706,7 @@ export type EditUserQuery = {
     posts: Array<{
       __typename?: "Post";
       id: number;
-      body: string;
+      body?: string | null;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
@@ -1738,7 +1738,7 @@ export type HomePageQuery = {
       | {
           __typename?: "Post";
           id: number;
-          body: string;
+          body?: string | null;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
@@ -1757,7 +1757,7 @@ export type HomePageQuery = {
       | {
           __typename?: "Proposal";
           id: number;
-          body: string;
+          body?: string | null;
           voteCount: number;
           createdAt: any;
           stage: string;
@@ -1833,7 +1833,7 @@ export type UserProfileQuery = {
       | {
           __typename?: "Post";
           id: number;
-          body: string;
+          body?: string | null;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
@@ -1852,7 +1852,7 @@ export type UserProfileQuery = {
       | {
           __typename?: "Proposal";
           id: number;
-          body: string;
+          body?: string | null;
           voteCount: number;
           createdAt: any;
           stage: string;

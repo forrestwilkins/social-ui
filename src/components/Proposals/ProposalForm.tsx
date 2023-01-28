@@ -1,8 +1,6 @@
 // TODO: Use Formik for image input
 
-import { CropOriginal } from "@mui/icons-material";
 import {
-  Box,
   Divider,
   FormControl,
   FormGroup,
@@ -35,7 +33,7 @@ import {
 } from "../../apollo/gen";
 import { FieldNames, NavigationPaths } from "../../constants/common.constants";
 import {
-  ProposalActionFields,
+  ProposalActionFieldNames,
   ProposalActionTypes,
 } from "../../constants/proposal.constants";
 import { getRandomString, redirectTo } from "../../utils/common.utils";
@@ -44,8 +42,8 @@ import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import { TextField } from "../Shared/TextField";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
+import ProposalActionFields from "./ProposalActionFields";
 
 type ProposalFormErrors = {
   action: FormikErrors<ProposalActionInput>;
@@ -260,7 +258,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                 >
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
-                    name={ProposalActionFields.ActionType}
+                    name={ProposalActionFieldNames.ActionType}
                     onChange={handleChange}
                     value={values.action.actionType}
                   >
@@ -308,81 +306,15 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   </FormControl>
                 )}
 
-                {values.action.actionType ===
-                  ProposalActionTypes.ChangeName && (
-                  <TextField
-                    autoComplete="off"
-                    label={t("proposals.labels.newGroupName")}
-                    name={ProposalActionFields.GroupName}
-                    error={
-                      !!errors.action?.groupName && touched.action?.groupName
-                    }
-                  />
-                )}
-
-                {values.action.actionType ===
-                  ProposalActionTypes.ChangeDescription && (
-                  <TextField
-                    autoComplete="off"
-                    label={t("proposals.labels.newGroupDescription")}
-                    name={ProposalActionFields.GroupDescription}
-                    error={
-                      !!errors.action?.groupDescription &&
-                      touched.action?.groupDescription
-                    }
-                  />
-                )}
-
-                {values.action.actionType ===
-                  ProposalActionTypes.ChangeCoverPhoto && (
-                  <Box marginTop={1.5}>
-                    <AttachedImagePreview
-                      savedImages={
-                        editProposal?.action.groupCoverPhoto && !groupCoverPhoto
-                          ? [editProposal.action.groupCoverPhoto]
-                          : []
-                      }
-                      selectedImages={groupCoverPhoto ? [groupCoverPhoto] : []}
-                      imageContainerStyles={{ marginBottom: 1 }}
-                      sx={{ marginTop: 1 }}
-                    />
-
-                    <ImageInput
-                      sx={{ cursor: "pointer", marginTop: 0 }}
-                      setImage={setGroupCoverPhoto}
-                    >
-                      <Typography
-                        color={
-                          errors.action?.groupCoverPhoto &&
-                          !groupCoverPhoto &&
-                          submitCount
-                            ? "error"
-                            : "primary"
-                        }
-                        sx={{ display: "flex", fontSize: 14 }}
-                      >
-                        <CropOriginal
-                          sx={{ marginRight: "0.25ch", fontSize: 20 }}
-                        />
-                        {t("proposals.actions.attachNewCoverPhoto")}
-                      </Typography>
-                    </ImageInput>
-
-                    {!!(
-                      errors.action?.groupCoverPhoto &&
-                      !groupCoverPhoto &&
-                      submitCount
-                    ) && (
-                      <Typography
-                        color="error"
-                        fontSize="small"
-                        marginLeft={0.25}
-                      >
-                        {t("proposals.errors.missingGroupCoverPhoto")}
-                      </Typography>
-                    )}
-                  </Box>
-                )}
+                <ProposalActionFields
+                  editProposal={editProposal}
+                  errors={errors}
+                  groupCoverPhoto={groupCoverPhoto}
+                  setGroupCoverPhoto={setGroupCoverPhoto}
+                  submitCount={submitCount}
+                  touched={touched}
+                  values={values}
+                />
               </>
             )}
 

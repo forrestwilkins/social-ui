@@ -16,7 +16,7 @@ export enum ProposalStages {
   Voting = "voting",
 }
 
-export enum ProposalActionFields {
+export enum ProposalActionFieldNames {
   ActionType = "action.actionType",
   GroupDescription = "action.groupDescription",
   GroupName = "action.groupName",

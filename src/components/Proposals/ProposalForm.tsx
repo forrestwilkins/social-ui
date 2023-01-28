@@ -247,7 +247,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
               multiline
             />
 
-            {!!(clicked || values.body?.length) && (
+            {!!(clicked || editProposal || values.body?.length) && (
               <>
                 <FormControl
                   variant="standard"

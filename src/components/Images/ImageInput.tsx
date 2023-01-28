@@ -1,4 +1,5 @@
 // TODO: Research alternatives or libraries for image inputs
+// TODO: Remove unneeded refreshKey prop - use key prop instead
 
 import { Image } from "@mui/icons-material";
 import { Box, BoxProps, IconButton } from "@mui/material";

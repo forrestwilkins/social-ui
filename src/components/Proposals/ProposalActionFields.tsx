@@ -30,18 +30,19 @@ const ProposalActionFields = ({
   submitCount,
   touched,
   values,
-}: Props) => (
-  <>
-    {values.action.actionType === ProposalActionTypes.ChangeName && (
+}: Props) => {
+  if (values.action.actionType === ProposalActionTypes.ChangeName) {
+    return (
       <TextField
         autoComplete="off"
         label={t("proposals.labels.newGroupName")}
         name={ProposalActionFieldNames.GroupName}
         error={!!errors.action?.groupName && touched.action?.groupName}
       />
-    )}
-
-    {values.action.actionType === ProposalActionTypes.ChangeDescription && (
+    );
+  }
+  if (values.action.actionType === ProposalActionTypes.ChangeDescription) {
+    return (
       <TextField
         autoComplete="off"
         label={t("proposals.labels.newGroupDescription")}
@@ -50,9 +51,10 @@ const ProposalActionFields = ({
           !!errors.action?.groupDescription && touched.action?.groupDescription
         }
       />
-    )}
-
-    {values.action.actionType === ProposalActionTypes.ChangeCoverPhoto && (
+    );
+  }
+  if (values.action.actionType === ProposalActionTypes.ChangeCoverPhoto) {
+    return (
       <Box marginTop={1.5}>
         <AttachedImagePreview
           savedImages={
@@ -92,8 +94,9 @@ const ProposalActionFields = ({
           </Typography>
         )}
       </Box>
-    )}
-  </>
-);
+    );
+  }
+  return null;
+};
 
 export default ProposalActionFields;

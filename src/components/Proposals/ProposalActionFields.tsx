@@ -31,38 +31,47 @@ const ProposalActionFields = ({
   values,
 }: Props) => {
   if (values.action.actionType === ProposalActionTypes.ChangeName) {
+    const isInvalid = !!errors.action?.groupName && touched.action?.groupName;
     return (
       <TextField
         autoComplete="off"
+        error={isInvalid}
         label={t("proposals.labels.newGroupName")}
         name={ProposalActionFieldNames.GroupName}
-        error={!!errors.action?.groupName && touched.action?.groupName}
       />
     );
   }
+
   if (values.action.actionType === ProposalActionTypes.ChangeDescription) {
+    const isInvalid =
+      !!errors.action?.groupDescription && touched.action?.groupDescription;
     return (
       <TextField
         autoComplete="off"
+        error={isInvalid}
         label={t("proposals.labels.newGroupDescription")}
         name={ProposalActionFieldNames.GroupDescription}
-        error={
-          !!errors.action?.groupDescription && touched.action?.groupDescription
-        }
       />
     );
   }
+
   if (values.action.actionType === ProposalActionTypes.ChangeCoverPhoto) {
+    const isInvalid = !!(
+      errors.action?.groupCoverPhoto &&
+      !groupCoverPhoto &&
+      submitCount
+    );
+    const savedImage =
+      editProposal?.action.groupCoverPhoto && !groupCoverPhoto
+        ? [editProposal.action.groupCoverPhoto]
+        : [];
+
     return (
       <Box marginTop={1.5}>
         <AttachedImagePreview
-          savedImages={
-            editProposal?.action.groupCoverPhoto && !groupCoverPhoto
-              ? [editProposal.action.groupCoverPhoto]
-              : []
-          }
-          selectedImages={groupCoverPhoto ? [groupCoverPhoto] : []}
           imageContainerStyles={{ marginBottom: 1 }}
+          savedImages={savedImage}
+          selectedImages={groupCoverPhoto ? [groupCoverPhoto] : []}
           sx={{ marginTop: 1 }}
         />
 
@@ -71,11 +80,7 @@ const ProposalActionFields = ({
           setImage={setGroupCoverPhoto}
         >
           <Typography
-            color={
-              errors.action?.groupCoverPhoto && !groupCoverPhoto && submitCount
-                ? "error"
-                : "primary"
-            }
+            color={isInvalid ? "error" : "primary"}
             sx={{ display: "flex", fontSize: 14 }}
           >
             <CropOriginal sx={{ marginRight: "0.25ch", fontSize: 20 }} />
@@ -83,11 +88,7 @@ const ProposalActionFields = ({
           </Typography>
         </ImageInput>
 
-        {!!(
-          errors.action?.groupCoverPhoto &&
-          !groupCoverPhoto &&
-          submitCount
-        ) && (
+        {isInvalid && (
           <Typography color="error" fontSize="small" marginLeft={0.25}>
             {t("proposals.errors.missingGroupCoverPhoto")}
           </Typography>
@@ -95,6 +96,7 @@ const ProposalActionFields = ({
       </Box>
     );
   }
+
   return null;
 };
 

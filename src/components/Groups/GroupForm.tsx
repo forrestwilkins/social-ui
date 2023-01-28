@@ -122,7 +122,10 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         await handleUpdate(formValues, editGroup);
         return;
       }
-      await handleCreate(formValues, formikHelpers);
+      await handleCreate(
+        formValues as CreateGroupInput,
+        formikHelpers as FormikHelpers<CreateGroupInput>
+      );
     } catch (err) {
       toastVar({
         status: "error",
@@ -131,7 +134,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     }
   };
 
-  const removeSelectedImageHandler = () => {
+  const handleRemoveSelectedImage = () => {
     setCoverPhoto(undefined);
     setImageInputKey(getRandomString());
   };
@@ -142,7 +145,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     }
     return (
       <AttachedImagePreview
-        removeSelectedImage={removeSelectedImageHandler}
+        handleRemove={handleRemoveSelectedImage}
         selectedImages={coverPhoto ? [coverPhoto] : []}
       />
     );

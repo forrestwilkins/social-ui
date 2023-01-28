@@ -1,5 +1,3 @@
-// TODO: Use Formik for image input
-
 import {
   Divider,
   FormControl,
@@ -28,15 +26,20 @@ import {
   ProposalFormFragment,
   UpdateProposalInput,
   useCreateProposalMutation,
+  useDeleteImageMutation,
   useMeQuery,
   useUpdateProposalMutation,
 } from "../../apollo/gen";
-import { FieldNames, NavigationPaths } from "../../constants/common.constants";
+import {
+  FieldNames,
+  NavigationPaths,
+  TypeNames,
+} from "../../constants/common.constants";
 import {
   ProposalActionFieldNames,
   ProposalActionTypes,
 } from "../../constants/proposal.constants";
-import { getRandomString, redirectTo } from "../../utils/common.utils";
+import { redirectTo } from "../../utils/common.utils";
 import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
@@ -57,16 +60,13 @@ interface Props extends FormikFormProps {
 
 const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
-  const [images, setImages] = useState<File[]>([]);
-  const [imagesInputKey, setImagesInputKey] = useState("");
+  const { data } = useMeQuery();
 
   const [createProposal] = useCreateProposalMutation();
   const [updateProposal] = useUpdateProposalMutation();
-  const { data } = useMeQuery();
+  const [deleteImage] = useDeleteImageMutation();
 
   const { t } = useTranslation();
-
-  const joinedGroups = data?.me.joinedGroups;
 
   const action: ProposalActionInput = {
     actionType: editProposal?.action.actionType || "",
@@ -78,8 +78,8 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     action,
     groupId,
   };
-
   const actionTypeOptions = getProposalActionTypeOptions(t);
+  const joinedGroups = data?.me.joinedGroups;
 
   const validateProposal = ({ action, groupId }: CreateProposalInput) => {
     const errors: ProposalFormErrors = {
@@ -126,10 +126,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   ) =>
     await createProposal({
       variables: {
-        proposalData: {
-          ...formValues,
-          images,
-        },
+        proposalData: formValues,
       },
       update(cache, { data }) {
         if (!data) {
@@ -168,8 +165,6 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       onCompleted() {
         resetForm();
         setClicked(false);
-        setImages([]);
-        setImagesInputKey(getRandomString());
         setSubmitting(false);
       },
     });
@@ -177,19 +172,17 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const handleUpdate = async (
     formValues: Omit<UpdateProposalInput, "id">,
     editProposal: ProposalFormFragment
-  ) =>
+  ) => {
+    await redirectTo(NavigationPaths.Home);
     await updateProposal({
       variables: {
         proposalData: {
           id: editProposal.id,
           ...formValues,
-          images,
         },
       },
-      onCompleted() {
-        redirectTo(NavigationPaths.Home);
-      },
     });
+  };
 
   const handleSubmit = async (
     formValues: CreateProposalInput | UpdateProposalInput,
@@ -210,10 +203,39 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     }
   };
 
-  const removeSelectedImage = (imageName: string) => {
-    setImages(images.filter((image) => image.name !== imageName));
-    setImagesInputKey(getRandomString());
+  const handleDeleteSavedImage = async (id: number) => {
+    if (!editProposal) {
+      return;
+    }
+    await deleteImage({
+      variables: { id },
+      update(cache) {
+        const cacheId = cache.identify({ id, __typename: TypeNames.Image });
+        cache.evict({ id: cacheId });
+        cache.gc();
+      },
+    });
   };
+
+  const handleImageInputChange =
+    (setFieldValue: (field: string, value: File[]) => void) =>
+    (images: File[]) =>
+      setFieldValue(FieldNames.Images, images);
+
+  const handleRemoveImage =
+    (
+      setFieldValue: (field: string, value: File[]) => void,
+      images: CreateProposalInput["images"]
+    ) =>
+    (imageName: string) => {
+      if (!images) {
+        return;
+      }
+      setFieldValue(
+        FieldNames.Images,
+        images.filter((image) => image.name !== imageName)
+      );
+    };
 
   return (
     <Formik
@@ -315,8 +337,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
             )}
 
             <AttachedImagePreview
-              removeSelectedImage={removeSelectedImage}
-              selectedImages={images}
+              handleDelete={handleDeleteSavedImage}
+              savedImages={editProposal?.images || []}
+              selectedImages={values.images || []}
+              handleRemove={handleRemoveImage(
+                setFieldValue,
+                values.images || []
+              )}
             />
           </FormGroup>
 
@@ -324,13 +351,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
           <Flex sx={{ justifyContent: "space-between" }}>
             <ImageInput
-              refreshKey={imagesInputKey}
-              setImages={setImages}
+              key={values.images?.length}
+              onChange={handleImageInputChange(setFieldValue)}
               multiple
             />
 
             <PrimaryActionButton
-              disabled={isSubmitting || (!dirty && !images.length)}
+              disabled={isSubmitting || !dirty}
               sx={{ marginTop: 1.5 }}
               type="submit"
             >

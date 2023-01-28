@@ -24,18 +24,18 @@ const RemoveButton = ({ onClick }: { onClick(): void }) => {
 };
 
 interface Props {
-  deleteSavedImage?: (id: number) => void;
-  removeSelectedImage?: (imageName: string) => void;
+  handleDelete?: (id: number) => void;
+  handleRemove?: (imageName: string) => void;
+  imageContainerStyles?: SxProps;
   savedImages?: AttachedImageFragment[];
   selectedImages: File[];
-  imageContainerStyles?: SxProps;
   sx?: SxProps;
 }
 
 const AttachedImagePreview = ({
-  deleteSavedImage,
+  handleDelete,
+  handleRemove,
   imageContainerStyles,
-  removeSelectedImage,
   savedImages,
   selectedImages,
   sx,
@@ -61,17 +61,15 @@ const AttachedImagePreview = ({
         savedImages.map(({ id, filename }) => (
           <Box sx={containerStyles} key={id}>
             <img alt={filename} src={getImagePath(id)} width="100%" />
-            {deleteSavedImage && (
-              <RemoveButton onClick={() => deleteSavedImage(id)} />
-            )}
+            {handleDelete && <RemoveButton onClick={() => handleDelete(id)} />}
           </Box>
         ))}
 
       {selectedImages.map((image) => (
         <Box sx={containerStyles} key={image.name}>
           <img alt={image.name} src={URL.createObjectURL(image)} width="100%" />
-          {removeSelectedImage && (
-            <RemoveButton onClick={() => removeSelectedImage(image.name)} />
+          {handleRemove && (
+            <RemoveButton onClick={() => handleRemove(image.name)} />
           )}
         </Box>
       ))}

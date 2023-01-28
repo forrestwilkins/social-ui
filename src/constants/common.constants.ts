@@ -46,6 +46,7 @@ export enum FieldNames {
   Body = "body",
   Description = "description",
   Email = "email",
+  Images = "images",
   Name = "name",
   Password = "password",
   Query = "query",

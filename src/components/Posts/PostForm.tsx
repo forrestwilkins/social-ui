@@ -1,3 +1,5 @@
+// TODO: Utilize Formik for image input
+
 import { Divider, FormGroup } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
@@ -97,7 +99,8 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   const handleUpdate = async (
     formValues: Omit<UpdatePostInput, "id">,
     editPost: PostFormFragment
-  ) =>
+  ) => {
+    await redirectTo(NavigationPaths.Home);
     await updatePost({
       variables: {
         postData: {
@@ -106,10 +109,8 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
           images,
         },
       },
-      onCompleted() {
-        redirectTo(NavigationPaths.Home);
-      },
     });
+  };
 
   const handleSubmit = async (
     formValues: CreatePostInput | UpdatePostInput,
@@ -129,7 +130,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
     }
   };
 
-  const deleteSavedImageHandler = async (id: number) => {
+  const handleDeleteSavedImage = async (id: number) => {
     if (editPost) {
       await deleteImage({
         variables: { id },
@@ -143,7 +144,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
     }
   };
 
-  const removeSelectedImage = (imageName: string) => {
+  const handleRemoveSelectedImage = (imageName: string) => {
     setImages(images.filter((image) => image.name !== imageName));
     setImagesInputKey(getRandomString());
   };
@@ -168,8 +169,8 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
             />
 
             <AttachedImagePreview
-              deleteSavedImage={deleteSavedImageHandler}
-              removeSelectedImage={removeSelectedImage}
+              handleDelete={handleDeleteSavedImage}
+              handleRemove={handleRemoveSelectedImage}
               savedImages={editPost?.images || []}
               selectedImages={images}
             />

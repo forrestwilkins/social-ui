@@ -1,5 +1,5 @@
 import { Button as MuiButton, styled } from "@mui/material";
-import { Blurple } from "../../styles/theme";
+import { Blurple } from "../../theme";
 
 export const BLURPLE_BUTTON_COLORS = {
   backgroundColor: Blurple.Primary,

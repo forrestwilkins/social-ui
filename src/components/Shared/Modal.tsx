@@ -12,7 +12,7 @@ import {
 import { KeyboardEvent, ReactNode } from "react";
 import { KeyCodes } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { Blurple } from "../../styles/theme";
+import { Blurple } from "../../theme";
 
 interface Props {
   actionLabel?: string;

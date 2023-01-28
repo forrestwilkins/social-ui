@@ -2,7 +2,6 @@ import { CropOriginal } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 import { FormikErrors, FormikTouched } from "formik";
 import { t } from "i18next";
-import { Dispatch, SetStateAction } from "react";
 import { CreateProposalInput, ProposalFormFragment } from "../../apollo/gen";
 import {
   ProposalActionFieldNames,
@@ -16,7 +15,7 @@ interface Props {
   editProposal?: ProposalFormFragment;
   errors: FormikErrors<CreateProposalInput>;
   groupCoverPhoto: File | null;
-  setGroupCoverPhoto: Dispatch<SetStateAction<File | null>>;
+  setGroupCoverPhoto(coverPhoto: File | null): void;
   submitCount: number;
   touched: FormikTouched<CreateProposalInput>;
   values: CreateProposalInput;

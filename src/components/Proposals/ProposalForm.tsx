@@ -57,7 +57,6 @@ interface Props extends FormikFormProps {
 
 const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
-  const [groupCoverPhoto, setGroupCoverPhoto] = useState<File | null>(null);
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
 
@@ -106,7 +105,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     if (
       action.actionType === ProposalActionTypes.ChangeCoverPhoto &&
       !editProposal?.action.groupCoverPhoto &&
-      !groupCoverPhoto
+      !action.groupCoverPhoto
     ) {
       errors.action.groupCoverPhoto = t(
         "proposals.errors.missingGroupCoverPhoto"
@@ -122,13 +121,12 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   };
 
   const handleCreate = async (
-    { action, ...formValues }: CreateProposalInput,
+    formValues: CreateProposalInput,
     { resetForm, setSubmitting }: FormikHelpers<CreateProposalInput>
   ) =>
     await createProposal({
       variables: {
         proposalData: {
-          action: { ...action, groupCoverPhoto },
           ...formValues,
           images,
         },
@@ -170,7 +168,6 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       onCompleted() {
         resetForm();
         setClicked(false);
-        setGroupCoverPhoto(null);
         setImages([]);
         setImagesInputKey(getRandomString());
         setSubmitting(false);
@@ -178,14 +175,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     });
 
   const handleUpdate = async (
-    { action, ...formValues }: Omit<UpdateProposalInput, "id">,
+    formValues: Omit<UpdateProposalInput, "id">,
     editProposal: ProposalFormFragment
   ) =>
     await updateProposal({
       variables: {
         proposalData: {
           id: editProposal.id,
-          action: { ...action, groupCoverPhoto },
           ...formValues,
           images,
         },
@@ -233,6 +229,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
         handleChange,
         isSubmitting,
         submitCount,
+        setFieldValue,
         touched,
         values,
       }) => (
@@ -309,8 +306,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                 <ProposalActionFields
                   editProposal={editProposal}
                   errors={errors}
-                  groupCoverPhoto={groupCoverPhoto}
-                  setGroupCoverPhoto={setGroupCoverPhoto}
+                  setFieldValue={setFieldValue}
                   submitCount={submitCount}
                   touched={touched}
                   values={values}
@@ -334,9 +330,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
             />
 
             <PrimaryActionButton
-              disabled={
-                isSubmitting || (!dirty && !groupCoverPhoto && !images.length)
-              }
+              disabled={isSubmitting || (!dirty && !images.length)}
               sx={{ marginTop: 1.5 }}
               type="submit"
             >

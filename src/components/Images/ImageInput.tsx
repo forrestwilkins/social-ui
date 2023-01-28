@@ -5,8 +5,10 @@ import { Box, BoxProps, IconButton } from "@mui/material";
 import { ChangeEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-interface Props extends BoxProps {
+interface Props extends Omit<BoxProps, "onChange"> {
   multiple?: boolean;
+  name?: string;
+  onChange?: (images: File[]) => void;
   refreshKey?: string;
   setImage?: (image: File) => void;
   setImages?: (images: File[]) => void;
@@ -15,6 +17,8 @@ interface Props extends BoxProps {
 const ImageInput = ({
   children,
   multiple,
+  name,
+  onChange,
   refreshKey,
   setImage,
   setImages,
@@ -31,8 +35,14 @@ const ImageInput = ({
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    e.target.files && setImageState(Array.from(e.target.files));
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(target.files || []);
+    setImageState(files);
+
+    if (onChange) {
+      onChange(files);
+    }
+  };
 
   const renderContent = () => {
     if (children) {
@@ -56,6 +66,7 @@ const ImageInput = ({
         aria-label={t("posts.labels.addImages")}
         key={refreshKey}
         multiple={multiple}
+        name={name}
         onChange={handleChange}
         ref={imageInput}
         style={{ display: "none" }}

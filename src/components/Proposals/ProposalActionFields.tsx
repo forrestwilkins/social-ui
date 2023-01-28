@@ -14,8 +14,7 @@ import { TextField } from "../Shared/TextField";
 interface Props {
   editProposal?: ProposalFormFragment;
   errors: FormikErrors<CreateProposalInput>;
-  groupCoverPhoto: File | null;
-  setGroupCoverPhoto(coverPhoto: File | null): void;
+  setFieldValue: (field: string, value: any) => void;
   submitCount: number;
   touched: FormikTouched<CreateProposalInput>;
   values: CreateProposalInput;
@@ -24,8 +23,7 @@ interface Props {
 const ProposalActionFields = ({
   editProposal,
   errors,
-  groupCoverPhoto,
-  setGroupCoverPhoto,
+  setFieldValue,
   submitCount,
   touched,
   values,
@@ -56,28 +54,30 @@ const ProposalActionFields = ({
   }
 
   if (values.action.actionType === ProposalActionTypes.ChangeCoverPhoto) {
-    const isInvalid = !!(
-      errors.action?.groupCoverPhoto &&
-      !groupCoverPhoto &&
-      submitCount
-    );
+    const isInvalid = !!(errors.action?.groupCoverPhoto && submitCount);
     const savedImage =
-      editProposal?.action.groupCoverPhoto && !groupCoverPhoto
+      editProposal?.action.groupCoverPhoto && !values.action.groupCoverPhoto
         ? [editProposal.action.groupCoverPhoto]
         : [];
+
+    const handleChange = (images: File[]) =>
+      setFieldValue(ProposalActionFieldNames.GroupCoverPhoto, images[0]);
 
     return (
       <Box marginTop={1.5}>
         <AttachedImagePreview
           imageContainerStyles={{ marginBottom: 1 }}
           savedImages={savedImage}
-          selectedImages={groupCoverPhoto ? [groupCoverPhoto] : []}
+          selectedImages={
+            values.action.groupCoverPhoto ? [values.action.groupCoverPhoto] : []
+          }
           sx={{ marginTop: 1 }}
         />
 
         <ImageInput
           sx={{ cursor: "pointer", marginTop: 0 }}
-          setImage={setGroupCoverPhoto}
+          name={ProposalActionFieldNames.GroupCoverPhoto}
+          onChange={handleChange}
         >
           <Typography
             color={isInvalid ? "error" : "primary"}

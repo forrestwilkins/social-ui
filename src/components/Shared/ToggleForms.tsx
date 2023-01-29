@@ -57,16 +57,13 @@ const ToggleForms = ({ groupId, me }: Props) => {
   const handleChange = (_: MouseEvent<HTMLElement>, value: boolean) =>
     setShowProposalForm(value);
 
-  const renderForm = () => {
-    if (showProposalForm) {
-      return <ProposalForm groupId={groupId} />;
-    }
-    return <PostForm groupId={groupId} />;
-  };
-
   return (
     <Card sx={{ position: "relative" }}>
-      {renderForm()}
+      {showProposalForm ? (
+        <ProposalForm groupId={groupId} />
+      ) : (
+        <PostForm groupId={groupId} />
+      )}
 
       <ToggleButtonGroup
         disabled={!hasGroups}

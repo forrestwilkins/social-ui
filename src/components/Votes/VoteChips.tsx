@@ -12,7 +12,7 @@ import { SxProps, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import { VoteChipsFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
-import { sortVotes } from "../../utils/vote.utils";
+import { filterVotesByType } from "../../utils/vote.utils";
 import Flex from "../Shared/Flex";
 import VoteChip from "./VoteChip";
 import VotesModal from "./VotesModal";
@@ -31,7 +31,7 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { agreements, reservations, standAsides, blocks } = useMemo(
-    () => sortVotes(votes),
+    () => filterVotesByType(votes),
     [votes]
   );
 

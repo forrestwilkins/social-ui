@@ -1,7 +1,7 @@
 import { VoteChipsFragment } from "../apollo/gen";
 import { VoteTypes } from "../constants/vote.constants";
 
-export const sortVotes = (votes: VoteChipsFragment["votes"]) => {
+export const filterVotesByType = (votes: VoteChipsFragment["votes"]) => {
   const agreements = votes.filter(
     (vote) => vote.voteType === VoteTypes.Agreement
   );

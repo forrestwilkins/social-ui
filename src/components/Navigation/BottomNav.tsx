@@ -10,10 +10,7 @@ import Router, { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isNavDrawerOpenVar } from "../../apollo/cache";
-import {
-  NavigationPaths,
-  ResourceNames,
-} from "../../constants/common.constants";
+import { NavigationPaths } from "../../constants/common.constants";
 import { scrollTop } from "../../utils/common.utils";
 
 const PAPER_STYLES: SxProps = {
@@ -21,7 +18,7 @@ const PAPER_STYLES: SxProps = {
   bottom: 0,
   left: 0,
   right: 0,
-  zIndex: 1,
+  zIndex: 5,
 };
 
 const BottomNav = () => {
@@ -45,11 +42,11 @@ const BottomNav = () => {
         case NavigationPaths.Home:
           setValue(0);
           break;
-        case getMatching(ResourceNames.Event):
+        case getMatching("events"):
         case NavigationPaths.Events:
           setValue(1);
           break;
-        case getMatching(ResourceNames.Group):
+        case getMatching("groups"):
         case NavigationPaths.Groups:
           setValue(2);
           break;

@@ -1,20 +1,20 @@
-import { BoxProps } from "@mui/material";
 import { AttachedImageFragment } from "../../apollo/gen";
 import { getImagePath } from "../../utils/image.utils";
 
-interface Props extends Omit<BoxProps, "children"> {
+interface Props {
   image: AttachedImageFragment;
-  marginBottom?: number;
+  marginBottom?: string | number;
+  width?: string | number;
 }
 
-const AttachedImage = ({ image, marginBottom }: Props) => (
+const AttachedImage = ({ image, marginBottom, width = "100%" }: Props) => (
   <img
     alt={image.filename}
     src={getImagePath(image.id)}
     style={{
       display: "block",
-      width: "100%",
       marginBottom,
+      width,
     }}
   />
 );

@@ -1,28 +1,30 @@
 import { useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../apollo/cache";
-import { usePostsQuery } from "../apollo/gen";
-import PostForm from "../components/Posts/PostForm";
-import PostList from "../components/Posts/PostList";
+import { useHomePageQuery } from "../apollo/gen";
+import Feed from "../components/Shared/Feed";
 import ProgressBar from "../components/Shared/ProgressBar";
+import ToggleForms from "../components/Shared/ToggleForms";
 
 const Home: NextPage = () => {
-  const { data, loading } = usePostsQuery();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { data, loading } = useHomePageQuery({ skip: !isLoggedIn });
 
   if (loading) {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!data?.me) {
     return null;
   }
 
+  const { me } = data;
+  const { homeFeed } = me;
+
   return (
     <>
-      {isLoggedIn && <PostForm />}
-
-      <PostList posts={data?.posts} />
+      {isLoggedIn && <ToggleForms me={me} />}
+      <Feed feed={homeFeed} />
     </>
   );
 };

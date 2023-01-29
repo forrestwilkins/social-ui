@@ -1,56 +1,25 @@
-import { ApolloCache, Reference } from "@apollo/client";
-import { Modifiers } from "@apollo/client/cache/core/types/common";
+import { ApolloCache } from "@apollo/client";
 import { Button } from "@mui/material";
-import produce from "immer";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import {
-  DeletePostButtonFragment,
-  PostsDocument,
-  PostsQuery,
-  useDeletePostMutation,
-} from "../../apollo/gen";
-import { NavigationPaths } from "../../constants/common.constants";
+import { useDeletePostMutation } from "../../apollo/gen";
+import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 
-export const removePost =
-  (post: DeletePostButtonFragment) => (cache: ApolloCache<any>) => {
-    cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
-      produce(postsData, (draft) => {
-        if (!draft) {
-          return;
-        }
-        const index = draft.posts.findIndex((p) => p.id === post.id);
-        draft.posts.splice(index, 1);
-      })
-    );
-    const fields: Modifiers = {
-      posts(existingPostRefs: Reference[], { readField }) {
-        return existingPostRefs.filter(
-          (ref) => readField("id", ref) !== post.id
-        );
-      },
-    };
-    cache.modify({
-      id: cache.identify(post.user),
-      fields,
-    });
-    if (post.group) {
-      cache.modify({
-        id: cache.identify(post.group),
-        fields,
-      });
-    }
-    const postCacheId = cache.identify(post);
-    cache.evict({ id: postCacheId });
-    cache.gc();
-  };
+export const removePost = (postId: number) => (cache: ApolloCache<any>) => {
+  const postCacheId = cache.identify({
+    __typename: TypeNames.Post,
+    id: postId,
+  });
+  cache.evict({ id: postCacheId });
+  cache.gc();
+};
 
 interface Props {
-  post: DeletePostButtonFragment;
+  postId: number;
 }
 
-const DeletePostButton = ({ post }: Props) => {
+const DeletePostButton = ({ postId }: Props) => {
   const [deletePost] = useDeletePostMutation();
   const { t } = useTranslation();
 
@@ -58,8 +27,8 @@ const DeletePostButton = ({ post }: Props) => {
     await redirectTo(NavigationPaths.Home);
 
     await deletePost({
-      variables: { id: post.id },
-      update: removePost(post),
+      variables: { id: postId },
+      update: removePost(postId),
       onError() {
         toastVar({
           status: "error",

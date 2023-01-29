@@ -19,14 +19,14 @@ import {
   useCreateGroupMutation,
   useUpdateGroupMutation,
 } from "../../apollo/gen";
-import Flex from "../../components/Shared/Flex";
-import { TextField } from "../../components/Shared/TextField";
 import { FieldNames } from "../../constants/common.constants";
 import { getRandomString, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
+import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import { TextField } from "../Shared/TextField";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -122,7 +122,10 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         await handleUpdate(formValues, editGroup);
         return;
       }
-      await handleCreate(formValues, formikHelpers);
+      await handleCreate(
+        formValues as CreateGroupInput,
+        formikHelpers as FormikHelpers<CreateGroupInput>
+      );
     } catch (err) {
       toastVar({
         status: "error",
@@ -131,21 +134,9 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     }
   };
 
-  const removeSelectedImageHandler = () => {
+  const handleRemoveSelectedImage = () => {
     setCoverPhoto(undefined);
     setImageInputKey(getRandomString());
-  };
-
-  const renderImagePreview = () => {
-    if (!coverPhoto) {
-      return null;
-    }
-    return (
-      <AttachedImagePreview
-        removeSelectedImage={removeSelectedImageHandler}
-        selectedImages={coverPhoto ? [coverPhoto] : []}
-      />
-    );
   };
 
   return (
@@ -165,7 +156,12 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                   label={t("groups.form.description")}
                   name={FieldNames.Description}
                 />
-                {renderImagePreview()}
+                {coverPhoto && (
+                  <AttachedImagePreview
+                    handleRemove={handleRemoveSelectedImage}
+                    selectedImages={[coverPhoto]}
+                  />
+                )}
               </FormGroup>
 
               <Flex sx={{ justifyContent: "space-between" }}>

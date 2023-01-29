@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toastVar } from "../../apollo/cache";
 
@@ -8,6 +8,8 @@ const AUTO_HIDE_DURATION = 6000;
 const Toast = () => {
   const toastNotification = useReactiveVar(toastVar);
   const [open, setOpen] = useState(false);
+
+  const theme = useTheme();
 
   useEffect(() => {
     if (toastNotification) {
@@ -37,6 +39,7 @@ const Toast = () => {
       <Alert
         onClose={handleClose}
         severity={toastNotification?.status}
+        sx={{ color: theme.palette.text.primary }}
         variant="filled"
       >
         {toastNotification?.title}

@@ -25,6 +25,9 @@ const config: CodegenConfig = {
         withHooks: true,
       },
     },
+    "./schema.graphql": {
+      plugins: ["schema-ast"],
+    },
   },
 };
 

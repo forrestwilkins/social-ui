@@ -2,5 +2,9 @@ query Me {
   me {
     ...UserAvatar
     serverPermissions
+    joinedGroups {
+      id
+      name
+    }
   }
 }

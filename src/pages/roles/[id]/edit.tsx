@@ -1,6 +1,6 @@
 // TODO: Determine whether RoleForm and PermissionsForm should be combined
 
-import { Card, styled, Tab as MuiTab, Tabs, Typography } from "@mui/material";
+import { Card, Tab, Tabs, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
@@ -20,12 +20,6 @@ enum EditRoleTabs {
   Permissions = "permissions",
   Members = "members",
 }
-
-const Tab = styled(MuiTab)(({ theme }) => ({
-  [theme.breakpoints.up("sm")]: {
-    minWidth: 160,
-  },
-}));
 
 const EditServerRole: NextPage = () => {
   const [tab, setTab] = useState(0);

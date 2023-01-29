@@ -103,6 +103,7 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
 
           <FormGroup>
             <TextField
+              autoComplete="off"
               label={t("users.form.name")}
               name={UserFieldNames.Name}
             />

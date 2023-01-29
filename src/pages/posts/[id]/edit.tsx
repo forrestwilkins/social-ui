@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useEditPostQuery } from "../../../apollo/gen";
 import DeletePostButton from "../../../components/Posts/DeletePostButton";
 import PostForm from "../../../components/Posts/PostForm";
+import Card from "../../../components/Shared/Card";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 
 const EditPostPage: NextPage = () => {
@@ -31,8 +32,11 @@ const EditPostPage: NextPage = () => {
 
   return (
     <>
-      <PostForm editPost={data.post} sx={{ marginBottom: 2.5 }} />
-      <DeletePostButton post={data.post} />
+      <Card sx={{ marginBottom: 2.5 }}>
+        <PostForm editPost={data.post} />
+      </Card>
+
+      <DeletePostButton postId={data.post.id} />
     </>
   );
 };

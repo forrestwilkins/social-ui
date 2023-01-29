@@ -1,6 +1,0 @@
-fragment JoinedMember on GroupMember {
-  id
-  user {
-    ...UserAvatar
-  }
-}

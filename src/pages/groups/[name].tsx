@@ -8,9 +8,9 @@ import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupProfileQuery } from "../../apollo/gen";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
-import PostForm from "../../components/Posts/PostForm";
-import PostList from "../../components/Posts/PostList";
+import Feed from "../../components/Shared/Feed";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import ToggleForms from "../../components/Shared/ToggleForms";
 import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupPage: NextPage = () => {
@@ -49,8 +49,10 @@ const GroupPage: NextPage = () => {
   return (
     <>
       <GroupProfileCard group={group} currentMember={currentMember} />
-      {currentMember && <PostForm groupId={group.id} />}
-      <PostList posts={group.posts} />
+
+      {currentMember && <ToggleForms groupId={group.id} me={me} />}
+
+      <Feed feed={group.feed} />
     </>
   );
 };

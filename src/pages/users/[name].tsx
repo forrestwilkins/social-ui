@@ -2,15 +2,16 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useUserQuery } from "../../apollo/gen";
-import PostList from "../../components/Posts/PostList";
+import { useUserProfileQuery } from "../../apollo/gen";
+import Feed from "../../components/Shared/Feed";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import ToggleForms from "../../components/Shared/ToggleForms";
 import UserProfileCard from "../../components/Users/UserProfileCard";
 
 const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const { data, loading, error } = useUserQuery({
+  const { data, loading, error } = useUserProfileQuery({
     variables: { name },
     skip: !name,
   });
@@ -29,12 +30,15 @@ const UserProfile: NextPage = () => {
     return null;
   }
 
-  const { user } = data;
+  const { me, user } = data;
+  const isMe = me.id === user.id;
 
   return (
     <>
       <UserProfileCard user={user} />
-      {user.posts && <PostList posts={user.posts} />}
+      {isMe && <ToggleForms me={me} />}
+
+      {user.profileFeed && <Feed feed={user.profileFeed} />}
     </>
   );
 };

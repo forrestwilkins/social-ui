@@ -1,22 +1,16 @@
-import { Modifiers } from "@apollo/client/cache/core/types/common";
-import {
-  Card,
-  CardContent as MuiCardContent,
-  CardProps,
-  Divider,
-  FormGroup,
-  styled,
-} from "@mui/material";
-import { Field, Form, Formik, FormikHelpers } from "formik";
+// TODO: Utilize Formik for image input
+
+import { Divider, FormGroup } from "@mui/material";
+import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
+  HomePageDocument,
+  HomePageQuery,
   PostFormFragment,
-  PostsDocument,
-  PostsQuery,
   UpdatePostInput,
   useCreatePostMutation,
   useDeleteImageMutation,
@@ -34,19 +28,12 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
-const CardContent = styled(MuiCardContent)(() => ({
-  paddingBottom: 12,
-  "&:last-child": {
-    paddingBottom: 12,
-  },
-}));
-
-interface Props extends CardProps {
+interface Props extends FormikFormProps {
   editPost?: PostFormFragment;
   groupId?: number;
 }
 
-const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
+const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
 
@@ -57,7 +44,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const { t } = useTranslation();
 
   const initialValues: CreatePostInput = {
-    body: editPost ? editPost.body : "",
+    body: editPost?.body || "",
     groupId,
   };
 
@@ -67,30 +54,39 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   ) =>
     await createPost({
       variables: { postData: { ...formValues, images } },
-      async update(cache, { data }) {
+      update(cache, { data }) {
         if (!data) {
           return;
         }
         const {
           createPost: { post },
         } = data;
-        cache.updateQuery<PostsQuery>({ query: PostsDocument }, (postsData) =>
-          produce(postsData, (draft) => {
-            draft?.posts.unshift(post);
-          })
+        cache.updateQuery<HomePageQuery>(
+          { query: HomePageDocument },
+          (homePageData) =>
+            produce(homePageData, (draft) => {
+              draft?.me.homeFeed.unshift(post);
+            })
         );
-        const fields: Modifiers = {
-          posts(existingPostRefs, { toReference }) {
-            return [toReference(post), ...existingPostRefs];
+        cache.modify({
+          id: cache.identify(post.user),
+          fields: {
+            profileFeed(existingRefs, { toReference }) {
+              return [toReference(post), ...existingRefs];
+            },
           },
-        };
-        const userCacheId = cache.identify(post.user);
-        cache.modify({ id: userCacheId, fields });
+        });
         if (!post.group) {
           return;
         }
-        const groupCacheId = cache.identify(post.group);
-        cache.modify({ id: groupCacheId, fields });
+        cache.modify({
+          id: cache.identify(post.group),
+          fields: {
+            feed(existingRefs, { toReference }) {
+              return [toReference(post), ...existingRefs];
+            },
+          },
+        });
       },
       onCompleted() {
         resetForm();
@@ -103,7 +99,8 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
   const handleUpdate = async (
     formValues: Omit<UpdatePostInput, "id">,
     editPost: PostFormFragment
-  ) =>
+  ) => {
+    await redirectTo(NavigationPaths.Home);
     await updatePost({
       variables: {
         postData: {
@@ -112,10 +109,8 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
           images,
         },
       },
-      onCompleted() {
-        redirectTo(NavigationPaths.Home);
-      },
     });
+  };
 
   const handleSubmit = async (
     formValues: CreatePostInput | UpdatePostInput,
@@ -135,7 +130,7 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     }
   };
 
-  const deleteSavedImageHandler = async (id: number) => {
+  const handleDeleteSavedImage = async (id: number) => {
     if (editPost) {
       await deleteImage({
         variables: { id },
@@ -149,61 +144,58 @@ const PostForm = ({ editPost, groupId, ...cardProps }: Props) => {
     }
   };
 
-  const removeSelectedImageHandler = (imageName: string) => {
+  const handleRemoveSelectedImage = (imageName: string) => {
     setImages(images.filter((image) => image.name !== imageName));
     setImagesInputKey(getRandomString());
   };
 
   return (
-    <Card {...cardProps}>
-      <CardContent>
-        <Formik
-          enableReinitialize
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-        >
-          {(formik) => (
-            <Form>
-              <FormGroup>
-                <Field
-                  autoComplete="off"
-                  component={TextFieldWithAvatar}
-                  name={FieldNames.Body}
-                  placeholder={t("prompts.whatsHappening")}
-                />
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      enableReinitialize
+      {...formProps}
+    >
+      {({ isSubmitting, dirty, handleChange, values }) => (
+        <Form>
+          <FormGroup>
+            <TextFieldWithAvatar
+              autoComplete="off"
+              name={FieldNames.Body}
+              onChange={handleChange}
+              placeholder={t("prompts.whatsHappening")}
+              value={values.body}
+              multiline
+            />
 
-                <AttachedImagePreview
-                  deleteSavedImage={deleteSavedImageHandler}
-                  removeSelectedImage={removeSelectedImageHandler}
-                  savedImages={editPost?.images || []}
-                  selectedImages={images}
-                />
-              </FormGroup>
+            <AttachedImagePreview
+              handleDelete={handleDeleteSavedImage}
+              handleRemove={handleRemoveSelectedImage}
+              savedImages={editPost?.images || []}
+              selectedImages={images}
+            />
+          </FormGroup>
 
-              <Divider sx={{ marginBottom: 1.3 }} />
+          <Divider sx={{ marginBottom: 1.3 }} />
 
-              <Flex sx={{ justifyContent: "space-between" }}>
-                <ImageInput
-                  refreshKey={imagesInputKey}
-                  setImages={setImages}
-                  multiple
-                />
+          <Flex sx={{ justifyContent: "space-between" }}>
+            <ImageInput
+              refreshKey={imagesInputKey}
+              setImages={setImages}
+              multiple
+            />
 
-                <PrimaryActionButton
-                  disabled={
-                    formik.isSubmitting || (!formik.dirty && !images.length)
-                  }
-                  sx={{ marginTop: 1.5 }}
-                  type="submit"
-                >
-                  {t(editPost ? "actions.save" : "actions.post")}
-                </PrimaryActionButton>
-              </Flex>
-            </Form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+            <PrimaryActionButton
+              disabled={isSubmitting || (!dirty && !images.length)}
+              sx={{ marginTop: 1.5 }}
+              type="submit"
+            >
+              {t(editPost ? "actions.save" : "actions.post")}
+            </PrimaryActionButton>
+          </Flex>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

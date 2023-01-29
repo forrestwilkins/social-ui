@@ -3,11 +3,14 @@
 
   "actions": {
     "cancel": "Cancel",
+    "comment": "Comment",
     "create": "Create",
     "delete": "Delete",
     "edit": "Edit",
+    "like": "Like",
     "post": "Post",
     "save": "Save",
+    "share": "Share",
     "submit": "Submit",
     "upload": "Upload"
   },
@@ -23,10 +26,11 @@
   },
 
   "labels": {
+    "all": "All",
     "menu": "Menu",
-    "switch": "Switch",
     "menuButton": "Menu button",
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "switch": "Switch"
   },
 
   "errors": {
@@ -48,6 +52,60 @@
     "profile": "Profile",
     "roles": "Roles",
     "users": "Users"
+  },
+
+  "proposals": {
+    "prompts": {
+      "createProposal": "Create a proposal..."
+    },
+    "actions": {
+      "attachNewCoverPhoto": "Attach new cover photo",
+      "createProposal": "Create Proposal",
+      "vote": "Vote"
+    },
+    "actionTypes": {
+      "assignRole": "Assign Group Role",
+      "changeDescription": "Change Group Description",
+      "changeCoverPhoto": "Change Cover Photo",
+      "changeName": "Change Group Name",
+      "changeRole": "Change Group Role",
+      "changeSettings": "Change Group Settings",
+      "createRole": "Create Group Role",
+      "planEvent": "Plan Event",
+      "test": "QA Test"
+    },
+    "labels": {
+      "action": "Action",
+      "newGroupDescription": "New group description",
+      "newGroupName": "New group name",
+      "proposedGroupCoverPhoto": "Proposed group cover photo",
+      "proposedGroupDescription": "Proposed group description",
+      "proposedGroupName": "Proposed group name",
+      "ratified": "Ratified"
+    },
+    "toasts": {
+      "noVotingAfterRatification": "This proposal has been ratified and can no longer be voted on.",
+      "ratifiedSuccess": "This proposal has been ratified! 🎉"
+    },
+    "errors": {
+      "missingGroupCoverPhoto": "Proposals to change group cover photo must include an image",
+      "missingGroupDescription": "Proposals to change group description must include a description field",
+      "missingGroupName": "Proposals to change group name must include a name field",
+      "missingGroupId": "Only group proposals are supported at this time",
+      "missingActionType": "Proposals must include an action"
+    }
+  },
+
+  "votes": {
+    "actions": {
+      "agree": "Agree",
+      "block": "Block",
+      "disagree": "Disagree",
+      "reservations": "Reservations",
+      "standAside": "Stand Aside",
+      "update": "Update Vote",
+      "vote": "Vote"
+    }
   },
 
   "users": {
@@ -104,11 +162,6 @@
       "addImages": "Add images",
       "addPost": "Add post",
       "posts": "Posts"
-    },
-    "actions": {
-      "comment": "Comment",
-      "like": "Like",
-      "share": "Share"
     }
   },
 
@@ -133,6 +186,7 @@
     },
     "labels": {
       "consensus": "Consensus",
+      "group": "Group",
       "groupMembers_one": "{{count}} Group Member",
       "groupMembers_other": "{{count}} Group Members",
       "joined": "Joined",

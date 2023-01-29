@@ -19,6 +19,9 @@ export const isRefreshingTokenVar = makeVar(false);
  * the correct way to silence warnings seen when deleting items from cache
  */
 const cache = new InMemoryCache({
+  possibleTypes: {
+    FeedItem: ["Post", "Proposal"],
+  },
   typePolicies: {
     Query: {
       fields: {
@@ -46,7 +49,7 @@ const cache = new InMemoryCache({
     },
     User: {
       fields: {
-        posts: {
+        homeFeed: {
           merge(_, incoming) {
             return incoming;
           },
@@ -54,6 +57,15 @@ const cache = new InMemoryCache({
       },
     },
     Post: {
+      fields: {
+        images: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
+    Proposal: {
       fields: {
         images: {
           merge(_, incoming) {

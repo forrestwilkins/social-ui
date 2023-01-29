@@ -93,7 +93,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     }
     await deletePost({
       variables: { id },
-      update: removePost(post),
+      update: removePost(id),
     });
   };
 

@@ -190,7 +190,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   ) => {
     try {
       if (editProposal) {
-        await handleUpdate(formValues as UpdateProposalInput, editProposal);
+        await handleUpdate(formValues, editProposal);
         return;
       }
       await handleCreate(formValues, formHelpers);

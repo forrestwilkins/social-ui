@@ -9,9 +9,10 @@ import {
   ThumbUp as AgreementIcon,
 } from "@mui/icons-material";
 import { SxProps, Typography } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { VoteChipsFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
+import { sortVotes } from "../../utils/vote.utils";
 import Flex from "../Shared/Flex";
 import VoteChip from "./VoteChip";
 import VotesModal from "./VotesModal";
@@ -22,13 +23,6 @@ const CHIPS_CONTAINER_STYLES: SxProps = {
   paddingLeft: "16px",
 };
 
-interface SortedVotes {
-  agreements: VoteChipsFragment["votes"];
-  reservations: VoteChipsFragment["votes"];
-  standAsides: VoteChipsFragment["votes"];
-  blocks: VoteChipsFragment["votes"];
-}
-
 interface Props {
   proposal: VoteChipsFragment;
 }
@@ -36,31 +30,10 @@ interface Props {
 const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { agreements, reservations, standAsides, blocks } =
-    votes.reduce<SortedVotes>(
-      (result, vote) => {
-        if (vote.voteType === VoteTypes.Reservations) {
-          result.reservations.push(vote);
-          return result;
-        }
-        if (vote.voteType === VoteTypes.StandAside) {
-          result.standAsides.push(vote);
-          return result;
-        }
-        if (vote.voteType === VoteTypes.Block) {
-          result.blocks.push(vote);
-          return result;
-        }
-        result.agreements.push(vote);
-        return result;
-      },
-      {
-        agreements: [],
-        reservations: [],
-        standAsides: [],
-        blocks: [],
-      }
-    );
+  const { agreements, reservations, standAsides, blocks } = useMemo(
+    () => sortVotes(votes),
+    [votes]
+  );
 
   const agreementsChip = {
     Icon: AgreementIcon,

@@ -1,11 +1,12 @@
 version: "3.8"
 
 services:
-  social-ui-prod:
+  social-ui-dev:
     build:
       context: ../../
-      dockerfile: docker/production/Dockerfile
-    image: social-ui-prod
+      dockerfile: docker/social-ui-dev/Dockerfile
+    container_name: social-ui-dev
+    image: social-ui-dev
     volumes:
       - ./:/app
       - /app/node_modules

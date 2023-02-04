@@ -1,19 +1,16 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://git-scm.com/docs/gitignore for more about ignoring files.
 
-# dependencies
-/node_modules
-/client/node_modules
-/.pnp
-.pnp.js
+# Dependencies
+node_modules
 
-# next.js
+# Next.js
 /.next/
 /out/
 
-# testing
+# Testing
 /coverage
 
-# production
+# Production
 /build
 
 # TypeScript cache
@@ -40,7 +37,7 @@
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# Dotenv environment variables file
 .env
 .env.test
 /src/.env
@@ -48,7 +45,7 @@
 .env.test.local
 .env.production.local
 
-# misc
+# Misc.
 .DS_Store
 
 npm-debug.log*

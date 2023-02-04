@@ -1,10 +1,14 @@
-version: '3'
+version: "3.8"
 
 services:
-  with-docker-multi-env-production:
+  social-ui-prod:
     build:
       context: ../../
       dockerfile: docker/production/Dockerfile
-    image: with-docker-multi-env-production
+    image: social-ui-prod
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
     ports:
-      - '3003:3000'
+      - "3000:3000"

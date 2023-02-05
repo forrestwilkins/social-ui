@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  social-ui-prod:
+    build:
+      context: ../../
+      dockerfile: docker/social-ui-prod/Dockerfile
+    image: social-ui-prod
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"

@@ -7,7 +7,7 @@ import cache from "./cache";
 const terminatingLink = createUploadLink({
   uri: `${API_ROOT}/graphql`,
   headers: {
-    "Apollo-Require-Preflight": "true",
+    "apollo-require-preflight": true,
   },
 });
 

@@ -5,6 +5,7 @@ services:
     build:
       context: ../../
       dockerfile: docker/social-ui-prod/Dockerfile
+    container_name: social-ui-prod
     image: social-ui-prod
     volumes:
       - ./:/app

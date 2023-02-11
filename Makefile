@@ -13,7 +13,7 @@ stop-dev: ## Stop the development docker container.
   
 .PHONY: build-prod
 build-prod: ## Build the production docker image.
-	cp .env docker/social-ui-dev/.env
+	cp .env docker/social-ui-prod/.env
 	docker compose -f docker/social-ui-prod/docker-compose.yml build
 
 .PHONY: start-prod

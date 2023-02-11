@@ -1,23 +1,25 @@
-.PHONY: build-development
-build-development: ## Build the development docker image.
+.PHONY: build-dev
+build-dev: ## Build the development docker image.
+	cp .env docker/social-ui-dev/.env
 	docker compose -f docker/social-ui-dev/docker-compose.yml build
 
-.PHONY: start-development
-start-development: ## Start the development docker container.
+.PHONY: start-dev
+start-dev: ## Start the development docker container.
 	docker compose -f docker/social-ui-dev/docker-compose.yml up -d
 
-.PHONY: stop-development
-stop-development: ## Stop the development docker container.
+.PHONY: stop-dev
+stop-dev: ## Stop the development docker container.
 	docker compose -f docker/social-ui-dev/docker-compose.yml down
   
-.PHONY: build-production
-build-production: ## Build the production docker image.
+.PHONY: build-prod
+build-prod: ## Build the production docker image.
+	cp .env docker/social-ui-prod/.env
 	docker compose -f docker/social-ui-prod/docker-compose.yml build
 
-.PHONY: start-production
-start-production: ## Start the production docker container.
+.PHONY: start-prod
+start-prod: ## Start the production docker container.
 	docker compose -f docker/social-ui-prod/docker-compose.yml up -d
 
-.PHONY: stop-production
-stop-production: ## Stop the production docker container.
+.PHONY: stop-prod
+stop-prod: ## Stop the production docker container.
 	docker compose -f docker/social-ui-prod/docker-compose.yml down

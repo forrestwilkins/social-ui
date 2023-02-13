@@ -217,6 +217,7 @@ type Query {
   proposal(id: Int!): Proposal!
   proposals: [Proposal!]!
   role(id: Int!): Role!
+  serverInvites: [ServerInvite!]!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
   users: [User!]!
@@ -239,6 +240,17 @@ type RoleMember {
   id: Int!
   role: Role!
   user: User!
+}
+
+type ServerInvite {
+  createdAt: DateTime!
+  expiresAt: DateTime
+  id: Int!
+  maxUses: Int
+  token: String!
+  updatedAt: DateTime!
+  user: User!
+  uses: Int!
 }
 
 input SignUpInput {

@@ -12,6 +12,7 @@ export enum NavigationPaths {
   Events = "/events",
   Groups = "/groups",
   Home = "/",
+  Invites = "/invites",
   LogIn = "/auth/login",
   Posts = "/posts",
   Proposals = "/proposals",

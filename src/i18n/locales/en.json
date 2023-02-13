@@ -47,6 +47,7 @@
     "events": "Events",
     "groups": "Groups",
     "home": "Home",
+    "invites": "Invites",
     "menu": "Menu",
     "preferences": "Preferences",
     "profile": "Profile",
@@ -275,6 +276,12 @@
     },
     "errors": {
       "unsupportedFormat": "Unsupported image format"
+    }
+  },
+
+  "invites": {
+    "headers": {
+      "serverInvites": "Server Invites"
     }
   },
 

@@ -46,6 +46,15 @@ type CreateRolePayload {
   role: Role!
 }
 
+input CreateServerInviteInput {
+  expiresAt: DateTime
+  maxUses: Int
+}
+
+type CreateServerInvitePayload {
+  serverInvite: ServerInvite!
+}
+
 input CreateVoteInput {
   proposalId: Int!
   voteType: String!
@@ -128,6 +137,7 @@ type Mutation {
   createPost(postData: CreatePostInput!): CreatePostPayload!
   createProposal(proposalData: CreateProposalInput!): CreateProposalPayload!
   createRole(roleData: CreateRoleInput!): CreateRolePayload!
+  createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteImage(id: Int!): Boolean!

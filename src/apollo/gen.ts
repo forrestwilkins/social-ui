@@ -81,6 +81,16 @@ export type CreateRolePayload = {
   role: Role;
 };
 
+export type CreateServerInviteInput = {
+  expiresAt?: InputMaybe<Scalars["DateTime"]>;
+  maxUses?: InputMaybe<Scalars["Int"]>;
+};
+
+export type CreateServerInvitePayload = {
+  __typename?: "CreateServerInvitePayload";
+  serverInvite: ServerInvite;
+};
+
 export type CreateVoteInput = {
   proposalId: Scalars["Int"];
   voteType: Scalars["String"];
@@ -166,6 +176,7 @@ export type Mutation = {
   createPost: CreatePostPayload;
   createProposal: CreateProposalPayload;
   createRole: CreateRolePayload;
+  createServerInvite: CreateServerInvitePayload;
   createVote: CreateVotePayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
@@ -215,6 +226,10 @@ export type MutationCreateProposalArgs = {
 
 export type MutationCreateRoleArgs = {
   roleData: CreateRoleInput;
+};
+
+export type MutationCreateServerInviteArgs = {
+  serverInviteData: CreateServerInviteInput;
 };
 
 export type MutationCreateVoteArgs = {
@@ -981,6 +996,25 @@ export type DeleteImageMutationVariables = Exact<{
 export type DeleteImageMutation = {
   __typename?: "Mutation";
   deleteImage: boolean;
+};
+
+export type CreateServerInviteMutationVariables = Exact<{
+  serverInviteData: CreateServerInviteInput;
+}>;
+
+export type CreateServerInviteMutation = {
+  __typename?: "Mutation";
+  createServerInvite: {
+    __typename?: "CreateServerInvitePayload";
+    serverInvite: {
+      __typename?: "ServerInvite";
+      id: number;
+      token: string;
+      uses: number;
+      maxUses?: number | null;
+      expiresAt?: any | null;
+    };
+  };
 };
 
 export type ServerInvitesQueryVariables = Exact<{ [key: string]: never }>;
@@ -3438,6 +3472,62 @@ export type DeleteImageMutationResult =
 export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<
   DeleteImageMutation,
   DeleteImageMutationVariables
+>;
+export const CreateServerInviteDocument = gql`
+  mutation CreateServerInvite($serverInviteData: CreateServerInviteInput!) {
+    createServerInvite(serverInviteData: $serverInviteData) {
+      serverInvite {
+        id
+        token
+        uses
+        maxUses
+        expiresAt
+      }
+    }
+  }
+`;
+export type CreateServerInviteMutationFn = Apollo.MutationFunction<
+  CreateServerInviteMutation,
+  CreateServerInviteMutationVariables
+>;
+
+/**
+ * __useCreateServerInviteMutation__
+ *
+ * To run a mutation, you first call `useCreateServerInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServerInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createServerInviteMutation, { data, loading, error }] = useCreateServerInviteMutation({
+ *   variables: {
+ *      serverInviteData: // value for 'serverInviteData'
+ *   },
+ * });
+ */
+export function useCreateServerInviteMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateServerInviteMutation,
+    CreateServerInviteMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateServerInviteMutation,
+    CreateServerInviteMutationVariables
+  >(CreateServerInviteDocument, options);
+}
+export type CreateServerInviteMutationHookResult = ReturnType<
+  typeof useCreateServerInviteMutation
+>;
+export type CreateServerInviteMutationResult =
+  Apollo.MutationResult<CreateServerInviteMutation>;
+export type CreateServerInviteMutationOptions = Apollo.BaseMutationOptions<
+  CreateServerInviteMutation,
+  CreateServerInviteMutationVariables
 >;
 export const ServerInvitesDocument = gql`
   query ServerInvites {

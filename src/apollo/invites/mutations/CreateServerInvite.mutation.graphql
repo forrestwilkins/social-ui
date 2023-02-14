@@ -1,0 +1,11 @@
+mutation CreateServerInvite($serverInviteData: CreateServerInviteInput!) {
+  createServerInvite(serverInviteData: $serverInviteData) {
+    serverInvite {
+      id
+      token
+      uses
+      maxUses
+      expiresAt
+    }
+  }
+}

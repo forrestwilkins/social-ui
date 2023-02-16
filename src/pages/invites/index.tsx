@@ -1,9 +1,10 @@
 // TODO: Add basic layout and functionality - below is a WIP
 
-import { Typography, useTheme } from "@mui/material";
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { useServerInvitesQuery } from "../../apollo/gen";
+import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
@@ -13,7 +14,6 @@ const ServerRoles: NextPage = () => {
   const serverInvites = data?.serverInvites;
 
   const { t } = useTranslation();
-  const theme = useTheme();
 
   if (isDeniedAccess(error)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
@@ -33,9 +33,7 @@ const ServerRoles: NextPage = () => {
         {t("invites.headers.serverInvites")}
       </LevelOneHeading>
 
-      <Typography sx={{ color: theme.palette.text.secondary }} gutterBottom>
-        {t("prompts.wip")}
-      </Typography>
+      <ServerInviteForm />
 
       {serverInvites?.map((invite) => {
         invite.id;

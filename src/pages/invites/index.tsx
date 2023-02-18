@@ -1,6 +1,11 @@
 // TODO: Add basic layout and functionality - below is a WIP
 
-import { Typography } from "@mui/material";
+import {
+  Card,
+  CardContent as MuiCardContent,
+  styled,
+  Typography,
+} from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { useServerInvitesQuery } from "../../apollo/gen";
@@ -8,6 +13,12 @@ import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
+
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 16,
+  },
+}));
 
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerInvitesQuery();
@@ -35,9 +46,13 @@ const ServerRoles: NextPage = () => {
 
       <ServerInviteForm />
 
-      {serverInvites?.map((invite) => {
-        invite.id;
-      })}
+      <Card>
+        <CardContent>
+          {serverInvites?.map(({ id, token }) => (
+            <Typography key={id}>{token}</Typography>
+          ))}
+        </CardContent>
+      </Card>
     </>
   );
 };

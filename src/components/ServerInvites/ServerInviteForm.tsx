@@ -19,11 +19,11 @@ import {
   ServerInvitesQuery,
   useCreateServerInviteMutation,
 } from "../../apollo/gen";
-import { Time } from "../../constants/common.constants";
 import {
   MAX_USES_OPTIONS,
   ServerInviteFieldNames,
 } from "../../constants/server-invite.constants";
+import { getExpiresAtOptions } from "../../utils/server-invite.utils";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -34,7 +34,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface FormValues {
-  expiresAt: Date | string;
+  expiresAt: Date | "";
   maxUses: number | "";
 }
 
@@ -48,24 +48,7 @@ const ServerInviteForm = () => {
     maxUses: "",
   };
 
-  const expiresAtOptions = [
-    {
-      message: t("invites.form.expiresAtOptions.oneDay"),
-      value: Time.Day,
-    },
-    {
-      message: t("invites.form.expiresAtOptions.sevenDays"),
-      value: Time.Week,
-    },
-    {
-      message: t("invites.form.expiresAtOptions.oneMonth"),
-      value: Time.Month,
-    },
-    {
-      message: t("invites.form.expiresAtOptions.never"),
-      value: "",
-    },
-  ];
+  const expiresAtOptions = getExpiresAtOptions(t);
 
   const handleSubmit = async (
     { maxUses, expiresAt }: FormValues,
@@ -75,8 +58,8 @@ const ServerInviteForm = () => {
       await createInvite({
         variables: {
           serverInviteData: {
+            expiresAt: expiresAt === "" ? null : expiresAt,
             maxUses: maxUses === "" ? null : maxUses,
-            expiresAt,
           },
         },
         async update(cache, { data }) {

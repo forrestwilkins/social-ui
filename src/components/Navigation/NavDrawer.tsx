@@ -3,6 +3,7 @@ import {
   AccountBox,
   Close,
   ExitToApp as SessionIcon,
+  Link as InvitesIcon,
   PersonAdd as SignUpIcon,
   SupervisedUserCircle as UsersIcon,
 } from "@mui/icons-material";
@@ -96,6 +97,15 @@ const NavDrawer = () => {
             <ListItemText primary={me.name} />
           </ListItemButton>
 
+          {canManageRoles && (
+            <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
+              <ListItemIcon>
+                <AccountBox />
+              </ListItemIcon>
+              <ListItemText primary={t("navigation.roles")} />
+            </ListItemButton>
+          )}
+
           {canBanUsers && (
             <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
               <ListItemIcon>
@@ -105,14 +115,12 @@ const NavDrawer = () => {
             </ListItemButton>
           )}
 
-          {canManageRoles && (
-            <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
-              <ListItemIcon>
-                <AccountBox />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.roles")} />
-            </ListItemButton>
-          )}
+          <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
+            <ListItemIcon>
+              <InvitesIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("navigation.invites")} />
+          </ListItemButton>
 
           <ListItemButton
             onClick={() =>

@@ -1,6 +1,7 @@
 // TODO: Add basic layout and functionality - below is a WIP
 
 import {
+  Box,
   Card,
   styled,
   Table,
@@ -15,8 +16,11 @@ import { useTranslation } from "react-i18next";
 import { useServerInvitesQuery } from "../../apollo/gen";
 import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import Link from "../../components/Shared/Link";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import UserAvatar from "../../components/Users/UserAvatar";
 import { isDeniedAccess } from "../../utils/error.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 
 const TableCell = styled(MuiTableCell)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -60,9 +64,21 @@ const ServerRoles: NextPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {invites?.map(({ id, uses, token, expiresAt }) => (
+            {invites?.map(({ id, uses, token, user, expiresAt }) => (
               <TableRow key={id}>
-                <TableCell></TableCell>
+                <TableCell>
+                  <Link
+                    href={getUserProfilePath(user.name)}
+                    sx={{ display: "flex" }}
+                  >
+                    <UserAvatar
+                      user={user}
+                      size={24}
+                      sx={{ marginRight: 1.5 }}
+                    />
+                    <Box marginTop={0.25}>{user.name}</Box>
+                  </Link>
+                </TableCell>
                 <TableCell>{token}</TableCell>
                 <TableCell>{uses}</TableCell>
                 <TableCell>{expiresAt}</TableCell>

@@ -1024,10 +1024,16 @@ export type ServerInvitesQuery = {
   serverInvites: Array<{
     __typename?: "ServerInvite";
     id: number;
-    maxUses?: number | null;
     token: string;
     uses: number;
+    maxUses?: number | null;
     expiresAt?: any | null;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
   }>;
 };
 
@@ -3533,12 +3539,16 @@ export const ServerInvitesDocument = gql`
   query ServerInvites {
     serverInvites {
       id
-      maxUses
       token
       uses
+      maxUses
       expiresAt
+      user {
+        ...UserAvatar
+      }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;
 
 /**

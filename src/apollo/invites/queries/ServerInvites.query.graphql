@@ -1,9 +1,13 @@
 query ServerInvites {
   serverInvites {
     id
+    maxUses
     token
     uses
-    maxUses
     expiresAt
+
+    user {
+      ...UserAvatar
+    }
   }
 }

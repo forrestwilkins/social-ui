@@ -998,6 +998,21 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
+export type ServerInviteFragment = {
+  __typename?: "ServerInvite";
+  id: number;
+  maxUses?: number | null;
+  token: string;
+  uses: number;
+  expiresAt?: any | null;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
 export type CreateServerInviteMutationVariables = Exact<{
   serverInviteData: CreateServerInviteInput;
 }>;
@@ -1024,9 +1039,9 @@ export type ServerInvitesQuery = {
   serverInvites: Array<{
     __typename?: "ServerInvite";
     id: number;
+    maxUses?: number | null;
     token: string;
     uses: number;
-    maxUses?: number | null;
     expiresAt?: any | null;
     user: {
       __typename?: "User";
@@ -2174,6 +2189,19 @@ export const RequestToJoinFragmentDoc = gql`
     }
     group {
       id
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export const ServerInviteFragmentDoc = gql`
+  fragment ServerInvite on ServerInvite {
+    id
+    maxUses
+    token
+    uses
+    expiresAt
+    user {
+      ...UserAvatar
     }
   }
   ${UserAvatarFragmentDoc}
@@ -3538,17 +3566,10 @@ export type CreateServerInviteMutationOptions = Apollo.BaseMutationOptions<
 export const ServerInvitesDocument = gql`
   query ServerInvites {
     serverInvites {
-      id
-      token
-      uses
-      maxUses
-      expiresAt
-      user {
-        ...UserAvatar
-      }
+      ...ServerInvite
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${ServerInviteFragmentDoc}
 `;
 
 /**

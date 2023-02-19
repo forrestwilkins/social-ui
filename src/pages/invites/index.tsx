@@ -1,7 +1,6 @@
 // TODO: Add basic layout and functionality - below is a WIP
 
 import {
-  Box,
   Card,
   styled,
   Table,
@@ -14,14 +13,11 @@ import {
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { useServerInvitesQuery } from "../../apollo/gen";
+import ServerInvite from "../../components/ServerInvites/ServerInvite";
 import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
-import Link from "../../components/Shared/Link";
 import ProgressBar from "../../components/Shared/ProgressBar";
-import UserAvatar from "../../components/Users/UserAvatar";
 import { isDeniedAccess } from "../../utils/error.utils";
-import { timeFromNow } from "../../utils/time.utils";
-import { getUserProfilePath } from "../../utils/user.utils";
 
 const TableCell = styled(MuiTableCell)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -62,30 +58,12 @@ const ServerRoles: NextPage = () => {
               <TableCell>{t("invites.columnNames.code")}</TableCell>
               <TableCell>{t("invites.columnNames.uses")}</TableCell>
               <TableCell>{t("invites.columnNames.expires")}</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {invites?.map(({ id, uses, maxUses, token, user, expiresAt }) => (
-              <TableRow key={id}>
-                <TableCell>
-                  <Link
-                    href={getUserProfilePath(user.name)}
-                    sx={{ display: "flex" }}
-                  >
-                    <UserAvatar
-                      user={user}
-                      size={24}
-                      sx={{ marginRight: 1.5 }}
-                    />
-                    <Box marginTop={0.25}>{user.name}</Box>
-                  </Link>
-                </TableCell>
-                <TableCell>{token}</TableCell>
-                <TableCell>{uses + (maxUses ? `/${maxUses}` : "")}</TableCell>
-                <TableCell>
-                  {expiresAt ? timeFromNow(expiresAt) : t("time.infinity")}
-                </TableCell>
-              </TableRow>
+            {invites?.map((serverInvite) => (
+              <ServerInvite serverInvite={serverInvite} key={serverInvite.id} />
             ))}
           </TableBody>
         </Table>

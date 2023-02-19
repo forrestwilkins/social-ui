@@ -4,6 +4,7 @@
   "actions": {
     "cancel": "Cancel",
     "comment": "Comment",
+    "copy": "Copy",
     "create": "Create",
     "delete": "Delete",
     "edit": "Edit",

@@ -2,8 +2,11 @@
 
 import {
   Card,
-  CardContent as MuiCardContent,
-  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import { NextPage } from "next";
@@ -14,15 +17,9 @@ import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
 
-const CardContent = styled(MuiCardContent)(() => ({
-  "&:last-child": {
-    paddingBottom: 16,
-  },
-}));
-
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerInvitesQuery();
-  const serverInvites = data?.serverInvites;
+  const invites = data?.serverInvites;
 
   const { t } = useTranslation();
 
@@ -46,12 +43,28 @@ const ServerRoles: NextPage = () => {
 
       <ServerInviteForm />
 
+      {/* TODO: Add remainging layout for table */}
       <Card>
-        <CardContent>
-          {serverInvites?.map(({ id, token }) => (
-            <Typography key={id}>{token}</Typography>
-          ))}
-        </CardContent>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>{t("invites.columnNames.inviter")}</TableCell>
+              <TableCell>{t("invites.columnNames.code")}</TableCell>
+              <TableCell>{t("invites.columnNames.uses")}</TableCell>
+              <TableCell>{t("invites.columnNames.expires")}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {invites?.map(({ id, uses, token, expiresAt }) => (
+              <TableRow key={id}>
+                <TableCell></TableCell>
+                <TableCell>{token}</TableCell>
+                <TableCell>{uses}</TableCell>
+                <TableCell>{expiresAt}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </Card>
     </>
   );

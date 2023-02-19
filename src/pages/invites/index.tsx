@@ -64,7 +64,7 @@ const ServerRoles: NextPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {invites?.map(({ id, uses, token, user, expiresAt }) => (
+            {invites?.map(({ id, uses, maxUses, token, user, expiresAt }) => (
               <TableRow key={id}>
                 <TableCell>
                   <Link
@@ -80,7 +80,7 @@ const ServerRoles: NextPage = () => {
                   </Link>
                 </TableCell>
                 <TableCell>{token}</TableCell>
-                <TableCell>{uses}</TableCell>
+                <TableCell>{uses + (maxUses ? `/${maxUses}` : "")}</TableCell>
                 <TableCell>{expiresAt}</TableCell>
               </TableRow>
             ))}

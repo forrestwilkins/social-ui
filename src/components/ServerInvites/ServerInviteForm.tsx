@@ -23,7 +23,10 @@ import {
   MAX_USES_OPTIONS,
   ServerInviteFieldNames,
 } from "../../constants/server-invite.constants";
-import { getExpiresAtOptions } from "../../utils/server-invite.utils";
+import {
+  getExpiresAtOptions,
+  getFormattedExpiresAt,
+} from "../../utils/server-invite.utils";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -34,7 +37,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface FormValues {
-  expiresAt: Date | "";
+  expiresAt: number | "";
   maxUses: number | "";
 }
 
@@ -58,7 +61,7 @@ const ServerInviteForm = () => {
       await createInvite({
         variables: {
           serverInviteData: {
-            expiresAt: expiresAt === "" ? null : expiresAt,
+            expiresAt: getFormattedExpiresAt(expiresAt),
             maxUses: maxUses === "" ? null : maxUses,
           },
         },

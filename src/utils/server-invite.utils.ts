@@ -1,6 +1,13 @@
 import { Namespace, TFunction } from "react-i18next";
 import { Time } from "../constants/common.constants";
 
+export const getFormattedExpiresAt = (expiresAt: number | "") => {
+  if (expiresAt === "") {
+    return null;
+  }
+  return new Date(Date.now() + expiresAt * 1000);
+};
+
 export const getExpiresAtOptions = (
   t: TFunction<Namespace<"ns1">, undefined>
 ) => [

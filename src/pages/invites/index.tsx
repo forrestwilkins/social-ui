@@ -20,6 +20,7 @@ import Link from "../../components/Shared/Link";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import UserAvatar from "../../components/Users/UserAvatar";
 import { isDeniedAccess } from "../../utils/error.utils";
+import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 
 const TableCell = styled(MuiTableCell)(({ theme }) => ({
@@ -81,7 +82,9 @@ const ServerRoles: NextPage = () => {
                 </TableCell>
                 <TableCell>{token}</TableCell>
                 <TableCell>{uses + (maxUses ? `/${maxUses}` : "")}</TableCell>
-                <TableCell>{expiresAt}</TableCell>
+                <TableCell>
+                  {expiresAt ? timeFromNow(expiresAt) : t("time.infinity")}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

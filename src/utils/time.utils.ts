@@ -5,14 +5,7 @@ import { Time } from "../constants/common.constants";
 export const formatDate = (timeStamp: string) =>
   dayjs(timeStamp).format("MMMM D, YYYY");
 
-export const timeAgo = (timeStamp: string) => {
-  const now = new Date().getTime();
-  const time = new Date(timeStamp).getTime();
-  const secondsPast = (now - time) / 1000;
-  return timeMessage(timeStamp, secondsPast);
-};
-
-const timeMessage = (timeStamp: string, timeDifference: number) => {
+export const timeMessage = (timeStamp: string, timeDifference: number) => {
   if (timeDifference < Time.Minute) {
     return t("time.now");
   }
@@ -28,4 +21,18 @@ const timeMessage = (timeStamp: string, timeDifference: number) => {
     return t("time.days", { days: Math.round(timeDifference / Time.Day) });
   }
   return formatDate(timeStamp);
+};
+
+export const timeAgo = (timeStamp: string) => {
+  const now = new Date().getTime();
+  const time = new Date(timeStamp).getTime();
+  const secondsPast = (now - time) / 1000;
+  return timeMessage(timeStamp, secondsPast);
+};
+
+export const timeFromNow = (timeStamp: string) => {
+  const now = new Date().getTime();
+  const futureTime = new Date(timeStamp).getTime();
+  const secondsFromNow = (futureTime - now) / 1000;
+  return timeMessage(timeStamp, secondsFromNow);
 };

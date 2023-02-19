@@ -2,9 +2,10 @@
 
 import {
   Card,
+  styled,
   Table,
   TableBody,
-  TableCell,
+  TableCell as MuiTableCell,
   TableHead,
   TableRow,
   Typography,
@@ -16,6 +17,10 @@ import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
+
+const TableCell = styled(MuiTableCell)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}));
 
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerInvitesQuery();

@@ -145,6 +145,7 @@ type Mutation {
   deleteProposal(id: Int!): Boolean!
   deleteRole(id: Int!): Boolean!
   deleteRoleMember(id: Int!): DeleteRoleMemberPayload!
+  deleteServerInvite(id: Int!): Boolean!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!

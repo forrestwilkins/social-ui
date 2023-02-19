@@ -6,9 +6,15 @@ import {
   TableCell as MuiTableCell,
   TableRow,
 } from "@mui/material";
+import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ServerInviteFragment } from "../../apollo/gen";
+import {
+  ServerInviteFragment,
+  ServerInvitesDocument,
+  ServerInvitesQuery,
+  useDeleteServerInviteMutation,
+} from "../../apollo/gen";
 import ItemMenu from "../../components/Shared/ItemMenu";
 import Link from "../../components/Shared/Link";
 import UserAvatar from "../../components/Users/UserAvatar";
@@ -24,11 +30,37 @@ interface Props {
 }
 
 const ServerInvite = ({
-  serverInvite: { id, user, token, uses, maxUses, expiresAt },
+  serverInvite: { id, user, token, uses, maxUses, expiresAt, __typename },
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [deleteInvite] = useDeleteServerInviteMutation();
 
   const { t } = useTranslation();
+
+  const deleteInvitePrompt = t("prompts.deleteItem", {
+    itemType: "invite link",
+  });
+
+  const handleDelete = async () =>
+    await deleteInvite({
+      variables: { id },
+      update(cache) {
+        cache.updateQuery<ServerInvitesQuery>(
+          { query: ServerInvitesDocument },
+          (invitesData) =>
+            produce(invitesData, (draft) => {
+              if (!draft) {
+                return;
+              }
+              const index = draft.serverInvites.findIndex((p) => p.id === id);
+              draft.serverInvites.splice(index, 1);
+            })
+        );
+        const cacheId = cache.identify({ id, __typename });
+        cache.evict({ id: cacheId });
+        cache.gc();
+      },
+    });
 
   return (
     <TableRow>
@@ -48,7 +80,10 @@ const ServerInvite = ({
           itemId={id}
           anchorEl={menuAnchorEl}
           setAnchorEl={setMenuAnchorEl}
+          deleteItem={handleDelete}
+          deletePrompt={deleteInvitePrompt}
           prependChildren
+          canDelete
         >
           <MenuItem>
             <Assignment fontSize="small" sx={{ marginRight: 1 }} />

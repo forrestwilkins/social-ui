@@ -45,6 +45,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        serverInvites: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
     User: {

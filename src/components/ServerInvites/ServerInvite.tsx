@@ -9,6 +9,7 @@ import {
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import {
   ServerInviteFragment,
   ServerInvitesDocument,
@@ -62,6 +63,15 @@ const ServerInvite = ({
       },
     });
 
+  const handleCopyLink = async () => {
+    await navigator.clipboard.writeText(`${window.location.origin}/i/${token}`);
+    setMenuAnchorEl(null);
+    toastVar({
+      title: t("invites.prompts.copiedToClipboard"),
+      status: "success",
+    });
+  };
+
   return (
     <TableRow>
       <TableCell>
@@ -70,7 +80,9 @@ const ServerInvite = ({
           <Box marginTop={0.25}>{user.name}</Box>
         </Link>
       </TableCell>
-      <TableCell>{token}</TableCell>
+      <TableCell onClick={handleCopyLink} sx={{ cursor: "pointer" }}>
+        {token}
+      </TableCell>
       <TableCell>{uses + (maxUses ? `/${maxUses}` : "")}</TableCell>
       <TableCell>
         {expiresAt ? timeFromNow(expiresAt) : t("time.infinity")}
@@ -85,7 +97,7 @@ const ServerInvite = ({
           prependChildren
           canDelete
         >
-          <MenuItem>
+          <MenuItem onClick={handleCopyLink}>
             <Assignment fontSize="small" sx={{ marginRight: 1 }} />
             {t("actions.copy")}
           </MenuItem>

@@ -11,14 +11,14 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  ServerInviteFragment,
+  ServerInviteRowFragment,
   ServerInvitesDocument,
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
-import ItemMenu from "../../components/Shared/ItemMenu";
-import Link from "../../components/Shared/Link";
-import UserAvatar from "../../components/Users/UserAvatar";
+import ItemMenu from "../Shared/ItemMenu";
+import Link from "../Shared/Link";
+import UserAvatar from "../Users/UserAvatar";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 
@@ -27,10 +27,10 @@ const TableCell = styled(MuiTableCell)(({ theme }) => ({
 }));
 
 interface Props {
-  serverInvite: ServerInviteFragment;
+  serverInvite: ServerInviteRowFragment;
 }
 
-const ServerInvite = ({
+const ServerInviteRow = ({
   serverInvite: { id, user, token, uses, maxUses, expiresAt, __typename },
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -107,4 +107,4 @@ const ServerInvite = ({
   );
 };
 
-export default ServerInvite;
+export default ServerInviteRow;

@@ -228,6 +228,7 @@ type Query {
   proposal(id: Int!): Proposal!
   proposals: [Proposal!]!
   role(id: Int!): Role!
+  serverInvite(token: String!): ServerInvite!
   serverInvites: [ServerInvite!]!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!

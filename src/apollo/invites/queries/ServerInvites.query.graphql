@@ -1,5 +1,5 @@
 query ServerInvites {
   serverInvites {
-    ...ServerInvite
+    ...ServerInviteRow
   }
 }

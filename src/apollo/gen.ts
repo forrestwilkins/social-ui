@@ -384,6 +384,7 @@ export type Query = {
   proposal: Proposal;
   proposals: Array<Proposal>;
   role: Role;
+  serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
   serverRoles: Array<Role>;
   user: User;
@@ -414,6 +415,10 @@ export type QueryProposalArgs = {
 
 export type QueryRoleArgs = {
   id: Scalars["Int"];
+};
+
+export type QueryServerInviteArgs = {
+  token: Scalars["String"];
 };
 
 export type QueryUserArgs = {
@@ -1003,7 +1008,7 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
-export type ServerInviteFragment = {
+export type ServerInviteRowFragment = {
   __typename?: "ServerInvite";
   id: number;
   maxUses?: number | null;
@@ -1044,6 +1049,15 @@ export type DeleteServerInviteMutationVariables = Exact<{
 export type DeleteServerInviteMutation = {
   __typename?: "Mutation";
   deleteServerInvite: boolean;
+};
+
+export type ServerInviteQueryVariables = Exact<{
+  token: Scalars["String"];
+}>;
+
+export type ServerInviteQuery = {
+  __typename?: "Query";
+  serverInvite: { __typename?: "ServerInvite"; id: number; token: string };
 };
 
 export type ServerInvitesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2207,8 +2221,8 @@ export const RequestToJoinFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const ServerInviteFragmentDoc = gql`
-  fragment ServerInvite on ServerInvite {
+export const ServerInviteRowFragmentDoc = gql`
+  fragment ServerInviteRow on ServerInvite {
     id
     maxUses
     token
@@ -3625,13 +3639,72 @@ export type DeleteServerInviteMutationOptions = Apollo.BaseMutationOptions<
   DeleteServerInviteMutation,
   DeleteServerInviteMutationVariables
 >;
+export const ServerInviteDocument = gql`
+  query ServerInvite($token: String!) {
+    serverInvite(token: $token) {
+      id
+      token
+    }
+  }
+`;
+
+/**
+ * __useServerInviteQuery__
+ *
+ * To run a query within a React component, call `useServerInviteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerInviteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerInviteQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useServerInviteQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ServerInviteQuery,
+    ServerInviteQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ServerInviteQuery, ServerInviteQueryVariables>(
+    ServerInviteDocument,
+    options
+  );
+}
+export function useServerInviteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ServerInviteQuery,
+    ServerInviteQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ServerInviteQuery, ServerInviteQueryVariables>(
+    ServerInviteDocument,
+    options
+  );
+}
+export type ServerInviteQueryHookResult = ReturnType<
+  typeof useServerInviteQuery
+>;
+export type ServerInviteLazyQueryHookResult = ReturnType<
+  typeof useServerInviteLazyQuery
+>;
+export type ServerInviteQueryResult = Apollo.QueryResult<
+  ServerInviteQuery,
+  ServerInviteQueryVariables
+>;
 export const ServerInvitesDocument = gql`
   query ServerInvites {
     serverInvites {
-      ...ServerInvite
+      ...ServerInviteRow
     }
   }
-  ${ServerInviteFragmentDoc}
+  ${ServerInviteRowFragmentDoc}
 `;
 
 /**

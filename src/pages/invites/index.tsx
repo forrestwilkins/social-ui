@@ -13,7 +13,7 @@ import {
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { useServerInvitesQuery } from "../../apollo/gen";
-import ServerInvite from "../../components/ServerInvites/ServerInvite";
+import ServerInviteRow from "../../components/ServerInvites/ServerInviteRow";
 import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -63,7 +63,10 @@ const ServerRoles: NextPage = () => {
           </TableHead>
           <TableBody>
             {invites?.map((serverInvite) => (
-              <ServerInvite serverInvite={serverInvite} key={serverInvite.id} />
+              <ServerInviteRow
+                serverInvite={serverInvite}
+                key={serverInvite.id}
+              />
             ))}
           </TableBody>
         </Table>

@@ -14,7 +14,7 @@ const ServerInvitePage: NextPage = () => {
     variables: { token },
     skip: !token,
     onCompleted({ serverInvite: { token } }) {
-      redirectTo(`${NavigationPaths.SignUp}?invite=${token}`);
+      redirectTo(`${NavigationPaths.SignUp}?code=${token}`);
     },
   });
 

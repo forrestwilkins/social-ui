@@ -11,9 +11,11 @@ const ServerInvitePage: NextPage = () => {
   const { query } = useRouter();
   const token = String(query?.token);
   const { error } = useServerInviteQuery({
-    onCompleted: () => redirectTo(NavigationPaths.SignUp),
     variables: { token },
     skip: !token,
+    onCompleted({ serverInvite: { token } }) {
+      redirectTo(`${NavigationPaths.SignUp}?invite=${token}`);
+    },
   });
 
   const { t } = useTranslation();

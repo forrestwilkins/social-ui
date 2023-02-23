@@ -285,7 +285,10 @@
       "generateLink": "Generate a New Link"
     },
     "prompts": {
-      "copiedToClipboard": "Copied to clipboard"
+      "alreadySignedUp": "You've already signed up.",
+      "copiedToClipboard": "Copied to clipboard",
+      "expiredOrInvalid": "Your invite link is either expired or invalid.",
+      "inviteRequired": "You need to be invited in order to sign up."
     },
     "headers": {
       "serverInvites": "Server Invites"
@@ -312,11 +315,6 @@
       "expires": "EXPIRES",
       "inviter": "INVITER",
       "uses": "USES"
-    },
-    "redeem": {
-      "alreadySignedUp": "You've already signed up.",
-      "expiredOrInvalid": "Your invite link is either expired or invalid.",
-      "inviteRequired": "You need to be invited in order to sign up."
     }
   },
 

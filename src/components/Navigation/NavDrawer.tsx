@@ -87,6 +87,12 @@ const NavDrawer = () => {
       const canManageRoles = me.serverPermissions.includes(
         ServerPermissions.ManageRoles
       );
+      const canCreateInvites = me.serverPermissions.includes(
+        ServerPermissions.CreateInvites
+      );
+      const canManageInvites = me.serverPermissions.includes(
+        ServerPermissions.ManageInvites
+      );
 
       return (
         <>
@@ -115,12 +121,14 @@ const NavDrawer = () => {
             </ListItemButton>
           )}
 
-          <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
-            <ListItemIcon>
-              <InvitesIcon />
-            </ListItemIcon>
-            <ListItemText primary={t("navigation.invites")} />
-          </ListItemButton>
+          {(canCreateInvites || canManageInvites) && (
+            <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
+              <ListItemIcon>
+                <InvitesIcon />
+              </ListItemIcon>
+              <ListItemText primary={t("navigation.invites")} />
+            </ListItemButton>
+          )}
 
           <ListItemButton
             onClick={() =>

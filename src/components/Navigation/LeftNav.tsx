@@ -63,6 +63,12 @@ const LeftNav = () => {
   const canManageRoles = me?.serverPermissions.includes(
     ServerPermissions.ManageRoles
   );
+  const canCreateInvites = me?.serverPermissions.includes(
+    ServerPermissions.CreateInvites
+  );
+  const canManageInvites = me?.serverPermissions.includes(
+    ServerPermissions.ManageInvites
+  );
 
   const listStyles: SxProps = {
     position: "fixed",
@@ -153,17 +159,19 @@ const LeftNav = () => {
         </Link>
       )}
 
-      <Link href={NavigationPaths.Invites}>
-        <ListItemButton>
-          <ListItemIcon>
-            <InvitesIcon sx={getIconStyle(NavigationPaths.Invites)} />
-          </ListItemIcon>
-          <ListItemText
-            isActive={isActive(NavigationPaths.Invites)}
-            primary={t("navigation.invites")}
-          />
-        </ListItemButton>
-      </Link>
+      {(canCreateInvites || canManageInvites) && (
+        <Link href={NavigationPaths.Invites}>
+          <ListItemButton>
+            <ListItemIcon>
+              <InvitesIcon sx={getIconStyle(NavigationPaths.Invites)} />
+            </ListItemIcon>
+            <ListItemText
+              isActive={isActive(NavigationPaths.Invites)}
+              primary={t("navigation.invites")}
+            />
+          </ListItemButton>
+        </Link>
+      )}
     </List>
   );
 };

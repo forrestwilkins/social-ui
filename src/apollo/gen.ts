@@ -587,8 +587,8 @@ export type LoginMutation = {
     __typename?: "LoginPayload";
     user: {
       __typename?: "User";
-      serverPermissions: Array<string>;
       id: number;
+      serverPermissions: Array<string>;
       name: string;
       joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
@@ -613,8 +613,8 @@ export type SignUpMutation = {
     __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
-      serverPermissions: Array<string>;
       id: number;
+      serverPermissions: Array<string>;
       name: string;
       joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
@@ -1085,6 +1085,7 @@ export type ServerInvitesQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
+  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
 type FeedItem_Post_Fragment = {
@@ -1768,6 +1769,7 @@ export type EditProfileFormFragment = {
 
 export type TopNavDropdownFragment = {
   __typename?: "User";
+  id: number;
   name: string;
   serverPermissions: Array<string>;
 };
@@ -1926,8 +1928,8 @@ export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
-    serverPermissions: Array<string>;
     id: number;
+    serverPermissions: Array<string>;
     name: string;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
@@ -2453,6 +2455,7 @@ export const EditProfileFormFragmentDoc = gql`
 `;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
+    id
     name
     serverPermissions
   }
@@ -2516,6 +2519,7 @@ export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
       user {
+        id
         ...UserAvatar
         serverPermissions
         joinedGroups {
@@ -2618,6 +2622,7 @@ export const SignUpDocument = gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       user {
+        id
         ...UserAvatar
         serverPermissions
         joinedGroups {
@@ -3713,6 +3718,10 @@ export const ServerInvitesDocument = gql`
   query ServerInvites {
     serverInvites {
       ...ServerInviteRow
+    }
+    me {
+      id
+      serverPermissions
     }
   }
   ${ServerInviteRowFragmentDoc}
@@ -4814,6 +4823,7 @@ export type HomePageQueryResult = Apollo.QueryResult<
 export const MeDocument = gql`
   query Me {
     me {
+      id
       ...UserAvatar
       serverPermissions
       joinedGroups {

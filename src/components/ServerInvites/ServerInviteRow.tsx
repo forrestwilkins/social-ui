@@ -21,6 +21,7 @@ import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
+import { ServerPermissions } from "../../constants/role.constants";
 
 const TableCell = styled(MuiTableCell)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -28,10 +29,12 @@ const TableCell = styled(MuiTableCell)(({ theme }) => ({
 
 interface Props {
   serverInvite: ServerInviteRowFragment;
+  me: ServerInvitesQuery["me"];
 }
 
 const ServerInviteRow = ({
   serverInvite: { id, user, token, uses, maxUses, expiresAt, __typename },
+  me: { serverPermissions },
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteInvite] = useDeleteServerInviteMutation();
@@ -41,6 +44,10 @@ const ServerInviteRow = ({
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
   });
+
+  const canManageInvites = serverPermissions.includes(
+    ServerPermissions.ManageInvites
+  );
 
   const handleDelete = async () =>
     await deleteInvite({
@@ -98,10 +105,10 @@ const ServerInviteRow = ({
           itemId={id}
           anchorEl={menuAnchorEl}
           setAnchorEl={setMenuAnchorEl}
+          canDelete={canManageInvites}
           deleteItem={handleDelete}
           deletePrompt={deleteInvitePrompt}
           prependChildren
-          canDelete
         >
           <MenuItem onClick={handleCopyLink}>
             <Assignment fontSize="small" sx={{ marginRight: 1 }} />

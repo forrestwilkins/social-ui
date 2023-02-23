@@ -25,8 +25,6 @@ const TableCell = styled(MuiTableCell)(({ theme }) => ({
 
 const ServerRoles: NextPage = () => {
   const { data, loading, error } = useServerInvitesQuery();
-  const invites = data?.serverInvites;
-
   const { t } = useTranslation();
 
   if (isDeniedAccess(error)) {
@@ -41,15 +39,12 @@ const ServerRoles: NextPage = () => {
     return <ProgressBar />;
   }
 
-  return (
-    <>
-      <LevelOneHeading header>
-        {t("invites.headers.serverInvites")}
-      </LevelOneHeading>
-
-      <ServerInviteForm />
-
-      {/* TODO: Add remainging layout for table */}
+  const renderTable = () => {
+    if (!data) {
+      return null;
+    }
+    const { me, serverInvites } = data;
+    return (
       <Card>
         <Table>
           <TableHead>
@@ -62,15 +57,27 @@ const ServerRoles: NextPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {invites?.map((serverInvite) => (
+            {serverInvites.map((serverInvite) => (
               <ServerInviteRow
-                serverInvite={serverInvite}
                 key={serverInvite.id}
+                me={me}
+                serverInvite={serverInvite}
               />
             ))}
           </TableBody>
         </Table>
       </Card>
+    );
+  };
+
+  return (
+    <>
+      <LevelOneHeading header>
+        {t("invites.headers.serverInvites")}
+      </LevelOneHeading>
+
+      <ServerInviteForm />
+      {renderTable()}
     </>
   );
 };

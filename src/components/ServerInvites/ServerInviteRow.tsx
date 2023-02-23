@@ -61,6 +61,12 @@ const ServerInviteRow = ({
         cache.evict({ id: cacheId });
         cache.gc();
       },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+      },
     });
 
   const handleCopyLink = async () => {

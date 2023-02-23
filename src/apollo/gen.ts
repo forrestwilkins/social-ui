@@ -1039,6 +1039,12 @@ export type CreateServerInviteMutation = {
       uses: number;
       maxUses?: number | null;
       expiresAt?: any | null;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
     };
   };
 };
@@ -3545,9 +3551,13 @@ export const CreateServerInviteDocument = gql`
         uses
         maxUses
         expiresAt
+        user {
+          ...UserAvatar
+        }
       }
     }
   }
+  ${UserAvatarFragmentDoc}
 `;
 export type CreateServerInviteMutationFn = Apollo.MutationFunction<
   CreateServerInviteMutation,

@@ -6,6 +6,10 @@ mutation CreateServerInvite($serverInviteData: CreateServerInviteInput!) {
       uses
       maxUses
       expiresAt
+
+      user {
+        ...UserAvatar
+      }
     }
   }
 }

@@ -29,7 +29,6 @@ import { redirectTo } from "../../utils/common.utils";
 const SignUp: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
-
   const [signUp] = useSignUpMutation();
 
   const { query } = useRouter();

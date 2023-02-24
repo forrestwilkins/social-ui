@@ -32,7 +32,7 @@ export const timeAgo = (timeStamp: string) => {
 
 export const timeFromNow = (timeStamp: string) => {
   const now = new Date().getTime();
-  const futureTime = new Date(timeStamp).getTime();
-  const secondsFromNow = (futureTime - now) / 1000;
+  const time = new Date(timeStamp).getTime();
+  const secondsFromNow = (time - now) / 1000;
   return timeMessage(timeStamp, secondsFromNow);
 };

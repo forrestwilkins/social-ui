@@ -40,7 +40,6 @@ const ServerInviteForm = () => {
   const [createInvite] = useCreateServerInviteMutation();
   const { t } = useTranslation();
 
-  // TODO: Determine whether input type should be used instead
   const initialValues: FormValues = {
     expiresAt: "",
     maxUses: "",

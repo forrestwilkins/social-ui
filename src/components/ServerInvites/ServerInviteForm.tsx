@@ -17,14 +17,11 @@ import {
   ServerInvitesQuery,
   useCreateServerInviteMutation,
 } from "../../apollo/gen";
+import { Time } from "../../constants/common.constants";
 import {
   MAX_USES_OPTIONS,
   ServerInviteFieldNames,
 } from "../../constants/server-invite.constants";
-import {
-  getExpiresAtOptions,
-  getFormattedExpiresAt,
-} from "../../utils/server-invite.utils";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -49,7 +46,31 @@ const ServerInviteForm = () => {
     maxUses: "",
   };
 
-  const expiresAtOptions = getExpiresAtOptions(t);
+  const expiresAtOptions = [
+    {
+      message: t("invites.form.expiresAtOptions.oneDay"),
+      value: Time.Day,
+    },
+    {
+      message: t("invites.form.expiresAtOptions.sevenDays"),
+      value: Time.Week,
+    },
+    {
+      message: t("invites.form.expiresAtOptions.oneMonth"),
+      value: Time.Month,
+    },
+    {
+      message: t("invites.form.expiresAtOptions.never"),
+      value: "",
+    },
+  ];
+
+  const getFormattedExpiresAt = (expiresAt: number | "") => {
+    if (expiresAt === "") {
+      return null;
+    }
+    return new Date(Date.now() + expiresAt * 1000);
+  };
 
   const handleSubmit = async (
     { maxUses, expiresAt }: FormValues,

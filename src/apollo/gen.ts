@@ -1035,9 +1035,9 @@ export type CreateServerInviteMutation = {
     serverInvite: {
       __typename?: "ServerInvite";
       id: number;
+      maxUses?: number | null;
       token: string;
       uses: number;
-      maxUses?: number | null;
       expiresAt?: any | null;
       user: {
         __typename?: "User";
@@ -3551,18 +3551,11 @@ export const CreateServerInviteDocument = gql`
   mutation CreateServerInvite($serverInviteData: CreateServerInviteInput!) {
     createServerInvite(serverInviteData: $serverInviteData) {
       serverInvite {
-        id
-        token
-        uses
-        maxUses
-        expiresAt
-        user {
-          ...UserAvatar
-        }
+        ...ServerInviteRow
       }
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${ServerInviteRowFragmentDoc}
 `;
 export type CreateServerInviteMutationFn = Apollo.MutationFunction<
   CreateServerInviteMutation,

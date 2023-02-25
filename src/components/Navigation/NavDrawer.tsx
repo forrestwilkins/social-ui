@@ -20,7 +20,11 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
+import {
+  inviteTokenVar,
+  isLoggedInVar,
+  isNavDrawerOpenVar,
+} from "../../apollo/cache";
 import { MeDocument, useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
@@ -47,7 +51,9 @@ const ListItemText = styled(MuiListItemText)(({ theme }) => ({
 
 const NavDrawer = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const inviteToken = useReactiveVar(inviteTokenVar);
   const open = useReactiveVar(isNavDrawerOpenVar);
+
   const { data } = useMeQuery({ skip: !isLoggedIn });
   const [logOut] = useLogOutMutation();
 
@@ -153,12 +159,14 @@ const NavDrawer = () => {
           <ListItemText primary={t("users.actions.logIn")} />
         </ListItemButton>
 
-        <ListItemButton onClick={redirectTo(NavigationPaths.SignUp)}>
-          <ListItemIcon>
-            <SignUpIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("users.actions.signUp")} />
-        </ListItemButton>
+        {inviteToken && (
+          <ListItemButton onClick={redirectTo(`/i/${inviteToken}`)}>
+            <ListItemIcon>
+              <SignUpIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("users.actions.signUp")} />
+          </ListItemButton>
+        )}
       </>
     );
   };

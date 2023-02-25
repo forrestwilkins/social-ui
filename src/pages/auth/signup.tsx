@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  inviteTokenVar,
   isLoggedInVar,
   isNavDrawerOpenVar,
   toastVar,
@@ -34,6 +35,9 @@ const SignUp: NextPage = () => {
   const { query } = useRouter();
   const token = String(query?.code || "");
   const { loading, error } = useServerInviteQuery({
+    onCompleted({ serverInvite: { token } }) {
+      inviteTokenVar(token);
+    },
     variables: { token },
     skip: !token,
   });

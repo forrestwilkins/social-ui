@@ -77,12 +77,14 @@ const ServerInviteRow = ({
     });
 
   const handleCopyLink = async () => {
-    await navigator.clipboard.writeText(`${window.location.origin}/i/${token}`);
-    setMenuAnchorEl(null);
+    const inviteLink = `${window.location.origin}/i/${token}`;
+    await navigator.clipboard.writeText(inviteLink);
+
     toastVar({
       title: t("invites.prompts.copiedToClipboard"),
       status: "success",
     });
+    setMenuAnchorEl(null);
   };
 
   return (

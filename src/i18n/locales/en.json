@@ -257,7 +257,7 @@
       "manageComments": "Allows members to remove or hide comments by other members.",
       "manageEvents": "Allows members to remove or hide events created by other members.",
       "manageGroupSettings": "Allows members to make changes to this group's settings.",
-      "manageInvites": "Allows members to view, copy, or delete invite links for this server.",
+      "manageInvites": "Allows members to create or delete invite links for this server.",
       "managePosts": "Allows members to remove or hide posts by other members.",
       "manageRoles": "Allows members to create new roles as well as edit or delete other roles."
     },

@@ -38,7 +38,7 @@ const ServerRoles: NextPage = () => {
   }
 
   const renderTable = () => {
-    if (!data) {
+    if (!data || !data.me) {
       return null;
     }
     const { me, serverInvites } = data;

@@ -46,6 +46,15 @@ type CreateRolePayload {
   role: Role!
 }
 
+input CreateServerInviteInput {
+  expiresAt: DateTime
+  maxUses: Int
+}
+
+type CreateServerInvitePayload {
+  serverInvite: ServerInvite!
+}
+
 input CreateVoteInput {
   proposalId: Int!
   voteType: String!
@@ -128,6 +137,7 @@ type Mutation {
   createPost(postData: CreatePostInput!): CreatePostPayload!
   createProposal(proposalData: CreateProposalInput!): CreateProposalPayload!
   createRole(roleData: CreateRoleInput!): CreateRolePayload!
+  createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteImage(id: Int!): Boolean!
@@ -135,6 +145,7 @@ type Mutation {
   deleteProposal(id: Int!): Boolean!
   deleteRole(id: Int!): Boolean!
   deleteRoleMember(id: Int!): DeleteRoleMemberPayload!
+  deleteServerInvite(id: Int!): Boolean!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!
@@ -217,6 +228,8 @@ type Query {
   proposal(id: Int!): Proposal!
   proposals: [Proposal!]!
   role(id: Int!): Role!
+  serverInvite(token: String!): ServerInvite!
+  serverInvites: [ServerInvite!]!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
   users: [User!]!
@@ -241,8 +254,20 @@ type RoleMember {
   user: User!
 }
 
+type ServerInvite {
+  createdAt: DateTime!
+  expiresAt: DateTime
+  id: Int!
+  maxUses: Int
+  token: String!
+  updatedAt: DateTime!
+  user: User!
+  uses: Int!
+}
+
 input SignUpInput {
   email: String!
+  inviteToken: String!
   name: String!
   password: String!
 }

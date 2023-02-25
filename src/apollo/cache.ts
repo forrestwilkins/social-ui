@@ -13,6 +13,7 @@ export const isNavDrawerOpenVar = makeVar(false);
 export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);
 export const isRefreshingTokenVar = makeVar(false);
+export const inviteTokenVar = makeVar("");
 
 /**
  * TODO: Determine whether defining custom merge functions as done below is
@@ -41,6 +42,11 @@ const cache = new InMemoryCache({
           },
         },
         serverRoles: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+        serverInvites: {
           merge(_, incoming) {
             return incoming;
           },

@@ -1,7 +1,8 @@
 import { useReactiveVar } from "@apollo/client";
 import {
-  AccountBox,
+  AccountBox as RolesIcon,
   EventNote as EventsIcon,
+  Link as InvitesIcon,
   Group as GroupsIcon,
   Home as HomeIcon,
   SupervisedUserCircle as UsersIcon,
@@ -61,6 +62,12 @@ const LeftNav = () => {
   );
   const canManageRoles = me?.serverPermissions.includes(
     ServerPermissions.ManageRoles
+  );
+  const canCreateInvites = me?.serverPermissions.includes(
+    ServerPermissions.CreateInvites
+  );
+  const canManageInvites = me?.serverPermissions.includes(
+    ServerPermissions.ManageInvites
   );
 
   const listStyles: SxProps = {
@@ -124,6 +131,20 @@ const LeftNav = () => {
         </ListItemButton>
       </Link>
 
+      {canManageRoles && (
+        <Link href={NavigationPaths.Roles}>
+          <ListItemButton>
+            <ListItemIcon>
+              <RolesIcon sx={getIconStyle(NavigationPaths.Roles)} />
+            </ListItemIcon>
+            <ListItemText
+              isActive={isActive(NavigationPaths.Roles)}
+              primary={t("navigation.roles")}
+            />
+          </ListItemButton>
+        </Link>
+      )}
+
       {canBanUsers && (
         <Link href={NavigationPaths.Users}>
           <ListItemButton>
@@ -138,15 +159,15 @@ const LeftNav = () => {
         </Link>
       )}
 
-      {canManageRoles && (
-        <Link href={NavigationPaths.Roles}>
+      {(canCreateInvites || canManageInvites) && (
+        <Link href={NavigationPaths.Invites}>
           <ListItemButton>
             <ListItemIcon>
-              <AccountBox sx={getIconStyle(NavigationPaths.Roles)} />
+              <InvitesIcon sx={getIconStyle(NavigationPaths.Invites)} />
             </ListItemIcon>
             <ListItemText
-              isActive={isActive(NavigationPaths.Roles)}
-              primary={t("navigation.roles")}
+              isActive={isActive(NavigationPaths.Invites)}
+              primary={t("navigation.invites")}
             />
           </ListItemButton>
         </Link>

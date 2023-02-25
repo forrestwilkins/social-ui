@@ -1,10 +1,12 @@
 import { useReactiveVar } from "@apollo/client";
-import { Card, CardContent, FormGroup } from "@mui/material";
+import { Card, CardContent, FormGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  inviteTokenVar,
   isLoggedInVar,
   isNavDrawerOpenVar,
   toastVar,
@@ -13,6 +15,7 @@ import {
   MeDocument,
   MeQuery,
   SignUpInput,
+  useServerInviteQuery,
   useSignUpMutation,
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
@@ -25,9 +28,19 @@ import { UserFieldNames } from "../../constants/user.constants";
 import { redirectTo } from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {
-  const [signUp] = useSignUpMutation();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
+  const [signUp] = useSignUpMutation();
+
+  const { query } = useRouter();
+  const token = String(query?.code || "");
+  const { loading, error } = useServerInviteQuery({
+    onCompleted({ serverInvite: { token } }) {
+      inviteTokenVar(token);
+    },
+    variables: { token },
+    skip: !token,
+  });
 
   const { t } = useTranslation();
 
@@ -35,6 +48,7 @@ const SignUp: NextPage = () => {
     email: "",
     name: "",
     password: "",
+    inviteToken: token,
   };
 
   const handleSubmit = async (input: SignUpInput) => {
@@ -65,8 +79,16 @@ const SignUp: NextPage = () => {
     }
   }, [isLoggedIn]);
 
-  if (isLoggedIn) {
+  if (loading || isLoggedIn) {
     return <ProgressBar />;
+  }
+
+  if (error) {
+    return <Typography>{t("invites.prompts.expiredOrInvalid")}</Typography>;
+  }
+
+  if (query?.code === undefined) {
+    return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
 
   return (

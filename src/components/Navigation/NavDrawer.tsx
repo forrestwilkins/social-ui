@@ -3,6 +3,7 @@ import {
   AccountBox,
   Close,
   ExitToApp as SessionIcon,
+  Link as InvitesIcon,
   PersonAdd as SignUpIcon,
   SupervisedUserCircle as UsersIcon,
 } from "@mui/icons-material";
@@ -19,7 +20,11 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { isLoggedInVar, isNavDrawerOpenVar } from "../../apollo/cache";
+import {
+  inviteTokenVar,
+  isLoggedInVar,
+  isNavDrawerOpenVar,
+} from "../../apollo/cache";
 import { MeDocument, useLogOutMutation, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
@@ -46,7 +51,9 @@ const ListItemText = styled(MuiListItemText)(({ theme }) => ({
 
 const NavDrawer = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const inviteToken = useReactiveVar(inviteTokenVar);
   const open = useReactiveVar(isNavDrawerOpenVar);
+
   const { data } = useMeQuery({ skip: !isLoggedIn });
   const [logOut] = useLogOutMutation();
 
@@ -86,6 +93,12 @@ const NavDrawer = () => {
       const canManageRoles = me.serverPermissions.includes(
         ServerPermissions.ManageRoles
       );
+      const canCreateInvites = me.serverPermissions.includes(
+        ServerPermissions.CreateInvites
+      );
+      const canManageInvites = me.serverPermissions.includes(
+        ServerPermissions.ManageInvites
+      );
 
       return (
         <>
@@ -96,6 +109,15 @@ const NavDrawer = () => {
             <ListItemText primary={me.name} />
           </ListItemButton>
 
+          {canManageRoles && (
+            <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
+              <ListItemIcon>
+                <AccountBox />
+              </ListItemIcon>
+              <ListItemText primary={t("navigation.roles")} />
+            </ListItemButton>
+          )}
+
           {canBanUsers && (
             <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
               <ListItemIcon>
@@ -105,12 +127,12 @@ const NavDrawer = () => {
             </ListItemButton>
           )}
 
-          {canManageRoles && (
-            <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
+          {(canCreateInvites || canManageInvites) && (
+            <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
               <ListItemIcon>
-                <AccountBox />
+                <InvitesIcon />
               </ListItemIcon>
-              <ListItemText primary={t("navigation.roles")} />
+              <ListItemText primary={t("navigation.invites")} />
             </ListItemButton>
           )}
 
@@ -137,12 +159,14 @@ const NavDrawer = () => {
           <ListItemText primary={t("users.actions.logIn")} />
         </ListItemButton>
 
-        <ListItemButton onClick={redirectTo(NavigationPaths.SignUp)}>
-          <ListItemIcon>
-            <SignUpIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("users.actions.signUp")} />
-        </ListItemButton>
+        {inviteToken && (
+          <ListItemButton onClick={redirectTo(`/i/${inviteToken}`)}>
+            <ListItemIcon>
+              <SignUpIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("users.actions.signUp")} />
+          </ListItemButton>
+        )}
       </>
     );
   };

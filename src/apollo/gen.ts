@@ -81,6 +81,16 @@ export type CreateRolePayload = {
   role: Role;
 };
 
+export type CreateServerInviteInput = {
+  expiresAt?: InputMaybe<Scalars["DateTime"]>;
+  maxUses?: InputMaybe<Scalars["Int"]>;
+};
+
+export type CreateServerInvitePayload = {
+  __typename?: "CreateServerInvitePayload";
+  serverInvite: ServerInvite;
+};
+
 export type CreateVoteInput = {
   proposalId: Scalars["Int"];
   voteType: Scalars["String"];
@@ -166,6 +176,7 @@ export type Mutation = {
   createPost: CreatePostPayload;
   createProposal: CreateProposalPayload;
   createRole: CreateRolePayload;
+  createServerInvite: CreateServerInvitePayload;
   createVote: CreateVotePayload;
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
@@ -173,6 +184,7 @@ export type Mutation = {
   deleteProposal: Scalars["Boolean"];
   deleteRole: Scalars["Boolean"];
   deleteRoleMember: DeleteRoleMemberPayload;
+  deleteServerInvite: Scalars["Boolean"];
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
@@ -217,6 +229,10 @@ export type MutationCreateRoleArgs = {
   roleData: CreateRoleInput;
 };
 
+export type MutationCreateServerInviteArgs = {
+  serverInviteData: CreateServerInviteInput;
+};
+
 export type MutationCreateVoteArgs = {
   voteData: CreateVoteInput;
 };
@@ -242,6 +258,10 @@ export type MutationDeleteRoleArgs = {
 };
 
 export type MutationDeleteRoleMemberArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteServerInviteArgs = {
   id: Scalars["Int"];
 };
 
@@ -364,6 +384,8 @@ export type Query = {
   proposal: Proposal;
   proposals: Array<Proposal>;
   role: Role;
+  serverInvite: ServerInvite;
+  serverInvites: Array<ServerInvite>;
   serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
@@ -395,6 +417,10 @@ export type QueryRoleArgs = {
   id: Scalars["Int"];
 };
 
+export type QueryServerInviteArgs = {
+  token: Scalars["String"];
+};
+
 export type QueryUserArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
@@ -423,8 +449,21 @@ export type RoleMember = {
   user: User;
 };
 
+export type ServerInvite = {
+  __typename?: "ServerInvite";
+  createdAt: Scalars["DateTime"];
+  expiresAt?: Maybe<Scalars["DateTime"]>;
+  id: Scalars["Int"];
+  maxUses?: Maybe<Scalars["Int"]>;
+  token: Scalars["String"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+  uses: Scalars["Int"];
+};
+
 export type SignUpInput = {
   email: Scalars["String"];
+  inviteToken: Scalars["String"];
   name: Scalars["String"];
   password: Scalars["String"];
 };
@@ -548,8 +587,8 @@ export type LoginMutation = {
     __typename?: "LoginPayload";
     user: {
       __typename?: "User";
-      serverPermissions: Array<string>;
       id: number;
+      serverPermissions: Array<string>;
       name: string;
       joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
@@ -574,8 +613,8 @@ export type SignUpMutation = {
     __typename?: "SignUpPayload";
     user: {
       __typename?: "User";
-      serverPermissions: Array<string>;
       id: number;
+      serverPermissions: Array<string>;
       name: string;
       joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
@@ -968,6 +1007,85 @@ export type DeleteImageMutationVariables = Exact<{
 export type DeleteImageMutation = {
   __typename?: "Mutation";
   deleteImage: boolean;
+};
+
+export type ServerInviteRowFragment = {
+  __typename?: "ServerInvite";
+  id: number;
+  maxUses?: number | null;
+  token: string;
+  uses: number;
+  expiresAt?: any | null;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
+export type CreateServerInviteMutationVariables = Exact<{
+  serverInviteData: CreateServerInviteInput;
+}>;
+
+export type CreateServerInviteMutation = {
+  __typename?: "Mutation";
+  createServerInvite: {
+    __typename?: "CreateServerInvitePayload";
+    serverInvite: {
+      __typename?: "ServerInvite";
+      id: number;
+      maxUses?: number | null;
+      token: string;
+      uses: number;
+      expiresAt?: any | null;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    };
+  };
+};
+
+export type DeleteServerInviteMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteServerInviteMutation = {
+  __typename?: "Mutation";
+  deleteServerInvite: boolean;
+};
+
+export type ServerInviteQueryVariables = Exact<{
+  token: Scalars["String"];
+}>;
+
+export type ServerInviteQuery = {
+  __typename?: "Query";
+  serverInvite: { __typename?: "ServerInvite"; id: number; token: string };
+};
+
+export type ServerInvitesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ServerInvitesQuery = {
+  __typename?: "Query";
+  serverInvites: Array<{
+    __typename?: "ServerInvite";
+    id: number;
+    maxUses?: number | null;
+    token: string;
+    uses: number;
+    expiresAt?: any | null;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
 type FeedItem_Post_Fragment = {
@@ -1651,6 +1769,7 @@ export type EditProfileFormFragment = {
 
 export type TopNavDropdownFragment = {
   __typename?: "User";
+  id: number;
   name: string;
   serverPermissions: Array<string>;
 };
@@ -1809,8 +1928,8 @@ export type MeQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
-    serverPermissions: Array<string>;
     id: number;
+    serverPermissions: Array<string>;
     name: string;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
@@ -2111,6 +2230,19 @@ export const RequestToJoinFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
+export const ServerInviteRowFragmentDoc = gql`
+  fragment ServerInviteRow on ServerInvite {
+    id
+    maxUses
+    token
+    uses
+    expiresAt
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const AttachedImageFragmentDoc = gql`
   fragment AttachedImage on Image {
     id
@@ -2323,6 +2455,7 @@ export const EditProfileFormFragmentDoc = gql`
 `;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
+    id
     name
     serverPermissions
   }
@@ -2386,6 +2519,7 @@ export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
       user {
+        id
         ...UserAvatar
         serverPermissions
         joinedGroups {
@@ -2488,6 +2622,7 @@ export const SignUpDocument = gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       user {
+        id
         ...UserAvatar
         serverPermissions
         joinedGroups {
@@ -3411,6 +3546,228 @@ export type DeleteImageMutationResult =
 export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<
   DeleteImageMutation,
   DeleteImageMutationVariables
+>;
+export const CreateServerInviteDocument = gql`
+  mutation CreateServerInvite($serverInviteData: CreateServerInviteInput!) {
+    createServerInvite(serverInviteData: $serverInviteData) {
+      serverInvite {
+        ...ServerInviteRow
+      }
+    }
+  }
+  ${ServerInviteRowFragmentDoc}
+`;
+export type CreateServerInviteMutationFn = Apollo.MutationFunction<
+  CreateServerInviteMutation,
+  CreateServerInviteMutationVariables
+>;
+
+/**
+ * __useCreateServerInviteMutation__
+ *
+ * To run a mutation, you first call `useCreateServerInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServerInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createServerInviteMutation, { data, loading, error }] = useCreateServerInviteMutation({
+ *   variables: {
+ *      serverInviteData: // value for 'serverInviteData'
+ *   },
+ * });
+ */
+export function useCreateServerInviteMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateServerInviteMutation,
+    CreateServerInviteMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateServerInviteMutation,
+    CreateServerInviteMutationVariables
+  >(CreateServerInviteDocument, options);
+}
+export type CreateServerInviteMutationHookResult = ReturnType<
+  typeof useCreateServerInviteMutation
+>;
+export type CreateServerInviteMutationResult =
+  Apollo.MutationResult<CreateServerInviteMutation>;
+export type CreateServerInviteMutationOptions = Apollo.BaseMutationOptions<
+  CreateServerInviteMutation,
+  CreateServerInviteMutationVariables
+>;
+export const DeleteServerInviteDocument = gql`
+  mutation DeleteServerInvite($id: Int!) {
+    deleteServerInvite(id: $id)
+  }
+`;
+export type DeleteServerInviteMutationFn = Apollo.MutationFunction<
+  DeleteServerInviteMutation,
+  DeleteServerInviteMutationVariables
+>;
+
+/**
+ * __useDeleteServerInviteMutation__
+ *
+ * To run a mutation, you first call `useDeleteServerInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteServerInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteServerInviteMutation, { data, loading, error }] = useDeleteServerInviteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteServerInviteMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteServerInviteMutation,
+    DeleteServerInviteMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteServerInviteMutation,
+    DeleteServerInviteMutationVariables
+  >(DeleteServerInviteDocument, options);
+}
+export type DeleteServerInviteMutationHookResult = ReturnType<
+  typeof useDeleteServerInviteMutation
+>;
+export type DeleteServerInviteMutationResult =
+  Apollo.MutationResult<DeleteServerInviteMutation>;
+export type DeleteServerInviteMutationOptions = Apollo.BaseMutationOptions<
+  DeleteServerInviteMutation,
+  DeleteServerInviteMutationVariables
+>;
+export const ServerInviteDocument = gql`
+  query ServerInvite($token: String!) {
+    serverInvite(token: $token) {
+      id
+      token
+    }
+  }
+`;
+
+/**
+ * __useServerInviteQuery__
+ *
+ * To run a query within a React component, call `useServerInviteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerInviteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerInviteQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useServerInviteQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ServerInviteQuery,
+    ServerInviteQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ServerInviteQuery, ServerInviteQueryVariables>(
+    ServerInviteDocument,
+    options
+  );
+}
+export function useServerInviteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ServerInviteQuery,
+    ServerInviteQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ServerInviteQuery, ServerInviteQueryVariables>(
+    ServerInviteDocument,
+    options
+  );
+}
+export type ServerInviteQueryHookResult = ReturnType<
+  typeof useServerInviteQuery
+>;
+export type ServerInviteLazyQueryHookResult = ReturnType<
+  typeof useServerInviteLazyQuery
+>;
+export type ServerInviteQueryResult = Apollo.QueryResult<
+  ServerInviteQuery,
+  ServerInviteQueryVariables
+>;
+export const ServerInvitesDocument = gql`
+  query ServerInvites {
+    serverInvites {
+      ...ServerInviteRow
+    }
+    me {
+      id
+      serverPermissions
+    }
+  }
+  ${ServerInviteRowFragmentDoc}
+`;
+
+/**
+ * __useServerInvitesQuery__
+ *
+ * To run a query within a React component, call `useServerInvitesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerInvitesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerInvitesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useServerInvitesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ServerInvitesQuery,
+    ServerInvitesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ServerInvitesQuery, ServerInvitesQueryVariables>(
+    ServerInvitesDocument,
+    options
+  );
+}
+export function useServerInvitesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ServerInvitesQuery,
+    ServerInvitesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ServerInvitesQuery, ServerInvitesQueryVariables>(
+    ServerInvitesDocument,
+    options
+  );
+}
+export type ServerInvitesQueryHookResult = ReturnType<
+  typeof useServerInvitesQuery
+>;
+export type ServerInvitesLazyQueryHookResult = ReturnType<
+  typeof useServerInvitesLazyQuery
+>;
+export type ServerInvitesQueryResult = Apollo.QueryResult<
+  ServerInvitesQuery,
+  ServerInvitesQueryVariables
 >;
 export const CreatePostDocument = gql`
   mutation CreatePost($postData: CreatePostInput!) {
@@ -4459,6 +4816,7 @@ export type HomePageQueryResult = Apollo.QueryResult<
 export const MeDocument = gql`
   query Me {
     me {
+      id
       ...UserAvatar
       serverPermissions
       joinedGroups {

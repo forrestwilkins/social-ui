@@ -4,6 +4,7 @@ import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  inviteTokenVar,
   isAuthLoadingVar,
   isLoggedInVar,
   isRefreshingTokenVar,
@@ -37,9 +38,11 @@ const USER_AVATAR_STYLES: SxProps = {
 };
 
 const TopNavDesktop = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const inviteToken = useReactiveVar(inviteTokenVar);
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
+
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { data, loading } = useMeQuery({ skip: !isLoggedIn });
 
@@ -48,6 +51,7 @@ const TopNavDesktop = () => {
   const showLoginAndSignUp =
     !isLoggedIn && !isAuthLoading && !isRefreshingToken;
   const userProfilePath = getUserProfilePath(data?.me?.name);
+  const signUpPath = `/i/${inviteToken}`;
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -95,9 +99,12 @@ const TopNavDesktop = () => {
           <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
           </Button>
-          <Button onClick={() => redirectTo(NavigationPaths.SignUp)}>
-            {t("users.actions.signUp")}
-          </Button>
+
+          {inviteToken && (
+            <Button onClick={() => redirectTo(signUpPath)}>
+              {t("users.actions.signUp")}
+            </Button>
+          )}
         </Flex>
       )}
     </Flex>

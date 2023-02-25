@@ -1,11 +1,5 @@
 import { Assignment } from "@mui/icons-material";
-import {
-  Box,
-  MenuItem,
-  styled,
-  TableCell as MuiTableCell,
-  TableRow,
-} from "@mui/material";
+import { Box, MenuItem, styled, TableRow } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,25 +10,28 @@ import {
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
-import ItemMenu from "../Shared/ItemMenu";
-import Link from "../Shared/Link";
-import UserAvatar from "../Users/UserAvatar";
+import { ServerPermissions } from "../../constants/role.constants";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
-import { ServerPermissions } from "../../constants/role.constants";
+import ItemMenu from "../Shared/ItemMenu";
+import Link from "../Shared/Link";
+import SharedTableCell from "../Shared/TableCell";
+import UserAvatar from "../Users/UserAvatar";
 
-const TableCell = styled(MuiTableCell)(({ theme }) => ({
+const TableCell = styled(SharedTableCell)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
 interface Props {
-  serverInvite: ServerInviteRowFragment;
+  isLast: boolean;
   me: ServerInvitesQuery["me"];
+  serverInvite: ServerInviteRowFragment;
 }
 
 const ServerInviteRow = ({
-  serverInvite: { id, user, token, uses, maxUses, expiresAt, __typename },
+  isLast,
   me: { serverPermissions },
+  serverInvite: { id, user, token, uses, maxUses, expiresAt, __typename },
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteInvite] = useDeleteServerInviteMutation();
@@ -44,7 +41,6 @@ const ServerInviteRow = ({
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
   });
-
   const canManageInvites = serverPermissions.includes(
     ServerPermissions.ManageInvites
   );
@@ -89,20 +85,30 @@ const ServerInviteRow = ({
 
   return (
     <TableRow>
-      <TableCell>
+      <TableCell isLast={isLast}>
         <Link href={getUserProfilePath(user.name)} sx={{ display: "flex" }}>
           <UserAvatar user={user} size={24} sx={{ marginRight: 1.5 }} />
           <Box marginTop={0.25}>{user.name}</Box>
         </Link>
       </TableCell>
-      <TableCell onClick={handleCopyLink} sx={{ cursor: "pointer" }}>
+
+      <TableCell
+        isLast={isLast}
+        onClick={handleCopyLink}
+        sx={{ cursor: "pointer" }}
+      >
         {token}
       </TableCell>
-      <TableCell>{uses + (maxUses ? `/${maxUses}` : "")}</TableCell>
-      <TableCell>
+
+      <TableCell isLast={isLast}>
+        {uses + (maxUses ? `/${maxUses}` : "")}
+      </TableCell>
+
+      <TableCell isLast={isLast}>
         {expiresAt ? timeFromNow(expiresAt) : t("time.infinity")}
       </TableCell>
-      <TableCell>
+
+      <TableCell isLast={isLast}>
         <ItemMenu
           itemId={id}
           anchorEl={menuAnchorEl}

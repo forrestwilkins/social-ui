@@ -55,8 +55,9 @@ const ServerRoles: NextPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {serverInvites.map((serverInvite) => (
+            {serverInvites.map((serverInvite, index) => (
               <ServerInviteRow
+                isLast={index + 1 === serverInvites.length}
                 key={serverInvite.id}
                 me={me}
                 serverInvite={serverInvite}
